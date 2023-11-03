@@ -57,6 +57,7 @@ union dgaf_json_union
 
 struct dgaf_json_value
 {
+	int next; // idx to next value if this is an object key/value or array
 	enum  dgaf_json_enum  t;
 	union dgaf_json_union v;
 };
@@ -66,13 +67,13 @@ struct dgaf_json_state
 	char *data;
 	int   data_len;
 
-	struct dgaf_json_value *values;
-	int                     values_len;
-	int                     values_siz;
-	int                     values_root;
+	int values_len;
+	int values_siz;
+	int values_root;
 };
 
 extern struct dgaf_json_state * dgaf_json_setup();
+extern struct dgaf_json_value * dgaf_json_get(struct dgaf_json_state *it,int idx);
 extern int dgaf_json_alloc(struct dgaf_json_state *it);
 
 #ifdef DGAF_JSON_CODE
@@ -89,7 +90,6 @@ struct dgaf_json_state * dgaf_json_setup()
 	it->data="";
 	it->data_len=0;
 
-	it->values=((struct dgaf_json_value *)it);
 	// the first few slots are taken by this state structure (hax)
 	it->values_len=(1+(sizeof(struct dgaf_json_state)/sizeof(struct dgaf_json_value)));
 
@@ -99,7 +99,15 @@ struct dgaf_json_state * dgaf_json_setup()
 	return it;
 }
 
-// allocate a new value and return its index
+// get a value by index
+struct dgaf_json_value * dgaf_json_get(struct dgaf_json_state *it,int idx)
+{
+	if( idx == 0 )              { return 0; }
+	if( idx >= it->values_siz ) { return 0; }
+	return ((struct dgaf_json_value *)(it)) + idx ;
+}
+
+// allocate a new value and return its index, it is never 0;
 int dgaf_json_alloc(struct dgaf_json_state *it)
 {
 	struct dgaf_json_value * v;
@@ -109,13 +117,13 @@ int dgaf_json_alloc(struct dgaf_json_state *it)
 		it=(struct dgaf_json_state *)realloc( (void*)it , it->values_siz * sizeof(struct dgaf_json_value) );
 		if(!it) { return 0; }
 	}
-	v=it->values + it->values_len ;
+	v=dgaf_json_get(it,it->values_len);
+	v->next=0;
 	v->t=NONE;
 	v->v._._=0;
 	
 	return it->values_len++;
 }
-
 
 #endif
 
