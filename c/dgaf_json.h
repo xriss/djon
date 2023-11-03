@@ -2,7 +2,7 @@
 
 enum dgaf_json_enum
 {
-	NUL,
+	NONE,
 	NUMBER,
 	BOOL,
 	STRING,
@@ -11,7 +11,7 @@ enum dgaf_json_enum
 };
 
 
-struct dgaf_json_null
+struct dgaf_json_none
 {
 	int _;
 };
@@ -47,7 +47,7 @@ struct dgaf_json_object
 
 union dgaf_json_union
 {
-	struct dgaf_json_null   _;
+	struct dgaf_json_none   _;
 	struct dgaf_json_number n;
 	struct dgaf_json_bool   b;
 	struct dgaf_json_string s;
@@ -110,7 +110,8 @@ int dgaf_json_alloc(struct dgaf_json_state *it)
 		if(!it) { return 0; }
 	}
 	v=it->values + it->values_len ;
-	v->t=NUL;
+	v->t=NONE;
+	v->v._._=0;
 	
 	return it->values_len++;
 }
