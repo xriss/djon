@@ -6,6 +6,8 @@ enum dgaf_json_enum
 	NUMBER,
 	BOOL,
 	STRING,
+	ARRAY,
+	OBJECT,
 };
 
 
@@ -27,20 +29,31 @@ struct dgaf_json_bool
 struct dgaf_json_string
 {
 	char *str;
-	int   siz;
+};
+
+struct dgaf_json_array
+{
+	char *str;
+};
+
+struct dgaf_json_object
+{
+	char *str;
 };
 
 union dgaf_json_union
 {
-	struct dgaf_json_string a;
-	struct dgaf_json_number b;
-	struct dgaf_json_bool   c;
-	struct dgaf_json_null   d;
+	struct dgaf_json_null   _;
+	struct dgaf_json_number n;
+	struct dgaf_json_bool   b;
+	struct dgaf_json_string s;
+	struct dgaf_json_array  a;
+	struct dgaf_json_object o;
 };
 
 struct dgaf_json_value
 {
-	enum dgaf_json_enum t;
+	enum dgaf_json_enum   t;
 	union dgaf_json_union v;
 };
 
