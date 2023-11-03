@@ -2,7 +2,7 @@
 
 enum dgaf_json_enum
 {
-	NONE,
+	NUL,
 	NUMBER,
 	BOOL,
 	STRING,
@@ -13,7 +13,7 @@ enum dgaf_json_enum
 
 struct dgaf_json_null
 {
-	int null;
+	int _;
 };
 
 struct dgaf_json_number
@@ -23,22 +23,26 @@ struct dgaf_json_number
 
 struct dgaf_json_bool
 {
-	int bool;
+	int bol;
 };
 
 struct dgaf_json_string
 {
-	char *str;
+	char *ptr;
+	int   len;
 };
 
 struct dgaf_json_array
 {
-	char *str;
+	int val;
+	int len;
 };
 
 struct dgaf_json_object
 {
-	char *str;
+	int nam;
+	int val;
+	int len;
 };
 
 union dgaf_json_union
@@ -53,12 +57,63 @@ union dgaf_json_union
 
 struct dgaf_json_value
 {
-	enum dgaf_json_enum   t;
+	enum  dgaf_json_enum  t;
 	union dgaf_json_union v;
 };
 
+struct dgaf_json_state
+{
+	char *data;
+	int   data_len;
+
+	struct dgaf_json_value *values;
+	int                     values_len;
+	int                     values_siz;
+	int                     values_root;
+};
+
+extern struct dgaf_json_state * dgaf_json_setup();
+extern int dgaf_json_alloc(struct dgaf_json_state *it);
+
 #ifdef DGAF_JSON_CODE
 
+// allocate a new parsing state
+struct dgaf_json_state * dgaf_json_setup()
+{
+	struct dgaf_json_state *it;
+	
+	it=(struct dgaf_json_state *)malloc( 1024 * sizeof(struct dgaf_json_value) );
+	if(!it) { return 0; }
+	it->values_siz=1024;
+	
+	it->data="";
+	it->data_len=0;
+
+	it->values=((struct dgaf_json_value *)it);
+	// the first few slots are taken by this state structure (hax)
+	it->values_len=(1+(sizeof(struct dgaf_json_state)/sizeof(struct dgaf_json_value)));
+
+// the json root
+	it->values_root=dgaf_json_alloc(it);
+	
+	return it;
+}
+
+// allocate a new value and return its index
+int dgaf_json_alloc(struct dgaf_json_state *it)
+{
+	struct dgaf_json_value * v;
+	if( it->values_len+1 >= it->values_siz ) // check for space
+	{
+		it->values_siz=it->values_siz+1024;
+		it=(struct dgaf_json_state *)realloc( (void*)it , it->values_siz * sizeof(struct dgaf_json_value) );
+		if(!it) { return 0; }
+	}
+	v=it->values + it->values_len ;
+	v->t=NUL;
+	
+	return it->values_len++;
+}
 
 
 #endif
