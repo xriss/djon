@@ -23,7 +23,7 @@ struct dgaf_json_number
 
 struct dgaf_json_bool
 {
-	int bol;
+	int num;
 };
 
 struct dgaf_json_string
@@ -71,10 +71,10 @@ struct dgaf_json_state
 	int values_siz;
 	int values_root;
 	
-	int parse_mode;
 	int parse_idx;
 	int parse_char;
 	int parse_line;
+	int parse_first;
 };
 
 extern struct dgaf_json_state * dgaf_json_setup();
@@ -118,8 +118,21 @@ struct dgaf_json_value * dgaf_json_get(struct dgaf_json_state *it,int idx)
 	return ((struct dgaf_json_value *)(it)) + idx ;
 }
 
+int dgaf_json_print_indent(int indent)
+{
+	if(indent<0) { return -indent; } // skip first indent
+	else
+	{
+		int i;
+		for( i=0 ; i<indent ; i++)
+		{
+			putchar(' ');
+		}
+	}
+	return indent;
+}
 // debug print a value
-void dgaf_json_debug_print(struct dgaf_json_state *it,int idx,int indent)
+void dgaf_json_print(struct dgaf_json_state *it,int idx,int indent)
 {
 	struct dgaf_json_value *nxt=dgaf_json_get(it,idx);
 	struct dgaf_json_value *nam;
@@ -130,37 +143,62 @@ void dgaf_json_debug_print(struct dgaf_json_state *it,int idx,int indent)
 	{
 		if(nxt->t==ARRAY)
 		{
+			indent=dgaf_json_print_indent(indent);
 			printf("[\n");
 			val_idx=nxt->v.a.val; val=dgaf_json_get(it,val_idx);
 			while(val)
 			{
-				dgaf_json_debug_print(it,val_idx,indent+1);
+				dgaf_json_print(it,val_idx,indent+1);
 				val_idx=val->next; val=dgaf_json_get(it,val_idx);
 			}
+			indent=dgaf_json_print_indent(indent);
 			printf("]\n");
 		}
 		else
 		if(nxt->t==OBJECT)
 		{
+			indent=dgaf_json_print_indent(indent);
 			printf("{\n");
 			nam_idx=nxt->v.o.nam; nam=dgaf_json_get(it,nam_idx);
 			val_idx=nxt->v.o.val; val=dgaf_json_get(it,val_idx);
 			while(nam&&val)
 			{
+				indent=dgaf_json_print_indent(indent+1)-1;
 				printf("%.*s = ",nam->v.s.len,nam->v.s.ptr);
-				dgaf_json_debug_print(it,val_idx,indent+1);
+				dgaf_json_print(it,val_idx,-(indent+2));
 				nam_idx=nam->next; nam=dgaf_json_get(it,nam_idx);
 				val_idx=val->next; val=dgaf_json_get(it,val_idx);
 			}
+			indent=dgaf_json_print_indent(indent);
 			printf("}\n");
 		}
 		else
 		if(nxt->t==STRING)
 		{
+			indent=dgaf_json_print_indent(indent);
 			printf("%.*s\n",nxt->v.s.len,nxt->v.s.ptr);
 		}
 		else
+		if(nxt->t==NUMBER)
 		{
+			indent=dgaf_json_print_indent(indent);
+			printf("%d\n",nxt->v.n.num);
+		}
+		else
+		if(nxt->t==BOOL)
+		{
+			indent=dgaf_json_print_indent(indent);
+			printf("%s\n",nxt->v.b.num?"TRUE":"FALSE");
+		}
+		else
+		if(nxt->t==NONE)
+		{
+			indent=dgaf_json_print_indent(indent);
+			printf("%s\n","NULL");
+		}
+		else
+		{
+			indent=dgaf_json_print_indent(indent);
 			printf("%d=\n",idx);
 		}
 	}
@@ -260,6 +298,20 @@ int dgaf_json_parse_peek_punct(struct dgaf_json_state *it,char *punct)
 		}
 	}
 	return 0;
+}
+
+// peek for exact string eg, true false null
+int dgaf_json_parse_peek_string(struct dgaf_json_state *it,char *s)
+{
+	int idx=it->parse_idx;
+	char *cp;
+	for( cp=s ; *cp ; cp++ )
+	{
+		if( it->data[idx] != *cp ) { return 0; }
+		idx++;
+		if( idx >= it->data_len ) { return 0; }
+	}
+	return 1;
 }
 
 // skip whitespace and comments
@@ -429,6 +481,16 @@ int dgaf_json_parse_string(struct dgaf_json_state *it,int lst_idx,char *term)
 	return 0;
 }
 
+int dgaf_json_parse_rawstring(struct dgaf_json_state *it,int lst_idx)
+{
+	return dgaf_json_parse_string(it,lst_idx,"`");
+}
+
+int dgaf_json_parse_number(struct dgaf_json_state *it,int lst_idx)
+{
+	return dgaf_json_parse_string(it,lst_idx," \t\n/}],;=:");
+}
+
 int dgaf_json_parse_name(struct dgaf_json_state *it)
 {
 	dgaf_json_parse_skip_white(it);
@@ -539,10 +601,46 @@ int dgaf_json_parse_array(struct dgaf_json_state *it,int lst_idx)
 
 int dgaf_json_parse_value(struct dgaf_json_state *it)
 {
+	int idx;
+	struct dgaf_json_value *nxt;
+
 	dgaf_json_parse_skip_white(it);
-	
-	int idx=dgaf_json_parse_step(it);
-	struct dgaf_json_value *nxt=dgaf_json_get(it,idx);
+
+// check for special strings lowercase only
+	if( dgaf_json_parse_peek_string(it,"true" ) )
+	{
+		idx=dgaf_json_alloc(it);
+		nxt=dgaf_json_get(it,idx);
+		if(nxt==0) { return 0; }
+		nxt->t=BOOL;
+		nxt->v.b.num=1;
+		it->parse_idx+=4;
+		return idx;
+	}
+	else
+	if( dgaf_json_parse_peek_string(it,"false" ) )
+	{
+		idx=dgaf_json_alloc(it);
+		nxt=dgaf_json_get(it,idx);
+		if(nxt==0) { return 0; }
+		nxt->t=BOOL;
+		nxt->v.b.num=0;
+		it->parse_idx+=5;
+		return idx;
+	}
+	else
+	if( dgaf_json_parse_peek_string(it,"null" ) )
+	{
+		idx=dgaf_json_alloc(it);
+		nxt=dgaf_json_get(it,idx);
+		if(nxt==0) { return 0; }
+		nxt->t=NONE;
+		it->parse_idx+=4;
+		return idx;
+	}
+
+	idx=dgaf_json_parse_step(it);
+	nxt=dgaf_json_get(it,idx);
 	if(nxt==0){return 0;}
 	char c=*(nxt->v.s.ptr);
 
@@ -561,9 +659,23 @@ int dgaf_json_parse_value(struct dgaf_json_state *it)
 			return dgaf_json_parse_string(it,idx,"\"");
 		break;
 		case '`' :
-			return dgaf_json_parse_string(it,idx,"`");
+			return dgaf_json_parse_rawstring(it,idx);
+		case '0' :
+		case '1' :
+		case '2' :
+		case '3' :
+		case '4' :
+		case '5' :
+		case '6' :
+		case '7' :
+		case '8' :
+		case '9' :
+		case '.' :
+		case '+' :
+		case '-' :
+			return dgaf_json_parse_number(it,idx);
 		break;
-	}		
+	}
 	return dgaf_json_parse_string(it,idx,"\n");
 }
 
@@ -573,16 +685,14 @@ int dgaf_json_parse(struct dgaf_json_state *it)
 	it->parse_idx=0;
 	it->parse_char=0;
 	it->parse_line=0;
-	int first=0;
+	it->parse_first=0;
 	int idx;
 	while( idx=dgaf_json_parse_value(it) )
 	{
-		if(first==0){first=idx;}
+		if(it->parse_first==0){it->parse_first=idx;}
 		struct dgaf_json_value *nxt=dgaf_json_get(it,idx);
 		if(nxt==0){return 0;}
 	}
-	
-	dgaf_json_debug_print(it,first,0);
 	
 	return 1;
 }
