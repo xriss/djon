@@ -64,17 +64,21 @@ struct dgaf_json_value
 
 struct dgaf_json_state
 {
+	// input data string
 	char *data;
 	int   data_len;
 
+	// output values
+	struct dgaf_json_value * values;
 	int values_len;
 	int values_siz;
-	int values_root;
-	
+
+	// current parse state
 	int parse_idx;
 	int parse_char;
 	int parse_line;
-	int parse_first;
+	int parse_first; // first output value
+
 };
 
 extern struct dgaf_json_state * dgaf_json_setup();
@@ -86,6 +90,9 @@ int dgaf_json_alloc(struct dgaf_json_state *it);
 int dgaf_json_free(struct dgaf_json_state *it,int idx);
 int dgaf_json_parse_value(struct dgaf_json_state *it);
 
+#define DGAF_JSON_IS_WHITE(c) ( (c==' ') || (c=='\t') || (c=='\n') || (c=='\r') )
+#define DGAF_JSON_IS_PUNCT(c) ( (c==',') || (c==';') || (c==':') || (c=='=') || (c=='{') || (c=='}') || (c=='[') || (c==']') )
+
 
 #ifdef DGAF_JSON_CODE
 
@@ -94,20 +101,25 @@ struct dgaf_json_state * dgaf_json_setup()
 {
 	struct dgaf_json_state *it;
 	
-	it=(struct dgaf_json_state *)malloc( 1024 * sizeof(struct dgaf_json_value) );
+	it=(struct dgaf_json_state *)malloc( sizeof(struct dgaf_json_state) );
 	if(!it) { return 0; }
-	it->values_siz=1024;
 	
-	it->data="";
+	it->data=0;
 	it->data_len=0;
 
-	// the first few slots are taken by this state structure (hax)
-	it->values_len=(1+(sizeof(struct dgaf_json_state)/sizeof(struct dgaf_json_value)));
+	it->values_len=1; // first value is used as a null so start at 1
+	it->values_siz=1024;
+	it->values=(struct dgaf_json_value *)malloc( it->values_siz * sizeof(struct dgaf_json_value) );
+	if(!it->values) { free(it); return 0; }
 
-// the json root
-//	it->values_root=dgaf_json_alloc(it);
-	
 	return it;
+}
+// free a new parsing state
+void dgaf_json_clean(struct dgaf_json_state *it)
+{
+	if(!it) { return; }
+	if(it->data) { free(it->data); }
+	if(it->values) { free(it->values); }
 }
 
 // get a value by index
@@ -115,7 +127,37 @@ struct dgaf_json_value * dgaf_json_get(struct dgaf_json_state *it,int idx)
 {
 	if( idx <= 0 )              { return 0; }
 	if( idx >= it->values_siz ) { return 0; }
-	return ((struct dgaf_json_value *)(it)) + idx ;
+	return it->values + idx ;
+}
+
+// allocate a new value and return its index, 0 on error
+int dgaf_json_alloc(struct dgaf_json_state *it)
+{
+	struct dgaf_json_value * v;
+	if( it->values_len+1 >= it->values_siz ) // check for space
+	{
+		v=(struct dgaf_json_value *)realloc( (void*)it->values , (it->values_siz+1024) * sizeof(struct dgaf_json_value) );
+		if(!v) { return 0; }
+		it->values_siz=it->values_siz+1024;
+		it->values=v; // might change pointer
+	}
+	v=dgaf_json_get(it,it->values_len);
+	v->next=0;
+	v->t=NONE;
+	v->v._._=0;
+	
+	return it->values_len++;
+}
+
+// we can only free the top most allocated idx, return 0 if not freed
+int dgaf_json_free(struct dgaf_json_state *it,int idx)
+{
+	if( idx == (it->values_len-1) )
+	{
+		it->values_len--;
+		return idx;
+	}
+	return 0;
 }
 
 int dgaf_json_print_indent(int indent)
@@ -199,65 +241,75 @@ void dgaf_json_print(struct dgaf_json_state *it,int idx,int indent)
 		else
 		{
 			indent=dgaf_json_print_indent(indent);
-			printf("%d=\n",idx);
+			printf("%s\n","UNDEFINED");
 		}
 	}
 }
 
-
-// allocate a new value and return its index, it is never 0
-int dgaf_json_alloc(struct dgaf_json_state *it)
-{
-	struct dgaf_json_value * v;
-	if( it->values_len+1 >= it->values_siz ) // check for space
-	{
-		it->values_siz=it->values_siz+1024;
-		it=(struct dgaf_json_state *)realloc( (void*)it , it->values_siz * sizeof(struct dgaf_json_value) );
-		if(!it) { return 0; }
-	}
-	v=dgaf_json_get(it,it->values_len);
-	v->next=0;
-	v->t=NONE;
-	v->v._._=0;
-	
-	return it->values_len++;
-}
-
-// we can only free the top most allocated idx
-int dgaf_json_free(struct dgaf_json_state *it,int idx)
-{
-	if( idx == (it->values_len-1) )
-	{
-		it->values_len--;
-	}
-	return idx;
-}
-
-// load a new file ( need to fix for pipes )
+// load a new file or read from stdin
 int dgaf_json_load_file(struct dgaf_json_state *it,char *fname)
 {
-FILE * fp;
-int fs;
+	const int chunk=0x10000; // read this much at once
+
+	FILE * fp;
+    char * temp;
+    char * data=0;
+
+    int size=0;
+    int used=0;
+    int next;
 
 	it->data="";
 	it->data_len=0;
 
-	fp = fopen( fname , "rb" );
-	if(!fp) { return 0; }
-	
-	fseek( fp , 0 , SEEK_END );
-	fs = ftell( fp );
-	fseek( fp , 0 , SEEK_SET );
+	// first alloc
+	size = used+chunk;
+	data = malloc(size); if(!data) { goto error; }
 
-	it->data = malloc( fs+1 );
-	it->data[fs] = 0;
-	it->data_len = fs+1;
+	// open file or use stdin
+	if(fname)
+	{
+		fp = fopen( fname , "rb" ); if(!fp) { goto error; }
+	}
+	else
+	{
+		fp=stdin;
+	}
 
-	fread( it->data , fs, 1, fp);
+    while(1)
+    {
+		// extend buffer
+		while(used+chunk > size)
+		{
+			size = used+chunk;
+			temp = realloc(data, size); if(!temp) { goto error; }
+			data=temp;			
+		}
 
-	fclose( fp );
-	
-	return fs;
+		next = fread( data+used , 1 , chunk, fp );
+		if(next == 0) { break; } // no data
+		if(next < 0) { goto error; } // bad data
+		used += next; // good data
+    }
+
+
+	size = used+1; // this may size up or down
+	temp = realloc(data, size); if(!temp) { goto error; }
+    data = temp;
+    data[used] = 0; // null term
+
+	it->data=data;
+	it->data_len=used;
+
+    return 1;
+
+error:
+	if(fname)
+	{
+		if(fp) { fclose(fp); }
+	}
+	if(data) { free(data); }
+    return 0;
 }
 
 // peek for whitespace or comments
@@ -687,14 +739,22 @@ int dgaf_json_parse(struct dgaf_json_state *it)
 	it->parse_line=0;
 	it->parse_first=0;
 	int idx;
+	struct dgaf_json_value *nxt;
 	while( idx=dgaf_json_parse_value(it) )
 	{
-		if(it->parse_first==0){it->parse_first=idx;}
-		struct dgaf_json_value *nxt=dgaf_json_get(it,idx);
+		if(it->parse_first==0) // remember the first value
+		{
+			it->parse_first=idx;
+		}
+		else // multiple values are linked as an array
+		{
+			nxt->next=idx;
+		}
+		nxt=dgaf_json_get(it,idx);
 		if(nxt==0){return 0;}
 	}
 	
-	return 1;
+	return it->parse_first;
 }
 
 #endif
