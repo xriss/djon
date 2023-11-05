@@ -194,6 +194,11 @@ void dgaf_json_print(struct dgaf_json_state *it,int idx,int indent)
 	{
 		if(nxt->t==ARRAY)
 		{
+//			if(indent<0)
+//			{
+//				indent=dgaf_json_print_indent(indent);
+//				printf("\n");
+//			}
 			indent=dgaf_json_print_indent(indent);
 			printf("[\n");
 			val_idx=nxt->v.a.val; val=dgaf_json_get(it,val_idx);
@@ -208,6 +213,11 @@ void dgaf_json_print(struct dgaf_json_state *it,int idx,int indent)
 		else
 		if(nxt->t==OBJECT)
 		{
+//			if(indent<0)
+//			{
+//				indent=dgaf_json_print_indent(indent);
+//				printf("\n");
+//			}
 			indent=dgaf_json_print_indent(indent);
 			printf("{\n");
 			nam_idx=nxt->v.o.nam; nam=dgaf_json_get(it,nam_idx);
@@ -216,7 +226,7 @@ void dgaf_json_print(struct dgaf_json_state *it,int idx,int indent)
 			{
 				indent=dgaf_json_print_indent(indent+1)-1;
 				printf("%.*s = ",nam->v.s.len,nam->v.s.ptr);
-				dgaf_json_print(it,val_idx,-(indent+2));
+				dgaf_json_print(it,val_idx,-(indent+1));
 				nam_idx=nam->next; nam=dgaf_json_get(it,nam_idx);
 				val_idx=val->next; val=dgaf_json_get(it,val_idx);
 			}
@@ -266,7 +276,6 @@ int dgaf_json_load_file(struct dgaf_json_state *it,char *fname)
 
     int size=0;
     int used=0;
-    int next;
 
 	it->data="";
 	it->data_len=0;
@@ -285,7 +294,7 @@ int dgaf_json_load_file(struct dgaf_json_state *it,char *fname)
 		fp=stdin;
 	}
 
-    while(1)
+    while( !feof(fp) ) // read all file
     {
 		// extend buffer
 		while(used+chunk > size)
@@ -294,11 +303,8 @@ int dgaf_json_load_file(struct dgaf_json_state *it,char *fname)
 			temp = realloc(data, size); if(!temp) { goto error; }
 			data=temp;			
 		}
-
-		next = fread( data+used , 1 , chunk, fp );
-		if(next == 0) { break; } // no data
-		if(next < 0) { goto error; } // bad data
-		used += next; // good data
+		used += fread( data+used , 1 , chunk, fp );		
+		if(ferror(fp)) { goto error; }
     }
 
 
@@ -622,7 +628,7 @@ int dgaf_json_parse_value(struct dgaf_json_state *it)
 	dgaf_json_parse_skip_white(it);
 
 // check for special strings lowercase only
-	if( dgaf_json_parse_peek_string(it,"true" ) )
+	if( dgaf_json_parse_peek_string(it,"true" ) || dgaf_json_parse_peek_string(it,"True" ) || dgaf_json_parse_peek_string(it,"TRUE" ) )
 	{
 		idx=dgaf_json_alloc(it);
 		nxt=dgaf_json_get(it,idx);
@@ -633,7 +639,7 @@ int dgaf_json_parse_value(struct dgaf_json_state *it)
 		return idx;
 	}
 	else
-	if( dgaf_json_parse_peek_string(it,"false" ) )
+	if( dgaf_json_parse_peek_string(it,"false" ) || dgaf_json_parse_peek_string(it,"False" ) || dgaf_json_parse_peek_string(it,"FALSE" ) )
 	{
 		idx=dgaf_json_alloc(it);
 		nxt=dgaf_json_get(it,idx);
@@ -644,7 +650,7 @@ int dgaf_json_parse_value(struct dgaf_json_state *it)
 		return idx;
 	}
 	else
-	if( dgaf_json_parse_peek_string(it,"null" ) )
+	if( dgaf_json_parse_peek_string(it,"null" ) || dgaf_json_parse_peek_string(it,"Null" ) || dgaf_json_parse_peek_string(it,"NULL" ) )
 	{
 		idx=dgaf_json_alloc(it);
 		nxt=dgaf_json_get(it,idx);
@@ -705,7 +711,6 @@ int dgaf_json_parse(struct dgaf_json_state *it)
 	struct dgaf_json_value *nxt;
 	while( idx=dgaf_json_parse_value(it) )
 	{
-printf("%d\n",idx);
 		if(it->parse_first==0) // remember the first value
 		{
 			it->parse_first=idx;

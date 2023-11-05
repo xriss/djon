@@ -8,6 +8,7 @@
 
 int main(int argc, char *argv[])
 {
+//printf("START %d\n",argc);
 	struct dgaf_json_state *it=dgaf_json_setup();
 	if(argc>=2)
 	{
@@ -18,8 +19,8 @@ int main(int argc, char *argv[])
 		dgaf_json_load_file(it,0); // stdin
 	}
 	dgaf_json_parse(it);
+
 	dgaf_json_print(it,it->parse_first,0);
-	printf("\n\n%s\n",it->data);
 
 	dgaf_json_clean(it);
 
