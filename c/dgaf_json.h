@@ -108,7 +108,7 @@ struct dgaf_json_state * dgaf_json_setup()
 	it->data_len=0;
 
 	it->values_len=1; // first value is used as a null so start at 1
-	it->values_siz=1024;
+	it->values_siz=16384;
 	it->values=(struct dgaf_json_value *)malloc( it->values_siz * sizeof(struct dgaf_json_value) );
 	if(!it->values) { free(it); return 0; }
 
@@ -130,15 +130,24 @@ struct dgaf_json_value * dgaf_json_get(struct dgaf_json_state *it,int idx)
 	return it->values + idx ;
 }
 
+// unallocate unused values at the end of a parse
+void dgaf_json_shrink(struct dgaf_json_state *it)
+{
+	struct dgaf_json_value * v;
+	v=(struct dgaf_json_value *)realloc( (void*)it->values , (it->values_len) * sizeof(struct dgaf_json_value) );
+	if(!v) { return; } //  fail but we can ignore
+	it->values_siz=it->values_len;
+}
+
 // allocate a new value and return its index, 0 on error
 int dgaf_json_alloc(struct dgaf_json_state *it)
 {
 	struct dgaf_json_value * v;
 	if( it->values_len+1 >= it->values_siz ) // check for space
 	{
-		v=(struct dgaf_json_value *)realloc( (void*)it->values , (it->values_siz+1024) * sizeof(struct dgaf_json_value) );
+		v=(struct dgaf_json_value *)realloc( (void*)it->values , (it->values_siz+16384) * sizeof(struct dgaf_json_value) );
 		if(!v) { return 0; }
-		it->values_siz=it->values_siz+1024;
+		it->values_siz=it->values_siz+16384;
 		it->values=v; // might change pointer
 	}
 	v=dgaf_json_get(it,it->values_len);
@@ -753,7 +762,7 @@ int dgaf_json_parse(struct dgaf_json_state *it)
 		nxt=dgaf_json_get(it,idx);
 		if(nxt==0){return 0;}
 	}
-	
+	dgaf_json_shrink(it);
 	return it->parse_first;
 }
 
