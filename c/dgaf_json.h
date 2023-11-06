@@ -96,6 +96,104 @@ int dgaf_json_parse_value(struct dgaf_json_state *it);
 
 #ifdef DGAF_JSON_CODE
 
+// locales are a cursed so we need our own basic functions ?
+// strtod replacement ?
+double dgaf_json_str_to_double(char *cps,char **endptr)
+{
+	const double inf = 1.0/0.0;
+	const double nan = 0.0/0.0;
+	
+	int gotdata=0;
+
+	char c;
+	char *cp=cps;
+
+	c=*cp;
+	double sign=1.0;
+	if(c=='-') { sign=-1.0; cp++; } // maybe negative
+	else
+	if(c=='+') { cp++; } // allow
+	
+	double d=0.0;
+	for( c=*cp ; (c>='0') && (c<='9') ; c=*++cp )// 0 or more integer parts
+	{
+		d=(d*10.0)+(c-'0');
+		gotdata++;
+	}
+
+	double m=1.0;
+	if( *cp=='.' ) // a decimal point
+	{
+		cp++;
+		for( c=*cp ; (c>='0') && (c<='9') ; c=*++cp )// and 0 or more integer parts
+		{
+			m=m*0.1;
+			d+=((c-'0')*m);
+			gotdata++;
+		}
+		
+	}
+
+	c=*cp;
+	if( (c=='e') || (c=='E') )
+	{
+		cp++;
+		c=*cp;
+
+		double esign=1.0;
+		if(c=='-') { esign=-1.0; cp++; } // maybe negative
+		else
+		if(c=='+') { cp++; } // allow
+
+		double e=0.0;
+		for( c=*cp ; (c>='0') && (c<='9') ; c=*++cp )// and 0 or more exponent parts
+		{
+			m=m*0.1;
+			e=(e*10.0)+(c-'0');
+		}
+		d*=pow(10.0,e*esign); // apply exponent
+	}
+	
+	d*=sign; // apply sign
+
+	if(gotdata) // did we parse some data?
+	{
+		if(endptr){*endptr=cp;} // we used this many chars
+		return d; // and parsed this number
+	}
+	
+	if(endptr){*endptr=cps;} // 0 chars used
+	return nan;
+}
+
+double dgaf_json_str_to_hex(char *cps,char **endptr)
+{
+	const double inf = 1.0/0.0;
+	const double nan = 0.0/0.0;
+
+	return 0;
+}
+
+double dgaf_json_str_to_number(char *cp,char **endptr)
+{
+	const double inf = 1.0/0.0;
+	const double nan = 0.0/0.0;
+
+	if	(
+			( (cp[0]=='0') && ( (cp[1]=='x') || (cp[1]=='X') ) )
+			||
+			( ( (cp[0]=='+') || (cp[0]=='-') ) && (cp[1]=='0') && ( (cp[2]=='x') || (cp[2]=='X') ) )
+		)
+	{
+		return dgaf_json_str_to_hex(cp,endptr);
+	}
+	else
+	{
+		return dgaf_json_str_to_double(cp,endptr);
+	}
+	return nan;
+}
+
 // allocate a new parsing state
 struct dgaf_json_state * dgaf_json_setup()
 {
@@ -243,7 +341,7 @@ void dgaf_json_print(struct dgaf_json_state *it,int idx,int indent)
 		if(nxt->t==NUMBER)
 		{
 			indent=dgaf_json_print_indent(indent);
-			printf("%d\n",nxt->v.n.num);
+			printf("%g\n",nxt->v.n.num);
 		}
 		else
 		if(nxt->t==BOOL)
@@ -513,7 +611,24 @@ int dgaf_json_parse_rawstring(struct dgaf_json_state *it,int lst_idx)
 
 int dgaf_json_parse_number(struct dgaf_json_state *it,int lst_idx)
 {
-	return dgaf_json_parse_string(it,lst_idx," \t\n/}],;=:");
+	struct dgaf_json_value *lst=dgaf_json_get(it,lst_idx);
+
+	char *cps=lst->v.s.ptr;
+	char *cpe;
+
+//	double d=strtod(cps,&cpe);
+	double d=dgaf_json_str_to_number(cps,&cpe);
+	int len=cpe-cps;
+	if( len > 0 )
+	{
+		it->parse_idx+=len-lst->v.s.len;
+
+		lst->t=NUMBER;
+		lst->v.n.num=d;
+		
+		return lst_idx;
+	}
+	return 0;
 }
 
 int dgaf_json_parse_name(struct dgaf_json_state *it)

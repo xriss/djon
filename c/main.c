@@ -1,6 +1,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 #define DGAF_JSON_CODE 1
 #include "dgaf_json.h"
