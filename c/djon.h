@@ -36,10 +36,12 @@ typedef struct djon_state
 
 	// current parse state
 	int parse_idx;
-	int parse_char;
-	int parse_line;
 	int parse_first; // first output value
-	char *parse_stack;
+	char *parse_stack; // HAXTBH remember starting stack so we can play chicken
+
+	char *error_string; // if this is not 0 we have an error
+	int error_char;
+	int error_line;
 	
 	FILE *fp; // where to print output
 
@@ -246,7 +248,7 @@ int djon_free(struct djon_state *it,int idx)
 	return 0;
 }
 
-int djon_print_indent(int indent)
+int djon_print_indent(struct djon_state *it,int indent)
 {
 	if(indent<0) { return -indent; } // skip first indent
 	else
@@ -254,7 +256,7 @@ int djon_print_indent(int indent)
 		int i;
 		for( i=0 ; i<indent ; i++)
 		{
-			putchar(' ');
+			putc(' ',it->fp);
 		}
 	}
 	return indent;
@@ -273,10 +275,10 @@ void djon_print(struct djon_state *it,int idx,int indent)
 		{
 //			if(indent<0)
 //			{
-//				indent=djon_print_indent(indent);
+//				indent=djon_print_indent(it,indent);
 //				printf("\n");
 //			}
-			indent=djon_print_indent(indent);
+			indent=djon_print_indent(it,indent);
 			fprintf(it->fp,"[\n");
 			val_idx=nxt->val; val=djon_get(it,val_idx);
 			while(val)
@@ -284,7 +286,7 @@ void djon_print(struct djon_state *it,int idx,int indent)
 				djon_print(it,val_idx,indent+1);
 				val_idx=val->nxt; val=djon_get(it,val_idx);
 			}
-			indent=djon_print_indent(indent);
+			indent=djon_print_indent(it,indent);
 			fprintf(it->fp,"]\n");
 		}
 		else
@@ -292,52 +294,52 @@ void djon_print(struct djon_state *it,int idx,int indent)
 		{
 //			if(indent<0)
 //			{
-//				indent=djon_print_indent(indent);
+//				indent=djon_print_indent(it,indent);
 //				fprintf(it->fp,"\n");
 //			}
-			indent=djon_print_indent(indent);
+			indent=djon_print_indent(it,indent);
 			fprintf(it->fp,"{\n");
 			nam_idx=nxt->nam; nam=djon_get(it,nam_idx);
 			val_idx=nxt->val; val=djon_get(it,val_idx);
 			while(nam&&val)
 			{
-				indent=djon_print_indent(indent+1)-1;
+				indent=djon_print_indent(it,indent+1)-1;
 				fprintf(it->fp,"%.*s = ",nam->len,nam->str);
 				djon_print(it,val_idx,-(indent+1));
 				nam_idx=nam->nxt; nam=djon_get(it,nam_idx);
 				val_idx=val->nxt; val=djon_get(it,val_idx);
 			}
-			indent=djon_print_indent(indent);
+			indent=djon_print_indent(it,indent);
 			fprintf(it->fp,"}\n");
 		}
 		else
 		if(nxt->typ==STRING)
 		{
-			indent=djon_print_indent(indent);
+			indent=djon_print_indent(it,indent);
 			fwrite(nxt->str, 1, nxt->len, it->fp);
 			fwrite("\n", 1, 1, it->fp);
 		}
 		else
 		if(nxt->typ==NUMBER)
 		{
-			indent=djon_print_indent(indent);
+			indent=djon_print_indent(it,indent);
 			fprintf(it->fp,"%g\n",nxt->num);
 		}
 		else
 		if(nxt->typ==BOOL)
 		{
-			indent=djon_print_indent(indent);
+			indent=djon_print_indent(it,indent);
 			fprintf(it->fp,"%s\n",nxt->num?"TRUE":"FALSE");
 		}
 		else
 		if(nxt->typ==NONE)
 		{
-			indent=djon_print_indent(indent);
+			indent=djon_print_indent(it,indent);
 			fprintf(it->fp,"%s\n","NULL");
 		}
 		else
 		{
-			indent=djon_print_indent(indent);
+			indent=djon_print_indent(it,indent);
 			fprintf(it->fp,"%s\n","UNDEFINED");
 		}
 	}
@@ -825,9 +827,12 @@ int djon_parse(struct djon_state *it)
 	int stack=0xdeadbeef;
 	it->parse_stack=(char*)&stack;
 	it->parse_idx=0;
-	it->parse_char=0;
-	it->parse_line=0;
 	it->parse_first=0;
+
+	it->error_string=0;
+	it->error_char=0;
+	it->error_line=0;
+
 	int idx;
 	struct djon_value *nxt;
 	while( idx=djon_parse_value(it) )
