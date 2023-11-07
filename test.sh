@@ -15,7 +15,7 @@ for fname in `find json -name "*.json" -type f -exec echo {} \;` ; do
 
 	echo "" >>output.json
 	echo "#c" >>output.json
-	{ ../c/main "${fname}"; } &>>output.json
+	{ ../c/djon "${fname}"; } &>>output.json
 
 done
 

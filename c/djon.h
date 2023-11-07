@@ -1,6 +1,6 @@
 
 
-enum dgaf_json_enum
+enum djon_enum
 {
 	NONE,
 	NUMBER,
@@ -11,65 +11,65 @@ enum dgaf_json_enum
 };
 
 
-struct dgaf_json_none
+struct djon_none
 {
 	int _;
 };
 
-struct dgaf_json_number
+struct djon_number
 {
 	double num;
 };
 
-struct dgaf_json_bool
+struct djon_bool
 {
 	int num;
 };
 
-struct dgaf_json_string
+struct djon_string
 {
 	char *ptr;
 	int   len;
 };
 
-struct dgaf_json_array
+struct djon_array
 {
 	int val;
 	int len;
 };
 
-struct dgaf_json_object
+struct djon_object
 {
 	int nam;
 	int val;
 	int len;
 };
 
-union dgaf_json_union
+union djon_union
 {
-	struct dgaf_json_none   _;
-	struct dgaf_json_number n;
-	struct dgaf_json_bool   b;
-	struct dgaf_json_string s;
-	struct dgaf_json_array  a;
-	struct dgaf_json_object o;
+	struct djon_none   _;
+	struct djon_number n;
+	struct djon_bool   b;
+	struct djon_string s;
+	struct djon_array  a;
+	struct djon_object o;
 };
 
-struct dgaf_json_value
+struct djon_value
 {
 	int next; // idx to next value if this is an object key/value or array
-	enum  dgaf_json_enum  t;
-	union dgaf_json_union v;
+	enum  djon_enum  t;
+	union djon_union v;
 };
 
-struct dgaf_json_state
+struct djon_state
 {
 	// input data string
 	char *data;
 	int   data_len;
 
 	// output values
-	struct dgaf_json_value * values;
+	struct djon_value * values;
 	int values_len;
 	int values_siz;
 
@@ -84,25 +84,25 @@ struct dgaf_json_state
 
 };
 
-extern struct dgaf_json_state * dgaf_json_setup();
-extern struct dgaf_json_value * dgaf_json_get(struct dgaf_json_state *it,int idx);
-extern int dgaf_json_load_file(struct dgaf_json_state *it,char *fname);
-extern int dgaf_json_parse(struct dgaf_json_state *it);
+extern struct djon_state * djon_setup();
+extern struct djon_value * djon_get(struct djon_state *it,int idx);
+extern int djon_load_file(struct djon_state *it,char *fname);
+extern int djon_parse(struct djon_state *it);
 
-int dgaf_json_alloc(struct dgaf_json_state *it);
-int dgaf_json_free(struct dgaf_json_state *it,int idx);
-int dgaf_json_parse_value(struct dgaf_json_state *it);
-int dgaf_json_check_stack(struct dgaf_json_state *it);
+int djon_alloc(struct djon_state *it);
+int djon_free(struct djon_state *it,int idx);
+int djon_parse_value(struct djon_state *it);
+int djon_check_stack(struct djon_state *it);
 
-#define DGAF_JSON_IS_WHITE(c) ( ((c)==' ') || ((c)=='\t') || ((c)=='\n') || ((c)=='\r') || ((c)=='\v') || ((c)=='\f') )
-#define DGAF_JSON_IS_PUNCT(c) ( ( ((c)>='!') && ((c)<='/') ) || ( ((c)>=':') && ((c)<='@') ) || ( ((c)>='[') && ((c)<='`') ) || ( ((c)>='{') && ((c)<='~') ) )
+#define DJON_IS_WHITE(c) ( ((c)==' ') || ((c)=='\t') || ((c)=='\n') || ((c)=='\r') || ((c)=='\v') || ((c)=='\f') )
+#define DJON_IS_PUNCT(c) ( ( ((c)>='!') && ((c)<='/') ) || ( ((c)>=':') && ((c)<='@') ) || ( ((c)>='[') && ((c)<='`') ) || ( ((c)>='{') && ((c)<='~') ) )
 
 
-#ifdef DGAF_JSON_CODE
+#ifdef DJON_CODE
 
 // locales are a cursed so we need our own basic functions ?
 // strtod replacement ?
-double dgaf_json_str_to_double(char *cps,char **endptr)
+double djon_str_to_double(char *cps,char **endptr)
 {
 	const double inf = 1.0/0.0;
 	const double nan = 0.0/0.0;
@@ -179,7 +179,7 @@ error:
 	return nan;
 }
 
-double dgaf_json_str_to_hex(char *cps,char **endptr)
+double djon_str_to_hex(char *cps,char **endptr)
 {
 	const double inf = 1.0/0.0;
 	const double nan = 0.0/0.0;
@@ -187,7 +187,7 @@ double dgaf_json_str_to_hex(char *cps,char **endptr)
 	return 0;
 }
 
-double dgaf_json_str_to_number(char *cp,char **endptr)
+double djon_str_to_number(char *cp,char **endptr)
 {
 	const double inf = 1.0/0.0;
 	const double nan = 0.0/0.0;
@@ -198,21 +198,21 @@ double dgaf_json_str_to_number(char *cp,char **endptr)
 			( ( (cp[0]=='+') || (cp[0]=='-') ) && (cp[1]=='0') && ( (cp[2]=='x') || (cp[2]=='X') ) )
 		)
 	{
-		return dgaf_json_str_to_hex(cp,endptr);
+		return djon_str_to_hex(cp,endptr);
 	}
 	else
 	{
-		return dgaf_json_str_to_double(cp,endptr);
+		return djon_str_to_double(cp,endptr);
 	}
 	return nan;
 }
 
 // allocate a new parsing state
-struct dgaf_json_state * dgaf_json_setup()
+struct djon_state * djon_setup()
 {
-	struct dgaf_json_state *it;
+	struct djon_state *it;
 	
-	it=(struct dgaf_json_state *)malloc( sizeof(struct dgaf_json_state) );
+	it=(struct djon_state *)malloc( sizeof(struct djon_state) );
 	if(!it) { return 0; }
 	
 	it->data=0;
@@ -221,13 +221,13 @@ struct dgaf_json_state * dgaf_json_setup()
 
 	it->values_len=1; // first value is used as a null so start at 1
 	it->values_siz=16384;
-	it->values=(struct dgaf_json_value *)malloc( it->values_siz * sizeof(struct dgaf_json_value) );
+	it->values=(struct djon_value *)malloc( it->values_siz * sizeof(struct djon_value) );
 	if(!it->values) { free(it); return 0; }
 
 	return it;
 }
 // free a new parsing state
-void dgaf_json_clean(struct dgaf_json_state *it)
+void djon_clean(struct djon_state *it)
 {
 	if(!it) { return; }
 	if(it->data) { free(it->data); }
@@ -235,7 +235,7 @@ void dgaf_json_clean(struct dgaf_json_state *it)
 }
 
 // get a value by index
-struct dgaf_json_value * dgaf_json_get(struct dgaf_json_state *it,int idx)
+struct djon_value * djon_get(struct djon_state *it,int idx)
 {
 	if( idx <= 0 )              { return 0; }
 	if( idx >= it->values_siz ) { return 0; }
@@ -243,26 +243,26 @@ struct dgaf_json_value * dgaf_json_get(struct dgaf_json_state *it,int idx)
 }
 
 // unallocate unused values at the end of a parse
-void dgaf_json_shrink(struct dgaf_json_state *it)
+void djon_shrink(struct djon_state *it)
 {
-	struct dgaf_json_value * v;
-	v=(struct dgaf_json_value *)realloc( (void*)it->values , (it->values_len) * sizeof(struct dgaf_json_value) );
+	struct djon_value * v;
+	v=(struct djon_value *)realloc( (void*)it->values , (it->values_len) * sizeof(struct djon_value) );
 	if(!v) { return; } //  fail but we can ignore
 	it->values_siz=it->values_len;
 }
 
 // allocate a new value and return its index, 0 on error
-int dgaf_json_alloc(struct dgaf_json_state *it)
+int djon_alloc(struct djon_state *it)
 {	
-	struct dgaf_json_value * v;
+	struct djon_value * v;
 	if( it->values_len+1 >= it->values_siz ) // check for space
 	{
-		v=(struct dgaf_json_value *)realloc( (void*)it->values , (it->values_siz+16384) * sizeof(struct dgaf_json_value) );
+		v=(struct djon_value *)realloc( (void*)it->values , (it->values_siz+16384) * sizeof(struct djon_value) );
 		if(!v) { return 0; }
 		it->values_siz=it->values_siz+16384;
 		it->values=v; // might change pointer
 	}
-	v=dgaf_json_get(it,it->values_len);
+	v=djon_get(it,it->values_len);
 	v->next=0;
 	v->t=NONE;
 	v->v._._=0;
@@ -271,7 +271,7 @@ int dgaf_json_alloc(struct dgaf_json_state *it)
 }
 
 // we can only free the top most allocated idx, return 0 if not freed
-int dgaf_json_free(struct dgaf_json_state *it,int idx)
+int djon_free(struct djon_state *it,int idx)
 {
 	if( idx == (it->values_len-1) )
 	{
@@ -281,7 +281,7 @@ int dgaf_json_free(struct dgaf_json_state *it,int idx)
 	return 0;
 }
 
-int dgaf_json_print_indent(int indent)
+int djon_print_indent(int indent)
 {
 	if(indent<0) { return -indent; } // skip first indent
 	else
@@ -295,11 +295,11 @@ int dgaf_json_print_indent(int indent)
 	return indent;
 }
 // debug print a value
-void dgaf_json_print(struct dgaf_json_state *it,int idx,int indent)
+void djon_print(struct djon_state *it,int idx,int indent)
 {
-	struct dgaf_json_value *nxt=dgaf_json_get(it,idx);
-	struct dgaf_json_value *nam;
-	struct dgaf_json_value *val;
+	struct djon_value *nxt=djon_get(it,idx);
+	struct djon_value *nam;
+	struct djon_value *val;
 	int nam_idx;
 	int val_idx;
 	if(nxt)
@@ -308,18 +308,18 @@ void dgaf_json_print(struct dgaf_json_state *it,int idx,int indent)
 		{
 //			if(indent<0)
 //			{
-//				indent=dgaf_json_print_indent(indent);
+//				indent=djon_print_indent(indent);
 //				printf("\n");
 //			}
-			indent=dgaf_json_print_indent(indent);
+			indent=djon_print_indent(indent);
 			fprintf(it->fp,"[\n");
-			val_idx=nxt->v.a.val; val=dgaf_json_get(it,val_idx);
+			val_idx=nxt->v.a.val; val=djon_get(it,val_idx);
 			while(val)
 			{
-				dgaf_json_print(it,val_idx,indent+1);
-				val_idx=val->next; val=dgaf_json_get(it,val_idx);
+				djon_print(it,val_idx,indent+1);
+				val_idx=val->next; val=djon_get(it,val_idx);
 			}
-			indent=dgaf_json_print_indent(indent);
+			indent=djon_print_indent(indent);
 			fprintf(it->fp,"]\n");
 		}
 		else
@@ -327,59 +327,59 @@ void dgaf_json_print(struct dgaf_json_state *it,int idx,int indent)
 		{
 //			if(indent<0)
 //			{
-//				indent=dgaf_json_print_indent(indent);
+//				indent=djon_print_indent(indent);
 //				fprintf(it->fp,"\n");
 //			}
-			indent=dgaf_json_print_indent(indent);
+			indent=djon_print_indent(indent);
 			fprintf(it->fp,"{\n");
-			nam_idx=nxt->v.o.nam; nam=dgaf_json_get(it,nam_idx);
-			val_idx=nxt->v.o.val; val=dgaf_json_get(it,val_idx);
+			nam_idx=nxt->v.o.nam; nam=djon_get(it,nam_idx);
+			val_idx=nxt->v.o.val; val=djon_get(it,val_idx);
 			while(nam&&val)
 			{
-				indent=dgaf_json_print_indent(indent+1)-1;
+				indent=djon_print_indent(indent+1)-1;
 				fprintf(it->fp,"%.*s = ",nam->v.s.len,nam->v.s.ptr);
-				dgaf_json_print(it,val_idx,-(indent+1));
-				nam_idx=nam->next; nam=dgaf_json_get(it,nam_idx);
-				val_idx=val->next; val=dgaf_json_get(it,val_idx);
+				djon_print(it,val_idx,-(indent+1));
+				nam_idx=nam->next; nam=djon_get(it,nam_idx);
+				val_idx=val->next; val=djon_get(it,val_idx);
 			}
-			indent=dgaf_json_print_indent(indent);
+			indent=djon_print_indent(indent);
 			fprintf(it->fp,"}\n");
 		}
 		else
 		if(nxt->t==STRING)
 		{
-			indent=dgaf_json_print_indent(indent);
+			indent=djon_print_indent(indent);
 			fwrite(nxt->v.s.ptr, 1, nxt->v.s.len, it->fp);
 			fwrite("\n", 1, 1, it->fp);
 		}
 		else
 		if(nxt->t==NUMBER)
 		{
-			indent=dgaf_json_print_indent(indent);
+			indent=djon_print_indent(indent);
 			fprintf(it->fp,"%g\n",nxt->v.n.num);
 		}
 		else
 		if(nxt->t==BOOL)
 		{
-			indent=dgaf_json_print_indent(indent);
+			indent=djon_print_indent(indent);
 			fprintf(it->fp,"%s\n",nxt->v.b.num?"TRUE":"FALSE");
 		}
 		else
 		if(nxt->t==NONE)
 		{
-			indent=dgaf_json_print_indent(indent);
+			indent=djon_print_indent(indent);
 			fprintf(it->fp,"%s\n","NULL");
 		}
 		else
 		{
-			indent=dgaf_json_print_indent(indent);
+			indent=djon_print_indent(indent);
 			fprintf(it->fp,"%s\n","UNDEFINED");
 		}
 	}
 }
 
 // load a new file or read from stdin
-int dgaf_json_load_file(struct dgaf_json_state *it,char *fname)
+int djon_load_file(struct djon_state *it,char *fname)
 {
 	const int chunk=0x10000; // read this much at once
 
@@ -441,11 +441,11 @@ error:
 }
 
 // peek for whitespace or comments
-int dgaf_json_parse_peek_white(struct dgaf_json_state *it)
+int djon_parse_peek_white(struct djon_state *it)
 {
 	char c1=it->data[ it->parse_idx ];
 	char c2=it->data[ it->parse_idx+1 ];
-	if( DGAF_JSON_IS_WHITE(c1) )
+	if( DJON_IS_WHITE(c1) )
 	{
 		return 1;
 	}
@@ -466,7 +466,7 @@ int dgaf_json_parse_peek_white(struct dgaf_json_state *it)
 }
 
 // peek for punct
-int dgaf_json_parse_peek_punct(struct dgaf_json_state *it,char *punct)
+int djon_parse_peek_punct(struct djon_state *it,char *punct)
 {
 	char c=it->data[ it->parse_idx ];
 	char *cp;
@@ -481,7 +481,7 @@ int dgaf_json_parse_peek_punct(struct dgaf_json_state *it,char *punct)
 }
 
 // peek for a lowercase string eg, true false null
-int dgaf_json_parse_peek_string(struct dgaf_json_state *it,char *s)
+int djon_parse_peek_string(struct djon_state *it,char *s)
 {
 	char *sp;
 	char *dp;
@@ -495,7 +495,7 @@ int dgaf_json_parse_peek_string(struct dgaf_json_state *it,char *s)
 	if( *sp==0 ) // we got to end of test string
 	{
 		d=*dp; // and text must be followed by some kind of terminator
-		if( DGAF_JSON_IS_WHITE(d) || DGAF_JSON_IS_PUNCT(d) || ( d==0 ) )
+		if( DJON_IS_WHITE(d) || DJON_IS_PUNCT(d) || ( d==0 ) )
 		{
 			return 1;
 		}
@@ -504,7 +504,7 @@ int dgaf_json_parse_peek_string(struct dgaf_json_state *it,char *s)
 }
 
 // skip whitespace and comments
-void dgaf_json_parse_skip_white(struct dgaf_json_state *it)
+void djon_parse_skip_white(struct djon_state *it)
 {
 	while( it->parse_idx < it->data_len )
 	{
@@ -559,9 +559,9 @@ void dgaf_json_parse_skip_white(struct dgaf_json_state *it)
 }
 
 // skip a patch of these punct chars sandwiched by white space , counting how many punct chars we found.
-int dgaf_json_parse_skip_white_punct(struct dgaf_json_state *it,char *punct)
+int djon_parse_skip_white_punct(struct djon_state *it,char *punct)
 {
-	dgaf_json_parse_skip_white(it);
+	djon_parse_skip_white(it);
 
 	char *cp;
 	int ret=0;
@@ -579,21 +579,21 @@ int dgaf_json_parse_skip_white_punct(struct dgaf_json_state *it,char *punct)
 		}
 	}
 	
-	dgaf_json_parse_skip_white(it);
+	djon_parse_skip_white(it);
 
 	return ret;
 }
 
 // advance one char allocate a temporary string value and return it
-int dgaf_json_parse_step(struct dgaf_json_state *it)
+int djon_parse_step(struct djon_state *it)
 {
 	if( it->parse_idx >= it->data_len ) { return 0; } // EOF
 
-	struct dgaf_json_value *nxt;
+	struct djon_value *nxt;
 	int idx=0;
 
-	idx=dgaf_json_alloc(it);
-	nxt=dgaf_json_get(it,idx);
+	idx=djon_alloc(it);
+	nxt=djon_get(it,idx);
 	if(nxt==0) { return 0; }
 	nxt->t=STRING;
 	nxt->v.s.ptr=it->data+it->parse_idx;
@@ -602,9 +602,9 @@ int dgaf_json_parse_step(struct dgaf_json_state *it)
 	return idx;
 }
 
-int dgaf_json_parse_string(struct dgaf_json_state *it,int lst_idx,char *term)
+int djon_parse_string(struct djon_state *it,int lst_idx,char *term)
 {
-	struct dgaf_json_value *lst=dgaf_json_get(it,lst_idx);
+	struct djon_value *lst=djon_get(it,lst_idx);
 	if(lst==0) { return 0; }
 
 	char c;
@@ -628,20 +628,20 @@ int dgaf_json_parse_string(struct dgaf_json_state *it,int lst_idx,char *term)
 	return lst_idx;
 }
 
-int dgaf_json_parse_rawstring(struct dgaf_json_state *it,int lst_idx)
+int djon_parse_rawstring(struct djon_state *it,int lst_idx)
 {
-	return dgaf_json_parse_string(it,lst_idx,"`");
+	return djon_parse_string(it,lst_idx,"`");
 }
 
-int dgaf_json_parse_number(struct dgaf_json_state *it,int lst_idx)
+int djon_parse_number(struct djon_state *it,int lst_idx)
 {
-	struct dgaf_json_value *lst=dgaf_json_get(it,lst_idx);
+	struct djon_value *lst=djon_get(it,lst_idx);
 
 	char *cps=lst->v.s.ptr;
 	char *cpe;
 
 //	double d=strtod(cps,&cpe);
-	double d=dgaf_json_str_to_number(cps,&cpe);
+	double d=djon_str_to_number(cps,&cpe);
 	int len=cpe-cps;
 	if( len > 0 )
 	{
@@ -655,12 +655,12 @@ int dgaf_json_parse_number(struct dgaf_json_state *it,int lst_idx)
 	return 0;
 }
 
-int dgaf_json_parse_name(struct dgaf_json_state *it)
+int djon_parse_name(struct djon_state *it)
 {
-	dgaf_json_parse_skip_white(it);
+	djon_parse_skip_white(it);
 
-	int lst_idx=dgaf_json_parse_step(it);
-	struct dgaf_json_value *lst=dgaf_json_get(it,lst_idx);
+	int lst_idx=djon_parse_step(it);
+	struct djon_value *lst=djon_get(it,lst_idx);
 	if(lst==0){return 0;} // out of data
 
 	char c;
@@ -668,8 +668,8 @@ int dgaf_json_parse_name(struct dgaf_json_state *it)
 
 	while( it->parse_idx < it->data_len ) // while data
 	{
-		if( dgaf_json_parse_peek_white(it) ) { return lst_idx; } // stop at whitespace
-		if( dgaf_json_parse_peek_punct(it,"=:") ) { return lst_idx; } // stop at punct
+		if( djon_parse_peek_white(it) ) { return lst_idx; } // stop at whitespace
+		if( djon_parse_peek_punct(it,"=:") ) { return lst_idx; } // stop at punct
 
 		lst->v.s.len++; // grow string
 		c=it->data[ it->parse_idx++ ]; // get next char
@@ -679,11 +679,11 @@ int dgaf_json_parse_name(struct dgaf_json_state *it)
 	return lst_idx;
 }
 
-int dgaf_json_parse_object(struct dgaf_json_state *it,int lst_idx)
+int djon_parse_object(struct djon_state *it,int lst_idx)
 {
-	struct dgaf_json_value *lst=dgaf_json_get(it,lst_idx);
-	struct dgaf_json_value *nam;
-	struct dgaf_json_value *val;
+	struct djon_value *lst=djon_get(it,lst_idx);
+	struct djon_value *nam;
+	struct djon_value *val;
 
 	lst->t=OBJECT;
 	lst->v.o.nam=0;
@@ -695,40 +695,40 @@ int dgaf_json_parse_object(struct dgaf_json_state *it,int lst_idx)
 
 	while(1)
 	{
-		dgaf_json_parse_skip_white(it);
+		djon_parse_skip_white(it);
 		if( it->data[it->parse_idx]=='}' ) { it->parse_idx++;  return lst_idx; } // found closer
 
-		nam_idx=dgaf_json_parse_name(it);
+		nam_idx=djon_parse_name(it);
 		if(!nam_idx) { return 0; } // no value
-		if( dgaf_json_parse_skip_white_punct(it,"=:") != 1 ) { return 0; } // required assignment
-		val_idx=dgaf_json_parse_value(it); if(!val_idx){return 0;}
-		dgaf_json_parse_skip_white_punct(it,",;"); // optional , seperators
+		if( djon_parse_skip_white_punct(it,"=:") != 1 ) { return 0; } // required assignment
+		val_idx=djon_parse_value(it); if(!val_idx){return 0;}
+		djon_parse_skip_white_punct(it,",;"); // optional , seperators
 
 		if( lst->v.o.len==0) // first
 		{
 			lst->v.o.nam=nam_idx;
 			lst->v.o.val=val_idx;
 			lst->v.o.len++;
-			nam=dgaf_json_get(it,nam_idx);
-			val=dgaf_json_get(it,val_idx);
+			nam=djon_get(it,nam_idx);
+			val=djon_get(it,val_idx);
 		}
 		else // chain
 		{
 			nam->next=nam_idx;
 			val->next=val_idx;
 			lst->v.o.len++;
-			nam=dgaf_json_get(it,nam_idx);
-			val=dgaf_json_get(it,val_idx);
+			nam=djon_get(it,nam_idx);
+			val=djon_get(it,val_idx);
 		}
 	}
 	
 	return lst_idx;
 }
 
-int dgaf_json_parse_array(struct dgaf_json_state *it,int lst_idx)
+int djon_parse_array(struct djon_state *it,int lst_idx)
 {
-	struct dgaf_json_value *lst=dgaf_json_get(it,lst_idx);
-	struct dgaf_json_value *val;
+	struct djon_value *lst=djon_get(it,lst_idx);
+	struct djon_value *val;
 
 	lst->t=ARRAY;
 	lst->v.o.val=0;
@@ -738,44 +738,44 @@ int dgaf_json_parse_array(struct dgaf_json_state *it,int lst_idx)
 
 	while(1)
 	{
-		dgaf_json_parse_skip_white(it);
+		djon_parse_skip_white(it);
 		if( it->data[it->parse_idx]==']' ) { it->parse_idx++; return lst_idx; } // found closer
 
-		val_idx=dgaf_json_parse_value(it);
+		val_idx=djon_parse_value(it);
 		if(!val_idx) { return 0; } // no value
-		dgaf_json_parse_skip_white_punct(it,",;"); // optional , separators
+		djon_parse_skip_white_punct(it,",;"); // optional , separators
 
 		if( lst->v.a.len==0) // first
 		{
 			lst->v.a.val=val_idx;
 			lst->v.a.len++;
-			val=dgaf_json_get(it,val_idx);
+			val=djon_get(it,val_idx);
 		}
 		else // chain
 		{
 			val->next=val_idx;
 			lst->v.a.len++;
-			val=dgaf_json_get(it,val_idx);
+			val=djon_get(it,val_idx);
 		}
 	}
 	
 	return lst_idx;
 }
 
-int dgaf_json_parse_value(struct dgaf_json_state *it)
+int djon_parse_value(struct djon_state *it)
 {
 	int idx;
-	struct dgaf_json_value *nxt;
+	struct djon_value *nxt;
 	
-	if(!dgaf_json_check_stack(it)){ return 0; }
+	if(!djon_check_stack(it)){ return 0; }
 
-	dgaf_json_parse_skip_white(it);
+	djon_parse_skip_white(it);
 
 // check for special strings lowercase only
-	if( dgaf_json_parse_peek_string(it,"true" ) )
+	if( djon_parse_peek_string(it,"true" ) )
 	{
-		idx=dgaf_json_alloc(it);
-		nxt=dgaf_json_get(it,idx);
+		idx=djon_alloc(it);
+		nxt=djon_get(it,idx);
 		if(nxt==0) { return 0; }
 		nxt->t=BOOL;
 		nxt->v.b.num=1;
@@ -783,10 +783,10 @@ int dgaf_json_parse_value(struct dgaf_json_state *it)
 		return idx;
 	}
 	else
-	if( dgaf_json_parse_peek_string(it,"false" ) )
+	if( djon_parse_peek_string(it,"false" ) )
 	{
-		idx=dgaf_json_alloc(it);
-		nxt=dgaf_json_get(it,idx);
+		idx=djon_alloc(it);
+		nxt=djon_get(it,idx);
 		if(nxt==0) { return 0; }
 		nxt->t=BOOL;
 		nxt->v.b.num=0;
@@ -794,10 +794,10 @@ int dgaf_json_parse_value(struct dgaf_json_state *it)
 		return idx;
 	}
 	else
-	if( dgaf_json_parse_peek_string(it,"null" ) )
+	if( djon_parse_peek_string(it,"null" ) )
 	{
-		idx=dgaf_json_alloc(it);
-		nxt=dgaf_json_get(it,idx);
+		idx=djon_alloc(it);
+		nxt=djon_get(it,idx);
 		if(nxt==0) { return 0; }
 		nxt->t=NONE;
 		it->parse_idx+=4;
@@ -808,27 +808,27 @@ int dgaf_json_parse_value(struct dgaf_json_state *it)
 	else
 	if( it->data[it->parse_idx]==']' ) { it->parse_idx++; return 0; }
 
-	idx=dgaf_json_parse_step(it);
-	nxt=dgaf_json_get(it,idx);
+	idx=djon_parse_step(it);
+	nxt=djon_get(it,idx);
 	if(nxt==0){return 0;}
 	char c=*(nxt->v.s.ptr);
 
 	switch( c )
 	{
 		case '{' :
-			return dgaf_json_parse_object(it,idx);
+			return djon_parse_object(it,idx);
 		break;
 		case '[' :
-			return dgaf_json_parse_array(it,idx);
+			return djon_parse_array(it,idx);
 		break;
 		case '\'' :
-			return dgaf_json_parse_string(it,idx,"'");
+			return djon_parse_string(it,idx,"'");
 		break;
 		case '"' :
-			return dgaf_json_parse_string(it,idx,"\"");
+			return djon_parse_string(it,idx,"\"");
 		break;
 		case '`' :
-			return dgaf_json_parse_rawstring(it,idx);
+			return djon_parse_rawstring(it,idx);
 		case '0' :
 		case '1' :
 		case '2' :
@@ -842,15 +842,15 @@ int dgaf_json_parse_value(struct dgaf_json_state *it)
 		case '.' :
 		case '+' :
 		case '-' :
-			return dgaf_json_parse_number(it,idx);
+			return djon_parse_number(it,idx);
 		break;
 	}
-	return dgaf_json_parse_string(it,idx,"\n");
+	return djon_parse_string(it,idx,"\n");
 }
 
 
 // allocate a new value and return its index, 0 on error
-int dgaf_json_check_stack(struct dgaf_json_state *it)
+int djon_check_stack(struct djon_state *it)
 {
 	int stack=0xdeadbeef;
 	if(it->parse_stack) // check stack flag
@@ -864,7 +864,7 @@ int dgaf_json_check_stack(struct dgaf_json_state *it)
 	}
 	return 1;
 }
-int dgaf_json_parse(struct dgaf_json_state *it)
+int djon_parse(struct djon_state *it)
 {
 	int stack=0xdeadbeef;
 	it->parse_stack=(char*)&stack;
@@ -873,8 +873,8 @@ int dgaf_json_parse(struct dgaf_json_state *it)
 	it->parse_line=0;
 	it->parse_first=0;
 	int idx;
-	struct dgaf_json_value *nxt;
-	while( idx=dgaf_json_parse_value(it) )
+	struct djon_value *nxt;
+	while( idx=djon_parse_value(it) )
 	{
 		if(it->parse_first==0) // remember the first value
 		{
@@ -885,10 +885,10 @@ int dgaf_json_parse(struct dgaf_json_state *it)
 		{
 			nxt->next=idx;
 		}
-		nxt=dgaf_json_get(it,idx);
+		nxt=djon_get(it,idx);
 		if(nxt==0){	goto error; }
 	}
-	dgaf_json_shrink(it);
+	djon_shrink(it);
 	return it->parse_first;
 error:
 	it->parse_stack=0;

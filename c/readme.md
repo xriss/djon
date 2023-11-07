@@ -1,2 +1,1 @@
-C json parser.
-
+The initial C implimentation of DJON flavoured JSON.
