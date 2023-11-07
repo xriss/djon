@@ -1,4 +1,4 @@
-
+# Converting all input json ( note this file is forced 7bit ascii clean so not exact output )
 
 #json/bad/n_array_1_true_without_comma.json
 [1 true]
