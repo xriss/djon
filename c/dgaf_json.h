@@ -856,7 +856,7 @@ int dgaf_json_check_stack(struct dgaf_json_state *it)
 	if(it->parse_stack) // check stack flag
 	{
 		int stacksize = it->parse_stack - ((char*)&stack); // oh yeah stack grows backwards
-		if ( stacksize > (1024*1024) ) // 256k stack burper, give up if we use too much
+		if ( stacksize > (256*1024) ) // 256k stack burper, give up if we use too much
 		{
 			printf("Stack overflow %d\n",stacksize);
 			return 0;
