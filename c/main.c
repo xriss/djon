@@ -21,6 +21,7 @@ int main(int argc, char *argv[])
 	}
 	dgaf_json_parse(it);
 
+	it->fp=stdout;
 	dgaf_json_print(it,it->parse_first,0);
 
 	dgaf_json_clean(it);

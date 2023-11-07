@@ -78,6 +78,9 @@ struct dgaf_json_state
 	int parse_char;
 	int parse_line;
 	int parse_first; // first output value
+	char *parse_stack;
+	
+	FILE *fp; // where to print output
 
 };
 
@@ -89,9 +92,10 @@ extern int dgaf_json_parse(struct dgaf_json_state *it);
 int dgaf_json_alloc(struct dgaf_json_state *it);
 int dgaf_json_free(struct dgaf_json_state *it,int idx);
 int dgaf_json_parse_value(struct dgaf_json_state *it);
+int dgaf_json_check_stack(struct dgaf_json_state *it);
 
-#define DGAF_JSON_IS_WHITE(c) ( (c==' ') || (c=='\t') || (c=='\n') || (c=='\r') )
-#define DGAF_JSON_IS_PUNCT(c) ( (c==',') || (c==';') || (c==':') || (c=='=') || (c=='{') || (c=='}') || (c=='[') || (c==']') )
+#define DGAF_JSON_IS_WHITE(c) ( ((c)==' ') || ((c)=='\t') || ((c)=='\n') || ((c)=='\r') || ((c)=='\v') || ((c)=='\f') )
+#define DGAF_JSON_IS_PUNCT(c) ( ( ((c)>='!') && ((c)<='/') ) || ( ((c)>=':') && ((c)<='@') ) || ( ((c)>='[') && ((c)<='`') ) || ( ((c)>='{') && ((c)<='~') ) )
 
 
 #ifdef DGAF_JSON_CODE
@@ -124,6 +128,7 @@ double dgaf_json_str_to_double(char *cps,char **endptr)
 	double m=1.0;
 	if( *cp=='.' ) // a decimal point
 	{
+		gotdata=0; // reset
 		cp++;
 		for( c=*cp ; (c>='0') && (c<='9') ; c=*++cp )// and 0 or more integer parts
 		{
@@ -131,14 +136,18 @@ double dgaf_json_str_to_double(char *cps,char **endptr)
 			d+=((c-'0')*m);
 			gotdata++;
 		}
-		
+		if(gotdata==0){goto error;} // require some numbers
 	}
+
+	if(gotdata==0){goto error;} // require some numbers before or after decimal point
 
 	c=*cp;
 	if( (c=='e') || (c=='E') )
 	{
 		cp++;
 		c=*cp;
+
+		gotdata=0; // reset
 
 		double esign=1.0;
 		if(c=='-') { esign=-1.0; cp++; } // maybe negative
@@ -150,8 +159,11 @@ double dgaf_json_str_to_double(char *cps,char **endptr)
 		{
 			m=m*0.1;
 			e=(e*10.0)+(c-'0');
+			gotdata++;
 		}
 		d*=pow(10.0,e*esign); // apply exponent
+
+		if(gotdata==0){goto error;} // require some numbers
 	}
 	
 	d*=sign; // apply sign
@@ -161,7 +173,8 @@ double dgaf_json_str_to_double(char *cps,char **endptr)
 		if(endptr){*endptr=cp;} // we used this many chars
 		return d; // and parsed this number
 	}
-	
+
+error:
 	if(endptr){*endptr=cps;} // 0 chars used
 	return nan;
 }
@@ -204,6 +217,7 @@ struct dgaf_json_state * dgaf_json_setup()
 	
 	it->data=0;
 	it->data_len=0;
+	it->parse_stack=0;
 
 	it->values_len=1; // first value is used as a null so start at 1
 	it->values_siz=16384;
@@ -239,7 +253,7 @@ void dgaf_json_shrink(struct dgaf_json_state *it)
 
 // allocate a new value and return its index, 0 on error
 int dgaf_json_alloc(struct dgaf_json_state *it)
-{
+{	
 	struct dgaf_json_value * v;
 	if( it->values_len+1 >= it->values_siz ) // check for space
 	{
@@ -298,7 +312,7 @@ void dgaf_json_print(struct dgaf_json_state *it,int idx,int indent)
 //				printf("\n");
 //			}
 			indent=dgaf_json_print_indent(indent);
-			printf("[\n");
+			fprintf(it->fp,"[\n");
 			val_idx=nxt->v.a.val; val=dgaf_json_get(it,val_idx);
 			while(val)
 			{
@@ -306,7 +320,7 @@ void dgaf_json_print(struct dgaf_json_state *it,int idx,int indent)
 				val_idx=val->next; val=dgaf_json_get(it,val_idx);
 			}
 			indent=dgaf_json_print_indent(indent);
-			printf("]\n");
+			fprintf(it->fp,"]\n");
 		}
 		else
 		if(nxt->t==OBJECT)
@@ -314,51 +328,52 @@ void dgaf_json_print(struct dgaf_json_state *it,int idx,int indent)
 //			if(indent<0)
 //			{
 //				indent=dgaf_json_print_indent(indent);
-//				printf("\n");
+//				fprintf(it->fp,"\n");
 //			}
 			indent=dgaf_json_print_indent(indent);
-			printf("{\n");
+			fprintf(it->fp,"{\n");
 			nam_idx=nxt->v.o.nam; nam=dgaf_json_get(it,nam_idx);
 			val_idx=nxt->v.o.val; val=dgaf_json_get(it,val_idx);
 			while(nam&&val)
 			{
 				indent=dgaf_json_print_indent(indent+1)-1;
-				printf("%.*s = ",nam->v.s.len,nam->v.s.ptr);
+				fprintf(it->fp,"%.*s = ",nam->v.s.len,nam->v.s.ptr);
 				dgaf_json_print(it,val_idx,-(indent+1));
 				nam_idx=nam->next; nam=dgaf_json_get(it,nam_idx);
 				val_idx=val->next; val=dgaf_json_get(it,val_idx);
 			}
 			indent=dgaf_json_print_indent(indent);
-			printf("}\n");
+			fprintf(it->fp,"}\n");
 		}
 		else
 		if(nxt->t==STRING)
 		{
 			indent=dgaf_json_print_indent(indent);
-			printf("%.*s\n",nxt->v.s.len,nxt->v.s.ptr);
+			fwrite(nxt->v.s.ptr, 1, nxt->v.s.len, it->fp);
+			fwrite("\n", 1, 1, it->fp);
 		}
 		else
 		if(nxt->t==NUMBER)
 		{
 			indent=dgaf_json_print_indent(indent);
-			printf("%g\n",nxt->v.n.num);
+			fprintf(it->fp,"%g\n",nxt->v.n.num);
 		}
 		else
 		if(nxt->t==BOOL)
 		{
 			indent=dgaf_json_print_indent(indent);
-			printf("%s\n",nxt->v.b.num?"TRUE":"FALSE");
+			fprintf(it->fp,"%s\n",nxt->v.b.num?"TRUE":"FALSE");
 		}
 		else
 		if(nxt->t==NONE)
 		{
 			indent=dgaf_json_print_indent(indent);
-			printf("%s\n","NULL");
+			fprintf(it->fp,"%s\n","NULL");
 		}
 		else
 		{
 			indent=dgaf_json_print_indent(indent);
-			printf("%s\n","UNDEFINED");
+			fprintf(it->fp,"%s\n","UNDEFINED");
 		}
 	}
 }
@@ -397,8 +412,8 @@ int dgaf_json_load_file(struct dgaf_json_state *it,char *fname)
 		// extend buffer
 		while(used+chunk > size)
 		{
+			temp = realloc(data, used+chunk); if(!temp) { goto error; }
 			size = used+chunk;
-			temp = realloc(data, size); if(!temp) { goto error; }
 			data=temp;			
 		}
 		used += fread( data+used , 1 , chunk, fp );		
@@ -430,7 +445,7 @@ int dgaf_json_parse_peek_white(struct dgaf_json_state *it)
 {
 	char c1=it->data[ it->parse_idx ];
 	char c2=it->data[ it->parse_idx+1 ];
-	if( (c1==' ') || (c1=='\t') || (c1=='\n') || (c1=='\r') )
+	if( DGAF_JSON_IS_WHITE(c1) )
 	{
 		return 1;
 	}
@@ -465,18 +480,27 @@ int dgaf_json_parse_peek_punct(struct dgaf_json_state *it,char *punct)
 	return 0;
 }
 
-// peek for exact string eg, true false null
+// peek for a lowercase string eg, true false null
 int dgaf_json_parse_peek_string(struct dgaf_json_state *it,char *s)
 {
-	int idx=it->parse_idx;
-	char *cp;
-	for( cp=s ; *cp ; cp++ )
+	char *sp;
+	char *dp;
+	char d;
+	for( sp=s , dp=it->data+it->parse_idx ; *sp && *dp ; sp++ , dp++ )
 	{
-		if( it->data[idx] != *cp ) { return 0; }
-		idx++;
-		if( idx >= it->data_len ) { return 0; }
+		d=*dp;
+		if( d>='A' && d<='Z' ) { d=d+('a'-'A'); } // lowercase
+		if( d != *sp ) { return 0; } // no match
 	}
-	return 1;
+	if( *sp==0 ) // we got to end of test string
+	{
+		d=*dp; // and text must be followed by some kind of terminator
+		if( DGAF_JSON_IS_WHITE(d) || DGAF_JSON_IS_PUNCT(d) || ( d==0 ) )
+		{
+			return 1;
+		}
+	}
+	return 0;
 }
 
 // skip whitespace and comments
@@ -671,7 +695,11 @@ int dgaf_json_parse_object(struct dgaf_json_state *it,int lst_idx)
 
 	while(1)
 	{
-		nam_idx=dgaf_json_parse_name(it); if(!nam_idx){return 0;}
+		dgaf_json_parse_skip_white(it);
+		if( it->data[it->parse_idx]=='}' ) { it->parse_idx++;  return lst_idx; } // found closer
+
+		nam_idx=dgaf_json_parse_name(it);
+		if(!nam_idx) { return 0; } // no value
 		if( dgaf_json_parse_skip_white_punct(it,"=:") != 1 ) { return 0; } // required assignment
 		val_idx=dgaf_json_parse_value(it); if(!val_idx){return 0;}
 		dgaf_json_parse_skip_white_punct(it,",;"); // optional , seperators
@@ -692,8 +720,6 @@ int dgaf_json_parse_object(struct dgaf_json_state *it,int lst_idx)
 			nam=dgaf_json_get(it,nam_idx);
 			val=dgaf_json_get(it,val_idx);
 		}
-
-		if(1==dgaf_json_parse_skip_white_punct(it,"}")) { break; } // closer
 	}
 	
 	return lst_idx;
@@ -712,8 +738,12 @@ int dgaf_json_parse_array(struct dgaf_json_state *it,int lst_idx)
 
 	while(1)
 	{
+		dgaf_json_parse_skip_white(it);
+		if( it->data[it->parse_idx]==']' ) { it->parse_idx++; return lst_idx; } // found closer
+
 		val_idx=dgaf_json_parse_value(it);
-		dgaf_json_parse_skip_white_punct(it,",;"); // optional , seperators
+		if(!val_idx) { return 0; } // no value
+		dgaf_json_parse_skip_white_punct(it,",;"); // optional , separators
 
 		if( lst->v.a.len==0) // first
 		{
@@ -727,9 +757,6 @@ int dgaf_json_parse_array(struct dgaf_json_state *it,int lst_idx)
 			lst->v.a.len++;
 			val=dgaf_json_get(it,val_idx);
 		}
-
-
-		if(1==dgaf_json_parse_skip_white_punct(it,"]")) { break; } // closer
 	}
 	
 	return lst_idx;
@@ -739,11 +766,13 @@ int dgaf_json_parse_value(struct dgaf_json_state *it)
 {
 	int idx;
 	struct dgaf_json_value *nxt;
+	
+	if(!dgaf_json_check_stack(it)){ return 0; }
 
 	dgaf_json_parse_skip_white(it);
 
 // check for special strings lowercase only
-	if( dgaf_json_parse_peek_string(it,"true" ) || dgaf_json_parse_peek_string(it,"True" ) || dgaf_json_parse_peek_string(it,"TRUE" ) )
+	if( dgaf_json_parse_peek_string(it,"true" ) )
 	{
 		idx=dgaf_json_alloc(it);
 		nxt=dgaf_json_get(it,idx);
@@ -754,7 +783,7 @@ int dgaf_json_parse_value(struct dgaf_json_state *it)
 		return idx;
 	}
 	else
-	if( dgaf_json_parse_peek_string(it,"false" ) || dgaf_json_parse_peek_string(it,"False" ) || dgaf_json_parse_peek_string(it,"FALSE" ) )
+	if( dgaf_json_parse_peek_string(it,"false" ) )
 	{
 		idx=dgaf_json_alloc(it);
 		nxt=dgaf_json_get(it,idx);
@@ -765,7 +794,7 @@ int dgaf_json_parse_value(struct dgaf_json_state *it)
 		return idx;
 	}
 	else
-	if( dgaf_json_parse_peek_string(it,"null" ) || dgaf_json_parse_peek_string(it,"Null" ) || dgaf_json_parse_peek_string(it,"NULL" ) )
+	if( dgaf_json_parse_peek_string(it,"null" ) )
 	{
 		idx=dgaf_json_alloc(it);
 		nxt=dgaf_json_get(it,idx);
@@ -774,6 +803,10 @@ int dgaf_json_parse_value(struct dgaf_json_state *it)
 		it->parse_idx+=4;
 		return idx;
 	}
+// amd a quick check for closers before we allocate anything
+	if( it->data[it->parse_idx]=='}' ) { it->parse_idx++; return 0; }
+	else
+	if( it->data[it->parse_idx]==']' ) { it->parse_idx++; return 0; }
 
 	idx=dgaf_json_parse_step(it);
 	nxt=dgaf_json_get(it,idx);
@@ -789,7 +822,7 @@ int dgaf_json_parse_value(struct dgaf_json_state *it)
 			return dgaf_json_parse_array(it,idx);
 		break;
 		case '\'' :
-			return dgaf_json_parse_string(it,idx,"`");
+			return dgaf_json_parse_string(it,idx,"'");
 		break;
 		case '"' :
 			return dgaf_json_parse_string(it,idx,"\"");
@@ -816,8 +849,25 @@ int dgaf_json_parse_value(struct dgaf_json_state *it)
 }
 
 
+// allocate a new value and return its index, 0 on error
+int dgaf_json_check_stack(struct dgaf_json_state *it)
+{
+	int stack=0xdeadbeef;
+	if(it->parse_stack) // check stack flag
+	{
+		int stacksize = it->parse_stack - ((char*)&stack); // oh yeah stack grows backwards
+		if ( stacksize > (1024*1024) ) // 256k stack burper, give up if we use too much
+		{
+			printf("Stack overflow %d\n",stacksize);
+			return 0;
+		}
+	}
+	return 1;
+}
 int dgaf_json_parse(struct dgaf_json_state *it)
 {
+	int stack=0xdeadbeef;
+	it->parse_stack=(char*)&stack;
 	it->parse_idx=0;
 	it->parse_char=0;
 	it->parse_line=0;
@@ -836,9 +886,12 @@ int dgaf_json_parse(struct dgaf_json_state *it)
 			nxt->next=idx;
 		}
 		nxt=dgaf_json_get(it,idx);
-		if(nxt==0){return 0;}
+		if(nxt==0){	goto error; }
 	}
 	dgaf_json_shrink(it);
+	return it->parse_first;
+error:
+	it->parse_stack=0;
 	return it->parse_first;
 }
 
