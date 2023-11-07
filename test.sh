@@ -2,7 +2,7 @@
 cd `dirname $0`
 cd test
 
-echo " Converting all input json "
+echo " Converting all input json ( note this file is forced 7bit ascii clean so not exact output )"
 
 echo "" >output.json
 for fname in `find json -name "*.json" -type f -exec echo {} \;` ; do
