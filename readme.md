@@ -9,7 +9,7 @@ square wheels.
 There are some "close" projects but JSON5 still bitches about too many 
 things and HJSON has some white space counting style long strings and 
 doesn't take the opportunity to fix any of the problems you hit using 
-JSON for non text data.
+JSON for non text data or question the text encoding of the JSON file.
 
 In some ways this can be considered a luafication of json so the first 
 rule is.

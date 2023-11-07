@@ -1,6 +1,6 @@
 
 
-enum djon_enum
+typedef enum djon_enum
 {
 	NONE,
 	NUMBER,
@@ -8,61 +8,22 @@ enum djon_enum
 	STRING,
 	ARRAY,
 	OBJECT,
-};
+} djon_enum ;
 
-
-struct djon_none
+typedef struct djon_value
 {
-	int _;
-};
+	int       nxt; // idx to next value if this is an object key/value or array
+	char    * str; // start of string ( offset into the input json string )
+	int       len; // number of characters
 
-struct djon_number
-{
-	double num;
-};
+	djon_enum typ; // the type of data contained in the string
+	double    num; // number or bool value
+	int       nam; // linked list of names for object
+	int       val; // linked list of values for object or array
 
-struct djon_bool
-{
-	int num;
-};
+} djon_value ;
 
-struct djon_string
-{
-	char *ptr;
-	int   len;
-};
-
-struct djon_array
-{
-	int val;
-	int len;
-};
-
-struct djon_object
-{
-	int nam;
-	int val;
-	int len;
-};
-
-union djon_union
-{
-	struct djon_none   _;
-	struct djon_number n;
-	struct djon_bool   b;
-	struct djon_string s;
-	struct djon_array  a;
-	struct djon_object o;
-};
-
-struct djon_value
-{
-	int next; // idx to next value if this is an object key/value or array
-	enum  djon_enum  t;
-	union djon_union v;
-};
-
-struct djon_state
+typedef struct djon_state
 {
 	// input data string
 	char *data;
@@ -82,7 +43,7 @@ struct djon_state
 	
 	FILE *fp; // where to print output
 
-};
+} djon_state ;
 
 extern struct djon_state * djon_setup();
 extern struct djon_value * djon_get(struct djon_state *it,int idx);
@@ -263,10 +224,14 @@ int djon_alloc(struct djon_state *it)
 		it->values=v; // might change pointer
 	}
 	v=djon_get(it,it->values_len);
-	v->next=0;
-	v->t=NONE;
-	v->v._._=0;
-	
+	v->nxt=0;
+	v->str=0;
+	v->len=0;
+	v->typ=NONE;
+	v->num=0.0;
+	v->nam=0.0;
+	v->val=0.0;
+		
 	return it->values_len++;
 }
 
@@ -304,7 +269,7 @@ void djon_print(struct djon_state *it,int idx,int indent)
 	int val_idx;
 	if(nxt)
 	{
-		if(nxt->t==ARRAY)
+		if(nxt->typ==ARRAY)
 		{
 //			if(indent<0)
 //			{
@@ -313,17 +278,17 @@ void djon_print(struct djon_state *it,int idx,int indent)
 //			}
 			indent=djon_print_indent(indent);
 			fprintf(it->fp,"[\n");
-			val_idx=nxt->v.a.val; val=djon_get(it,val_idx);
+			val_idx=nxt->val; val=djon_get(it,val_idx);
 			while(val)
 			{
 				djon_print(it,val_idx,indent+1);
-				val_idx=val->next; val=djon_get(it,val_idx);
+				val_idx=val->nxt; val=djon_get(it,val_idx);
 			}
 			indent=djon_print_indent(indent);
 			fprintf(it->fp,"]\n");
 		}
 		else
-		if(nxt->t==OBJECT)
+		if(nxt->typ==OBJECT)
 		{
 //			if(indent<0)
 //			{
@@ -332,40 +297,40 @@ void djon_print(struct djon_state *it,int idx,int indent)
 //			}
 			indent=djon_print_indent(indent);
 			fprintf(it->fp,"{\n");
-			nam_idx=nxt->v.o.nam; nam=djon_get(it,nam_idx);
-			val_idx=nxt->v.o.val; val=djon_get(it,val_idx);
+			nam_idx=nxt->nam; nam=djon_get(it,nam_idx);
+			val_idx=nxt->val; val=djon_get(it,val_idx);
 			while(nam&&val)
 			{
 				indent=djon_print_indent(indent+1)-1;
-				fprintf(it->fp,"%.*s = ",nam->v.s.len,nam->v.s.ptr);
+				fprintf(it->fp,"%.*s = ",nam->len,nam->str);
 				djon_print(it,val_idx,-(indent+1));
-				nam_idx=nam->next; nam=djon_get(it,nam_idx);
-				val_idx=val->next; val=djon_get(it,val_idx);
+				nam_idx=nam->nxt; nam=djon_get(it,nam_idx);
+				val_idx=val->nxt; val=djon_get(it,val_idx);
 			}
 			indent=djon_print_indent(indent);
 			fprintf(it->fp,"}\n");
 		}
 		else
-		if(nxt->t==STRING)
+		if(nxt->typ==STRING)
 		{
 			indent=djon_print_indent(indent);
-			fwrite(nxt->v.s.ptr, 1, nxt->v.s.len, it->fp);
+			fwrite(nxt->str, 1, nxt->len, it->fp);
 			fwrite("\n", 1, 1, it->fp);
 		}
 		else
-		if(nxt->t==NUMBER)
+		if(nxt->typ==NUMBER)
 		{
 			indent=djon_print_indent(indent);
-			fprintf(it->fp,"%g\n",nxt->v.n.num);
+			fprintf(it->fp,"%g\n",nxt->num);
 		}
 		else
-		if(nxt->t==BOOL)
+		if(nxt->typ==BOOL)
 		{
 			indent=djon_print_indent(indent);
-			fprintf(it->fp,"%s\n",nxt->v.b.num?"TRUE":"FALSE");
+			fprintf(it->fp,"%s\n",nxt->num?"TRUE":"FALSE");
 		}
 		else
-		if(nxt->t==NONE)
+		if(nxt->typ==NONE)
 		{
 			indent=djon_print_indent(indent);
 			fprintf(it->fp,"%s\n","NULL");
@@ -595,9 +560,9 @@ int djon_parse_step(struct djon_state *it)
 	idx=djon_alloc(it);
 	nxt=djon_get(it,idx);
 	if(nxt==0) { return 0; }
-	nxt->t=STRING;
-	nxt->v.s.ptr=it->data+it->parse_idx;
-	nxt->v.s.len=1;
+	nxt->typ=STRING;
+	nxt->str=it->data+it->parse_idx;
+	nxt->len=1;
 	it->parse_idx++;
 	return idx;
 }
@@ -612,7 +577,7 @@ int djon_parse_string(struct djon_state *it,int lst_idx,char *term)
 
 	while( it->parse_idx < it->data_len ) // while data
 	{
-		lst->v.s.len++; // grow string
+		lst->len++; // grow string
 		c=it->data[ it->parse_idx++ ]; // get next char
 
 		for( cp=term ; *cp ; cp++ )
@@ -637,7 +602,7 @@ int djon_parse_number(struct djon_state *it,int lst_idx)
 {
 	struct djon_value *lst=djon_get(it,lst_idx);
 
-	char *cps=lst->v.s.ptr;
+	char *cps=lst->str;
 	char *cpe;
 
 //	double d=strtod(cps,&cpe);
@@ -645,10 +610,10 @@ int djon_parse_number(struct djon_state *it,int lst_idx)
 	int len=cpe-cps;
 	if( len > 0 )
 	{
-		it->parse_idx+=len-lst->v.s.len;
+		it->parse_idx+=len-lst->len;
 
-		lst->t=NUMBER;
-		lst->v.n.num=d;
+		lst->typ=NUMBER;
+		lst->num=d;
 		
 		return lst_idx;
 	}
@@ -671,7 +636,7 @@ int djon_parse_name(struct djon_state *it)
 		if( djon_parse_peek_white(it) ) { return lst_idx; } // stop at whitespace
 		if( djon_parse_peek_punct(it,"=:") ) { return lst_idx; } // stop at punct
 
-		lst->v.s.len++; // grow string
+		lst->len++; // grow string
 		c=it->data[ it->parse_idx++ ]; // get next char
 		if(c=='"') { return lst_idx; } // end on closing quote
 	}
@@ -685,10 +650,7 @@ int djon_parse_object(struct djon_state *it,int lst_idx)
 	struct djon_value *nam;
 	struct djon_value *val;
 
-	lst->t=OBJECT;
-	lst->v.o.nam=0;
-	lst->v.o.val=0;
-	lst->v.o.len=0;
+	lst->typ=OBJECT;
 
 	int nam_idx;
 	int val_idx;
@@ -704,19 +666,17 @@ int djon_parse_object(struct djon_state *it,int lst_idx)
 		val_idx=djon_parse_value(it); if(!val_idx){return 0;}
 		djon_parse_skip_white_punct(it,",;"); // optional , seperators
 
-		if( lst->v.o.len==0) // first
+		if( lst->nam==0) // first
 		{
-			lst->v.o.nam=nam_idx;
-			lst->v.o.val=val_idx;
-			lst->v.o.len++;
+			lst->nam=nam_idx;
+			lst->val=val_idx;
 			nam=djon_get(it,nam_idx);
 			val=djon_get(it,val_idx);
 		}
 		else // chain
 		{
-			nam->next=nam_idx;
-			val->next=val_idx;
-			lst->v.o.len++;
+			nam->nxt=nam_idx;
+			val->nxt=val_idx;
 			nam=djon_get(it,nam_idx);
 			val=djon_get(it,val_idx);
 		}
@@ -730,9 +690,7 @@ int djon_parse_array(struct djon_state *it,int lst_idx)
 	struct djon_value *lst=djon_get(it,lst_idx);
 	struct djon_value *val;
 
-	lst->t=ARRAY;
-	lst->v.o.val=0;
-	lst->v.o.len=0;
+	lst->typ=ARRAY;
 
 	int val_idx;
 
@@ -745,16 +703,14 @@ int djon_parse_array(struct djon_state *it,int lst_idx)
 		if(!val_idx) { return 0; } // no value
 		djon_parse_skip_white_punct(it,",;"); // optional , separators
 
-		if( lst->v.a.len==0) // first
+		if( lst->val==0) // first
 		{
-			lst->v.a.val=val_idx;
-			lst->v.a.len++;
+			lst->val=val_idx;
 			val=djon_get(it,val_idx);
 		}
 		else // chain
 		{
-			val->next=val_idx;
-			lst->v.a.len++;
+			val->nxt=val_idx;
 			val=djon_get(it,val_idx);
 		}
 	}
@@ -777,8 +733,8 @@ int djon_parse_value(struct djon_state *it)
 		idx=djon_alloc(it);
 		nxt=djon_get(it,idx);
 		if(nxt==0) { return 0; }
-		nxt->t=BOOL;
-		nxt->v.b.num=1;
+		nxt->typ=BOOL;
+		nxt->num=1.0;
 		it->parse_idx+=4;
 		return idx;
 	}
@@ -788,8 +744,8 @@ int djon_parse_value(struct djon_state *it)
 		idx=djon_alloc(it);
 		nxt=djon_get(it,idx);
 		if(nxt==0) { return 0; }
-		nxt->t=BOOL;
-		nxt->v.b.num=0;
+		nxt->typ=BOOL;
+		nxt->num=0.0;
 		it->parse_idx+=5;
 		return idx;
 	}
@@ -799,7 +755,7 @@ int djon_parse_value(struct djon_state *it)
 		idx=djon_alloc(it);
 		nxt=djon_get(it,idx);
 		if(nxt==0) { return 0; }
-		nxt->t=NONE;
+		nxt->typ=NONE;
 		it->parse_idx+=4;
 		return idx;
 	}
@@ -811,7 +767,7 @@ int djon_parse_value(struct djon_state *it)
 	idx=djon_parse_step(it);
 	nxt=djon_get(it,idx);
 	if(nxt==0){return 0;}
-	char c=*(nxt->v.s.ptr);
+	char c=*(nxt->str);
 
 	switch( c )
 	{
@@ -883,7 +839,7 @@ int djon_parse(struct djon_state *it)
 		else
 		if(nxt) // multiple values are linked as an array
 		{
-			nxt->next=idx;
+			nxt->nxt=idx;
 		}
 		nxt=djon_get(it,idx);
 		if(nxt==0){	goto error; }
