@@ -11,11 +11,11 @@ for fname in `find json -name "*.json" -type f -exec echo {} \;` ; do
 	
 	echo "" >>output.json
 	echo "#$fname" >>output.json
-	cat "$fname" >>output.json
+	{ cat "$fname" | iconv -c -t=utf8 ; } &>>output.json
 
 	echo "" >>output.json
 	echo "#c" >>output.json
-	{ ../c/djon "${fname}"; } &>>output.json
+	{ ../c/djon "${fname}" | iconv -c -t=utf8 ; } &>>output.json
 
 done
 

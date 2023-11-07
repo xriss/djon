@@ -1,4 +1,10 @@
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+#ifndef DJON_H
+#define DJON_H
 
 typedef enum djon_enum
 {
@@ -91,15 +97,15 @@ double djon_str_to_double(char *cps,char **endptr)
 	double m=1.0;
 	if( *cp=='.' ) // a decimal point
 	{
-		gotdata=0; // reset
+//		gotdata=0; // reset
 		cp++;
 		for( c=*cp ; (c>='0') && (c<='9') ; c=*++cp )// and 0 or more integer parts
 		{
 			m=m*0.1;
 			d+=((c-'0')*m);
-			gotdata++;
+//			gotdata++;
 		}
-		if(gotdata==0){goto error;} // require some numbers
+//		if(gotdata==0){goto error;} // require some numbers
 	}
 
 	if(gotdata==0){goto error;} // require some numbers before or after decimal point
@@ -126,16 +132,13 @@ double djon_str_to_double(char *cps,char **endptr)
 		}
 		d*=pow(10.0,e*esign); // apply exponent
 
-		if(gotdata==0){goto error;} // require some numbers
+		if(gotdata==0){goto error;} // require some numbers after the e
 	}
 	
 	d*=sign; // apply sign
 
-	if(gotdata) // did we parse some data?
-	{
-		if(endptr){*endptr=cp;} // we used this many chars
-		return d; // and parsed this number
-	}
+	if(endptr){*endptr=cp;} // we used this many chars
+	return d; // and parsed this number
 
 error:
 	if(endptr){*endptr=cps;} // 0 chars used
@@ -855,6 +858,8 @@ error:
 	it->parse_stack=0;
 	return it->parse_first;
 }
+
+#endif
 
 #endif
 

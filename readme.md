@@ -6,13 +6,17 @@ I honestly can not believe that I have to write this library, it feels
 like reinventing the wheel but apparently I live in a world full of 
 square wheels.
 
-There are some "close" projects but JSON5 still bitches about too many 
-things and HJSON has some white space counting style long strings and 
-doesn't take the opportunity to fix any of the problems you hit using 
-JSON for non text data or question the text encoding of the JSON file.
+There are some close projects but JSON5 still bitches about too many 
+things and HJSON has some white space counting style long strings, 
+relaxedjson is close but it considers any whitespace to be the end of a 
+unquoted string which makes unquoted strings mostly useless.
 
-In some ways this can be considered a luafication of json so the first 
-rule is.
+Finally all of these alternative JSON flavours consider the text 
+encoding of the JSON file someone else's problem. This makes including 
+non text data in such files an escaping nightmare.
+
+In some ways DJON can be considered a "luafication" of JSON so the 
+first rule is.
 
 This project will parse valid UTF8 JSON and only UTF8 encoding. We will 
 not care about every UTF8 character being valid (because we DGAF) and 
@@ -23,8 +27,9 @@ is encoded. Demanding UTF8 removes many possible encoding issues even
 if it does make it a little bit harder to support in javascript with 
 its internal UTF16 strings.
 
-This project will parse lax JSON so that is easier to edit by hand, 
-some invalid JSON will happily parse without complaint.
+This encoding rule is why DJON is not just JSON, it not only excludes 
+some valid JSON data but opens the possibility to include binary data 
+within the file. 
 
 This project will contain code written in C and Lua and Javascript that 
 will do the parsing reasonably fast.
@@ -52,17 +57,11 @@ we DGAF.
 
 ---
 
-So pretty much JSON5? or HJSON yup? Almost.
-
-JSON5 is the closest to what I want so far but it still bitches about 
-so many things that I do not consider it humane and it does not handle 
-strings as well as I would like.
+Some notes that will be moved and rewritten,
 
 Mostly I want to allow multi line quoted strings with any quote so "'` 
 or single line quote-less naked strings and not require , as a 
 separator everywhere.
-
-This fixes most things.
 
 However since we are adding backtick strings here we can also make them 
 special and *allow nulls* and not provide \ escape processing within 
@@ -75,38 +74,67 @@ In order to deal with the need for a possible backtick inside these
 strings a double "``" can be used to open and subsequently close them 
 with any number of other quotes inside them eg some examples:
 
-	`this is the string`
-	``this is the string``
-	`"`this is the string`"`
-	`'"`this is the string`'"`
-	`'"'`this is the string`'"'`
+	`this is a string`
+	``this is a string``
+	`"`this is a string`"`
+	`'"`this is a string`'"`
+	`'"'`this is a string`'"'`
 
-this gives us reasonable range to pick a quote style that will not be 
-found inside the string and treat everything inside as data, even \0 
-values. Remember we will not deal with back slashes as escapes inside 
-these strings.
+this gives us range to pick a quote style that will not be found inside 
+the string and treat everything inside as data, even \0 values. 
+Remember we will not deal with back slashes as escapes inside these 
+strings and that \r\n will remain \r\n.
 
 Here we are copying lua style long strings but using quote characters 
 rather than the sometimes confusing double square bracket which can 
 naturally occur with nested arrays.
 
-Finally allow = as a synonym for : as they are both used in javascript 
-and I often forget I am in an object definition and type the wrong one. 
-An assignment operator must be present as it stops object definitions 
-getting out of sync between the names and the values. Hence we must 
-require one.
+true, false and null keywords will ignore case.
 
-A simple way to think of this is to take json and only 
-require ` {} [] : ` operators and dont bitch about the presence or lack of 
-commas.
+Allow = as a synonym for : as they are both used in javascript and I 
+often use the wrong one. An assignment operator must be present as it 
+stops object definitions getting out of sync between the keys and 
+values. This makes reading unquoted keys much easier as well.  Relaxed 
+json echoes this reasoning here 
+http://www.relaxedjson.org/musings/other-considerations
 
 Allow a bit more flexibility in the numbers, so hex and + signs and not 
-complaining about 1.e2 not containing numbers after or before the 
-decimal point.
+complaining about 1.e2 .1e2 missing numbers after or before the decimal 
+point.
+
+Including inf or nan is not a good idea, it adds more reserved words 
+instead we just use null for nan and a huge number for inf. I think 
+9e999 is a good choice for Inf and -9e999 for -Inf, being the bigest 
+number you can write in the shortest string that will not fit in a 
+double and become Inf. JSON does not specify what information can be 
+stored in a number although double is implied, DJON explicitly demands 
+that numbers are 64bit IEEE floats and must be parsed within these 
+limits. This means we can get away with 9e999 parsing as Inf, without 
+it being a special case.
+
+If you want to complain that null is not a number they oh boy is your 
+head going to explode when you find out what a Nan is.
 
 Then we add some special processing of for `` strings and finally a 
 mostly safe way of dropping quotes entirely and using \n as the end of 
-such strings.
+unquoted strings.
+
+Unquoted strings is the most icky and also most demanded by humans. I 
+plan to rewind time when I get an error and try parsing again assuming 
+we are dealing with an unquoted string. This is slightly crazy but 
+should work most of the time, allowing us to guess correctly with 
+unquoted string provided thay are not also valid json.
+
+so
+
+	true
+
+Is a boolean but
+
+	true.
+
+Is a string, since the . at then end is invalid json it triggers string 
+parsing.
 
 Will formalize this all later once I have a C reference lib up and 
 running...
