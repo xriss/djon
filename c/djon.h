@@ -67,7 +67,10 @@ int djon_check_stack(struct djon_state *it);
 #define DJON_IS_PUNCT(c) ( ( ((c)>='!') && ((c)<='/') ) || ( ((c)>=':') && ((c)<='@') ) || ( ((c)>='[') && ((c)<='`') ) || ( ((c)>='{') && ((c)<='~') ) )
 
 
-#ifdef DJON_CODE
+#endif
+
+
+#ifdef DJON_C
 
 // locales are a cursed so we need our own basic functions ?
 // strtod replacement ?
@@ -234,8 +237,8 @@ int djon_alloc(struct djon_state *it)
 	v->len=0;
 	v->typ=NONE;
 	v->num=0.0;
-	v->nam=0.0;
-	v->val=0.0;
+	v->nam=0;
+	v->val=0;
 		
 	return it->values_len++;
 }
@@ -411,7 +414,7 @@ error:
 }
 
 // peek for whitespace or comments
-int djon_parse_peek_white(struct djon_state *it)
+int djon_peek_white(struct djon_state *it)
 {
 	char c1=it->data[ it->parse_idx ];
 	char c2=it->data[ it->parse_idx+1 ];
@@ -436,7 +439,7 @@ int djon_parse_peek_white(struct djon_state *it)
 }
 
 // peek for punct
-int djon_parse_peek_punct(struct djon_state *it,char *punct)
+int djon_peek_punct(struct djon_state *it,char *punct)
 {
 	char c=it->data[ it->parse_idx ];
 	char *cp;
@@ -451,7 +454,7 @@ int djon_parse_peek_punct(struct djon_state *it,char *punct)
 }
 
 // peek for a lowercase string eg, true false null
-int djon_parse_peek_string(struct djon_state *it,char *s)
+int djon_peek_string(struct djon_state *it,char *s)
 {
 	char *sp;
 	char *dp;
@@ -474,7 +477,7 @@ int djon_parse_peek_string(struct djon_state *it,char *s)
 }
 
 // skip whitespace and comments
-void djon_parse_skip_white(struct djon_state *it)
+void djon_skip_white(struct djon_state *it)
 {
 	while( it->parse_idx < it->data_len )
 	{
@@ -529,9 +532,9 @@ void djon_parse_skip_white(struct djon_state *it)
 }
 
 // skip a patch of these punct chars sandwiched by white space , counting how many punct chars we found.
-int djon_parse_skip_white_punct(struct djon_state *it,char *punct)
+int djon_skip_white_punct(struct djon_state *it,char *punct)
 {
-	djon_parse_skip_white(it);
+	djon_skip_white(it);
 
 	char *cp;
 	int ret=0;
@@ -549,7 +552,7 @@ int djon_parse_skip_white_punct(struct djon_state *it,char *punct)
 		}
 	}
 	
-	djon_parse_skip_white(it);
+	djon_skip_white(it);
 
 	return ret;
 }
@@ -627,7 +630,7 @@ int djon_parse_number(struct djon_state *it,int lst_idx)
 
 int djon_parse_name(struct djon_state *it)
 {
-	djon_parse_skip_white(it);
+	djon_skip_white(it);
 
 	int lst_idx=djon_parse_step(it);
 	struct djon_value *lst=djon_get(it,lst_idx);
@@ -638,8 +641,8 @@ int djon_parse_name(struct djon_state *it)
 
 	while( it->parse_idx < it->data_len ) // while data
 	{
-		if( djon_parse_peek_white(it) ) { return lst_idx; } // stop at whitespace
-		if( djon_parse_peek_punct(it,"=:") ) { return lst_idx; } // stop at punct
+		if( djon_peek_white(it) ) { return lst_idx; } // stop at whitespace
+		if( djon_peek_punct(it,"=:") ) { return lst_idx; } // stop at punct
 
 		lst->len++; // grow string
 		c=it->data[ it->parse_idx++ ]; // get next char
@@ -662,14 +665,14 @@ int djon_parse_object(struct djon_state *it,int lst_idx)
 
 	while(1)
 	{
-		djon_parse_skip_white(it);
+		djon_skip_white(it);
 		if( it->data[it->parse_idx]=='}' ) { it->parse_idx++;  return lst_idx; } // found closer
 
 		nam_idx=djon_parse_name(it);
 		if(!nam_idx) { return 0; } // no value
-		if( djon_parse_skip_white_punct(it,"=:") != 1 ) { return 0; } // required assignment
+		if( djon_skip_white_punct(it,"=:") != 1 ) { return 0; } // required assignment
 		val_idx=djon_parse_value(it); if(!val_idx){return 0;}
-		djon_parse_skip_white_punct(it,",;"); // optional , seperators
+		djon_skip_white_punct(it,",;"); // optional , seperators
 
 		if( lst->nam==0) // first
 		{
@@ -701,12 +704,12 @@ int djon_parse_array(struct djon_state *it,int lst_idx)
 
 	while(1)
 	{
-		djon_parse_skip_white(it);
+		djon_skip_white(it);
 		if( it->data[it->parse_idx]==']' ) { it->parse_idx++; return lst_idx; } // found closer
 
 		val_idx=djon_parse_value(it);
 		if(!val_idx) { return 0; } // no value
-		djon_parse_skip_white_punct(it,",;"); // optional , separators
+		djon_skip_white_punct(it,",;"); // optional , separators
 
 		if( lst->val==0) // first
 		{
@@ -730,10 +733,10 @@ int djon_parse_value(struct djon_state *it)
 	
 	if(!djon_check_stack(it)){ return 0; }
 
-	djon_parse_skip_white(it);
+	djon_skip_white(it);
 
 // check for special strings lowercase only
-	if( djon_parse_peek_string(it,"true" ) )
+	if( djon_peek_string(it,"true" ) )
 	{
 		idx=djon_alloc(it);
 		nxt=djon_get(it,idx);
@@ -744,7 +747,7 @@ int djon_parse_value(struct djon_state *it)
 		return idx;
 	}
 	else
-	if( djon_parse_peek_string(it,"false" ) )
+	if( djon_peek_string(it,"false" ) )
 	{
 		idx=djon_alloc(it);
 		nxt=djon_get(it,idx);
@@ -755,7 +758,7 @@ int djon_parse_value(struct djon_state *it)
 		return idx;
 	}
 	else
-	if( djon_parse_peek_string(it,"null" ) )
+	if( djon_peek_string(it,"null" ) )
 	{
 		idx=djon_alloc(it);
 		nxt=djon_get(it,idx);
@@ -858,8 +861,6 @@ error:
 	it->parse_stack=0;
 	return it->parse_first;
 }
-
-#endif
 
 #endif
 

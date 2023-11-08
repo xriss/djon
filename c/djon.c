@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-#define DJON_CODE 1
+#define DJON_C 1
 #include "djon.h"
 
 
