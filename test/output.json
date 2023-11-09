@@ -150,6 +150,10 @@
 #json/bad/n_number_0.1.2.json
 [0.1.2]
 #c
+[
+ 0.1
+ 0.2
+]
 
 #json/bad/n_number_-01.json
 [-01]
@@ -252,6 +256,9 @@
 #json/bad/n_number_.2e-3.json
 [.2e-3]
 #c
+[
+ 0.0002
+]
 
 #json/bad/n_number_-2..json
 [-2.]
@@ -347,6 +354,9 @@
 #json/bad/n_number_neg_real_without_int_part.json
 [-.123]
 #c
+[
+ -0.123
+]
 
 #json/bad/n_number_neg_with_garbage_at_end.json
 [-1x]
@@ -370,6 +380,9 @@
 #json/bad/n_number_starting_with_dot.json
 [.123]
 #c
+[
+ 0.123
+]
 
 #json/bad/n_number_U+FF11_fullwidth_digit_one.json
 []

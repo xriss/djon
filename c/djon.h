@@ -36,34 +36,34 @@ typedef struct djon_state
 	int   data_len;
 
 	// output values
-	struct djon_value * values;
-	int values_len;
-	int values_siz;
+	djon_value * values;
+	int          values_len; // used buffer size
+	int          values_siz; // allocated buffer size
 
 	// current parse state
-	int parse_idx;
-	int parse_first; // first output value
-	char *parse_stack; // HAXTBH remember starting stack so we can play chicken
+	int   parse_idx;
+	int   parse_first; // first output value
+	char *parse_stack; // starting stack so we can play chicken overflow
 
 	char *error_string; // if this is not 0 we have an error
-	int error_char;
-	int error_line;
+	int   error_char;
+	int   error_line;
 	
 	FILE *fp; // where to print output
 
-	char      buf[256];
+	char buf[256]; // small buffer used for generating text output
 	
 } djon_state ;
 
-extern struct djon_state * djon_setup();
-extern struct djon_value * djon_get(struct djon_state *it,int idx);
-extern int djon_load_file(struct djon_state *it,char *fname);
-extern int djon_parse(struct djon_state *it);
+extern djon_state * djon_setup();
+extern djon_value * djon_get(djon_state *it,int idx);
+extern int djon_load_file(djon_state *it,char *fname);
+extern int djon_parse(djon_state *it);
 
-int djon_alloc(struct djon_state *it);
-int djon_free(struct djon_state *it,int idx);
-int djon_parse_value(struct djon_state *it);
-int djon_check_stack(struct djon_state *it);
+int djon_alloc(djon_state *it);
+int djon_free(djon_state *it,int idx);
+int djon_parse_value(djon_state *it);
+int djon_check_stack(djon_state *it);
 
 #define DJON_IS_WHITE(c) ( ((c)==' ') || ((c)=='\t') || ((c)=='\n') || ((c)=='\r') || ((c)=='\v') || ((c)=='\f') )
 #define DJON_IS_PUNCT(c) ( ( ((c)>='!') && ((c)<='/') ) || ( ((c)>=':') && ((c)<='@') ) || ( ((c)>='[') && ((c)<='`') ) || ( ((c)>='{') && ((c)<='~') ) )
@@ -102,15 +102,13 @@ double djon_str_to_double(char *cps,char **endptr)
 	double m=1.0;
 	if( *cp=='.' ) // a decimal point
 	{
-//		gotdata=0; // reset
 		cp++;
 		for( c=*cp ; (c>='0') && (c<='9') ; c=*++cp )// and 0 or more integer parts
 		{
 			m=m*0.1;
 			d+=((c-'0')*m);
-//			gotdata++;
+			gotdata++;
 		}
-//		if(gotdata==0){goto error;} // require some numbers
 	}
 
 	if(gotdata==0){goto error;} // require some numbers before or after decimal point
@@ -151,14 +149,15 @@ error:
 }
 
 // write into buf, return length of string, maximum 32 including null
-int djon_double_to_str(double num,char buf[32] )
+int djon_double_to_str( double num , char * buf )
 {
 // maximum precision of digits ( dependent on doubles precision )
 #define DJON_DIGIT_PRECISION 15
 // amount of zeros to include before/after decimal point before we switch to e numbers
 #define DJON_DIGIT_ZEROS 8
-// these two nunmbers +5 is the maximum we write to in buf, so be careful
-// The posssible extra non number chars are : - . e - /0
+// these two numbers +9 is the maximum we write to in buf, so be careful
+#define DJON_DIGIT_LEN (9+DJON_DIGIT_ZEROS+DJON_DIGIT_PRECISION)
+// The possible extra non number chars are - . e-123 - /0
 
 	char *cp=buf;
 
@@ -299,11 +298,11 @@ double djon_str_to_number(char *cp,char **endptr)
 }
 
 // allocate a new parsing state
-struct djon_state * djon_setup()
+djon_state * djon_setup()
 {
-	struct djon_state *it;
+	djon_state *it;
 	
-	it=(struct djon_state *)malloc( sizeof(struct djon_state) );
+	it=(djon_state *)malloc( sizeof(djon_state) );
 	if(!it) { return 0; }
 	
 	it->data=0;
@@ -312,13 +311,13 @@ struct djon_state * djon_setup()
 
 	it->values_len=1; // first value is used as a null so start at 1
 	it->values_siz=16384;
-	it->values=(struct djon_value *)malloc( it->values_siz * sizeof(struct djon_value) );
+	it->values=(djon_value *)malloc( it->values_siz * sizeof(djon_value) );
 	if(!it->values) { free(it); return 0; }
 
 	return it;
 }
 // free a new parsing state
-void djon_clean(struct djon_state *it)
+void djon_clean(djon_state *it)
 {
 	if(!it) { return; }
 	if(it->data) { free(it->data); }
@@ -326,7 +325,7 @@ void djon_clean(struct djon_state *it)
 }
 
 // get a value by index
-struct djon_value * djon_get(struct djon_state *it,int idx)
+djon_value * djon_get(djon_state *it,int idx)
 {
 	if( idx <= 0 )              { return 0; }
 	if( idx >= it->values_siz ) { return 0; }
@@ -334,21 +333,21 @@ struct djon_value * djon_get(struct djon_state *it,int idx)
 }
 
 // unallocate unused values at the end of a parse
-void djon_shrink(struct djon_state *it)
+void djon_shrink(djon_state *it)
 {
-	struct djon_value * v;
-	v=(struct djon_value *)realloc( (void*)it->values , (it->values_len) * sizeof(struct djon_value) );
+	djon_value * v;
+	v=(djon_value *)realloc( (void*)it->values , (it->values_len) * sizeof(djon_value) );
 	if(!v) { return; } //  fail but we can ignore
 	it->values_siz=it->values_len;
 }
 
 // allocate a new value and return its index, 0 on error
-int djon_alloc(struct djon_state *it)
+int djon_alloc(djon_state *it)
 {	
-	struct djon_value * v;
+	djon_value * v;
 	if( it->values_len+1 >= it->values_siz ) // check for space
 	{
-		v=(struct djon_value *)realloc( (void*)it->values , (it->values_siz+16384) * sizeof(struct djon_value) );
+		v=(djon_value *)realloc( (void*)it->values , (it->values_siz+16384) * sizeof(djon_value) );
 		if(!v) { return 0; }
 		it->values_siz=it->values_siz+16384;
 		it->values=v; // might change pointer
@@ -366,7 +365,7 @@ int djon_alloc(struct djon_state *it)
 }
 
 // we can only free the top most allocated idx, return 0 if not freed
-int djon_free(struct djon_state *it,int idx)
+int djon_free(djon_state *it,int idx)
 {
 	if( idx == (it->values_len-1) )
 	{
@@ -376,7 +375,7 @@ int djon_free(struct djon_state *it,int idx)
 	return 0;
 }
 
-int djon_print_indent(struct djon_state *it,int indent)
+int djon_print_indent(djon_state *it,int indent)
 {
 	if(indent<0) { return -indent; } // skip first indent
 	else
@@ -390,11 +389,11 @@ int djon_print_indent(struct djon_state *it,int indent)
 	return indent;
 }
 // debug print a value
-void djon_print(struct djon_state *it,int idx,int indent)
+void djon_print(djon_state *it,int idx,int indent)
 {
-	struct djon_value *nxt=djon_get(it,idx);
-	struct djon_value *nam;
-	struct djon_value *val;
+	djon_value *nxt=djon_get(it,idx);
+	djon_value *nam;
+	djon_value *val;
 	int nam_idx;
 	int val_idx;
 	int len;
@@ -478,7 +477,7 @@ void djon_print(struct djon_state *it,int idx,int indent)
 }
 
 // load a new file or read from stdin
-int djon_load_file(struct djon_state *it,char *fname)
+int djon_load_file(djon_state *it,char *fname)
 {
 	const int chunk=0x10000; // read this much at once
 
@@ -540,7 +539,7 @@ error:
 }
 
 // peek for whitespace or comments
-int djon_peek_white(struct djon_state *it)
+int djon_peek_white(djon_state *it)
 {
 	char c1=it->data[ it->parse_idx ];
 	char c2=it->data[ it->parse_idx+1 ];
@@ -565,7 +564,7 @@ int djon_peek_white(struct djon_state *it)
 }
 
 // peek for punct
-int djon_peek_punct(struct djon_state *it,char *punct)
+int djon_peek_punct(djon_state *it,char *punct)
 {
 	char c=it->data[ it->parse_idx ];
 	char *cp;
@@ -580,7 +579,7 @@ int djon_peek_punct(struct djon_state *it,char *punct)
 }
 
 // peek for a lowercase string eg, true false null
-int djon_peek_string(struct djon_state *it,char *s)
+int djon_peek_string(djon_state *it,char *s)
 {
 	char *sp;
 	char *dp;
@@ -603,7 +602,7 @@ int djon_peek_string(struct djon_state *it,char *s)
 }
 
 // skip whitespace and comments
-void djon_skip_white(struct djon_state *it)
+void djon_skip_white(djon_state *it)
 {
 	while( it->parse_idx < it->data_len )
 	{
@@ -658,7 +657,7 @@ void djon_skip_white(struct djon_state *it)
 }
 
 // skip a patch of these punct chars sandwiched by white space , counting how many punct chars we found.
-int djon_skip_white_punct(struct djon_state *it,char *punct)
+int djon_skip_white_punct(djon_state *it,char *punct)
 {
 	djon_skip_white(it);
 
@@ -684,11 +683,11 @@ int djon_skip_white_punct(struct djon_state *it,char *punct)
 }
 
 // advance one char allocate a temporary string value and return it
-int djon_parse_step(struct djon_state *it)
+int djon_parse_step(djon_state *it)
 {
 	if( it->parse_idx >= it->data_len ) { return 0; } // EOF
 
-	struct djon_value *nxt;
+	djon_value *nxt;
 	int idx=0;
 
 	idx=djon_alloc(it);
@@ -701,9 +700,9 @@ int djon_parse_step(struct djon_state *it)
 	return idx;
 }
 
-int djon_parse_string(struct djon_state *it,int lst_idx,char *term)
+int djon_parse_string(djon_state *it,int lst_idx,char *term)
 {
-	struct djon_value *lst=djon_get(it,lst_idx);
+	djon_value *lst=djon_get(it,lst_idx);
 	if(lst==0) { return 0; }
 
 	char c;
@@ -727,14 +726,14 @@ int djon_parse_string(struct djon_state *it,int lst_idx,char *term)
 	return lst_idx;
 }
 
-int djon_parse_rawstring(struct djon_state *it,int lst_idx)
+int djon_parse_rawstring(djon_state *it,int lst_idx)
 {
 	return djon_parse_string(it,lst_idx,"`");
 }
 
-int djon_parse_number(struct djon_state *it,int lst_idx)
+int djon_parse_number(djon_state *it,int lst_idx)
 {
-	struct djon_value *lst=djon_get(it,lst_idx);
+	djon_value *lst=djon_get(it,lst_idx);
 
 	char *cps=lst->str;
 	char *cpe;
@@ -754,12 +753,12 @@ int djon_parse_number(struct djon_state *it,int lst_idx)
 	return 0;
 }
 
-int djon_parse_name(struct djon_state *it)
+int djon_parse_name(djon_state *it)
 {
 	djon_skip_white(it);
 
 	int lst_idx=djon_parse_step(it);
-	struct djon_value *lst=djon_get(it,lst_idx);
+	djon_value *lst=djon_get(it,lst_idx);
 	if(lst==0){return 0;} // out of data
 
 	char c;
@@ -778,11 +777,11 @@ int djon_parse_name(struct djon_state *it)
 	return lst_idx;
 }
 
-int djon_parse_object(struct djon_state *it,int lst_idx)
+int djon_parse_object(djon_state *it,int lst_idx)
 {
-	struct djon_value *lst=djon_get(it,lst_idx);
-	struct djon_value *nam;
-	struct djon_value *val;
+	djon_value *lst=djon_get(it,lst_idx);
+	djon_value *nam;
+	djon_value *val;
 
 	lst->typ=OBJECT;
 
@@ -819,10 +818,10 @@ int djon_parse_object(struct djon_state *it,int lst_idx)
 	return lst_idx;
 }
 
-int djon_parse_array(struct djon_state *it,int lst_idx)
+int djon_parse_array(djon_state *it,int lst_idx)
 {
-	struct djon_value *lst=djon_get(it,lst_idx);
-	struct djon_value *val;
+	djon_value *lst=djon_get(it,lst_idx);
+	djon_value *val;
 
 	lst->typ=ARRAY;
 
@@ -852,10 +851,10 @@ int djon_parse_array(struct djon_state *it,int lst_idx)
 	return lst_idx;
 }
 
-int djon_parse_value(struct djon_state *it)
+int djon_parse_value(djon_state *it)
 {
 	int idx;
-	struct djon_value *nxt;
+	djon_value *nxt;
 	
 	if(!djon_check_stack(it)){ return 0; }
 
@@ -940,7 +939,7 @@ int djon_parse_value(struct djon_state *it)
 
 
 // allocate a new value and return its index, 0 on error
-int djon_check_stack(struct djon_state *it)
+int djon_check_stack(djon_state *it)
 {
 	int stack=0xdeadbeef;
 	if(it->parse_stack) // check stack flag
@@ -954,7 +953,7 @@ int djon_check_stack(struct djon_state *it)
 	}
 	return 1;
 }
-int djon_parse(struct djon_state *it)
+int djon_parse(djon_state *it)
 {
 	int stack=0xdeadbeef;
 	it->parse_stack=(char*)&stack;
@@ -966,7 +965,7 @@ int djon_parse(struct djon_state *it)
 	it->error_line=0;
 
 	int idx;
-	struct djon_value *nxt;
+	djon_value *nxt;
 	while( idx=djon_parse_value(it) )
 	{
 		if(it->parse_first==0) // remember the first value
