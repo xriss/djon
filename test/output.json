@@ -150,10 +150,6 @@
 #json/bad/n_number_0.1.2.json
 [0.1.2]
 #c
-[
- 0.1
- 0.2
-]
 
 #json/bad/n_number_-01.json
 [-01]
@@ -274,10 +270,6 @@
 #json/bad/n_number_expression.json
 [1+2]
 #c
-[
- 1
- 2
-]
 
 #json/bad/n_number_hex_1_digit.json
 [0x1]
@@ -836,7 +828,6 @@ a
 #json/bad/n_structure_number_with_trailing_garbage.json
 2@
 #c
-2
 
 #json/bad/n_structure_object_followed_by_closing_object.json
 {}}

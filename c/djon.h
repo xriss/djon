@@ -137,8 +137,13 @@ double djon_str_to_double(char *cps,char **endptr)
 
 		if(gotdata==0){goto error;} // require some numbers after the e
 	}
-	
 	d*=sign; // apply sign
+
+	
+	// final check, number must be terminated by something to be valid
+	c=*cp;
+	if(!( DJON_IS_WHITE(c) || c=='\0' || c=='{' || c=='}' || c=='[' || c==']' || c==':' || c=='=' || c==',' ))
+	{goto error;}
 
 	if(endptr){*endptr=cp;} // we used this many chars
 	return d; // and parsed this number
