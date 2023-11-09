@@ -67,6 +67,7 @@ int djon_check_stack(djon_state *it);
 
 #define DJON_IS_WHITE(c) ( ((c)==' ') || ((c)=='\t') || ((c)=='\n') || ((c)=='\r') || ((c)=='\v') || ((c)=='\f') )
 #define DJON_IS_PUNCT(c) ( ( ((c)>='!') && ((c)<='/') ) || ( ((c)>=':') && ((c)<='@') ) || ( ((c)>='[') && ((c)<='`') ) || ( ((c)>='{') && ((c)<='~') ) )
+#define DJON_IS_TERM(c) ( DJON_IS_WHITE(c) || c=='\0' || c=='{' || c=='}' || c=='[' || c==']' || c==':' || c=='=' || c==',' )
 
 
 #endif
@@ -142,8 +143,7 @@ double djon_str_to_double(char *cps,char **endptr)
 	
 	// final check, number must be terminated by something to be valid
 	c=*cp;
-	if(!( DJON_IS_WHITE(c) || c=='\0' || c=='{' || c=='}' || c=='[' || c==']' || c==':' || c=='=' || c==',' ))
-	{goto error;}
+	if( ! DJON_IS_TERM(c) ){goto error;}
 
 	if(endptr){*endptr=cp;} // we used this many chars
 	return d; // and parsed this number
