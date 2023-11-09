@@ -1078,7 +1078,7 @@ Stack overflow 262184
 
 #c
 [
- -1e-78
+ -.1e-77
 ]
 
 #json/good/y_number_int_with_exp.json
@@ -1092,7 +1092,7 @@ Stack overflow 262184
 [123e65]
 #c
 [
- 1.23e+67
+ 123e65
 ]
 
 #json/good/y_number_minus_zero.json
@@ -1127,7 +1127,7 @@ Stack overflow 262184
 [1E22]
 #c
 [
- 1e+22
+ 1e22
 ]
 
 #json/good/y_number_real_capital_e_neg_exp.json
@@ -1148,14 +1148,14 @@ Stack overflow 262184
 [123e45]
 #c
 [
- 1.23e+47
+ 123e45
 ]
 
 #json/good/y_number_real_fraction_exponent.json
 [123.456e78]
 #c
 [
- 1.23456e+80
+ 123456e75
 ]
 
 #json/good/y_number_real_neg_exp.json
@@ -1183,7 +1183,7 @@ Stack overflow 262184
 [123.456789]
 #c
 [
- 123.457
+ 123.456789
 ]
 
 #json/good/y_object_basic.json
@@ -1233,8 +1233,8 @@ Stack overflow 262184
 { "min": -1.0e+28, "max": 1.0e+28 }
 #c
 {
- "min" = -1e+28
- "max" = 1e+28
+ "min" = -1e28
+ "max" = 1e28
 }
 
 #json/good/y_object.json
@@ -1651,7 +1651,7 @@ TRUE
 
 #c
 [
- 1e+06
+ 1000000
 ]
 
 #json/edge/number_1e-999.json
@@ -1667,7 +1667,7 @@ TRUE
 
 #c
 [
- 1e+15
+ 1e15
 ]
 
 #json/edge/number_9223372036854775807.json
@@ -1675,7 +1675,7 @@ TRUE
 
 #c
 [
- 9.22337e+18
+ 922337203685477e4
 ]
 
 #json/edge/number_9223372036854775808.json
@@ -1683,7 +1683,7 @@ TRUE
 
 #c
 [
- 9.22337e+18
+ 922337203685477e4
 ]
 
 #json/edge/number_10000000000000000999.json
@@ -1691,7 +1691,7 @@ TRUE
 
 #c
 [
- 1e+19
+ 1e19
 ]
 
 #json/edge/number_-9223372036854775808.json
@@ -1699,7 +1699,7 @@ TRUE
 
 #c
 [
- -9.22337e+18
+ -922337203685477e4
 ]
 
 #json/edge/number_-9223372036854775809.json
@@ -1707,7 +1707,7 @@ TRUE
 
 #c
 [
- -9.22337e+18
+ -922337203685477e4
 ]
 
 #json/edge/object_key_nfc_nfd.json
@@ -1811,35 +1811,35 @@ TRUE
 [0.4e00669999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999969999999006]
 #c
 [
- inf
+ 9e999
 ]
 
 #json/maybe/i_number_neg_int_huge_exp.json
 [-1e+9999]
 #c
 [
- -inf
+ -9e999
 ]
 
 #json/maybe/i_number_pos_double_huge_exp.json
 [1.5e+9999]
 #c
 [
- inf
+ 9e999
 ]
 
 #json/maybe/i_number_real_neg_overflow.json
 [-123123e100000]
 #c
 [
- -inf
+ -9e999
 ]
 
 #json/maybe/i_number_real_pos_overflow.json
 [123123e100000]
 #c
 [
- inf
+ 9e999
 ]
 
 #json/maybe/i_number_real_underflow.json
@@ -1853,21 +1853,21 @@ TRUE
 [-123123123123123123123123123123]
 #c
 [
- -1.23123e+29
+ -123123123123123e15
 ]
 
 #json/maybe/i_number_too_big_pos_int.json
 [100000000000000000000]
 #c
 [
- 1e+20
+ 1e20
 ]
 
 #json/maybe/i_number_very_big_negative_int.json
 [-237462374673276894279832749832423479823246327846]
 #c
 [
- -2.37462e+47
+ -237462374673276e33
 ]
 
 #json/maybe/i_object_key_lone_2nd_surrogate.json

@@ -51,6 +51,8 @@ typedef struct djon_state
 	
 	FILE *fp; // where to print output
 
+	char      buf[256];
+	
 } djon_state ;
 
 extern struct djon_state * djon_setup();
@@ -146,6 +148,112 @@ double djon_str_to_double(char *cps,char **endptr)
 error:
 	if(endptr){*endptr=cps;} // 0 chars used
 	return nan;
+}
+
+// write into buf, return length of string, maximum 32 including null
+int djon_double_to_str(double num,char buf[32] )
+{
+//printf("n %g\n",num);
+
+	char *cp=buf;
+
+	if( isnan(num) ) // A nan , so we write null
+	{
+		*cp++='n';
+		*cp++='u';
+		*cp++='l';
+		*cp++='l';
+		*cp=0; // null
+		return cp-buf;
+	}
+
+	if( signbit(num) )
+	{
+		*cp++='-';
+		num=-num; // remove sign
+	}
+
+	if(num==0.0) // zero
+	{
+		*cp++='0';
+		*cp=0; // null
+		return cp-buf;
+	}
+
+	if(isinf(num)) //inf
+	{
+		*cp++='9';
+		*cp++='e';
+		*cp++='9';
+		*cp++='9';
+		*cp++='9';
+		*cp=0; // null
+		return cp-buf;
+	}
+	
+	int e=(int)floor(log10(num)); // find exponent
+//printf("n %g\n",num);
+//printf("e %d\n",e);
+
+	int i;
+	int d;
+
+	int digits=15;
+	int z=0; // run of zeros we will want to undo
+	if( (e<0) && (e>=-8) ) // special case when close to 0 dont add an e until we get really small
+	{
+		digits=15+1-e;
+		d=1.0; // we want a 0.00000001 sort of number when it is near 0
+		e=0;
+	}
+	
+	int p=e;
+	double t=pow(10.0,(double)p); // divide by this to get current decimal
+	double r=pow(10.0,(double)p-digits); // rounding error
+	if(e>0) { e=e+1-digits; if(e<0) { e=0; } }
+	if(e<0) // start with a . not a digit when the number goes tiny.
+	{
+		e=e+1;
+		*cp++='.';
+	}
+	for(i=0;i<digits;i++) // probably 15 digits
+	{
+		if((t>0.09)&&(t<0.11)) { *cp++='.'; z=1; } // decimal point, reset out count of zeros
+		d=(int)((num+r)/t); //auto floor converting to int with a tiny roundup
+		num-=((double)d)*t;
+		t=t/10.0; // next digit
+		if(d==0) { z++; } else { z=0; } // count zeros at end
+		*cp++='0'+d;
+	}
+
+	if(z>0) // undo trailing zeros
+	{
+		cp=cp-z;
+		if(e>=0)
+		{
+			e=e+z; // possible new e if the number was huge, might force this to 0 later
+		}
+	}
+	if( (e>=0) && (t<0.1) ) { e=0; } // we only removed zeros after the . so e should be 0
+
+	if(e!=0)
+	{
+		*cp++='e';
+		if(e<0)
+		{
+			*cp++='-';
+			e=-e;
+		}
+		for( i= (e>=100) ? 100 : (e>=10) ? 10 : 1 ; i>=1 ; i=i/10 )
+		{
+			d=e/i;
+			e-=d*i;
+			*cp++='0'+d;
+		}
+	}
+	
+	*cp=0; // null
+	return cp-buf;
 }
 
 double djon_str_to_hex(char *cps,char **endptr)
@@ -275,6 +383,7 @@ void djon_print(struct djon_state *it,int idx,int indent)
 	struct djon_value *val;
 	int nam_idx;
 	int val_idx;
+	int len;
 	if(nxt)
 	{
 		if(nxt->typ==ARRAY)
@@ -329,7 +438,10 @@ void djon_print(struct djon_state *it,int idx,int indent)
 		if(nxt->typ==NUMBER)
 		{
 			indent=djon_print_indent(it,indent);
-			fprintf(it->fp,"%g\n",nxt->num);
+			len=djon_double_to_str(nxt->num,it->buf);
+			fwrite(it->buf, 1, len, it->fp);
+			fwrite("\n", 1, 1, it->fp);
+//			fprintf(it->fp,"%g\n",nxt->num);
 		}
 		else
 		if(nxt->typ==BOOL)
