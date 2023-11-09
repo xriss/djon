@@ -153,7 +153,12 @@ error:
 // write into buf, return length of string, maximum 32 including null
 int djon_double_to_str(double num,char buf[32] )
 {
-//printf("n %g\n",num);
+// maximum precision of digits ( dependent on doubles precision )
+#define DJON_DIGIT_PRECISION 15
+// amount of zeros to include before/after decimal point before we switch to e numbers
+#define DJON_DIGIT_ZEROS 8
+// these two nunmbers +5 is the maximum we write to in buf, so be careful
+// The posssible extra non number chars are : - . e - /0
 
 	char *cp=buf;
 
@@ -198,12 +203,12 @@ int djon_double_to_str(double num,char buf[32] )
 	int i;
 	int d;
 
-	int digits=15;
-	if( (e<0) && (e>=-8) ) // special case when close to 0 dont add an e until we get really small
+	int digits=DJON_DIGIT_PRECISION;
+	if( (e<0) && (e>=-DJON_DIGIT_ZEROS) ) // special case when close to 0 dont add an e until we get really small
 	{
-		digits=15+1-e;
-		d=1.0; // we want a 0.00000001 sort of number when it is near 0
-		e=0;
+		digits=DJON_DIGIT_PRECISION+1-e;
+		d=1.0;
+		e=0; // we want a 0.0000001234 style number when it is near 0
 	}
 	
 	double t=pow(10.0,(double)e); // divide by this to get current decimal
@@ -229,15 +234,21 @@ int djon_double_to_str(double num,char buf[32] )
 		*cp++='0'+d;
 	}
 
+	if( (e>0) && (e<=DJON_DIGIT_ZEROS) ) // we want to keep all these zeros and add some more
+	{
+		for(i=0;i<e;i++) { *cp++='0'; }
+		e=0; // we want a 1234000000 style number when it is near 0
+	}
+	else
 	if(z>0) // undo trailing zeros
 	{
-		cp=cp-z;
-		if(e>=0)
+		cp=cp-z; // remove zeros
+		if(e>=0) // adjust e number
 		{
-			e=e+z; // possible new e if the number was huge, might force this to 0 later
+			e=e+z; // new e
+			if(t<0.1) { e=0; } // we only removed zeros after the . so e should be 0
 		}
 	}
-	if( (e>=0) && (t<0.1) ) { e=0; } // we only removed zeros after the . so e should be 0
 
 	if(e!=0)
 	{
