@@ -199,7 +199,6 @@ int djon_double_to_str(double num,char buf[32] )
 	int d;
 
 	int digits=15;
-	int z=0; // run of zeros we will want to undo
 	if( (e<0) && (e>=-8) ) // special case when close to 0 dont add an e until we get really small
 	{
 		digits=15+1-e;
@@ -207,15 +206,19 @@ int djon_double_to_str(double num,char buf[32] )
 		e=0;
 	}
 	
-	int p=e;
-	double t=pow(10.0,(double)p); // divide by this to get current decimal
-	double r=pow(10.0,(double)p-digits); // rounding error
-	if(e>0) { e=e+1-digits; if(e<0) { e=0; } }
+	double t=pow(10.0,(double)e); // divide by this to get current decimal
+	double r=pow(10.0,(double)e-digits); // rounding error
+	if(e>0)
+	{
+		e=e+1-digits; // the e we will be when we print all the digits
+		if(e<0) { e=0; } // goes from +e to -e so force 0
+	}
 	if(e<0) // start with a . not a digit when the number goes tiny.
 	{
 		e=e+1;
 		*cp++='.';
 	}
+	int z=0; // run of zeros we will want to undo
 	for(i=0;i<digits;i++) // probably 15 digits
 	{
 		if((t>0.09)&&(t<0.11)) { *cp++='.'; z=1; } // decimal point, reset out count of zeros
