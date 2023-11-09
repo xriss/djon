@@ -207,7 +207,7 @@ int djon_double_to_str(double num,char buf[32] )
 	}
 	
 	double t=pow(10.0,(double)e); // divide by this to get current decimal
-	double r=pow(10.0,(double)e-digits); // rounding error
+	num=num+pow(10.0,(double)e-digits); // add a tiny roundup for the digit after the last one we plan to print
 	if(e>0)
 	{
 		e=e+1-digits; // the e we will be when we print all the digits
@@ -222,7 +222,7 @@ int djon_double_to_str(double num,char buf[32] )
 	for(i=0;i<digits;i++) // probably 15 digits
 	{
 		if((t>0.09)&&(t<0.11)) { *cp++='.'; z=1; } // decimal point, reset out count of zeros
-		d=(int)((num+r)/t); //auto floor converting to int with a tiny roundup
+		d=(int)((num)/t); //auto floor converting to int
 		num-=((double)d)*t;
 		t=t/10.0; // next digit
 		if(d==0) { z++; } else { z=0; } // count zeros at end
