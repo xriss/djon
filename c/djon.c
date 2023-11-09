@@ -10,7 +10,7 @@
 int main(int argc, char *argv[])
 {
 //printf("START %d\n",argc);
-	struct djon_state *it=djon_setup();
+	djon_state *it=djon_setup();
 	if(argc>=2)
 	{
 		djon_load_file(it,argv[1]); // filename

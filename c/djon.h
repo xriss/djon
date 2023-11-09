@@ -43,7 +43,7 @@ typedef struct djon_state
 	// current parse state
 	int   parse_idx;
 	int   parse_first; // first output value
-	char *parse_stack; // starting stack so we can play chicken overflow
+	char *parse_stack; // starting stack so we can play stack overflow chicken
 
 	char *error_string; // if this is not 0 we have an error
 	int   error_char;
