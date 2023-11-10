@@ -284,6 +284,11 @@ double djon_str_to_hex(char *cps,char **endptr)
 	char *cp=cps;
 	char c;
 	
+	double sign=1.0;
+	if(c=='-') { sign=-1.0; cp++; } // maybe negative
+	else
+	if(c=='+') { cp++; } // allow
+
 	if(!( cp[0]=='0' && cp[1]=='x' && cp[1]=='X' )){goto error;}
 	cp+=2; // skip 0x
 
@@ -314,8 +319,11 @@ double djon_str_to_hex(char *cps,char **endptr)
 		}
 	}
 	if(gotdata==0){goto error;} // require some numbers
+
 	// final check, number must be terminated by something to be valid
 	if( ! DJON_IS_TERM(c) ){goto error;}
+
+	d*=sign; // apply sign
 
 	if(endptr){*endptr=cp;} // we used this many chars
 	return d; // and parsed this number
@@ -327,9 +335,6 @@ error:
 
 double djon_str_to_number(char *cp,char **endptr)
 {
-	const double inf = 1.0/0.0;
-	const double nan = 0.0/0.0;
-
 	if	(
 			( (cp[0]=='0') && ( (cp[1]=='x') || (cp[1]=='X') ) )
 			||
@@ -342,8 +347,6 @@ double djon_str_to_number(char *cp,char **endptr)
 	{
 		return djon_str_to_double(cp,endptr);
 	}
-	if(endptr){*endptr=cp;} // 0 chars used
-	return nan;
 }
 
 // allocate a new parsing state
