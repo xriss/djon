@@ -67,7 +67,7 @@ int djon_check_stack(djon_state *it);
 
 #define DJON_IS_WHITE(c) ( ((c)==' ') || ((c)=='\t') || ((c)=='\n') || ((c)=='\r') || ((c)=='\v') || ((c)=='\f') )
 #define DJON_IS_PUNCT(c) ( ( ((c)>='!') && ((c)<='/') ) || ( ((c)>=':') && ((c)<='@') ) || ( ((c)>='[') && ((c)<='`') ) || ( ((c)>='{') && ((c)<='~') ) )
-#define DJON_IS_TERM(c) ( DJON_IS_WHITE(c) || c=='\0' || c=='{' || c=='}' || c=='[' || c==']' || c==':' || c=='=' || c==',' )
+#define DJON_IS_TERM(c) ( DJON_IS_WHITE(c) || ((c)=='\0') || ((c)=='{') || ((c)=='}') || ((c)=='[') || ((c)==']') || ((c)==':') || ((c)=='=') || ((c)==',') )
 
 
 #endif
@@ -75,83 +75,6 @@ int djon_check_stack(djon_state *it);
 
 #ifdef DJON_C
 
-// locales are a cursed so we need our own basic functions ?
-// strtod replacement ?
-double djon_str_to_double(char *cps,char **endptr)
-{
-	const double inf = 1.0/0.0;
-	const double nan = 0.0/0.0;
-	
-	int gotdata=0;
-
-	char c;
-	char *cp=cps;
-
-	c=*cp;
-	double sign=1.0;
-	if(c=='-') { sign=-1.0; cp++; } // maybe negative
-	else
-	if(c=='+') { cp++; } // allow
-	
-	double d=0.0;
-	for( c=*cp ; (c>='0') && (c<='9') ; c=*++cp )// 0 or more integer parts
-	{
-		d=(d*10.0)+(c-'0');
-		gotdata++;
-	}
-
-	double m=1.0;
-	if( *cp=='.' ) // a decimal point
-	{
-		cp++;
-		for( c=*cp ; (c>='0') && (c<='9') ; c=*++cp )// and 0 or more integer parts
-		{
-			m=m*0.1;
-			d+=((c-'0')*m);
-			gotdata++;
-		}
-	}
-
-	if(gotdata==0){goto error;} // require some numbers before or after decimal point
-
-	c=*cp;
-	if( (c=='e') || (c=='E') )
-	{
-		cp++;
-		c=*cp;
-
-		gotdata=0; // reset
-
-		double esign=1.0;
-		if(c=='-') { esign=-1.0; cp++; } // maybe negative
-		else
-		if(c=='+') { cp++; } // allow
-
-		double e=0.0;
-		for( c=*cp ; (c>='0') && (c<='9') ; c=*++cp )// and 0 or more exponent parts
-		{
-			m=m*0.1;
-			e=(e*10.0)+(c-'0');
-			gotdata++;
-		}
-		d*=pow(10.0,e*esign); // apply exponent
-
-		if(gotdata==0){goto error;} // require some numbers after the e
-	}
-	d*=sign; // apply sign
-
-	
-	// final check, number must be terminated by something to be valid
-	c=*cp;
-	if( ! DJON_IS_TERM(c) ){goto error;}
-
-	if(endptr){*endptr=cp;} // we used this many chars
-	return d; // and parsed this number
-
-error:
-	if(endptr){*endptr=cps;} // 0 chars used
-	return nan;
-}
 
 // write into buf, return length of string, maximum 32 including null
 int djon_double_to_str( double num , char * buf )
@@ -274,12 +197,132 @@ int djon_double_to_str( double num , char * buf )
 	return cp-buf;
 }
 
-double djon_str_to_hex(char *cps,char **endptr)
+// locales are a cursed so we need our own basic functions ?
+// strtod replacement ?
+double djon_str_to_double(char *cps,char **endptr)
 {
 	const double inf = 1.0/0.0;
 	const double nan = 0.0/0.0;
+	
+	int gotdata=0;
 
-	return 0;
+	char c;
+	char *cp=cps;
+
+	c=*cp;
+	double sign=1.0;
+	if(c=='-') { sign=-1.0; cp++; } // maybe negative
+	else
+	if(c=='+') { cp++; } // allow
+	
+	double d=0.0;
+	for( c=*cp ; (c>='0') && (c<='9') ; c=*++cp )// 0 or more integer parts
+	{
+		d=(d*10.0)+(c-'0');
+		gotdata++;
+	}
+
+	double m=1.0;
+	if( *cp=='.' ) // a decimal point
+	{
+		cp++;
+		for( c=*cp ; (c>='0') && (c<='9') ; c=*++cp )// and 0 or more integer parts
+		{
+			m=m*0.1;
+			d+=((c-'0')*m);
+			gotdata++;
+		}
+	}
+
+	if(gotdata==0){goto error;} // require some numbers before or after decimal point
+
+	c=*cp;
+	if( (c=='e') || (c=='E') )
+	{
+		cp++;
+		c=*cp;
+
+		gotdata=0; // reset
+
+		double esign=1.0;
+		if(c=='-') { esign=-1.0; cp++; } // maybe negative
+		else
+		if(c=='+') { cp++; } // allow
+
+		double e=0.0;
+		for( c=*cp ; (c>='0') && (c<='9') ; c=*++cp )// and 0 or more exponent parts
+		{
+			m=m*0.1;
+			e=(e*10.0)+(c-'0');
+			gotdata++;
+		}
+		d*=pow(10.0,e*esign); // apply exponent
+
+		if(gotdata==0){goto error;} // require some numbers after the e
+	}
+	d*=sign; // apply sign
+
+	
+	// final check, number must be terminated by something to be valid
+	c=*cp;
+	if( ! DJON_IS_TERM(c) ){goto error;}
+
+	if(endptr){*endptr=cp;} // we used this many chars
+	return d; // and parsed this number
+
+error:
+	if(endptr){*endptr=cps;} // 0 chars used
+	return nan;
+}
+
+double djon_str_to_hex(char *cps,char **endptr)
+{
+	const double nan = 0.0/0.0;
+
+	int gotdata=0;
+
+	char *cp=cps;
+	char c;
+	
+	if(!( cp[0]=='0' && cp[1]=='x' && cp[1]=='X' )){goto error;}
+	cp+=2; // skip 0x
+
+	double d=0.0;
+	for( c=*cp ; c ; c=*++cp )
+	{
+		
+		if( (c>='0') && (c<='9') )
+		{
+			d=(d*16.0)+c-'0';
+			gotdata++;
+		}
+		else
+		if( (c>='a') && (c<='f') )
+		{
+			d=(d*16.0)+c-'a'+10;
+			gotdata++;
+		}
+		else
+		if( (c>='A') && (c<='F') )
+		{
+			d=(d*16.0)+c-'A'+10;
+			gotdata++;
+		}
+		else
+		{
+			break;
+		}
+	}
+	if(gotdata==0){goto error;} // require some numbers
+	// final check, number must be terminated by something to be valid
+	if( ! DJON_IS_TERM(c) ){goto error;}
+
+	if(endptr){*endptr=cp;} // we used this many chars
+	return d; // and parsed this number
+
+error:
+	if(endptr){*endptr=cps;} // 0 chars used
+	return nan;
 }
 
 double djon_str_to_number(char *cp,char **endptr)
@@ -299,6 +342,7 @@ double djon_str_to_number(char *cp,char **endptr)
 	{
 		return djon_str_to_double(cp,endptr);
 	}
+	if(endptr){*endptr=cp;} // 0 chars used
 	return nan;
 }
 
