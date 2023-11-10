@@ -14,6 +14,7 @@ typedef enum djon_enum
 	STRING,
 	ARRAY,
 	OBJECT,
+	ESCAPED_STRING, // still needs all of its \n etc replaced
 } djon_enum ;
 
 typedef struct djon_value
@@ -201,7 +202,6 @@ int djon_double_to_str( double num , char * buf )
 // strtod replacement ?
 double djon_str_to_double(char *cps,char **endptr)
 {
-	const double inf = 1.0/0.0;
 	const double nan = 0.0/0.0;
 	
 	int gotdata=0;
@@ -289,7 +289,7 @@ double djon_str_to_hex(char *cps,char **endptr)
 	else
 	if(c=='+') { cp++; } // allow
 
-	if(!( cp[0]=='0' && cp[1]=='x' && cp[1]=='X' )){goto error;}
+	if(!( (cp[0]=='0') && (cp[1]=='x') && (cp[1]=='X') )){goto error;}
 	cp+=2; // skip 0x
 
 	double d=0.0;
@@ -298,19 +298,19 @@ double djon_str_to_hex(char *cps,char **endptr)
 		
 		if( (c>='0') && (c<='9') )
 		{
-			d=(d*16.0)+c-'0';
+			d=(d*16.0)+(double)(c-'0');
 			gotdata++;
 		}
 		else
 		if( (c>='a') && (c<='f') )
 		{
-			d=(d*16.0)+c-'a'+10;
+			d=(d*16.0)+(double)(c-'a'+10);
 			gotdata++;
 		}
 		else
 		if( (c>='A') && (c<='F') )
 		{
-			d=(d*16.0)+c-'A'+10;
+			d=(d*16.0)+(double)(c-'A'+10);
 			gotdata++;
 		}
 		else
@@ -494,6 +494,13 @@ void djon_print(djon_state *it,int idx,int indent)
 		}
 		else
 		if(nxt->typ==STRING)
+		{
+			indent=djon_print_indent(it,indent);
+			fwrite(nxt->str, 1, nxt->len, it->fp);
+			fwrite("\n", 1, 1, it->fp);
+		}
+		else
+		if(nxt->typ==ESCAPED_STRING)
 		{
 			indent=djon_print_indent(it,indent);
 			fwrite(nxt->str, 1, nxt->len, it->fp);
@@ -752,7 +759,7 @@ int djon_parse_step(djon_state *it)
 	return idx;
 }
 
-int djon_parse_string(djon_state *it,int lst_idx,char *term)
+int djon_parse_string(djon_state *it,int lst_idx,char term)
 {
 	djon_value *lst=djon_get(it,lst_idx);
 	if(lst==0) { return 0; }
@@ -765,22 +772,13 @@ int djon_parse_string(djon_state *it,int lst_idx,char *term)
 		lst->len++; // grow string
 		c=it->data[ it->parse_idx++ ]; // get next char
 
-		for( cp=term ; *cp ; cp++ )
+		if( term==c ) // a termination char
 		{
-			if( c==*cp ) // a termination char
-			{
-				return lst_idx;
-			}
+			return lst_idx;
 		}
-
 	}
 
 	return lst_idx;
-}
-
-int djon_parse_rawstring(djon_state *it,int lst_idx)
-{
-	return djon_parse_string(it,lst_idx,"`");
 }
 
 int djon_parse_number(djon_state *it,int lst_idx)
@@ -963,13 +961,13 @@ int djon_parse_value(djon_state *it)
 			return djon_parse_array(it,idx);
 		break;
 		case '\'' :
-			return djon_parse_string(it,idx,"'");
+			return djon_parse_string(it,idx,'\'');
 		break;
 		case '"' :
-			return djon_parse_string(it,idx,"\"");
+			return djon_parse_string(it,idx,'"');
 		break;
 		case '`' :
-			return djon_parse_rawstring(it,idx);
+			return djon_parse_string(it,idx,'`');
 		case '0' :
 		case '1' :
 		case '2' :
@@ -986,7 +984,7 @@ int djon_parse_value(djon_state *it)
 			return djon_parse_number(it,idx);
 		break;
 	}
-	return djon_parse_string(it,idx,"\n");
+	return djon_parse_string(it,idx,'\n');
 }
 
 
