@@ -1,1 +1,1 @@
-The initial C implimentation of DJON flavoured JSON.
+The initial C implementation of DJON flavored JSON.

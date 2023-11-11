@@ -84,9 +84,9 @@ int djon_double_to_str( double num , char * buf )
 #define DJON_DIGIT_PRECISION 15
 // amount of zeros to include before/after decimal point before we switch to e numbers
 #define DJON_DIGIT_ZEROS 8
-// these two numbers +9 is the maximum we write to in buf, so be careful
-#define DJON_DIGIT_LEN (9+DJON_DIGIT_ZEROS+DJON_DIGIT_PRECISION)
-// The possible extra non number chars are - . e-123 - /0
+// these two numbers +8 is the maximum we write to buf, so be careful
+#define DJON_DIGIT_LEN (8+DJON_DIGIT_ZEROS+DJON_DIGIT_PRECISION)
+// The possible extra non number chars are - . e-123 /0
 
 	char *cp=buf;
 
