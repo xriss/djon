@@ -564,9 +564,6 @@
 #json/bad/n_string_1_surrogate_then_escape.json
 ["\uD800\"]
 #c
-[
- "\uD800\"
-]
 
 #json/bad/n_string_1_surrogate_then_escape_u1.json
 ["\uD800\u1"]
@@ -603,9 +600,6 @@
 #json/bad/n_string_escaped_backslash_bad.json
 ["\\\"]
 #c
-[
- "\\\"
-]
 
 #json/bad/n_string_escaped_ctrl_char_tab.json
 ["\	"]
@@ -638,9 +632,6 @@
 #json/bad/n_string_incomplete_escape.json
 ["\"]
 #c
-[
- "\"
-]
 
 #json/bad/n_string_incomplete_surrogate_escape_invalid.json
 ["\uD800\uD800\x"]
@@ -1305,6 +1296,9 @@ Stack overflow 262184
 #json/good/y_string_allowed_escapes.json
 ["\"\\\/\b\f\n\r\t"]
 #c
+[
+ "\"\\\/\b\f\n\r\t"
+]
 
 #json/good/y_string_backslash_and_u_escaped_zero.json
 ["\\u0000"]
@@ -1316,6 +1310,9 @@ Stack overflow 262184
 #json/good/y_string_backslash_doublequotes.json
 ["\""]
 #c
+[
+ "\""
+]
 
 #json/good/y_string_comments.json
 ["a/*b*/c/*d//e"]

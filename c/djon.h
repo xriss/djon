@@ -793,6 +793,16 @@ int djon_parse_string(djon_state *it,int lst_idx,char * term)
 	{
 		cp=it->data+it->parse_idx;
 		c=*cp; // get next char
+		
+		if( lst->typ=ESCAPED_STRING ) // we need to check for back slashes
+		{
+			if(c=='\\') // skip next char whatever it is
+			{
+				lst->len+=2; // grow string
+				it->parse_idx+=2; // advance
+				continue;
+			}
+		}
 
 		for( tp=term ; tp<term+term_len ; tp++,cp++ ) // check for term
 		{
