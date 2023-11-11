@@ -274,10 +274,16 @@
 #json/bad/n_number_hex_1_digit.json
 [0x1]
 #c
+[
+ 1
+]
 
 #json/bad/n_number_hex_2_digits.json
 [0x42]
 #c
+[
+ 66
+]
 
 #json/bad/n_number_infinity.json
 [Infinity]

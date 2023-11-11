@@ -289,7 +289,7 @@ double djon_str_to_hex(char *cps,char **endptr)
 	else
 	if(c=='+') { cp++; } // allow
 
-	if(!( (cp[0]=='0') && (cp[1]=='x') && (cp[1]=='X') )){goto error;}
+	if(!( (cp[0]=='0') && (cp[1]=='x') || (cp[1]=='X') )){goto error;}
 	cp+=2; // skip 0x
 
 	double d=0.0;
@@ -454,11 +454,6 @@ void djon_print(djon_state *it,int idx,int indent)
 		char *com=nxt->nxt?" ,":"";
 		if(nxt->typ==ARRAY)
 		{
-//			if(indent<0)
-//			{
-//				indent=djon_print_indent(it,indent);
-//				printf("\n");
-//			}
 			indent=djon_print_indent(it,indent);
 			fprintf(it->fp,"[\n");
 			val_idx=nxt->val; val=djon_get(it,val_idx);
@@ -473,11 +468,6 @@ void djon_print(djon_state *it,int idx,int indent)
 		else
 		if(nxt->typ==OBJECT)
 		{
-//			if(indent<0)
-//			{
-//				indent=djon_print_indent(it,indent);
-//				fprintf(it->fp,"\n");
-//			}
 			indent=djon_print_indent(it,indent);
 			fprintf(it->fp,"{\n");
 			nam_idx=nxt->nam; nam=djon_get(it,nam_idx);
@@ -516,7 +506,6 @@ void djon_print(djon_state *it,int idx,int indent)
 			len=djon_double_to_str(nxt->num,it->buf);
 			fwrite(it->buf, 1, len, it->fp);
 			fprintf(it->fp,"%s\n",com);
-//			fprintf(it->fp,"%g\n",nxt->num);
 		}
 		else
 		if(nxt->typ==BOOL)
