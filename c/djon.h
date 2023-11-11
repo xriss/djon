@@ -20,7 +20,7 @@ typedef enum djon_enum
 typedef struct djon_value
 {
 	int       nxt; // idx to next value if this is an object key/value or array
-	char    * str; // start of string ( offset into the input json string )
+	char    * str; // start of string ( points into the input json string )
 	int       len; // number of characters
 
 	djon_enum typ; // the type of data contained in the string
@@ -451,6 +451,7 @@ void djon_print(djon_state *it,int idx,int indent)
 	int len;
 	if(nxt)
 	{
+		char *com=nxt->nxt?" ,":"";
 		if(nxt->typ==ARRAY)
 		{
 //			if(indent<0)
@@ -467,7 +468,7 @@ void djon_print(djon_state *it,int idx,int indent)
 				val_idx=val->nxt; val=djon_get(it,val_idx);
 			}
 			indent=djon_print_indent(it,indent);
-			fprintf(it->fp,"]\n");
+			fprintf(it->fp,"]%s\n",com);
 		}
 		else
 		if(nxt->typ==OBJECT)
@@ -484,27 +485,29 @@ void djon_print(djon_state *it,int idx,int indent)
 			while(nam&&val)
 			{
 				indent=djon_print_indent(it,indent+1)-1;
-				fprintf(it->fp,"%.*s = ",nam->len,nam->str);
+				fprintf(it->fp,"\"%.*s\" : ",nam->len,nam->str);
 				djon_print(it,val_idx,-(indent+1));
 				nam_idx=nam->nxt; nam=djon_get(it,nam_idx);
 				val_idx=val->nxt; val=djon_get(it,val_idx);
 			}
 			indent=djon_print_indent(it,indent);
-			fprintf(it->fp,"}\n");
+			fprintf(it->fp,"}%s\n",com);
 		}
 		else
 		if(nxt->typ==STRING)
 		{
 			indent=djon_print_indent(it,indent);
+			fwrite("\"\n", 1, 1, it->fp);
 			fwrite(nxt->str, 1, nxt->len, it->fp);
-			fwrite("\n", 1, 1, it->fp);
+			fprintf(it->fp,"\"%s\n",com);
 		}
 		else
 		if(nxt->typ==ESCAPED_STRING)
 		{
 			indent=djon_print_indent(it,indent);
+			fwrite("\"\n", 1, 1, it->fp);
 			fwrite(nxt->str, 1, nxt->len, it->fp);
-			fwrite("\n", 1, 1, it->fp);
+			fprintf(it->fp,"\"%s\n",com);
 		}
 		else
 		if(nxt->typ==NUMBER)
@@ -512,25 +515,25 @@ void djon_print(djon_state *it,int idx,int indent)
 			indent=djon_print_indent(it,indent);
 			len=djon_double_to_str(nxt->num,it->buf);
 			fwrite(it->buf, 1, len, it->fp);
-			fwrite("\n", 1, 1, it->fp);
+			fprintf(it->fp,"%s\n",com);
 //			fprintf(it->fp,"%g\n",nxt->num);
 		}
 		else
 		if(nxt->typ==BOOL)
 		{
 			indent=djon_print_indent(it,indent);
-			fprintf(it->fp,"%s\n",nxt->num?"TRUE":"FALSE");
+			fprintf(it->fp,"%s%s\n",nxt->num?"true":"false",com);
 		}
 		else
 		if(nxt->typ==NONE)
 		{
 			indent=djon_print_indent(it,indent);
-			fprintf(it->fp,"%s\n","NULL");
+			fprintf(it->fp,"%s%s\n","null",com);
 		}
 		else
 		{
 			indent=djon_print_indent(it,indent);
-			fprintf(it->fp,"%s\n","UNDEFINED");
+			fprintf(it->fp,"%s%s\n","undefined",com);
 		}
 	}
 }
@@ -741,8 +744,8 @@ int djon_skip_white_punct(djon_state *it,char *punct)
 	return ret;
 }
 
-// advance one char allocate a temporary string value and return it
-int djon_parse_step(djon_state *it)
+// allocate 0 length string value pointing at the next char 
+int djon_parse_next(djon_state *it)
 {
 	if( it->parse_idx >= it->data_len ) { return 0; } // EOF
 
@@ -754,31 +757,70 @@ int djon_parse_step(djon_state *it)
 	if(nxt==0) { return 0; }
 	nxt->typ=STRING;
 	nxt->str=it->data+it->parse_idx;
-	nxt->len=1;
-	it->parse_idx++;
+	nxt->len=0;
 	return idx;
 }
 
-int djon_parse_string(djon_state *it,int lst_idx,char term)
+int djon_parse_string(djon_state *it,int lst_idx,char * term)
 {
 	djon_value *lst=djon_get(it,lst_idx);
 	if(lst==0) { return 0; }
-
+	
 	char c;
 	char *cp;
+	char *tp;
+	int term_len=1; // assume 1 char
+	
+	if( *term=='`' ) // need to find special terminator
+	{
+		term=lst->str;
+		cp=term+1; // skip first char which is a `
+		c=*cp; // next char
+		if( (c=='\'') || (c=='"') || (c=='`') )// not a single opener
+		{
+			while(1)
+			{
+				c=*cp++;
+				if(c==0){ goto error; } // did not find
+				if( (c=='\'') || (c=='"') ) { term_len++; } // allowable
+				if( (c=='`') ) { term_len++; break; } // final
+			}
+		}
+		lst->typ=STRING; // no escapes allowed
+	}
+	else
+	{
+		lst->typ=ESCAPED_STRING;
+	}
+
+	if( *term != '\n' ) // need to skip opening quote if not \n terminated
+	{
+		it->parse_idx+=term_len;
+		lst->str+=term_len;
+		lst->len=0;
+	}
 
 	while( it->parse_idx < it->data_len ) // while data
 	{
-		lst->len++; // grow string
-		c=it->data[ it->parse_idx++ ]; // get next char
+		cp=it->data+it->parse_idx;
+		c=*cp; // get next char
 
-		if( term==c ) // a termination char
+		for( tp=term ; tp<term+term_len ; tp++,cp++ ) // check for term
 		{
-			return lst_idx;
+			if(*tp!=*cp) { break; } // not found
+			if(tp==term+term_len-1) // found full terminator
+			{
+				it->parse_idx+=term_len; // advance
+				return lst_idx; // done
+			}
 		}
+
+		lst->len++; // grow string
+		it->parse_idx++; // advance
 	}
 
-	return lst_idx;
+error:
+	return 0;
 }
 
 int djon_parse_number(djon_state *it,int lst_idx)
@@ -793,7 +835,7 @@ int djon_parse_number(djon_state *it,int lst_idx)
 	int len=cpe-cps;
 	if( len > 0 )
 	{
-		it->parse_idx+=len-lst->len;
+		it->parse_idx+=len;
 
 		lst->typ=NUMBER;
 		lst->num=d;
@@ -807,24 +849,44 @@ int djon_parse_name(djon_state *it)
 {
 	djon_skip_white(it);
 
-	int lst_idx=djon_parse_step(it);
+	int lst_idx=djon_parse_next(it);
 	djon_value *lst=djon_get(it,lst_idx);
 	if(lst==0){return 0;} // out of data
 
+	char term=0;
 	char c;
 	char *cp;
 
-	while( it->parse_idx < it->data_len ) // while data
+	c=it->data[ it->parse_idx ];
+	if( c=='\'' || c=='"' ) // open quote
 	{
-		if( djon_peek_white(it) ) { return lst_idx; } // stop at whitespace
-		if( djon_peek_punct(it,"=:") ) { return lst_idx; } // stop at punct
-
-		lst->len++; // grow string
-		c=it->data[ it->parse_idx++ ]; // get next char
-		if(c=='"') { return lst_idx; } // end on closing quote
+		term=c;
+		lst->str++; // skip opening quote
+		it->parse_idx++; // advance
 	}
 
-	return lst_idx;
+	while( it->parse_idx < it->data_len ) // while data
+	{
+		if(term==0) // naked string
+		{
+			if( djon_peek_white(it) ) { return lst_idx; } // stop at whitespace
+			if( djon_peek_punct(it,"=:") ) { return lst_idx; } // stop at punct or closing quote
+			c=it->data[ it->parse_idx ];
+			if( c==',' || c=='[' || c==']' || c=='{' || c=='}' || c=='`' || c=='\'' || c=='"')
+			{ goto error; } // a naked key may not contain any significant punctuation
+		}
+		else
+		if( it->data[ it->parse_idx ]==term )
+		{
+			it->parse_idx++; // skip closing quote
+			return lst_idx; // end
+		}
+
+		lst->len++; // grow string
+		it->parse_idx++; // advance
+	}
+error:
+	return 0;
 }
 
 int djon_parse_object(djon_state *it,int lst_idx)
@@ -833,6 +895,7 @@ int djon_parse_object(djon_state *it,int lst_idx)
 	djon_value *nam;
 	djon_value *val;
 
+	it->parse_idx++; // skip opener
 	lst->typ=OBJECT;
 
 	int nam_idx;
@@ -873,6 +936,7 @@ int djon_parse_array(djon_state *it,int lst_idx)
 	djon_value *lst=djon_get(it,lst_idx);
 	djon_value *val;
 
+	it->parse_idx++; // skip opener
 	lst->typ=ARRAY;
 
 	int val_idx;
@@ -947,7 +1011,7 @@ int djon_parse_value(djon_state *it)
 	else
 	if( it->data[it->parse_idx]==']' ) { it->parse_idx++; return 0; }
 
-	idx=djon_parse_step(it);
+	idx=djon_parse_next(it);
 	nxt=djon_get(it,idx);
 	if(nxt==0){return 0;}
 	char c=*(nxt->str);
@@ -961,13 +1025,13 @@ int djon_parse_value(djon_state *it)
 			return djon_parse_array(it,idx);
 		break;
 		case '\'' :
-			return djon_parse_string(it,idx,'\'');
+			return djon_parse_string(it,idx,"'");
 		break;
 		case '"' :
-			return djon_parse_string(it,idx,'"');
+			return djon_parse_string(it,idx,"\"");
 		break;
 		case '`' :
-			return djon_parse_string(it,idx,'`');
+			return djon_parse_string(it,idx,"`");
 		case '0' :
 		case '1' :
 		case '2' :
@@ -984,7 +1048,7 @@ int djon_parse_value(djon_state *it)
 			return djon_parse_number(it,idx);
 		break;
 	}
-	return djon_parse_string(it,idx,'\n');
+	return djon_parse_string(it,idx,"\n");
 }
 
 
