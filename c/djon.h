@@ -14,7 +14,8 @@ typedef enum djon_enum
 	STRING,
 	ARRAY,
 	OBJECT,
-	ESCAPED_STRING, // still needs all of its \n etc replaced
+	ESCAPED_STRING, // string that contains \n \t \" etc
+	COMMENT, // a comment string
 } djon_enum ;
 
 typedef struct djon_value
@@ -27,6 +28,7 @@ typedef struct djon_value
 	double    num; // number or bool value
 	int       nam; // linked list of names for object
 	int       val; // linked list of values for object or array
+	int       com; // linked list of comments for this value
 
 } djon_value ;
 
@@ -47,8 +49,9 @@ typedef struct djon_state
 	char *parse_stack; // starting stack so we can play stack overflow chicken
 
 	char *error_string; // if this is not 0 we have an error
-	int   error_char;
-	int   error_line;
+	int   error_idx;    // char in buffer
+	int   error_char;   // char in line
+	int   error_line;   // line in file
 	
 	FILE *fp; // where to print output
 
@@ -349,6 +352,43 @@ double djon_str_to_number(char *cp,char **endptr)
 	}
 }
 
+// set an error string and calculate the line/char that we are currently on
+void djon_set_error(djon_state *it, char *error)
+{
+	it->error_string=error;
+	it->error_idx=0;
+	it->error_char=0;
+	it->error_line=0;
+	
+	if(!it->data){ return; } // must have some parsing data to locate
+
+	it->error_idx=it->parse_idx;
+	
+	int x=0;
+	int y=0;
+	char * cp;
+	char * cp_start = it->data;
+	char * cp_end   = it->data+it->data_len;
+	char * cp_error = it->data+it->parse_idx;
+	
+	y++; // 1st line
+	for( cp = it->data ; cp<=cp_end ; cp++ )
+	{
+		x++;
+		if( cp >= cp_error ) // found it
+		{
+			it->error_char=x;
+			it->error_line=y;
+			return;
+		}
+		if(*cp=='\n') // next line
+		{
+			x=0;
+			y++;
+		}
+	}
+}
+
 // allocate a new parsing state
 djon_state * djon_setup()
 {
@@ -360,6 +400,12 @@ djon_state * djon_setup()
 	it->data=0;
 	it->data_len=0;
 	it->parse_stack=0;
+	it->parse_idx=0;
+	
+	it->error_string=0;
+	it->error_idx=0;
+	it->error_char=0;
+	it->error_line=0;
 
 	it->values_len=1; // first value is used as a null so start at 1
 	it->values_siz=16384;
@@ -400,7 +446,7 @@ int djon_alloc(djon_state *it)
 	if( it->values_len+1 >= it->values_siz ) // check for space
 	{
 		v=(djon_value *)realloc( (void*)it->values , (it->values_siz+16384) * sizeof(djon_value) );
-		if(!v) { return 0; }
+		if(!v) { djon_set_error(it,"out of memory"); return 0; }
 		it->values_siz=it->values_siz+16384;
 		it->values=v; // might change pointer
 	}
@@ -549,7 +595,7 @@ int djon_load_file(djon_state *it,char *fname)
 	// open file or use stdin
 	if(fname)
 	{
-		fp = fopen( fname , "rb" ); if(!fp) { goto error; }
+		fp = fopen( fname , "rb" ); if(!fp) { djon_set_error(it,"file error"); goto error; }
 	}
 	else
 	{
@@ -561,17 +607,17 @@ int djon_load_file(djon_state *it,char *fname)
 		// extend buffer
 		while(used+chunk > size)
 		{
-			temp = realloc(data, used+chunk); if(!temp) { goto error; }
+			temp = realloc(data, used+chunk); if(!temp) { djon_set_error(it,"out of memory"); goto error; }
 			size = used+chunk;
 			data=temp;			
 		}
 		used += fread( data+used , 1 , chunk, fp );		
-		if(ferror(fp)) { goto error; }
+		if(ferror(fp)) { djon_set_error(it,"file error"); goto error; }
     }
 
 
 	size = used+1; // this may size up or down
-	temp = realloc(data, size); if(!temp) { goto error; }
+	temp = realloc(data, size); if(!temp) { djon_set_error(it,"out of memory"); goto error; }
     data = temp;
     data[used] = 0; // null term
 
@@ -673,13 +719,14 @@ void djon_skip_white(djon_state *it)
 				if( (c1=='\n') )
 				{
 					it->parse_idx++;
-					break;
+					return;
 				}
 				else
 				{
 					it->parse_idx++;
 				}
 			}
+			return; // this is OK
 		}
 		else
 		if( (c1=='/') && (c2=='*'))
@@ -692,13 +739,14 @@ void djon_skip_white(djon_state *it)
 				if( (c1=='*') || (c2=='/') )
 				{
 					it->parse_idx+=2;
-					break;
+					return;
 				}
 				else
 				{
 					it->parse_idx++;
 				}
 			}
+			djon_set_error(it,"missing */");
 		}
 		else
 		{
@@ -770,9 +818,14 @@ int djon_parse_string(djon_state *it,int lst_idx,char * term)
 			while(1)
 			{
 				c=*cp++;
-				if(c==0){ goto error; } // did not find
 				if( (c=='\'') || (c=='"') ) { term_len++; } // allowable
+				else
 				if( (c=='`') ) { term_len++; break; } // final
+				else
+				{
+					term_len=1; // single ` only
+					break;
+				}
 			}
 		}
 		lst->typ=STRING; // no escapes allowed
@@ -817,7 +870,14 @@ int djon_parse_string(djon_state *it,int lst_idx,char * term)
 		lst->len++; // grow string
 		it->parse_idx++; // advance
 	}
-
+	if(*term=='\n')
+	{
+		djon_set_error(it,"naked string not terminated");
+	}
+	else
+	{
+		djon_set_error(it,"string not terminated");
+	}
 error:
 	return 0;
 }
@@ -872,7 +932,7 @@ int djon_parse_name(djon_state *it)
 			if( djon_peek_punct(it,"=:") ) { return lst_idx; } // stop at punct or closing quote
 			c=it->data[ it->parse_idx ];
 			if( c==',' || c=='[' || c==']' || c=='{' || c=='}' || c=='`' || c=='\'' || c=='"')
-			{ goto error; } // a naked key may not contain any significant punctuation
+			{ djon_set_error(it,"invalid naked key"); goto error; } // a naked key may not contain any significant punctuation
 		}
 		else
 		if( it->data[ it->parse_idx ]==term )
@@ -884,6 +944,8 @@ int djon_parse_name(djon_state *it)
 		lst->len++; // grow string
 		it->parse_idx++; // advance
 	}
+	djon_set_error(it,"key not terminated");
+
 error:
 	return 0;
 }
@@ -907,7 +969,7 @@ int djon_parse_object(djon_state *it,int lst_idx)
 
 		nam_idx=djon_parse_name(it);
 		if(!nam_idx) { return 0; } // no value
-		if( djon_skip_white_punct(it,"=:") != 1 ) { return 0; } // required assignment
+		if( djon_skip_white_punct(it,"=:") != 1 ) { djon_set_error(it,"missing value"); return 0; } // required assignment
 		val_idx=djon_parse_value(it); if(!val_idx){return 0;}
 		djon_skip_white_punct(it,",;"); // optional , seperators
 
@@ -946,7 +1008,7 @@ int djon_parse_array(djon_state *it,int lst_idx)
 		if( it->data[it->parse_idx]==']' ) { it->parse_idx++; return lst_idx; } // found closer
 
 		val_idx=djon_parse_value(it);
-		if(!val_idx) { return 0; } // no value
+		if(!val_idx) { djon_set_error(it,"missing value"); return 0; } // no value
 		djon_skip_white_punct(it,",;"); // optional , separators
 
 		if( lst->val==0) // first
@@ -969,6 +1031,7 @@ int djon_parse_value(djon_state *it)
 	int idx;
 	djon_value *nxt;
 	
+	if(it->error_string){ return 0; }
 	if(!djon_check_stack(it)){ return 0; }
 
 	djon_skip_white(it);
@@ -1060,7 +1123,7 @@ int djon_check_stack(djon_state *it)
 		int stacksize = it->parse_stack - ((char*)&stack); // oh yeah stack grows backwards
 		if ( stacksize > (256*1024) ) // 256k stack burper, give up if we use too much
 		{
-			printf("Stack overflow %d\n",stacksize);
+			djon_set_error(it,"stack overflow");
 			return 0;
 		}
 	}
@@ -1097,7 +1160,7 @@ int djon_parse(djon_state *it)
 	return it->parse_first;
 error:
 	it->parse_stack=0;
-	return it->parse_first;
+	return 0;
 }
 
 #endif
