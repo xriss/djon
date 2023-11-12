@@ -1021,6 +1021,7 @@ int djon_parse_next(djon_state *it)
 	idx=djon_alloc(it);
 	nxt=djon_get(it,idx);
 	if(nxt==0) { return 0; }
+	
 	nxt->typ=DJON_STRING;
 	nxt->str=it->data+it->parse_idx;
 	nxt->len=0;
@@ -1029,9 +1030,9 @@ int djon_parse_next(djon_state *it)
 
 int djon_parse_string(djon_state *it,char * term)
 {
-	int lst_idx=djon_parse_next(it);
-	djon_value *lst=djon_get(it,lst_idx);
-	if(lst==0) { return 0; }
+	int str_idx=djon_parse_next(it);
+	djon_value *str=djon_get(it,str_idx);
+	if(!str) { return 0; }
 	
 	char c;
 	char *cp;
@@ -1040,7 +1041,7 @@ int djon_parse_string(djon_state *it,char * term)
 	
 	if( *term=='`' ) // need to find special terminator
 	{
-		term=lst->str;
+		term=str->str;
 		cp=term+1; // skip first char which is a `
 		c=*cp; // next char
 		if( (c=='\'') || (c=='"') || (c=='`') )// not a single opener
@@ -1058,18 +1059,18 @@ int djon_parse_string(djon_state *it,char * term)
 				}
 			}
 		}
-		lst->typ=DJON_STRING; // no escapes allowed
+		str->typ=DJON_STRING; // no escapes allowed
 	}
 	else
 	{
-		lst->typ=DJON_ESCAPED|DJON_STRING;
+		str->typ=DJON_ESCAPED|DJON_STRING;
 	}
 
 	if( *term != '\n' ) // need to skip opening quote if not \n terminated
 	{
 		it->parse_idx+=term_len;
-		lst->str+=term_len;
-		lst->len=0;
+		str->str+=term_len;
+		str->len=0;
 	}
 
 	while( it->parse_idx < it->data_len ) // while data
@@ -1077,11 +1078,11 @@ int djon_parse_string(djon_state *it,char * term)
 		cp=it->data+it->parse_idx;
 		c=*cp; // get next char
 		
-		if( lst->typ=DJON_ESCAPED|DJON_STRING ) // we need to check for back slashes
+		if( str->typ=DJON_ESCAPED|DJON_STRING ) // we need to check for back slashes
 		{
 			if(c=='\\') // skip next char whatever it is
 			{
-				lst->len+=2; // grow string
+				str->len+=2; // grow string
 				it->parse_idx+=2; // advance
 				continue;
 			}
@@ -1093,18 +1094,18 @@ int djon_parse_string(djon_state *it,char * term)
 			if(tp==term+term_len-1) // found full terminator
 			{
 				it->parse_idx+=term_len; // advance
-				djon_unescape_string(lst); // fix string and remove escape bit
-				return lst_idx; // done
+				djon_unescape_string(str); // fix string and remove escape bit
+				return str_idx; // done
 			}
 		}
 
-		lst->len++; // grow string
+		str->len++; // grow string
 		it->parse_idx++; // advance
 	}
 	if(*term=='\n')
 	{
-		djon_unescape_string(lst); // fix string and remove escape bit
-		return lst_idx; // accept end of file as a \n
+		djon_unescape_string(str); // fix string and remove escape bit
+		return str_idx; // accept end of file as a \n
 	}
 
 	if(*term=='\'')
@@ -1125,10 +1126,11 @@ int djon_parse_string(djon_state *it,char * term)
 
 int djon_parse_number(djon_state *it)
 {
-	int lst_idx=djon_parse_next(it);
-	djon_value *lst=djon_get(it,lst_idx);
+	int num_idx=djon_parse_next(it);
+	djon_value *num=djon_get(it,num_idx);
+	if(!num){return 0;}
 
-	char *cps=lst->str;
+	char *cps=num->str;
 	char *cpe;
 
 //	double d=strtod(cps,&cpe);
@@ -1138,10 +1140,10 @@ int djon_parse_number(djon_state *it)
 	{
 		it->parse_idx+=len;
 
-		lst->typ=DJON_NUMBER;
-		lst->num=d;
+		num->typ=DJON_NUMBER;
+		num->num=d;
 		
-		return lst_idx;
+		return num_idx;
 	}
 	djon_set_error(it,"invalid number");
 	return 0;
@@ -1151,10 +1153,9 @@ int djon_parse_key(djon_state *it)
 {
 	djon_skip_white_punct(it,",");
 
-	int lst_idx=djon_parse_next(it);
-	djon_value *lst=djon_get(it,lst_idx);
-	if(lst==0){return 0;} // out of data
-
+	int key_idx=djon_parse_next(it);
+	djon_value *key=djon_get(it,key_idx);
+	if(!key){return 0;} // out of data
 
 	char term=0;
 	char c;
@@ -1164,21 +1165,21 @@ int djon_parse_key(djon_state *it)
 	if( c=='\'' || c=='"' ) // open quote
 	{
 		term=c;
-		lst->str++; // skip opening quote
+		key->str++; // skip opening quote
 		it->parse_idx++; // advance
-		lst->typ=DJON_KEY|DJON_ESCAPED|DJON_STRING; // this is a key with escapes inside 
+		key->typ=DJON_KEY|DJON_ESCAPED|DJON_STRING; // this is a key with escapes inside 
 	}
 	else
 	{
-		lst->typ=DJON_KEY|DJON_STRING; // this is a key with no escape
+		key->typ=DJON_KEY|DJON_STRING; // this is a key with no escape
 	}
 
 	while( it->parse_idx < it->data_len ) // while data
 	{
 		if(term==0) // naked string will not contain escapes
 		{
-			if( djon_peek_white(it) ) { return lst_idx; } // stop at whitespace
-			if( djon_peek_punct(it,"=:") ) { return lst_idx; } // stop at punct or closing quote
+			if( djon_peek_white(it) ) { return key_idx; } // stop at whitespace
+			if( djon_peek_punct(it,"=:") ) { return key_idx; } // stop at punct or closing quote
 			c=it->data[ it->parse_idx ];
 			if( DJON_IS_TERMINATOR(c) ) // a naked key may not contain any terminator
 			{ djon_set_error(it,"invalid naked key"); goto error; } 
@@ -1186,18 +1187,18 @@ int djon_parse_key(djon_state *it)
 		else
 		if( it->data[ it->parse_idx ]=='\\' ) // skip escaped char
 		{
-			lst->len++; // grow string
+			key->len++; // grow string
 			it->parse_idx++; // advance
 		}
 		else
 		if( it->data[ it->parse_idx ]==term )
 		{
 			it->parse_idx++; // skip closing quote
-			djon_unescape_string(lst); // fix string and remove escape bit
-			return lst_idx; // end
+			djon_unescape_string(key); // fix string and remove escape bit
+			return key_idx; // end
 		}
 
-		lst->len++; // grow string
+		key->len++; // grow string
 		it->parse_idx++; // advance
 	}
 	if(term=='\'')
@@ -1220,14 +1221,15 @@ error:
 
 int djon_parse_object(djon_state *it)
 {
-	int lst_idx=djon_parse_next(it);
+	int obj_idx=djon_parse_next(it);
+	djon_value *obj=djon_get(it,obj_idx);
+	if(!obj){return 0;}
 
-	djon_value *lst=djon_get(it,lst_idx);
 	djon_value *key;
 	djon_value *val;
 
 	it->parse_idx++; // skip opener
-	lst->typ=DJON_OBJECT;
+	obj->typ=DJON_OBJECT;
 
 	int key_idx;
 	int val_idx;
@@ -1235,7 +1237,7 @@ int djon_parse_object(djon_state *it)
 	while(1)
 	{
 		djon_skip_white_punct(it,",");
-		if( it->data[it->parse_idx]=='}' ) { it->parse_idx++;  return lst_idx; } // found closer
+		if( it->data[it->parse_idx]=='}' ) { it->parse_idx++;  return obj_idx; } // found closer
 
 		key_idx=djon_parse_key(it);
 		if(!key_idx) { djon_set_error(it,"missing }"); return 0; }
@@ -1243,10 +1245,10 @@ int djon_parse_object(djon_state *it)
 		val_idx=djon_parse_value(it); if(!val_idx){ djon_set_error(it,"missing value"); return 0; }
 		djon_skip_white_punct(it,","); // optional , seperators
 
-		if( lst->key==0) // first
+		if( obj->key==0) // first
 		{
-			lst->key=key_idx;
-			lst->val=val_idx;
+			obj->key=key_idx;
+			obj->val=val_idx;
 			key=djon_get(it,key_idx);
 			val=djon_get(it,val_idx);
 		}
@@ -1264,28 +1266,29 @@ int djon_parse_object(djon_state *it)
 
 int djon_parse_array(djon_state *it)
 {
-	int lst_idx=djon_parse_next(it);
-
-	djon_value *lst=djon_get(it,lst_idx);
+	int arr_idx=djon_parse_next(it);
+	djon_value *arr=djon_get(it,arr_idx);
+	if(!arr){return 0;}
+	
 	djon_value *val;
 
 	it->parse_idx++; // skip opener
-	lst->typ=DJON_ARRAY;
+	arr->typ=DJON_ARRAY;
 
 	int val_idx;
 
 	while(1)
 	{
 		djon_skip_white_punct(it,",");
-		if( it->data[it->parse_idx]==']' ) { it->parse_idx++; return lst_idx; } // found closer
+		if( it->data[it->parse_idx]==']' ) { it->parse_idx++; return arr_idx; } // found closer
 
 		val_idx=djon_parse_value(it);
 		if(!val_idx) { djon_set_error(it,"missing ]"); return 0; } // no value, probably missed a ]
 		djon_skip_white_punct(it,","); // optional , separators
 
-		if( lst->val==0) // first
+		if( arr->val==0) // first
 		{
-			lst->val=val_idx;
+			arr->val=val_idx;
 			val=djon_get(it,val_idx);
 		}
 		else // chain
@@ -1295,7 +1298,7 @@ int djon_parse_array(djon_state *it)
 		}
 	}
 	
-	return lst_idx;
+	return arr_idx;
 }
 
 int djon_parse_value(djon_state *it)
