@@ -34,28 +34,24 @@ line 1 char 8 byte 7
 #json/bad/n_array_comma_after_close.json
 [""],
 #c.json
-multiple root values
-line 1 char 5 byte 4
-[
- ""
-] ,
-","
-#c.djon
-multiple root values
-line 1 char 5 byte 4
 [
  ""
 ]
-","
+#c.djon
+[
+ ""
+]
 
 #json/bad/n_array_comma_and_number.json
 [,1]
 #c.json
-missing ]
-line 1 char 5 byte 4
+[
+ 1
+]
 #c.djon
-missing ]
-line 1 char 5 byte 4
+[
+ 1
+]
 
 #json/bad/n_array_double_comma.json
 [1,,2]
@@ -165,11 +161,11 @@ line 1 char 6 byte 5
 #json/bad/n_array_just_comma.json
 [,]
 #c.json
-missing ]
-line 1 char 4 byte 3
+[
+]
 #c.djon
-missing ]
-line 1 char 4 byte 3
+[
+]
 
 #json/bad/n_array_just_minus.json
 [-]
@@ -183,11 +179,13 @@ line 1 char 2 byte 1
 #json/bad/n_array_missing_value.json
 [   , ""]
 #c.json
-missing ]
-line 1 char 10 byte 9
+[
+ ""
+]
 #c.djon
-missing ]
-line 1 char 10 byte 9
+[
+ ""
+]
 
 #json/bad/n_array_newlines_unclosed.json
 ["a",
@@ -1532,10 +1530,10 @@ line 1 char 2 byte 1
 #json/bad/n_structure_comma_instead_of_closing_brace.json
 {"x": true,
 #c.json
-no data
+missing }
 line 1 char 12 byte 11
 #c.djon
-no data
+missing }
 line 1 char 12 byte 11
 
 #json/bad/n_structure_double_array.json
@@ -1695,10 +1693,10 @@ line 1 char 5851 byte 5850
 #json/bad/n_structure_open_array_open_object.json
 [{
 #c.json
-missing ]
+missing }
 line 1 char 3 byte 2
 #c.djon
-missing ]
+missing }
 line 1 char 3 byte 2
 
 #json/bad/n_structure_open_array_open_string.json
@@ -1731,19 +1729,19 @@ line 1 char 2 byte 1
 #json/bad/n_structure_open_object_comma.json
 {,
 #c.json
-invalid naked key
-line 1 char 2 byte 1
+missing }
+line 1 char 3 byte 2
 #c.djon
-invalid naked key
-line 1 char 2 byte 1
+missing }
+line 1 char 3 byte 2
 
 #json/bad/n_structure_open_object.json
 {
 #c.json
-no data
+missing }
 line 1 char 2 byte 1
 #c.djon
-no data
+missing }
 line 1 char 2 byte 1
 
 #json/bad/n_structure_open_object_open_array.json
@@ -1870,10 +1868,10 @@ line 1 char 13 byte 12
 #json/bad/n_structure_unclosed_object.json
 {"asd":"asd"
 #c.json
-no data
+missing }
 line 1 char 13 byte 12
 #c.djon
-no data
+missing }
 line 1 char 13 byte 12
 
 #json/bad/n_structure_unicode-identifier.json

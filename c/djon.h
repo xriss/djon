@@ -78,9 +78,9 @@ int djon_parse_value(djon_state *it);
 int djon_check_stack(djon_state *it);
 
 #define DJON_IS_WHITESPACE(c) ( ((c)==' ') || ((c)=='\t') || ((c)=='\n') || ((c)=='\r') || ((c)=='\v') || ((c)=='\f') )
-#define DJON_IS_SIGNIFICANT(c) ( ((c)=='{') || ((c)=='}') || ((c)=='[') || ((c)==']') || ((c)==':') || ((c)=='=') || ((c)==',') || ((c)=='/') )
-#define DJON_IS_TERMINATOR(c) ( (((c)<=32)) || (((c)>=128)) || DJON_IS_SIGNIFICANT(c) )
-// this will work when char is signed or unsigned
+#define DJON_IS_STRUCTURE(c)  ( ((c)=='{') || ((c)=='}') || ((c)=='[') || ((c)==']') || ((c)==':') || ((c)=='=') || ((c)==',') || ((c)=='/') )
+#define DJON_IS_TERMINATOR(c) ( (((c)<=32)) || (((c)>=128)) || DJON_IS_STRUCTURE(c) )
+// this will work when char is signed or unsigned , note that '/' is the start of /* or // comments
 
 #endif
 
@@ -1147,7 +1147,7 @@ int djon_parse_number(djon_state *it,int lst_idx)
 
 int djon_parse_key(djon_state *it)
 {
-	djon_skip_white(it);
+	djon_skip_white_punct(it,",");
 
 	int lst_idx=djon_parse_next(it);
 	djon_value *lst=djon_get(it,lst_idx);
@@ -1230,14 +1230,14 @@ int djon_parse_object(djon_state *it,int lst_idx)
 
 	while(1)
 	{
-		djon_skip_white(it);
+		djon_skip_white_punct(it,",");
 		if( it->data[it->parse_idx]=='}' ) { it->parse_idx++;  return lst_idx; } // found closer
 
 		key_idx=djon_parse_key(it);
-		if(!key_idx) { return 0; } // no value
-		if( djon_skip_white_punct(it,"=:") != 1 ) { djon_set_error(it,"missing : or ="); return 0; } // required assignment
+		if(!key_idx) { djon_set_error(it,"missing }"); return 0; }
+		if( djon_skip_white_punct(it,"=:") != 1 ) { djon_set_error(it,"missing : or ="); return 0; } // required
 		val_idx=djon_parse_value(it); if(!val_idx){ djon_set_error(it,"missing value"); return 0; }
-		djon_skip_white_punct(it,",;"); // optional , seperators
+		djon_skip_white_punct(it,","); // optional , seperators
 
 		if( lst->key==0) // first
 		{
@@ -1255,7 +1255,7 @@ int djon_parse_object(djon_state *it,int lst_idx)
 		}
 	}
 	
-	return lst_idx;
+	return 0;
 }
 
 int djon_parse_array(djon_state *it,int lst_idx)
@@ -1270,12 +1270,12 @@ int djon_parse_array(djon_state *it,int lst_idx)
 
 	while(1)
 	{
-		djon_skip_white(it);
+		djon_skip_white_punct(it,",");
 		if( it->data[it->parse_idx]==']' ) { it->parse_idx++; return lst_idx; } // found closer
 
 		val_idx=djon_parse_value(it);
 		if(!val_idx) { djon_set_error(it,"missing ]"); return 0; } // no value, probably missed a ]
-		djon_skip_white_punct(it,",;"); // optional , separators
+		djon_skip_white_punct(it,","); // optional , separators
 
 		if( lst->val==0) // first
 		{
@@ -1356,6 +1356,7 @@ int djon_parse_value(djon_state *it)
 		break;
 		case '`' :
 			return djon_parse_string(it,idx,"`");
+		break;
 		case '0' :
 		case '1' :
 		case '2' :
@@ -1372,6 +1373,7 @@ int djon_parse_value(djon_state *it)
 			return djon_parse_number(it,idx);
 		break;
 	}
+
 	return djon_parse_string(it,idx,"\n");
 }
 
@@ -1417,6 +1419,9 @@ int djon_parse(djon_state *it)
 		}
 		nxt=djon_get(it,idx);
 		if(nxt==0){	goto error; }
+		
+		// , are ignored  between top level values as if this was an array
+		djon_skip_white_punct(it,",");
 	}
 	djon_shrink(it);
 	return it->parse_first;
