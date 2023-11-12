@@ -87,6 +87,104 @@ int djon_check_stack(djon_state *it);
 
 #ifdef DJON_C
 
+// replace /n /t /uXXXX etc with utf8 chars, return new length of string
+// new string should always be shorter due to encoding inefficiencies
+int djon_unescape( char *cs , int len )
+{
+	char *cp=cs;     // input
+	char *co=cs;     // output
+	char *ce=cs+len; // end of input
+	char c;
+	int i;
+	int t; // 16bit utf char
+	while( cp<ce && co<ce ) // check all the chars and do not overrun
+	{
+		c=*cp;
+		if(c=='\\')
+		{
+			cp++; // skip backslash
+			c=*cp; // get char after
+			cp++; // which we always consume
+			switch(c)
+			{
+				case 'b' : *co++='\b'; break; // special chars
+				case 'f' : *co++='\f'; break;
+				case 'n' : *co++='\n'; break;
+				case 'r' : *co++='\r'; break;
+				case 't' : *co++='\t'; break;
+				default  : *co++=c;    break; // everything else
+				case 'u' :
+					t=0;
+					// note that we may read less than 4 chars here if they are not what we expect
+					for(i=0;i<4;i++) // grab *upto* four hex chars next
+					{
+						c=*cp;
+						if( c>='0' && c<='9' )
+						{
+							t=t*16+(c-'0');
+							cp++;
+						}
+						else
+						if( c>='a' && c<='f' )
+						{
+							t=t*16+(c-'a'+10);
+							cp++;
+						}
+						else
+						if( c>='A' && c<='F' )
+						{
+							t=t*16+(c-'A'+10);
+							cp++;
+						}
+					}
+					if(t<=0x007f)
+					{
+						*co++=t; // 7bit ascii
+					}
+					else
+					if(t<=0x07ff)
+					{
+						*co++=0xc0|((t>>6) &0x1f); // top 5 bits
+						*co++=0x80|( t     &0x3f); // last 6 bits
+					}
+					else // 0xffff
+					{
+						*co++=0xe0|((t>>12)&0x0f); // top 4 bits
+						*co++=0x80|((t>>6) &0x3f); // next 6 bits
+						*co++=0x80|( t     &0x3f); // last 6 bits
+					}
+				break;
+			}
+		}
+		else // copy as is
+		{
+			*co++=c;
+			cp++; // consume
+		}
+	}
+	return co-cs; // number of chars written
+}
+
+// this will remove the DJON_ESCAPED bit from a string and fix the estring
+// it is safe to call multiple times
+int djon_unescape_string( djon_value * v )
+{
+	// must exist
+	if(!v) { return 0; }
+
+	// must be string
+	if((v->typ&DJON_TYPEMASK)!=DJON_STRING) { return 0; }
+
+	// must be escaped
+	if(!(v->typ&DJON_ESCAPED)) { return 0; }
+
+	v->len=djon_unescape(v->str,v->len); // perform unescape
+
+	v->typ&=~DJON_ESCAPED; // remove flag
+
+	return 1; // we changed the string
+}
+
 // can this string be a rawkey
 int djon_is_rawkey( char *cp , int len )
 {
@@ -994,6 +1092,7 @@ int djon_parse_string(djon_state *it,int lst_idx,char * term)
 			if(tp==term+term_len-1) // found full terminator
 			{
 				it->parse_idx+=term_len; // advance
+				djon_unescape_string(lst); // fix string and remove escape bit
 				return lst_idx; // done
 			}
 		}
@@ -1003,6 +1102,7 @@ int djon_parse_string(djon_state *it,int lst_idx,char * term)
 	}
 	if(*term=='\n')
 	{
+		djon_unescape_string(lst); // fix string and remove escape bit
 		return lst_idx; // accept end of file as a \n
 	}
 
@@ -1073,7 +1173,7 @@ int djon_parse_key(djon_state *it)
 
 	while( it->parse_idx < it->data_len ) // while data
 	{
-		if(term==0) // naked string
+		if(term==0) // naked string will not contain escapes
 		{
 			if( djon_peek_white(it) ) { return lst_idx; } // stop at whitespace
 			if( djon_peek_punct(it,"=:") ) { return lst_idx; } // stop at punct or closing quote
@@ -1091,6 +1191,7 @@ int djon_parse_key(djon_state *it)
 		if( it->data[ it->parse_idx ]==term )
 		{
 			it->parse_idx++; // skip closing quote
+			djon_unescape_string(lst); // fix string and remove escape bit
 			return lst_idx; // end
 		}
 

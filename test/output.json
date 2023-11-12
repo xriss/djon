@@ -1141,33 +1141,33 @@ line 1 char 12 byte 11
 ["\uD800\u1"]
 #c.json
 [
- "\uD800\u1"
+ ""
 ]
 #c.djon
 [
- "\uD800\u1"
+ ""
 ]
 
 #json/bad/n_string_1_surrogate_then_escape_u1x.json
 ["\uD800\u1x"]
 #c.json
 [
- "\uD800\u1x"
+ "x"
 ]
 #c.djon
 [
- "\uD800\u1x"
+ "x"
 ]
 
 #json/bad/n_string_1_surrogate_then_escape_u.json
 ["\uD800\u"]
 #c.json
 [
- "\uD800\u"
+ ""
 ]
 #c.djon
 [
- "\uD800\u"
+ ""
 ]
 
 #json/bad/n_string_accentuated_char_no_quotes.json
@@ -1183,11 +1183,11 @@ line 1 char 5 byte 4
 ["\"]
 #c.json
 [
- "\"
+ ""
 ]
 #c.djon
 [
- "\"
+ ""
 ]
 
 #json/bad/n_string_escaped_backslash_bad.json
@@ -1203,44 +1203,46 @@ line 1 char 8 byte 7
 ["\	"]
 #c.json
 [
- "\	"
+ "	"
 ]
 #c.djon
 [
- "\	"
+ "	"
 ]
 
 #json/bad/n_string_escaped_emoji.json
 ["\"]
 #c.json
 [
- "\"
+ ""
 ]
 #c.djon
 [
- "\"
+ ""
 ]
 
 #json/bad/n_string_escape_x.json
 ["\x00"]
 #c.json
 [
- "\x00"
+ "x00"
 ]
 #c.djon
 [
- "\x00"
+ "x00"
 ]
 
 #json/bad/n_string_incomplete_escaped_character.json
 ["\u00A"]
 #c.json
 [
- "\u00A"
+ "
+"
 ]
 #c.djon
 [
- "\u00A"
+ "
+"
 ]
 
 #json/bad/n_string_incomplete_escape.json
@@ -1256,66 +1258,66 @@ line 1 char 6 byte 5
 ["\uD800\uD800\x"]
 #c.json
 [
- "\uD800\uD800\x"
+ "x"
 ]
 #c.djon
 [
- "\uD800\uD800\x"
+ "x"
 ]
 
 #json/bad/n_string_incomplete_surrogate.json
 ["\uD834\uDd"]
 #c.json
 [
- "\uD834\uDd"
+ ""
 ]
 #c.djon
 [
- "\uD834\uDd"
+ ""
 ]
 
 #json/bad/n_string_invalid_backslash_esc.json
 ["\a"]
 #c.json
 [
- "\a"
+ "a"
 ]
 #c.djon
 [
- "\a"
+ "a"
 ]
 
 #json/bad/n_string_invalid_unicode_escape.json
 ["\uqqqq"]
 #c.json
 [
- "\uqqqq"
+ "qqqq"
 ]
 #c.djon
 [
- "\uqqqq"
+ "qqqq"
 ]
 
 #json/bad/n_string_invalid_utf8_after_escape.json
 ["\"]
 #c.json
 [
- "\"
+ ""
 ]
 #c.djon
 [
- "\"
+ ""
 ]
 
 #json/bad/n_string_invalid-utf-8-in-escape.json
 ["\u"]
 #c.json
 [
- "\u"
+ ""
 ]
 #c.djon
 [
- "\u"
+ ""
 ]
 
 #json/bad/n_string_leading_uescaped_thinspace.json
@@ -1331,10 +1333,10 @@ line 1 char 14 byte 13
 [\n]
 #c.json
 missing ]
-line 1 char 5 byte 4
+line 2 char 3 byte 4
 #c.djon
 missing ]
-line 1 char 5 byte 4
+line 2 char 3 byte 4
 
 #json/bad/n_string_single_doublequote.json
 "
@@ -1411,9 +1413,9 @@ line"
 #json/bad/n_string_unicode_CapitalU.json
 "\UA66D"
 #c.json
-"\UA66D"
+"UA66D"
 #c.djon
-"\UA66D"
+"UA66D"
 
 #json/bad/n_string_with_trailing_garbage.json
 ""x
@@ -1824,10 +1826,10 @@ line 1 char 6 byte 5
 [\u000A""]
 #c.json
 missing ]
-line 1 char 11 byte 10
+line 2 char 9 byte 10
 #c.djon
 missing ]
-line 1 char 11 byte 10
+line 2 char 9 byte 10
 
 #json/bad/n_structure_unclosed_array.json
 [1
@@ -2315,11 +2317,11 @@ line 1 char 6 byte 5
 {"foo\u0000bar": 42}
 #c.json
 {
- "foo\u0000bar" : 42
+ "foo" : 42
 }
 #c.djon
 {
- foo\u0000bar = 42
+ "foo" = 42
 }
 
 #json/good/y_object_extreme_numbers.json
@@ -2386,11 +2388,11 @@ line 1 char 6 byte 5
 {"title":"\u041f\u043e\u043b\u0442\u043e\u0440\u0430 \u0417\u0435\u043c\u043b\u0435\u043a\u043e\u043f\u0430" }
 #c.json
 {
- "title" : "\u041f\u043e\u043b\u0442\u043e\u0440\u0430 \u0417\u0435\u043c\u043b\u0435\u043a\u043e\u043f\u0430"
+ "title" : " "
 }
 #c.djon
 {
- title = "\u041f\u043e\u043b\u0442\u043e\u0440\u0430 \u0417\u0435\u043c\u043b\u0435\u043a\u043e\u043f\u0430"
+ title = " "
 }
 
 #json/good/y_object_with_newlines.json
@@ -2410,66 +2412,68 @@ line 1 char 6 byte 5
 ["\u0060\u012a\u12AB"]
 #c.json
 [
- "\u0060\u012a\u12AB"
+ "`"
 ]
 #c.djon
 [
- "\u0060\u012a\u12AB"
+ "`"
 ]
 
 #json/good/y_string_accepted_surrogate_pair.json
 ["\uD801\udc37"]
 #c.json
 [
- "\uD801\udc37"
+ ""
 ]
 #c.djon
 [
- "\uD801\udc37"
+ ""
 ]
 
 #json/good/y_string_accepted_surrogate_pairs.json
 ["\ud83d\ude39\ud83d\udc8d"]
 #c.json
 [
- "\ud83d\ude39\ud83d\udc8d"
+ ""
 ]
 #c.djon
 [
- "\ud83d\ude39\ud83d\udc8d"
+ ""
 ]
 
 #json/good/y_string_allowed_escapes.json
 ["\"\\\/\b\f\n\r\t"]
 #c.json
 [
- "\"\\\/\b\f\n\r\t"
+ ""\/
+	"
 ]
 #c.djon
 [
- "\"\\\/\b\f\n\r\t"
+ ""\/
+	"
 ]
 
 #json/good/y_string_backslash_and_u_escaped_zero.json
 ["\\u0000"]
 #c.json
 [
- "\\u0000"
+ "\u0000"
 ]
 #c.djon
 [
- "\\u0000"
+ "\u0000"
 ]
 
 #json/good/y_string_backslash_doublequotes.json
 ["\""]
 #c.json
 [
- "\""
+ """
 ]
 #c.djon
 [
- "\""
+ """
 ]
 
 #json/good/y_string_comments.json
@@ -2487,44 +2491,44 @@ line 1 char 6 byte 5
 ["\\a"]
 #c.json
 [
- "\\a"
+ "\a"
 ]
 #c.djon
 [
- "\\a"
+ "\a"
 ]
 
 #json/good/y_string_double_escape_n.json
 ["\\n"]
 #c.json
 [
- "\\n"
+ "\n"
 ]
 #c.djon
 [
- "\\n"
+ "\n"
 ]
 
 #json/good/y_string_escaped_control_character.json
 ["\u0012"]
 #c.json
 [
- "\u0012"
+ ""
 ]
 #c.djon
 [
- "\u0012"
+ ""
 ]
 
 #json/good/y_string_escaped_noncharacter.json
 ["\uFFFF"]
 #c.json
 [
- "\uFFFF"
+ ""
 ]
 #c.djon
 [
- "\uFFFF"
+ ""
 ]
 
 #json/good/y_string_in_array.json
@@ -2553,22 +2557,22 @@ line 1 char 6 byte 5
 ["\uDBFF\uDFFF"]
 #c.json
 [
- "\uDBFF\uDFFF"
+ ""
 ]
 #c.djon
 [
- "\uDBFF\uDFFF"
+ ""
 ]
 
 #json/good/y_string_nbsp_uescaped.json
 ["new\u00A0line"]
 #c.json
 [
- "new\u00A0line"
+ "newline"
 ]
 #c.djon
 [
- "new\u00A0line"
+ "newline"
 ]
 
 #json/good/y_string_nonCharacterInUTF-8_U+10FFFF.json
@@ -2597,22 +2601,22 @@ line 1 char 6 byte 5
 ["\u0000"]
 #c.json
 [
- "\u0000"
+ ""
 ]
 #c.djon
 [
- "\u0000"
+ ""
 ]
 
 #json/good/y_string_one-byte-utf-8.json
 ["\u002c"]
 #c.json
 [
- "\u002c"
+ ","
 ]
 #c.djon
 [
- "\u002c"
+ ","
 ]
 
 #json/good/y_string_pi.json
@@ -2659,33 +2663,33 @@ line 1 char 6 byte 5
 ["\uD834\uDd1e"]
 #c.json
 [
- "\uD834\uDd1e"
+ ""
 ]
 #c.djon
 [
- "\uD834\uDd1e"
+ ""
 ]
 
 #json/good/y_string_three-byte-utf-8.json
 ["\u0821"]
 #c.json
 [
- "\u0821"
+ ""
 ]
 #c.djon
 [
- "\u0821"
+ ""
 ]
 
 #json/good/y_string_two-byte-utf-8.json
 ["\u0123"]
 #c.json
 [
- "\u0123"
+ ""
 ]
 #c.djon
 [
- "\u0123"
+ ""
 ]
 
 #json/good/y_string_u+2028_line_sep.json
@@ -2714,22 +2718,24 @@ line 1 char 6 byte 5
 ["new\u000Aline"]
 #c.json
 [
- "new\u000Aline"
+ "new
+line"
 ]
 #c.djon
 [
- "new\u000Aline"
+ "new
+line"
 ]
 
 #json/good/y_string_uEscape.json
 ["\u0061\u30af\u30EA\u30b9"]
 #c.json
 [
- "\u0061\u30af\u30EA\u30b9"
+ "a"
 ]
 #c.djon
 [
- "\u0061\u30af\u30EA\u30b9"
+ "a"
 ]
 
 #json/good/y_string_unescaped_char_delete.json
@@ -2758,99 +2764,99 @@ line 1 char 6 byte 5
 ["\u005C"]
 #c.json
 [
- "\u005C"
+ "\"
 ]
 #c.djon
 [
- "\u005C"
+ "\"
 ]
 
 #json/good/y_string_unicode_escaped_double_quote.json
 ["\u0022"]
 #c.json
 [
- "\u0022"
+ """
 ]
 #c.djon
 [
- "\u0022"
+ """
 ]
 
 #json/good/y_string_unicode.json
 ["\uA66D"]
 #c.json
 [
- "\uA66D"
+ ""
 ]
 #c.djon
 [
- "\uA66D"
+ ""
 ]
 
 #json/good/y_string_unicode_U+1FFFE_nonchar.json
 ["\uD83F\uDFFE"]
 #c.json
 [
- "\uD83F\uDFFE"
+ ""
 ]
 #c.djon
 [
- "\uD83F\uDFFE"
+ ""
 ]
 
 #json/good/y_string_unicode_U+10FFFE_nonchar.json
 ["\uDBFF\uDFFE"]
 #c.json
 [
- "\uDBFF\uDFFE"
+ ""
 ]
 #c.djon
 [
- "\uDBFF\uDFFE"
+ ""
 ]
 
 #json/good/y_string_unicode_U+200B_ZERO_WIDTH_SPACE.json
 ["\u200B"]
 #c.json
 [
- "\u200B"
+ ""
 ]
 #c.djon
 [
- "\u200B"
+ ""
 ]
 
 #json/good/y_string_unicode_U+2064_invisible_plus.json
 ["\u2064"]
 #c.json
 [
- "\u2064"
+ ""
 ]
 #c.djon
 [
- "\u2064"
+ ""
 ]
 
 #json/good/y_string_unicode_U+FDD0_nonchar.json
 ["\uFDD0"]
 #c.json
 [
- "\uFDD0"
+ ""
 ]
 #c.djon
 [
- "\uFDD0"
+ ""
 ]
 
 #json/good/y_string_unicode_U+FFFE_nonchar.json
 ["\uFFFE"]
 #c.json
 [
- "\uFFFE"
+ ""
 ]
 #c.djon
 [
- "\uFFFE"
+ ""
 ]
 
 #json/good/y_string_utf8.json
@@ -3146,11 +3152,11 @@ TRUE
 ["\uD800"]
 #c.json
 [
- "\uD800"
+ ""
 ]
 #c.djon
 [
- "\uD800"
+ ""
 ]
 
 #json/edge/string_1_invalid_codepoint.json
@@ -3168,11 +3174,11 @@ TRUE
 ["\uD800\uD800"]
 #c.json
 [
- "\uD800\uD800"
+ ""
 ]
 #c.djon
 [
- "\uD800\uD800"
+ ""
 ]
 
 #json/edge/string_2_invalid_codepoints.json
@@ -3190,11 +3196,11 @@ TRUE
 ["\uD800\uD800\uD800"]
 #c.json
 [
- "\uD800\uD800\uD800"
+ ""
 ]
 #c.djon
 [
- "\uD800\uD800\uD800"
+ ""
 ]
 
 #json/edge/string_3_invalid_codepoints.json
@@ -3212,11 +3218,11 @@ TRUE
 ["A\u0000B"]
 #c.json
 [
- "A\u0000B"
+ "AB"
 ]
 #c.djon
 [
- "A\u0000B"
+ "AB"
 ]
 
 #json/maybe/i_number_double_huge_neg_exp.json
@@ -3333,88 +3339,92 @@ TRUE
 {"\uDFAA":0}
 #c.json
 {
- "\uDFAA" : 0
+ "" : 0
 }
 #c.djon
 {
- \uDFAA = 0
+ "" = 0
 }
 
 #json/maybe/i_string_1st_surrogate_but_2nd_missing.json
 ["\uDADA"]
 #c.json
 [
- "\uDADA"
+ ""
 ]
 #c.djon
 [
- "\uDADA"
+ ""
 ]
 
 #json/maybe/i_string_1st_valid_surrogate_2nd_invalid.json
 ["\uD888\u1234"]
 #c.json
 [
- "\uD888\u1234"
+ ""
 ]
 #c.djon
 [
- "\uD888\u1234"
+ ""
 ]
 
 #json/maybe/i_string_incomplete_surrogate_and_escape_valid.json
 ["\uD800\n"]
 #c.json
 [
- "\uD800\n"
+ "
+"
 ]
 #c.djon
 [
- "\uD800\n"
+ "
+"
 ]
 
 #json/maybe/i_string_incomplete_surrogate_pair.json
 ["\uDd1ea"]
 #c.json
 [
- "\uDd1ea"
+ "a"
 ]
 #c.djon
 [
- "\uDd1ea"
+ "a"
 ]
 
 #json/maybe/i_string_incomplete_surrogates_escape_valid.json
 ["\uD800\uD800\n"]
 #c.json
 [
- "\uD800\uD800\n"
+ "
+"
 ]
 #c.djon
 [
- "\uD800\uD800\n"
+ "
+"
 ]
 
 #json/maybe/i_string_invalid_lonely_surrogate.json
 ["\ud800"]
 #c.json
 [
- "\ud800"
+ ""
 ]
 #c.djon
 [
- "\ud800"
+ ""
 ]
 
 #json/maybe/i_string_invalid_surrogate.json
 ["\ud800abc"]
 #c.json
 [
- "\ud800abc"
+ "abc"
 ]
 #c.djon
 [
- "\ud800abc"
+ "abc"
 ]
 
 #json/maybe/i_string_invalid_utf-8.json
@@ -3432,11 +3442,11 @@ TRUE
 ["\uDd1e\uD834"]
 #c.json
 [
- "\uDd1e\uD834"
+ ""
 ]
 #c.djon
 [
- "\uDd1e\uD834"
+ ""
 ]
 
 #json/maybe/i_string_iso_latin_1.json
@@ -3454,11 +3464,11 @@ TRUE
 ["\uDFAA"]
 #c.json
 [
- "\uDFAA"
+ ""
 ]
 #c.djon
 [
- "\uDFAA"
+ ""
 ]
 
 #json/maybe/i_string_lone_utf8_continuation_byte.json
