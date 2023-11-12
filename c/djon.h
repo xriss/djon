@@ -726,7 +726,7 @@ void djon_skip_white(djon_state *it)
 					it->parse_idx++;
 				}
 			}
-			return; // this is OK
+			return; // file ending counts as a \n so this is OK
 		}
 		else
 		if( (c1=='/') && (c2=='*'))
@@ -872,13 +872,10 @@ int djon_parse_string(djon_state *it,int lst_idx,char * term)
 	}
 	if(*term=='\n')
 	{
-		djon_set_error(it,"naked string not terminated");
+		return lst_idx; // accept end of file as a \n
 	}
-	else
-	{
-		djon_set_error(it,"string not terminated");
-	}
-error:
+
+	djon_set_error(it,"missing string terminator");
 	return 0;
 }
 
@@ -944,7 +941,7 @@ int djon_parse_name(djon_state *it)
 		lst->len++; // grow string
 		it->parse_idx++; // advance
 	}
-	djon_set_error(it,"key not terminated");
+	djon_set_error(it,"missing key terminator");
 
 error:
 	return 0;

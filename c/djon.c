@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
 	if(v && v->nxt)
 	{
 		it->parse_idx=v->str-it->data; // fake idx
-		djon_set_error(it,"multiple values at root");
+		djon_set_error(it,"multiple root values");
 		goto error;
 	}
 	it->fp=stdout;
