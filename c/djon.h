@@ -1027,8 +1027,9 @@ int djon_parse_next(djon_state *it)
 	return idx;
 }
 
-int djon_parse_string(djon_state *it,int lst_idx,char * term)
+int djon_parse_string(djon_state *it,char * term)
 {
+	int lst_idx=djon_parse_next(it);
 	djon_value *lst=djon_get(it,lst_idx);
 	if(lst==0) { return 0; }
 	
@@ -1122,8 +1123,9 @@ int djon_parse_string(djon_state *it,int lst_idx,char * term)
 	return 0;
 }
 
-int djon_parse_number(djon_state *it,int lst_idx)
+int djon_parse_number(djon_state *it)
 {
+	int lst_idx=djon_parse_next(it);
 	djon_value *lst=djon_get(it,lst_idx);
 
 	char *cps=lst->str;
@@ -1216,8 +1218,10 @@ error:
 	return 0;
 }
 
-int djon_parse_object(djon_state *it,int lst_idx)
+int djon_parse_object(djon_state *it)
 {
+	int lst_idx=djon_parse_next(it);
+
 	djon_value *lst=djon_get(it,lst_idx);
 	djon_value *key;
 	djon_value *val;
@@ -1258,8 +1262,10 @@ int djon_parse_object(djon_state *it,int lst_idx)
 	return 0;
 }
 
-int djon_parse_array(djon_state *it,int lst_idx)
+int djon_parse_array(djon_state *it)
 {
+	int lst_idx=djon_parse_next(it);
+
 	djon_value *lst=djon_get(it,lst_idx);
 	djon_value *val;
 
@@ -1335,27 +1341,24 @@ int djon_parse_value(djon_state *it)
 		return idx;
 	}
 
-	idx=djon_parse_next(it);
-	nxt=djon_get(it,idx);
-	if(nxt==0){return 0;}
-	char c=*(nxt->str);
+	char c=it->data[it->parse_idx]; // peek next char
 
 	switch( c )
 	{
 		case '{' :
-			return djon_parse_object(it,idx);
+			return djon_parse_object(it);
 		break;
 		case '[' :
-			return djon_parse_array(it,idx);
+			return djon_parse_array(it);
 		break;
 		case '\'' :
-			return djon_parse_string(it,idx,"'");
+			return djon_parse_string(it,"'");
 		break;
 		case '"' :
-			return djon_parse_string(it,idx,"\"");
+			return djon_parse_string(it,"\"");
 		break;
 		case '`' :
-			return djon_parse_string(it,idx,"`");
+			return djon_parse_string(it,"`");
 		break;
 		case '0' :
 		case '1' :
@@ -1370,11 +1373,11 @@ int djon_parse_value(djon_state *it)
 		case '.' :
 		case '+' :
 		case '-' :
-			return djon_parse_number(it,idx);
+			return djon_parse_number(it);
 		break;
 	}
 
-	return djon_parse_string(it,idx,"\n");
+	return djon_parse_string(it,"\n");
 }
 
 
