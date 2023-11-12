@@ -389,6 +389,10 @@ void djon_set_error(djon_state *it, char *error)
 			y++;
 		}
 	}
+	// error is at end of file
+	it->error_char=x;
+	it->error_line=y;
+	return;
 }
 
 // allocate a new parsing state
@@ -891,7 +895,18 @@ int djon_parse_string(djon_state *it,int lst_idx,char * term)
 		return lst_idx; // accept end of file as a \n
 	}
 
-	djon_set_error(it,"missing string terminator");
+	if(*term=='\'')
+	{
+		djon_set_error(it,"missing '");
+	}
+	else
+	if(*term=='"')
+	{
+		djon_set_error(it,"missing \"");
+	}
+	{
+		djon_set_error(it,"missing string terminator");
+	}
 	return 0;
 }
 

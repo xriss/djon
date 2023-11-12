@@ -20,20 +20,36 @@ int main(int argc, char *argv[])
 		djon_load_file(it,0); // stdin
 	}
 	if( it->error_string ){ goto error; }
+
+	
 	djon_parse(it);
-	if( it->error_string ){ goto error; }
 	
 	djon_value *v=djon_get(it,it->parse_first);
 	if(v && v->nxt)
 	{
-		it->parse_idx=v->str-it->data; // fake idx
+		v=djon_get(it,v->nxt);
+		if(v) { it->parse_idx=v->str-it->data; }
 		djon_set_error(it,"multiple root values");
-		goto error;
 	}
+	else
+	if(!v)
+	{
+		djon_set_error(it,"no data");
+	}
+
 	it->fp=stdout;
-	djon_print(it,it->parse_first,0);
+	int i=it->parse_first;
+	while( i )
+	{
+		djon_print(it,i,0);
+		v=djon_get(it,i);
+		i=v?v->nxt:0;
+	}
+
+	if( it->error_string ){ goto error; }
 
 	djon_clean(it);
+
 
 	return 0;
 error:
@@ -41,6 +57,10 @@ error:
 	{
 		fprintf(stderr,"%s\n",it->error_string);
 		fprintf(stderr,"line %d char %d (%d)\n",it->error_line,it->error_char,it->error_idx);
+	}
+	if(it)
+	{
+		djon_clean(it);
 	}
 	return 20;
 }
