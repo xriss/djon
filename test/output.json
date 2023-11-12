@@ -50,9 +50,8 @@ line 1 char 5 (4)
 #json/bad/n_array_extra_close.json
 ["x"]]
 #c
-[
- "x"
-]
+multiple root values
+line 1 char 1 (0)
 
 #json/bad/n_array_extra_comma.json
 ["",]
@@ -927,9 +926,8 @@ line 1 char 1 (0)
 #json/bad/n_structure_array_with_extra_array_close.json
 [1]]
 #c
-[
- 1
-]
+multiple root values
+line 1 char 1 (0)
 
 #json/bad/n_structure_array_with_unclosed_string.json
 ["asd]
@@ -952,7 +950,8 @@ a
 #json/bad/n_structure_close_unopened_array.json
 1]
 #c
-1
+multiple root values
+line 1 char 1 (0)
 
 #json/bad/n_structure_comma_instead_of_closing_brace.json
 {"x": true,
@@ -967,6 +966,7 @@ line 1 char 1 (0)
 #json/bad/n_structure_end_array.json
 ]
 #c
+"]"
 
 #json/bad/n_structure_incomplete_UTF8_BOM.json
 {}
@@ -1001,8 +1001,8 @@ line 1 char 4 (3)
 #json/bad/n_structure_object_followed_by_closing_object.json
 {}}
 #c
-{
-}
+multiple root values
+line 1 char 1 (0)
 
 #json/bad/n_structure_object_unclosed_no_value.json
 {"":

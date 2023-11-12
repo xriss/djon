@@ -1081,10 +1081,6 @@ int djon_parse_value(djon_state *it)
 		it->parse_idx+=4;
 		return idx;
 	}
-// amd a quick check for closers before we allocate anything
-	if( it->data[it->parse_idx]=='}' ) { it->parse_idx++; return 0; }
-	else
-	if( it->data[it->parse_idx]==']' ) { it->parse_idx++; return 0; }
 
 	idx=djon_parse_next(it);
 	nxt=djon_get(it,idx);
