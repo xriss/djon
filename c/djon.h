@@ -904,6 +904,7 @@ int djon_parse_string(djon_state *it,int lst_idx,char * term)
 	{
 		djon_set_error(it,"missing \"");
 	}
+	else
 	{
 		djon_set_error(it,"missing string terminator");
 	}
@@ -973,7 +974,19 @@ int djon_parse_name(djon_state *it)
 		lst->len++; // grow string
 		it->parse_idx++; // advance
 	}
-	djon_set_error(it,"missing key terminator");
+	if(term=='\'')
+	{
+		djon_set_error(it,"missing '");
+	}
+	else
+	if(term=='"')
+	{
+		djon_set_error(it,"missing \"");
+	}
+	else
+	{
+		djon_set_error(it,"missing key terminator");
+	}
 
 error:
 	return 0;

@@ -1140,7 +1140,7 @@ line 1 char 2 (1)
 #json/bad/n_structure_open_object_open_string.json
 {"a
 #c
-missing key terminator
+missing "
 line 1 char 4 (3)
 
 #json/bad/n_structure_open_object_string_with_apostrophes.json
