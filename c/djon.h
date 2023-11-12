@@ -8,25 +8,30 @@
 
 typedef enum djon_enum
 {
-	NONE,
-	NUMBER,
-	BOOL,
-	STRING,
-	ARRAY,
-	OBJECT,
-	ESCAPED_STRING, // string that contains \n \t \" etc
-	COMMENT, // a comment string
+	DJON_NULL     = 0x0001,
+	DJON_NUMBER   = 0x0002,
+	DJON_BOOL     = 0x0003,
+	DJON_STRING   = 0x0004,
+	DJON_ARRAY    = 0x0005,
+	DJON_OBJECT   = 0x0006,
+	DJON_COMMENT  = 0x0007,
+	DJON_TYPEMASK = 0x00ff, // type mask
+	
+	DJON_ESCAPED  = 0x0100, // string that contains \n \t \" etc
+	DJON_KEY      = 0x0200, // this string is a key
+
 } djon_enum ;
 
 typedef struct djon_value
 {
+	djon_enum typ; // the type of data contained in the string
+
 	int       nxt; // idx to next value if this is an object key/value or array
 	char    * str; // start of string ( points into the input json string )
 	int       len; // number of characters
 
-	djon_enum typ; // the type of data contained in the string
 	double    num; // number or bool value
-	int       nam; // linked list of names for object
+	int       key; // linked list of keys for object
 	int       val; // linked list of values for object or array
 	int       com; // linked list of comments for this value
 
@@ -460,9 +465,9 @@ int djon_alloc(djon_state *it)
 	v->nxt=0;
 	v->str=0;
 	v->len=0;
-	v->typ=NONE;
+	v->typ=DJON_NULL;
 	v->num=0.0;
-	v->nam=0;
+	v->key=0;
 	v->val=0;
 		
 	return it->values_len++;
@@ -496,15 +501,15 @@ int djon_print_indent(djon_state *it,int indent)
 void djon_print(djon_state *it,int idx,int indent)
 {
 	djon_value *nxt=djon_get(it,idx);
-	djon_value *nam;
+	djon_value *key;
 	djon_value *val;
-	int nam_idx;
+	int key_idx;
 	int val_idx;
 	int len;
 	if(nxt)
 	{
 		char *com=nxt->nxt?" ,":"";
-		if(nxt->typ==ARRAY)
+		if((nxt->typ&DJON_TYPEMASK)==DJON_ARRAY)
 		{
 			indent=djon_print_indent(it,indent);
 			fprintf(it->fp,"[\n");
@@ -518,25 +523,25 @@ void djon_print(djon_state *it,int idx,int indent)
 			fprintf(it->fp,"]%s\n",com);
 		}
 		else
-		if(nxt->typ==OBJECT)
+		if((nxt->typ&DJON_TYPEMASK)==DJON_OBJECT)
 		{
 			indent=djon_print_indent(it,indent);
 			fprintf(it->fp,"{\n");
-			nam_idx=nxt->nam; nam=djon_get(it,nam_idx);
+			key_idx=nxt->key; key=djon_get(it,key_idx);
 			val_idx=nxt->val; val=djon_get(it,val_idx);
-			while(nam&&val)
+			while(key&&val)
 			{
 				indent=djon_print_indent(it,indent+1)-1;
-				fprintf(it->fp,"\"%.*s\" : ",nam->len,nam->str);
+				fprintf(it->fp,"\"%.*s\" : ",key->len,key->str);
 				djon_print(it,val_idx,-(indent+1));
-				nam_idx=nam->nxt; nam=djon_get(it,nam_idx);
+				key_idx=key->nxt; key=djon_get(it,key_idx);
 				val_idx=val->nxt; val=djon_get(it,val_idx);
 			}
 			indent=djon_print_indent(it,indent);
 			fprintf(it->fp,"}%s\n",com);
 		}
 		else
-		if(nxt->typ==STRING)
+		if((nxt->typ&DJON_TYPEMASK)==DJON_STRING)
 		{
 			indent=djon_print_indent(it,indent);
 			fwrite("\"\n", 1, 1, it->fp);
@@ -544,15 +549,7 @@ void djon_print(djon_state *it,int idx,int indent)
 			fprintf(it->fp,"\"%s\n",com);
 		}
 		else
-		if(nxt->typ==ESCAPED_STRING)
-		{
-			indent=djon_print_indent(it,indent);
-			fwrite("\"\n", 1, 1, it->fp);
-			fwrite(nxt->str, 1, nxt->len, it->fp);
-			fprintf(it->fp,"\"%s\n",com);
-		}
-		else
-		if(nxt->typ==NUMBER)
+		if((nxt->typ&DJON_TYPEMASK)==DJON_NUMBER)
 		{
 			indent=djon_print_indent(it,indent);
 			len=djon_double_to_str(nxt->num,it->buf);
@@ -560,13 +557,13 @@ void djon_print(djon_state *it,int idx,int indent)
 			fprintf(it->fp,"%s\n",com);
 		}
 		else
-		if(nxt->typ==BOOL)
+		if((nxt->typ&DJON_TYPEMASK)==DJON_BOOL)
 		{
 			indent=djon_print_indent(it,indent);
 			fprintf(it->fp,"%s%s\n",nxt->num?"true":"false",com);
 		}
 		else
-		if(nxt->typ==NONE)
+		if((nxt->typ&DJON_TYPEMASK)==DJON_NULL)
 		{
 			indent=djon_print_indent(it,indent);
 			fprintf(it->fp,"%s%s\n","null",com);
@@ -812,7 +809,7 @@ int djon_parse_next(djon_state *it)
 	idx=djon_alloc(it);
 	nxt=djon_get(it,idx);
 	if(nxt==0) { return 0; }
-	nxt->typ=STRING;
+	nxt->typ=DJON_STRING;
 	nxt->str=it->data+it->parse_idx;
 	nxt->len=0;
 	return idx;
@@ -848,11 +845,11 @@ int djon_parse_string(djon_state *it,int lst_idx,char * term)
 				}
 			}
 		}
-		lst->typ=STRING; // no escapes allowed
+		lst->typ=DJON_STRING; // no escapes allowed
 	}
 	else
 	{
-		lst->typ=ESCAPED_STRING;
+		lst->typ=DJON_ESCAPED|DJON_STRING;
 	}
 
 	if( *term != '\n' ) // need to skip opening quote if not \n terminated
@@ -867,7 +864,7 @@ int djon_parse_string(djon_state *it,int lst_idx,char * term)
 		cp=it->data+it->parse_idx;
 		c=*cp; // get next char
 		
-		if( lst->typ=ESCAPED_STRING ) // we need to check for back slashes
+		if( lst->typ=DJON_ESCAPED|DJON_STRING ) // we need to check for back slashes
 		{
 			if(c=='\\') // skip next char whatever it is
 			{
@@ -925,7 +922,7 @@ int djon_parse_number(djon_state *it,int lst_idx)
 	{
 		it->parse_idx+=len;
 
-		lst->typ=NUMBER;
+		lst->typ=DJON_NUMBER;
 		lst->num=d;
 		
 		return lst_idx;
@@ -934,7 +931,7 @@ int djon_parse_number(djon_state *it,int lst_idx)
 	return 0;
 }
 
-int djon_parse_name(djon_state *it)
+int djon_parse_key(djon_state *it)
 {
 	djon_skip_white(it);
 
@@ -995,13 +992,13 @@ error:
 int djon_parse_object(djon_state *it,int lst_idx)
 {
 	djon_value *lst=djon_get(it,lst_idx);
-	djon_value *nam;
+	djon_value *key;
 	djon_value *val;
 
 	it->parse_idx++; // skip opener
-	lst->typ=OBJECT;
+	lst->typ=DJON_OBJECT;
 
-	int nam_idx;
+	int key_idx;
 	int val_idx;
 
 	while(1)
@@ -1009,24 +1006,24 @@ int djon_parse_object(djon_state *it,int lst_idx)
 		djon_skip_white(it);
 		if( it->data[it->parse_idx]=='}' ) { it->parse_idx++;  return lst_idx; } // found closer
 
-		nam_idx=djon_parse_name(it);
-		if(!nam_idx) { return 0; } // no value
+		key_idx=djon_parse_key(it);
+		if(!key_idx) { return 0; } // no value
 		if( djon_skip_white_punct(it,"=:") != 1 ) { djon_set_error(it,"missing : or ="); return 0; } // required assignment
 		val_idx=djon_parse_value(it); if(!val_idx){ djon_set_error(it,"missing value"); return 0; }
 		djon_skip_white_punct(it,",;"); // optional , seperators
 
-		if( lst->nam==0) // first
+		if( lst->key==0) // first
 		{
-			lst->nam=nam_idx;
+			lst->key=key_idx;
 			lst->val=val_idx;
-			nam=djon_get(it,nam_idx);
+			key=djon_get(it,key_idx);
 			val=djon_get(it,val_idx);
 		}
 		else // chain
 		{
-			nam->nxt=nam_idx;
+			key->nxt=key_idx;
 			val->nxt=val_idx;
-			nam=djon_get(it,nam_idx);
+			key=djon_get(it,key_idx);
 			val=djon_get(it,val_idx);
 		}
 	}
@@ -1040,7 +1037,7 @@ int djon_parse_array(djon_state *it,int lst_idx)
 	djon_value *val;
 
 	it->parse_idx++; // skip opener
-	lst->typ=ARRAY;
+	lst->typ=DJON_ARRAY;
 
 	int val_idx;
 
@@ -1084,7 +1081,7 @@ int djon_parse_value(djon_state *it)
 		idx=djon_alloc(it);
 		nxt=djon_get(it,idx);
 		if(nxt==0) { return 0; }
-		nxt->typ=BOOL;
+		nxt->typ=DJON_BOOL;
 		nxt->num=1.0;
 		it->parse_idx+=4;
 		return idx;
@@ -1095,7 +1092,7 @@ int djon_parse_value(djon_state *it)
 		idx=djon_alloc(it);
 		nxt=djon_get(it,idx);
 		if(nxt==0) { return 0; }
-		nxt->typ=BOOL;
+		nxt->typ=DJON_BOOL;
 		nxt->num=0.0;
 		it->parse_idx+=5;
 		return idx;
@@ -1106,7 +1103,7 @@ int djon_parse_value(djon_state *it)
 		idx=djon_alloc(it);
 		nxt=djon_get(it,idx);
 		if(nxt==0) { return 0; }
-		nxt->typ=NONE;
+		nxt->typ=DJON_NULL;
 		it->parse_idx+=4;
 		return idx;
 	}
