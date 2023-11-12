@@ -77,9 +77,9 @@ int djon_free(djon_state *it,int idx);
 int djon_parse_value(djon_state *it);
 int djon_check_stack(djon_state *it);
 
-#define DJON_IS_WHITE(c) ( ((c)==' ') || ((c)=='\t') || ((c)=='\n') || ((c)=='\r') || ((c)=='\v') || ((c)=='\f') )
-#define DJON_IS_PUNCT(c) ( ( ((c)>='!') && ((c)<='/') ) || ( ((c)>=':') && ((c)<='@') ) || ( ((c)>='[') && ((c)<='`') ) || ( ((c)>='{') && ((c)<='~') ) )
-#define DJON_IS_TERM(c) ( DJON_IS_WHITE(c) || ((c)=='\0') || ((c)=='{') || ((c)=='}') || ((c)=='[') || ((c)==']') || ((c)==':') || ((c)=='=') || ((c)==',') || ((c)=='/') )
+#define DJON_IS_WHITESPACE(c) ( ((c)==' ') || ((c)=='\t') || ((c)=='\n') || ((c)=='\r') || ((c)=='\v') || ((c)=='\f') )
+#define DJON_IS_SIGNIFICANT(c) ( ((c)=='{') || ((c)=='}') || ((c)=='[') || ((c)==']') || ((c)==':') || ((c)=='=') || ((c)==',') || ((c)=='/') )
+#define DJON_IS_TERMINATOR(c) ( ((c<=32)&&(c>=0)) || DJON_IS_SIGNIFICANT(c) )
 
 
 #endif
@@ -276,7 +276,7 @@ double djon_str_to_double(char *cps,char **endptr)
 	
 	// final check, number must be terminated by something to be valid
 	c=*cp;
-	if( ! DJON_IS_TERM(c) ){goto error;}
+	if( ! DJON_IS_TERMINATOR(c) ){goto error;}
 
 	if(endptr){*endptr=cp;} // we used this many chars
 	return d; // and parsed this number
@@ -332,7 +332,7 @@ double djon_str_to_hex(char *cps,char **endptr)
 	if(gotdata==0){goto error;} // require some numbers
 
 	// final check, number must be terminated by something to be valid
-	if( ! DJON_IS_TERM(c) ){goto error;}
+	if( ! DJON_IS_TERMINATOR(c) ){goto error;}
 
 	d*=sign; // apply sign
 
@@ -739,7 +739,7 @@ int djon_peek_white(djon_state *it)
 {
 	char c1=it->data[ it->parse_idx ];
 	char c2=it->data[ it->parse_idx+1 ];
-	if( DJON_IS_WHITE(c1) )
+	if( DJON_IS_WHITESPACE(c1) )
 	{
 		return 1;
 	}
@@ -789,7 +789,7 @@ int djon_peek_string(djon_state *it,char *s)
 	if( *sp==0 ) // we got to end of test string
 	{
 		d=*dp; // and text must be followed by some kind of terminator
-		if( DJON_IS_WHITE(d) || DJON_IS_PUNCT(d) || ( d==0 ) )
+		if( DJON_IS_TERMINATOR(d) )
 		{
 			return 1;
 		}
@@ -1054,8 +1054,8 @@ int djon_parse_key(djon_state *it)
 			if( djon_peek_white(it) ) { return lst_idx; } // stop at whitespace
 			if( djon_peek_punct(it,"=:") ) { return lst_idx; } // stop at punct or closing quote
 			c=it->data[ it->parse_idx ];
-			if( c==',' || c=='[' || c==']' || c=='{' || c=='}' || c=='`' || c=='\'' || c=='"')
-			{ djon_set_error(it,"invalid naked key"); goto error; } // a naked key may not contain any significant punctuation
+			if( DJON_IS_TERMINATOR(c) ) // a naked key may not contain any terminator
+			{ djon_set_error(it,"invalid naked key"); goto error; } 
 		}
 		else
 		if( it->data[ it->parse_idx ]==term )
