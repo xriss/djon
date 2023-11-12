@@ -15,11 +15,13 @@ typedef enum djon_enum
 	DJON_ARRAY    = 0x0005,
 	DJON_OBJECT   = 0x0006,
 	DJON_COMMENT  = 0x0007,
-	DJON_TYPEMASK = 0x00ff, // type mask
+	DJON_TYPEMASK = 0x00ff, // base types are in lower byte
 	
-	DJON_ESCAPED  = 0x0100, // string that contains \n \t \" etc
+	DJON_ESCAPED  = 0x0100, // this string contains \n \t \" etc
 	DJON_KEY      = 0x0200, // this string is a key
+	DJON_FLAGMASK = 0xff00, // additional flags are in upper byte
 
+	DJON_MASK     = 0xFFFF,
 } djon_enum ;
 
 typedef struct djon_value
