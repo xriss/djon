@@ -79,14 +79,26 @@ int djon_check_stack(djon_state *it);
 
 #define DJON_IS_WHITESPACE(c) ( ((c)==' ') || ((c)=='\t') || ((c)=='\n') || ((c)=='\r') || ((c)=='\v') || ((c)=='\f') )
 #define DJON_IS_SIGNIFICANT(c) ( ((c)=='{') || ((c)=='}') || ((c)=='[') || ((c)==']') || ((c)==':') || ((c)=='=') || ((c)==',') || ((c)=='/') )
-#define DJON_IS_TERMINATOR(c) ( ((c<=32)&&(c>=0)) || DJON_IS_SIGNIFICANT(c) )
-
+#define DJON_IS_TERMINATOR(c) ( (((c)<=32)) || (((c)>=128)) || DJON_IS_SIGNIFICANT(c) )
+// this will work when char is signed or unsigned
 
 #endif
 
 
 #ifdef DJON_C
 
+// can this string be a rawkey
+int djon_is_rawkey( char *cp , int len )
+{
+	if(len<=0) { return 0; } // may not empty
+	char *ce=cp+len;
+	while( cp<ce ) // check all the chars
+	{
+		char c=*cp++;
+		if( DJON_IS_TERMINATOR(c) ) { return 0; }
+	} 
+	return 1; // all chars OK
+}
 
 // write into buf, return length of string, maximum 32 including null
 int djon_double_to_str( double num , char * buf )
@@ -593,7 +605,6 @@ void djon_write_djon(djon_state *it,int idx,int indent)
 	int len;
 	if(nxt)
 	{
-/*
 		if(nxt->com) // comments first
 		{			
 			for( com_idx=nxt->com ; com=djon_get(it,com_idx) ; com_idx=com->com )
@@ -604,7 +615,7 @@ void djon_write_djon(djon_state *it,int idx,int indent)
 				fprintf(it->fp,"\n");
 			}
 		}
-*/		
+
 		if((nxt->typ&DJON_TYPEMASK)==DJON_ARRAY)
 		{
 			indent=djon_write_indent(it,indent);
@@ -628,7 +639,14 @@ void djon_write_djon(djon_state *it,int idx,int indent)
 			while(key&&val)
 			{
 				indent=djon_write_indent(it,indent+1)-1;
-				fprintf(it->fp,"\"%.*s\" = ",key->len,key->str);
+				if( djon_is_rawkey(key->str,key->len) )
+				{
+					fprintf(it->fp,"%.*s = ",key->len,key->str);
+				}
+				else
+				{
+					fprintf(it->fp,"\"%.*s\" = ",key->len,key->str);
+				}
 				djon_write_djon(it,val_idx,-(indent+1));
 				key_idx=key->nxt; key=djon_get(it,key_idx);
 				val_idx=val->nxt; val=djon_get(it,val_idx);
