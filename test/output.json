@@ -111,7 +111,7 @@ line 1 char 4 (3)
 #json/bad/n_array_just_minus.json
 [-]
 #c
-missing ]
+invalid number
 line 1 char 2 (1)
 
 #json/bad/n_array_missing_value.json
@@ -209,7 +209,7 @@ line 1 char 4 (3)
 #json/bad/n_number_0.1.2.json
 [0.1.2]
 #c
-missing ]
+invalid number
 line 1 char 2 (1)
 
 #json/bad/n_number_-01.json
@@ -222,25 +222,25 @@ line 1 char 2 (1)
 #json/bad/n_number_0.3e+.json
 [0.3e+]
 #c
-missing ]
+invalid number
 line 1 char 2 (1)
 
 #json/bad/n_number_0.3e.json
 [0.3e]
 #c
-missing ]
+invalid number
 line 1 char 2 (1)
 
 #json/bad/n_number_0_capital_E+.json
 [0E+]
 #c
-missing ]
+invalid number
 line 1 char 2 (1)
 
 #json/bad/n_number_0_capital_E.json
 [0E]
 #c
-missing ]
+invalid number
 line 1 char 2 (1)
 
 #json/bad/n_number_0.e1.json
@@ -253,13 +253,13 @@ line 1 char 2 (1)
 #json/bad/n_number_0e+.json
 [0e+]
 #c
-missing ]
+invalid number
 line 1 char 2 (1)
 
 #json/bad/n_number_0e.json
 [0e]
 #c
-missing ]
+invalid number
 line 1 char 2 (1)
 
 #json/bad/n_number_1_000.json
@@ -273,31 +273,31 @@ line 1 char 2 (1)
 #json/bad/n_number_1.0e+.json
 [1.0e+]
 #c
-missing ]
+invalid number
 line 1 char 2 (1)
 
 #json/bad/n_number_1.0e-.json
 [1.0e-]
 #c
-missing ]
+invalid number
 line 1 char 2 (1)
 
 #json/bad/n_number_1.0e.json
 [1.0e]
 #c
-missing ]
+invalid number
 line 1 char 2 (1)
 
 #json/bad/n_number_-1.0..json
 [-1.0.]
 #c
-missing ]
+invalid number
 line 1 char 2 (1)
 
 #json/bad/n_number_1eE2.json
 [1eE2]
 #c
-missing ]
+invalid number
 line 1 char 2 (1)
 
 #json/bad/n_number_+1.json
@@ -310,7 +310,7 @@ line 1 char 2 (1)
 #json/bad/n_number_.-1.json
 [.-1]
 #c
-missing ]
+invalid number
 line 1 char 2 (1)
 
 #json/bad/n_number_2.e+3.json
@@ -351,13 +351,13 @@ line 1 char 2 (1)
 #json/bad/n_number_9.e+.json
 [9.e+]
 #c
-missing ]
+invalid number
 line 1 char 2 (1)
 
 #json/bad/n_number_expression.json
 [1+2]
 #c
-missing ]
+invalid number
 line 1 char 2 (1)
 
 #json/bad/n_number_hex_1_digit.json
@@ -383,7 +383,7 @@ line 1 char 11 (10)
 #json/bad/n_number_+Inf.json
 [+Inf]
 #c
-missing ]
+invalid number
 line 1 char 2 (1)
 
 #json/bad/n_number_Inf.json
@@ -395,62 +395,62 @@ line 1 char 6 (5)
 #json/bad/n_number_invalid+-.json
 [0e+-1]
 #c
-missing ]
+invalid number
 line 1 char 2 (1)
 
 #json/bad/n_number_invalid-negative-real.json
 [-123.123foo]
 #c
-missing ]
+invalid number
 line 1 char 2 (1)
 
 #json/bad/n_number_invalid-utf-8-in-bigger-int.json
 [123]
 #c
-missing ]
+invalid number
 line 1 char 2 (1)
 
 #json/bad/n_number_invalid-utf-8-in-exponent.json
 [1e1]
 #c
-missing ]
+invalid number
 line 1 char 2 (1)
 
 #json/bad/n_number_invalid-utf-8-in-int.json
 [0]
 
 #c
-missing ]
+invalid number
 line 1 char 2 (1)
 
 #json/bad/n_number_++.json
 [++1234]
 #c
-missing ]
+invalid number
 line 1 char 2 (1)
 
 #json/bad/n_number_minus_infinity.json
 [-Infinity]
 #c
-missing ]
+invalid number
 line 1 char 2 (1)
 
 #json/bad/n_number_minus_sign_with_trailing_garbage.json
 [-foo]
 #c
-missing ]
+invalid number
 line 1 char 2 (1)
 
 #json/bad/n_number_minus_space_1.json
 [- 1]
 #c
-missing ]
+invalid number
 line 1 char 2 (1)
 
 #json/bad/n_number_-NaN.json
 [-NaN]
 #c
-missing ]
+invalid number
 line 1 char 2 (1)
 
 #json/bad/n_number_NaN.json
@@ -476,19 +476,19 @@ line 1 char 6 (5)
 #json/bad/n_number_neg_with_garbage_at_end.json
 [-1x]
 #c
-missing ]
+invalid number
 line 1 char 2 (1)
 
 #json/bad/n_number_real_garbage_after_e.json
 [1ea]
 #c
-missing ]
+invalid number
 line 1 char 2 (1)
 
 #json/bad/n_number_real_with_invalid_utf8_after_e.json
 [1e]
 #c
-missing ]
+invalid number
 line 1 char 2 (1)
 
 #json/bad/n_number_real_without_fractional_part.json
@@ -514,13 +514,13 @@ line 1 char 6 (5)
 #json/bad/n_number_with_alpha_char.json
 [1.8011670033376514H-308]
 #c
-missing ]
+invalid number
 line 1 char 2 (1)
 
 #json/bad/n_number_with_alpha.json
 [1.2a-3]
 #c
-missing ]
+invalid number
 line 1 char 2 (1)
 
 #json/bad/n_number_with_leading_zero.json
@@ -1041,7 +1041,7 @@ line 1 char 4 (3)
 #json/bad/n_structure_number_with_trailing_garbage.json
 2@
 #c
-no data
+invalid number
 line 1 char 1 (0)
 
 #json/bad/n_structure_object_followed_by_closing_object.json

@@ -920,7 +920,7 @@ int djon_parse_number(djon_state *it,int lst_idx)
 //	double d=strtod(cps,&cpe);
 	double d=djon_str_to_number(cps,&cpe);
 	int len=cpe-cps;
-	if( len > 0 )
+	if( len > 0 ) // valid number
 	{
 		it->parse_idx+=len;
 
@@ -929,6 +929,7 @@ int djon_parse_number(djon_state *it,int lst_idx)
 		
 		return lst_idx;
 	}
+	djon_set_error(it,"invalid number");
 	return 0;
 }
 
