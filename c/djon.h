@@ -355,6 +355,8 @@ double djon_str_to_number(char *cp,char **endptr)
 // set an error string and calculate the line/char that we are currently on
 void djon_set_error(djon_state *it, char *error)
 {
+	if( it->error_string ) { return; } // keep first error
+	
 	it->error_string=error;
 	it->error_idx=0;
 	it->error_char=0;
@@ -755,11 +757,9 @@ void djon_skip_white(djon_state *it)
 	}
 }
 
-// skip a patch of these punct chars sandwiched by white space , counting how many punct chars we found.
-int djon_skip_white_punct(djon_state *it,char *punct)
+// skip these punct chars only, counting thme
+int djon_skip_punct(djon_state *it,char *punct)
 {
-	djon_skip_white(it);
-
 	char *cp;
 	int ret=0;
 	if( it->parse_idx < it->data_len )
@@ -775,8 +775,24 @@ int djon_skip_white_punct(djon_state *it,char *punct)
 			}
 		}
 	}
+	return ret;
+}
+// skip these punct chars or white space , counting how many punct chars we found.
+int djon_skip_white_punct(djon_state *it,char *punct)
+{
+	int ret=0;
+	int progress=-1;
 	
-	djon_skip_white(it);
+	while( ( progress != it->parse_idx ) && ( it->parse_idx < it->data_len ) )
+	{
+		progress = it->parse_idx;
+		
+		djon_skip_white(it);
+		ret+=djon_skip_punct(it,punct);
+		djon_skip_white(it);
+
+		// repeat until progress stops changing
+	}
 
 	return ret;
 }
@@ -966,8 +982,8 @@ int djon_parse_object(djon_state *it,int lst_idx)
 
 		nam_idx=djon_parse_name(it);
 		if(!nam_idx) { return 0; } // no value
-		if( djon_skip_white_punct(it,"=:") != 1 ) { djon_set_error(it,"missing value"); return 0; } // required assignment
-		val_idx=djon_parse_value(it); if(!val_idx){return 0;}
+		if( djon_skip_white_punct(it,"=:") != 1 ) { djon_set_error(it,"missing : or ="); return 0; } // required assignment
+		val_idx=djon_parse_value(it); if(!val_idx){ djon_set_error(it,"missing value"); return 0; }
 		djon_skip_white_punct(it,",;"); // optional , seperators
 
 		if( lst->nam==0) // first
@@ -1005,7 +1021,7 @@ int djon_parse_array(djon_state *it,int lst_idx)
 		if( it->data[it->parse_idx]==']' ) { it->parse_idx++; return lst_idx; } // found closer
 
 		val_idx=djon_parse_value(it);
-		if(!val_idx) { djon_set_error(it,"missing value"); return 0; } // no value
+		if(!val_idx) { djon_set_error(it,"missing ]"); return 0; } // no value, probably missed a ]
 		djon_skip_white_punct(it,",;"); // optional , separators
 
 		if( lst->val==0) // first
