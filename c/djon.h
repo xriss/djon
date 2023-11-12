@@ -1053,6 +1053,7 @@ int djon_parse_key(djon_state *it)
 	djon_value *lst=djon_get(it,lst_idx);
 	if(lst==0){return 0;} // out of data
 
+
 	char term=0;
 	char c;
 	char *cp;
@@ -1063,6 +1064,11 @@ int djon_parse_key(djon_state *it)
 		term=c;
 		lst->str++; // skip opening quote
 		it->parse_idx++; // advance
+		lst->typ=DJON_KEY|DJON_ESCAPED|DJON_STRING; // this is a key with escapes inside 
+	}
+	else
+	{
+		lst->typ=DJON_KEY|DJON_STRING; // this is a key with no escape
 	}
 
 	while( it->parse_idx < it->data_len ) // while data
@@ -1074,6 +1080,12 @@ int djon_parse_key(djon_state *it)
 			c=it->data[ it->parse_idx ];
 			if( DJON_IS_TERMINATOR(c) ) // a naked key may not contain any terminator
 			{ djon_set_error(it,"invalid naked key"); goto error; } 
+		}
+		else
+		if( it->data[ it->parse_idx ]=='\\' ) // skip escaped char
+		{
+			lst->len++; // grow string
+			it->parse_idx++; // advance
 		}
 		else
 		if( it->data[ it->parse_idx ]==term )
