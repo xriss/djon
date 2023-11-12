@@ -15,10 +15,11 @@ typedef enum djon_enum
 	DJON_ARRAY    = 0x0005,
 	DJON_OBJECT   = 0x0006,
 	DJON_COMMENT  = 0x0007,
-	DJON_TYPEMASK = 0x00ff, // base types are in lower byte
 	
 	DJON_ESCAPED  = 0x0100, // this string contains \n \t \" etc
 	DJON_KEY      = 0x0200, // this string is a key
+	
+	DJON_TYPEMASK = 0x00ff, // base types are in lower byte
 	DJON_FLAGMASK = 0xff00, // additional flags are in upper byte
 
 	DJON_MASK     = 0xFFFF,
@@ -60,7 +61,7 @@ typedef struct djon_state
 	int   error_char;   // char in line
 	int   error_line;   // line in file
 	
-	FILE *fp; // where to print output
+	FILE *fp; // where to write output
 
 	char buf[256]; // small buffer used for generating text output
 	
@@ -78,7 +79,7 @@ int djon_check_stack(djon_state *it);
 
 #define DJON_IS_WHITE(c) ( ((c)==' ') || ((c)=='\t') || ((c)=='\n') || ((c)=='\r') || ((c)=='\v') || ((c)=='\f') )
 #define DJON_IS_PUNCT(c) ( ( ((c)>='!') && ((c)<='/') ) || ( ((c)>=':') && ((c)<='@') ) || ( ((c)>='[') && ((c)<='`') ) || ( ((c)>='{') && ((c)<='~') ) )
-#define DJON_IS_TERM(c) ( DJON_IS_WHITE(c) || ((c)=='\0') || ((c)=='{') || ((c)=='}') || ((c)=='[') || ((c)==']') || ((c)==':') || ((c)=='=') || ((c)==',') )
+#define DJON_IS_TERM(c) ( DJON_IS_WHITE(c) || ((c)=='\0') || ((c)=='{') || ((c)=='}') || ((c)=='[') || ((c)==']') || ((c)==':') || ((c)=='=') || ((c)==',') || ((c)=='/') )
 
 
 #endif
@@ -471,6 +472,7 @@ int djon_alloc(djon_state *it)
 	v->num=0.0;
 	v->key=0;
 	v->val=0;
+	v->com=0;
 		
 	return it->values_len++;
 }
@@ -486,7 +488,7 @@ int djon_free(djon_state *it,int idx)
 	return 0;
 }
 
-int djon_print_indent(djon_state *it,int indent)
+int djon_write_indent(djon_state *it,int indent)
 {
 	if(indent<0) { return -indent; } // skip first indent
 	else
@@ -499,8 +501,8 @@ int djon_print_indent(djon_state *it,int indent)
 	}
 	return indent;
 }
-// debug print a value
-void djon_print(djon_state *it,int idx,int indent)
+// write json to the given file handle
+void djon_write_json(djon_state *it,int idx,int indent)
 {
 	djon_value *nxt=djon_get(it,idx);
 	djon_value *key;
@@ -510,75 +512,167 @@ void djon_print(djon_state *it,int idx,int indent)
 	int len;
 	if(nxt)
 	{
-		char *com=nxt->nxt?" ,":"";
+		char *coma=nxt->nxt?" ,":"";
 		if((nxt->typ&DJON_TYPEMASK)==DJON_ARRAY)
 		{
-			indent=djon_print_indent(it,indent);
+			indent=djon_write_indent(it,indent);
 			fprintf(it->fp,"[\n");
 			val_idx=nxt->val; val=djon_get(it,val_idx);
 			while(val)
 			{
-				djon_print(it,val_idx,indent+1);
+				djon_write_json(it,val_idx,indent+1);
 				val_idx=val->nxt; val=djon_get(it,val_idx);
 			}
-			indent=djon_print_indent(it,indent);
-			fprintf(it->fp,"]%s\n",com);
+			indent=djon_write_indent(it,indent);
+			fprintf(it->fp,"]%s\n",coma);
 		}
 		else
 		if((nxt->typ&DJON_TYPEMASK)==DJON_OBJECT)
 		{
-			indent=djon_print_indent(it,indent);
+			indent=djon_write_indent(it,indent);
 			fprintf(it->fp,"{\n");
 			key_idx=nxt->key; key=djon_get(it,key_idx);
 			val_idx=nxt->val; val=djon_get(it,val_idx);
 			while(key&&val)
 			{
-				indent=djon_print_indent(it,indent+1)-1;
+				indent=djon_write_indent(it,indent+1)-1;
 				fprintf(it->fp,"\"%.*s\" : ",key->len,key->str);
-				djon_print(it,val_idx,-(indent+1));
+				djon_write_json(it,val_idx,-(indent+1));
 				key_idx=key->nxt; key=djon_get(it,key_idx);
 				val_idx=val->nxt; val=djon_get(it,val_idx);
 			}
-			indent=djon_print_indent(it,indent);
-			fprintf(it->fp,"}%s\n",com);
+			indent=djon_write_indent(it,indent);
+			fprintf(it->fp,"}%s\n",coma);
 		}
 		else
 		if((nxt->typ&DJON_TYPEMASK)==DJON_STRING)
 		{
-			indent=djon_print_indent(it,indent);
+			indent=djon_write_indent(it,indent);
 			fwrite("\"\n", 1, 1, it->fp);
 			fwrite(nxt->str, 1, nxt->len, it->fp);
-			fprintf(it->fp,"\"%s\n",com);
+			fprintf(it->fp,"\"%s\n",coma);
 		}
 		else
 		if((nxt->typ&DJON_TYPEMASK)==DJON_NUMBER)
 		{
-			indent=djon_print_indent(it,indent);
+			indent=djon_write_indent(it,indent);
 			len=djon_double_to_str(nxt->num,it->buf);
 			fwrite(it->buf, 1, len, it->fp);
-			fprintf(it->fp,"%s\n",com);
+			fprintf(it->fp,"%s\n",coma);
 		}
 		else
 		if((nxt->typ&DJON_TYPEMASK)==DJON_BOOL)
 		{
-			indent=djon_print_indent(it,indent);
-			fprintf(it->fp,"%s%s\n",nxt->num?"true":"false",com);
+			indent=djon_write_indent(it,indent);
+			fprintf(it->fp,"%s%s\n",nxt->num?"true":"false",coma);
 		}
 		else
 		if((nxt->typ&DJON_TYPEMASK)==DJON_NULL)
 		{
-			indent=djon_print_indent(it,indent);
-			fprintf(it->fp,"%s%s\n","null",com);
+			indent=djon_write_indent(it,indent);
+			fprintf(it->fp,"%s%s\n","null",coma);
 		}
 		else
 		{
-			indent=djon_print_indent(it,indent);
-			fprintf(it->fp,"%s%s\n","undefined",com);
+			indent=djon_write_indent(it,indent);
+			fprintf(it->fp,"%s%s\n","undefined",coma);
 		}
 	}
 }
 
-// load a new file or read from stdin
+// write djon to the given file handle
+void djon_write_djon(djon_state *it,int idx,int indent)
+{
+	djon_value *nxt=djon_get(it,idx);
+	djon_value *key;
+	djon_value *val;
+	djon_value *com;
+	int key_idx;
+	int val_idx;
+	int com_idx;
+	int len;
+	if(nxt)
+	{
+/*
+		if(nxt->com) // comments first
+		{			
+			for( com_idx=nxt->com ; com=djon_get(it,com_idx) ; com_idx=com->com )
+			{
+				indent=djon_write_indent(it,indent);
+				fprintf(it->fp,"// ");
+				fwrite(com->str, 1, com->len, it->fp);
+				fprintf(it->fp,"\n");
+			}
+		}
+*/		
+		if((nxt->typ&DJON_TYPEMASK)==DJON_ARRAY)
+		{
+			indent=djon_write_indent(it,indent);
+			fprintf(it->fp,"[\n");
+			val_idx=nxt->val; val=djon_get(it,val_idx);
+			while(val)
+			{
+				djon_write_djon(it,val_idx,indent+1);
+				val_idx=val->nxt; val=djon_get(it,val_idx);
+			}
+			indent=djon_write_indent(it,indent);
+			fprintf(it->fp,"]\n");
+		}
+		else
+		if((nxt->typ&DJON_TYPEMASK)==DJON_OBJECT)
+		{
+			indent=djon_write_indent(it,indent);
+			fprintf(it->fp,"{\n");
+			key_idx=nxt->key; key=djon_get(it,key_idx);
+			val_idx=nxt->val; val=djon_get(it,val_idx);
+			while(key&&val)
+			{
+				indent=djon_write_indent(it,indent+1)-1;
+				fprintf(it->fp,"\"%.*s\" = ",key->len,key->str);
+				djon_write_djon(it,val_idx,-(indent+1));
+				key_idx=key->nxt; key=djon_get(it,key_idx);
+				val_idx=val->nxt; val=djon_get(it,val_idx);
+			}
+			indent=djon_write_indent(it,indent);
+			fprintf(it->fp,"}\n");
+		}
+		else
+		if((nxt->typ&DJON_TYPEMASK)==DJON_STRING)
+		{
+			indent=djon_write_indent(it,indent);
+			fwrite("\"\n", 1, 1, it->fp);
+			fwrite(nxt->str, 1, nxt->len, it->fp);
+			fprintf(it->fp,"\"\n");
+		}
+		else
+		if((nxt->typ&DJON_TYPEMASK)==DJON_NUMBER)
+		{
+			indent=djon_write_indent(it,indent);
+			len=djon_double_to_str(nxt->num,it->buf);
+			fwrite(it->buf, 1, len, it->fp);
+			fprintf(it->fp,"\n");
+		}
+		else
+		if((nxt->typ&DJON_TYPEMASK)==DJON_BOOL)
+		{
+			indent=djon_write_indent(it,indent);
+			fprintf(it->fp,"%s\n",nxt->num?"TRUE":"FALSE");
+		}
+		else
+		if((nxt->typ&DJON_TYPEMASK)==DJON_NULL)
+		{
+			indent=djon_write_indent(it,indent);
+			fprintf(it->fp,"%s\n","NULL");
+		}
+		else
+		{
+			indent=djon_write_indent(it,indent);
+			fprintf(it->fp,"%s\n","UNDEFINED");
+		}
+	}
+}
+
+// load a new file or possibly from stdin , pipes allowed
 int djon_load_file(djon_state *it,char *fname)
 {
 	const int chunk=0x10000; // read this much at once

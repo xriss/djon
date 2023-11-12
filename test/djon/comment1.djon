@@ -1,0 +1,8 @@
+// first comment
+{
+// front comment
+ a=1
+ b/*middle comment*/=2 
+ c=3// back comment
+}
+// final comment
