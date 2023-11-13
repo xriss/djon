@@ -773,6 +773,7 @@ void djon_write_djon(djon_state *it,int idx,int indent)
 	char *cp;
 	char *ce;
 	char c;
+	int rawstr;
 	if(nxt)
 	{
 		if( ((nxt->typ&DJON_TYPEMASK)!=DJON_COMMENT) && (nxt->com) )
@@ -866,20 +867,26 @@ void djon_write_djon(djon_state *it,int idx,int indent)
 		if((nxt->typ&DJON_TYPEMASK)==DJON_STRING)
 		{
 			indent=djon_write_indent(it,indent);
-			fputs("\"",it->fp);
+			rawstr=0; // would we like to rawdog?
 			for( cp=nxt->str,ce=nxt->str+nxt->len ; cp<ce ; cp++ )
 			{
 				c=*cp;
 				if( ( (c>=0x00)&&(c<=0x1F) ) || (c=='"') || (c=='\\') ) // must escape
 				{
-					djon_write_string_escape(it,c);
-				}
-				else
-				{
-					putc(c,it->fp);
+					rawstr=1;
+					break;
 				}
 			}
-			fputs("\"\n",it->fp);
+			if(rawstr) // avoid escapes
+			{
+					fputs("`",it->fp);
+					fwrite(nxt->str,1,nxt->len,it->fp);
+					fputs("`\n",it->fp);
+			}
+			else // normal " string but nothing needs escaping
+			{
+				fprintf(it->fp,"\"%.*s\"\n",nxt->len,nxt->str);
+			}
 		}
 		else
 		if((nxt->typ&DJON_TYPEMASK)==DJON_NUMBER)
