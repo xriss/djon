@@ -1012,7 +1012,6 @@ line 1 char 5 byte 4
 {
  a = "b"
 }
-// 
 
 #json/bad/n_object_trailing_comment_open.json
 {"a":"b"}/**//
@@ -1029,7 +1028,6 @@ line 1 char 14 byte 13
 {
  a = "b"
 }
-// 
 "/"
 
 #json/bad/n_object_trailing_comment_slash_open_incomplete.json
@@ -1059,7 +1057,6 @@ line 1 char 10 byte 9
 {
  a = "b"
 }
-// 
 
 #json/bad/n_object_two_commas_in_a_row.json
 {"a":"b",,"c":"d"}

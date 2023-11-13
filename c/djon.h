@@ -731,12 +731,20 @@ void djon_write_djon(djon_state *it,int idx,int indent)
 		
 		if((nxt->typ&DJON_TYPEMASK)==DJON_COMMENT)
 		{
+			len=0;
 			for( com_idx=idx ; com=djon_get(it,com_idx) ; com_idx=com->com )
 			{
-				indent=djon_write_indent(it,indent);
-				fprintf(it->fp,"// ");
-				fwrite(com->str, 1, com->len, it->fp);
-				fprintf(it->fp,"\n");
+				len+=com->len;
+			}
+			if(len>0) // ignore a completely empty comment chain
+			{
+				for( com_idx=idx ; com=djon_get(it,com_idx) ; com_idx=com->com )
+				{
+					indent=djon_write_indent(it,indent);
+					fprintf(it->fp,"// ");
+					fwrite(com->str, 1, com->len, it->fp);
+					fprintf(it->fp,"\n");
+				}
 			}
 		}
 		else
@@ -951,12 +959,55 @@ int djon_peek_string(djon_state *it,char *s)
 	return 0;
 }
 
+// allocate a new comment in the current comment chain
+int djon_alloc_comment(djon_state *it)
+{
+	// allocate new comment and place it in chain
+	int com_idx=djon_alloc(it);
+	djon_value * com=djon_get(it,com_idx);
+	if(!com){return 0;}
+
+	if( it->parse_com_last ) // append
+	{
+		djon_value * v=djon_get(it,it->parse_com_last);
+		v->com=com_idx;
+		it->parse_com_last=com_idx;
+	}
+	else // start a new one
+	{
+		it->parse_com=com_idx;
+		it->parse_com_last=com_idx;
+	}
+	com->typ=DJON_COMMENT;
+	com->str=it->data+it->parse_idx;
+	com->len=0;
+	
+	return com_idx;
+}
+
+void djon_trim_comment(djon_state *it,int idx)
+{
+	char *cp;
+	char c;
+	djon_value *com=djon_get(it,idx);
+	if(com)
+	{
+		for( c=*com->str ; ( com->len>0 ) && ( DJON_IS_WHITESPACE(c) ) ; c=*com->str )
+		{
+			com->str++;
+			com->len--;
+		}
+		for( c=com->str[com->len-1] ; ( com->len>0 ) && ( DJON_IS_WHITESPACE(c) ) ; c=com->str[com->len-1] )
+		{
+			com->len--;
+		}
+	}
+}
 // skip whitespace and comments
 void djon_skip_white(djon_state *it)
 {
 	int com_idx;
 	djon_value * com;
-	djon_value * v;
 	
 	while( it->parse_idx < it->data_len )
 	{
@@ -972,44 +1023,24 @@ void djon_skip_white(djon_state *it)
 			it->parse_idx+=2;
 			
 			// allocate new comment and place it in chain
-			com_idx=djon_alloc(it);
-			com=djon_get(it,com_idx);
-			if(com)
-			{
-				if( it->parse_com_last ) // append
-				{
-					v=djon_get(it,it->parse_com_last);
-					v->com=com_idx;
-					it->parse_com_last=com_idx;
-				}
-				else // start a new one
-				{
-					it->parse_com=com_idx;
-					it->parse_com_last=com_idx;
-				}
-				com->typ=DJON_COMMENT;
-				com->str=it->data+it->parse_idx;
-				com->len=0;
-			}
+			com_idx=djon_alloc_comment(it);
 			
 			while( it->parse_idx < it->data_len )
 			{
 				c1=it->data[ it->parse_idx ];
 				if( (c1=='\n') )
 				{
+					djon_trim_comment(it,com_idx);
 					it->parse_idx++;
 					return;
 				}
 				else
 				{
 					it->parse_idx++;
-					if(com)
+					if(com_idx)
 					{
-						if((com->len==0)&&(DJON_IS_WHITESPACE(c1)))
-						{
-							com->str++; // skip whitespace at start of comment
-						}
-						else
+						com=djon_get(it,com_idx);
+						if(com)
 						{
 							com->len++;
 						}
@@ -1024,25 +1055,7 @@ void djon_skip_white(djon_state *it)
 			it->parse_idx+=2;
 			
 			// allocate new comment and place it in chain
-			com_idx=djon_alloc(it);
-			com=djon_get(it,com_idx);
-			if(com)
-			{
-				if( it->parse_com_last ) // append
-				{
-					v=djon_get(it,it->parse_com_last);
-					v->com=com_idx;
-					it->parse_com_last=com_idx;
-				}
-				else // start a new one
-				{
-					it->parse_com=com_idx;
-					it->parse_com_last=com_idx;
-				}
-				com->typ=DJON_COMMENT;
-				com->str=it->data+it->parse_idx;
-				com->len=0;
-			}
+			com_idx=djon_alloc_comment(it);
 			
 			while( it->parse_idx < it->data_len )
 			{
@@ -1050,21 +1063,27 @@ void djon_skip_white(djon_state *it)
 				c2=it->data[ it->parse_idx+1 ];
 				if( (c1=='*') || (c2=='/') )
 				{
+					djon_trim_comment(it,com_idx);
 					it->parse_idx+=2;
 					return;
 				}
 				else
 				{
-					it->parse_idx++;
-					if(com)
+					if(c1=='\n') // chain a new comment at new line
 					{
-						if((com->len==0)&&(DJON_IS_WHITESPACE(c1)))
+						djon_trim_comment(it,com_idx);
+						com_idx=djon_alloc_comment(it);
+					}
+					else
+					{
+						it->parse_idx++;
+						if(com_idx)
 						{
-							com->str++; // skip whitespace at start of comment
-						}
-						else
-						{
-							com->len++;
+							com=djon_get(it,com_idx);
+							if(com)
+							{
+								com->len++;
+							}
 						}
 					}
 				}
