@@ -309,12 +309,12 @@ line 1 char 6 byte 5
 multiple root values
 line 1 char 4 byte 3
 123 ,
-""
+"\u0000"
 #c.djon
 multiple root values
 line 1 char 4 byte 3
 123
-""
+"\u0000"
 
 #json/bad/n_number_0.1.2.json
 [0.1.2]
@@ -1139,33 +1139,33 @@ line 1 char 12 byte 11
 ["\uD800\u1"]
 #c.json
 [
- ""
+ "\u0001"
 ]
 #c.djon
 [
- ""
+ "\u0001"
 ]
 
 #json/bad/n_string_1_surrogate_then_escape_u1x.json
 ["\uD800\u1x"]
 #c.json
 [
- "x"
+ "\u0001x"
 ]
 #c.djon
 [
- "x"
+ "\u0001x"
 ]
 
 #json/bad/n_string_1_surrogate_then_escape_u.json
 ["\uD800\u"]
 #c.json
 [
- ""
+ "\u0000"
 ]
 #c.djon
 [
- ""
+ "\u0000"
 ]
 
 #json/bad/n_string_accentuated_char_no_quotes.json
@@ -1181,11 +1181,11 @@ line 1 char 5 byte 4
 ["\"]
 #c.json
 [
- ""
+ "\u0000"
 ]
 #c.djon
 [
- ""
+ "\u0000"
 ]
 
 #json/bad/n_string_escaped_backslash_bad.json
@@ -1201,11 +1201,11 @@ line 1 char 8 byte 7
 ["\	"]
 #c.json
 [
- "	"
+ "\t"
 ]
 #c.djon
 [
- "	"
+ "\t"
 ]
 
 #json/bad/n_string_escaped_emoji.json
@@ -1234,13 +1234,11 @@ line 1 char 8 byte 7
 ["\u00A"]
 #c.json
 [
- "
-"
+ "\n"
 ]
 #c.djon
 [
- "
-"
+ "\n"
 ]
 
 #json/bad/n_string_incomplete_escape.json
@@ -1289,11 +1287,11 @@ line 1 char 6 byte 5
 ["\uqqqq"]
 #c.json
 [
- "qqqq"
+ "\u0000qqqq"
 ]
 #c.djon
 [
- "qqqq"
+ "\u0000qqqq"
 ]
 
 #json/bad/n_string_invalid_utf8_after_escape.json
@@ -1311,11 +1309,11 @@ line 1 char 6 byte 5
 ["\u"]
 #c.json
 [
- ""
+ "\u0000"
 ]
 #c.djon
 [
- ""
+ "\u0000"
 ]
 
 #json/bad/n_string_leading_uescaped_thinspace.json
@@ -1376,11 +1374,11 @@ line 1 char 4 byte 4
 ["aa"]
 #c.json
 [
- "aa"
+ "a\u0000a"
 ]
 #c.djon
 [
- "aa"
+ "a\u0000a"
 ]
 
 #json/bad/n_string_unescaped_newline.json
@@ -1388,24 +1386,22 @@ line 1 char 4 byte 4
 line"]
 #c.json
 [
- "new
-line"
+ "new\nline"
 ]
 #c.djon
 [
- "new
-line"
+ "new\nline"
 ]
 
 #json/bad/n_string_unescaped_tab.json
 ["	"]
 #c.json
 [
- "	"
+ "\t"
 ]
 #c.djon
 [
- "	"
+ "\t"
 ]
 
 #json/bad/n_string_unicode_CapitalU.json
@@ -2316,11 +2312,11 @@ line 1 char 6 byte 5
 {"foo\u0000bar": 42}
 #c.json
 {
- "foo" : 42
+ "foo\u0000bar" : 42
 }
 #c.djon
 {
- "foo" = 42
+ "foo\u0000bar" = 42
 }
 
 #json/good/y_object_extreme_numbers.json
@@ -2444,13 +2440,11 @@ line 1 char 6 byte 5
 ["\"\\\/\b\f\n\r\t"]
 #c.json
 [
- ""\/
-	"
+ "\"\/\b\f\n\r\t"
 ]
 #c.djon
 [
- ""\/
-	"
+ "\"\/\b\f\n\r\t"
 ]
 
 #json/good/y_string_backslash_and_u_escaped_zero.json
@@ -2468,11 +2462,11 @@ line 1 char 6 byte 5
 ["\""]
 #c.json
 [
- """
+ "\""
 ]
 #c.djon
 [
- """
+ "\""
 ]
 
 #json/good/y_string_comments.json
@@ -2512,11 +2506,11 @@ line 1 char 6 byte 5
 ["\u0012"]
 #c.json
 [
- ""
+ "\u0012"
 ]
 #c.djon
 [
- ""
+ "\u0012"
 ]
 
 #json/good/y_string_escaped_noncharacter.json
@@ -2600,11 +2594,11 @@ line 1 char 6 byte 5
 ["\u0000"]
 #c.json
 [
- ""
+ "\u0000"
 ]
 #c.djon
 [
- ""
+ "\u0000"
 ]
 
 #json/good/y_string_one-byte-utf-8.json
@@ -2717,13 +2711,11 @@ line 1 char 6 byte 5
 ["new\u000Aline"]
 #c.json
 [
- "new
-line"
+ "new\nline"
 ]
 #c.djon
 [
- "new
-line"
+ "new\nline"
 ]
 
 #json/good/y_string_uEscape.json
@@ -2774,11 +2766,11 @@ line"
 ["\u0022"]
 #c.json
 [
- """
+ "\""
 ]
 #c.djon
 [
- """
+ "\""
 ]
 
 #json/good/y_string_unicode.json
@@ -3217,11 +3209,11 @@ TRUE
 ["A\u0000B"]
 #c.json
 [
- "AB"
+ "A\u0000B"
 ]
 #c.djon
 [
- "AB"
+ "A\u0000B"
 ]
 
 #json/maybe/i_number_double_huge_neg_exp.json
@@ -3371,13 +3363,11 @@ TRUE
 ["\uD800\n"]
 #c.json
 [
- "
-"
+ "\n"
 ]
 #c.djon
 [
- "
-"
+ "\n"
 ]
 
 #json/maybe/i_string_incomplete_surrogate_pair.json
@@ -3395,13 +3385,11 @@ TRUE
 ["\uD800\uD800\n"]
 #c.json
 [
- "
-"
+ "\n"
 ]
 #c.djon
 [
- "
-"
+ "\n"
 ]
 
 #json/maybe/i_string_invalid_lonely_surrogate.json
@@ -3539,9 +3527,9 @@ TRUE
 #json/maybe/i_string_utf16BE_no_BOM.json
 [""]
 #c.json
-"[""]"
+"\u0000[\u0000\"\u0000\u0000\"\u0000]"
 #c.djon
-"[""]"
+"\u0000[\u0000\"\u0000\u0000\"\u0000]"
 
 #json/maybe/i_string_utf16LE_no_BOM.json
 [""]
@@ -3566,9 +3554,9 @@ line 1 char 11 byte 10
 #json/maybe/i_string_UTF-16LE_with_BOM.json
 [""]
 #c.json
-"[""]"
+"[\u0000\"\u0000\u0000\"\u0000]\u0000"
 #c.djon
-"[""]"
+"[\u0000\"\u0000\u0000\"\u0000]\u0000"
 
 #json/maybe/i_string_UTF8_surrogate_U+D800.json
 [""]

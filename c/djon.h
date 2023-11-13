@@ -618,6 +618,25 @@ int djon_free(djon_state *it,int idx)
 	}
 	return 0;
 }
+// write this char (16bit maybe) as a string escape sequence
+void djon_write_string_escape(djon_state *it,int c)
+{
+	switch(c)
+	{
+		case '\\' : fputs("\\",  it->fp); break;
+		case '\b' : fputs("\\b", it->fp); break;
+		case '\f' : fputs("\\f", it->fp); break;
+		case '\n' : fputs("\\n", it->fp); break;
+		case '\r' : fputs("\\r", it->fp); break;
+		case '\t' : fputs("\\t", it->fp); break;
+		case '\'' : fputs("\\'", it->fp); break;
+		case '"'  : fputs("\\\"",it->fp); break;
+		case '`'  : fputs("\\`", it->fp); break;
+		default:
+			fprintf(it->fp,"\\u%04x",c&0xffff); // 16bit hex only
+		break;
+	}
+}
 
 int djon_write_indent(djon_state *it,int indent)
 {
@@ -641,6 +660,9 @@ void djon_write_json(djon_state *it,int idx,int indent)
 	int key_idx;
 	int val_idx;
 	int len;
+	char *cp;
+	char *ce;
+	char c;
 	if(nxt)
 	{
 		char *coma=nxt->nxt?" ,":"";
@@ -667,7 +689,20 @@ void djon_write_json(djon_state *it,int idx,int indent)
 			while(key&&val)
 			{
 				indent=djon_write_indent(it,indent+1)-1;
-				fprintf(it->fp,"\"%.*s\" : ",key->len,key->str);
+				fputs("\"",it->fp);
+				for( cp=key->str,ce=key->str+key->len ; cp<ce ; cp++ )
+				{
+					c=*cp;
+					if( ( (c>=0x00)&&(c<=0x1F) ) || (c=='"') || (c=='\\') ) // must escape
+					{
+						djon_write_string_escape(it,c);
+					}
+					else
+					{
+						putc(c,it->fp);
+					}
+				}
+				fputs("\" : ",it->fp);
 				djon_write_json(it,val_idx,-(indent+1));
 				key_idx=key->nxt; key=djon_get(it,key_idx);
 				val_idx=val->nxt; val=djon_get(it,val_idx);
@@ -679,9 +714,22 @@ void djon_write_json(djon_state *it,int idx,int indent)
 		if((nxt->typ&DJON_TYPEMASK)==DJON_STRING)
 		{
 			indent=djon_write_indent(it,indent);
-			fwrite("\"\n", 1, 1, it->fp);
-			fwrite(nxt->str, 1, nxt->len, it->fp);
-			fprintf(it->fp,"\"%s\n",coma);
+			fputs("\"",it->fp);
+			for( cp=nxt->str,ce=nxt->str+nxt->len ; cp<ce ; cp++ )
+			{
+				c=*cp;
+				if( ( (c>=0x00)&&(c<=0x1F) ) || (c=='"') || (c=='\\') ) // must escape
+				{
+					djon_write_string_escape(it,c);
+				}
+				else
+				{
+					putc(c,it->fp);
+				}
+			}
+			fputs("\"",it->fp);
+			fputs(coma,it->fp);
+			fputs("\n",it->fp);
 		}
 		else
 		if((nxt->typ&DJON_TYPEMASK)==DJON_NUMBER)
@@ -722,6 +770,9 @@ void djon_write_djon(djon_state *it,int idx,int indent)
 	int val_idx;
 	int com_idx;
 	int len;
+	char *cp;
+	char *ce;
+	char c;
 	if(nxt)
 	{
 		if( ((nxt->typ&DJON_TYPEMASK)!=DJON_COMMENT) && (nxt->com) )
@@ -789,7 +840,20 @@ void djon_write_djon(djon_state *it,int idx,int indent)
 				}
 				else
 				{
-					fprintf(it->fp,"\"%.*s\" = ",key->len,key->str);
+					fputs("\"",it->fp);
+					for( cp=key->str,ce=key->str+key->len ; cp<ce ; cp++ )
+					{
+						c=*cp;
+						if( ( (c>=0x00)&&(c<=0x1F) ) || (c=='"') || (c=='\\') ) // must escape
+						{
+							djon_write_string_escape(it,c);
+						}
+						else
+						{
+							putc(c,it->fp);
+						}
+					}
+					fputs("\" = ",it->fp);
 				}
 				djon_write_djon(it,val_idx,-(indent+1));
 				key_idx=key->nxt; key=djon_get(it,key_idx);
@@ -802,9 +866,20 @@ void djon_write_djon(djon_state *it,int idx,int indent)
 		if((nxt->typ&DJON_TYPEMASK)==DJON_STRING)
 		{
 			indent=djon_write_indent(it,indent);
-			fwrite("\"\n", 1, 1, it->fp);
-			fwrite(nxt->str, 1, nxt->len, it->fp);
-			fprintf(it->fp,"\"\n");
+			fputs("\"",it->fp);
+			for( cp=nxt->str,ce=nxt->str+nxt->len ; cp<ce ; cp++ )
+			{
+				c=*cp;
+				if( ( (c>=0x00)&&(c<=0x1F) ) || (c=='"') || (c=='\\') ) // must escape
+				{
+					djon_write_string_escape(it,c);
+				}
+				else
+				{
+					putc(c,it->fp);
+				}
+			}
+			fputs("\"\n",it->fp);
 		}
 		else
 		if((nxt->typ&DJON_TYPEMASK)==DJON_NUMBER)
