@@ -55,6 +55,8 @@ typedef struct djon_state
 	int   parse_idx;
 	int   parse_first; // first output value
 	char *parse_stack; // starting stack so we can play stack overflow chicken
+	int   parse_com;   // a list of comments, cache before we hand it off to a value and a final file comment if non zero.
+	int   parse_com_last; // end of comment chain so we can easily add another one
 
 	char *error_string; // if this is not 0 we have an error
 	int   error_idx;    // char in buffer
@@ -246,8 +248,6 @@ int djon_double_to_str( double num , char * buf )
 	}
 	
 	int e=(int)floor(log10(num)); // find exponent
-//printf("n %g\n",num);
-//printf("e %d\n",e);
 
 	int i;
 	int d;
@@ -383,7 +383,6 @@ double djon_str_to_double(char *cps,char **endptr)
 	}
 	d*=sign; // apply sign
 
-	
 	// final check, number must be terminated by something to be valid
 	c=*cp;
 	if( ! DJON_IS_TERMINATOR(c) ){goto error;}
@@ -525,6 +524,8 @@ djon_state * djon_setup()
 	it->data_len=0;
 	it->parse_stack=0;
 	it->parse_idx=0;
+	it->parse_com=0;
+	it->parse_com_last=0;
 	
 	it->error_string=0;
 	it->error_idx=0;
@@ -583,8 +584,28 @@ int djon_alloc(djon_state *it)
 	v->key=0;
 	v->val=0;
 	v->com=0;
-		
+
 	return it->values_len++;
+}
+
+// apply current cached comment chain to this value
+void djon_apply_comments(djon_state *it, int idx)
+{	
+	djon_value * v;
+	if( it->parse_com ) // we have a comment to save
+	{
+		v=djon_get(it,idx);
+		while(v && v->com) // need to append to end of comment list
+		{
+			v=djon_get(it,v->com);
+		}
+		if(v)
+		{
+			v->com=it->parse_com;
+			it->parse_com=0;
+			it->parse_com_last=0;
+		}
+	}
 }
 
 // we can only free the top most allocated idx, return 0 if not freed
@@ -703,9 +724,14 @@ void djon_write_djon(djon_state *it,int idx,int indent)
 	int len;
 	if(nxt)
 	{
-		if(nxt->com) // comments first
-		{			
-			for( com_idx=nxt->com ; com=djon_get(it,com_idx) ; com_idx=com->com )
+		if( ((nxt->typ&DJON_TYPEMASK)!=DJON_COMMENT) && (nxt->com) )
+		{
+			djon_write_djon(it,nxt->com,indent);
+		}
+		
+		if((nxt->typ&DJON_TYPEMASK)==DJON_COMMENT)
+		{
+			for( com_idx=idx ; com=djon_get(it,com_idx) ; com_idx=com->com )
 			{
 				indent=djon_write_indent(it,indent);
 				fprintf(it->fp,"// ");
@@ -713,7 +739,7 @@ void djon_write_djon(djon_state *it,int idx,int indent)
 				fprintf(it->fp,"\n");
 			}
 		}
-
+		else
 		if((nxt->typ&DJON_TYPEMASK)==DJON_ARRAY)
 		{
 			indent=djon_write_indent(it,indent);
@@ -721,6 +747,10 @@ void djon_write_djon(djon_state *it,int idx,int indent)
 			val_idx=nxt->val; val=djon_get(it,val_idx);
 			while(val)
 			{
+				if(val->com)
+				{
+					djon_write_djon(it,val->com,indent+1);
+				}
 				djon_write_djon(it,val_idx,indent+1);
 				val_idx=val->nxt; val=djon_get(it,val_idx);
 			}
@@ -736,6 +766,14 @@ void djon_write_djon(djon_state *it,int idx,int indent)
 			val_idx=nxt->val; val=djon_get(it,val_idx);
 			while(key&&val)
 			{
+				if(key->com)
+				{
+					djon_write_djon(it,key->com,indent+1);
+				}
+				if(val->com)
+				{
+					djon_write_djon(it,val->com,indent+1);
+				}
 				indent=djon_write_indent(it,indent+1)-1;
 				if( djon_is_rawkey(key->str,key->len) )
 				{
@@ -916,6 +954,10 @@ int djon_peek_string(djon_state *it,char *s)
 // skip whitespace and comments
 void djon_skip_white(djon_state *it)
 {
+	int com_idx;
+	djon_value * com;
+	djon_value * v;
+	
 	while( it->parse_idx < it->data_len )
 	{
 		char c1=it->data[ it->parse_idx ];
@@ -928,6 +970,28 @@ void djon_skip_white(djon_state *it)
 		if( (c1=='/') && (c2=='/'))
 		{
 			it->parse_idx+=2;
+			
+			// allocate new comment and place it in chain
+			com_idx=djon_alloc(it);
+			com=djon_get(it,com_idx);
+			if(com)
+			{
+				if( it->parse_com_last ) // append
+				{
+					v=djon_get(it,it->parse_com_last);
+					v->com=com_idx;
+					it->parse_com_last=com_idx;
+				}
+				else // start a new one
+				{
+					it->parse_com=com_idx;
+					it->parse_com_last=com_idx;
+				}
+				com->typ=DJON_COMMENT;
+				com->str=it->data+it->parse_idx;
+				com->len=0;
+			}
+			
 			while( it->parse_idx < it->data_len )
 			{
 				c1=it->data[ it->parse_idx ];
@@ -939,6 +1003,17 @@ void djon_skip_white(djon_state *it)
 				else
 				{
 					it->parse_idx++;
+					if(com)
+					{
+						if((com->len==0)&&(DJON_IS_WHITESPACE(c1)))
+						{
+							com->str++; // skip whitespace at start of comment
+						}
+						else
+						{
+							com->len++;
+						}
+					}
 				}
 			}
 			return; // file ending counts as a \n so this is OK
@@ -947,6 +1022,28 @@ void djon_skip_white(djon_state *it)
 		if( (c1=='/') && (c2=='*'))
 		{
 			it->parse_idx+=2;
+			
+			// allocate new comment and place it in chain
+			com_idx=djon_alloc(it);
+			com=djon_get(it,com_idx);
+			if(com)
+			{
+				if( it->parse_com_last ) // append
+				{
+					v=djon_get(it,it->parse_com_last);
+					v->com=com_idx;
+					it->parse_com_last=com_idx;
+				}
+				else // start a new one
+				{
+					it->parse_com=com_idx;
+					it->parse_com_last=com_idx;
+				}
+				com->typ=DJON_COMMENT;
+				com->str=it->data+it->parse_idx;
+				com->len=0;
+			}
+			
 			while( it->parse_idx < it->data_len )
 			{
 				c1=it->data[ it->parse_idx ];
@@ -959,6 +1056,17 @@ void djon_skip_white(djon_state *it)
 				else
 				{
 					it->parse_idx++;
+					if(com)
+					{
+						if((com->len==0)&&(DJON_IS_WHITESPACE(c1)))
+						{
+							com->str++; // skip whitespace at start of comment
+						}
+						else
+						{
+							com->len++;
+						}
+					}
 				}
 			}
 			djon_set_error(it,"missing */");
@@ -1025,6 +1133,9 @@ int djon_parse_next(djon_state *it)
 	nxt->typ=DJON_STRING;
 	nxt->str=it->data+it->parse_idx;
 	nxt->len=0;
+	
+	djon_apply_comments(it,idx); // apply any comments
+	
 	return idx;
 }
 
@@ -1237,11 +1348,17 @@ int djon_parse_object(djon_state *it)
 	while(1)
 	{
 		djon_skip_white_punct(it,",");
-		if( it->data[it->parse_idx]=='}' ) { it->parse_idx++;  return obj_idx; } // found closer
+		if( it->data[it->parse_idx]=='}' ) // found closer
+		{
+			djon_apply_comments(it,val_idx?key_idx:obj_idx); // apply any final comments to the last key or the object
+			it->parse_idx++;
+			return obj_idx;
+		}
 
 		key_idx=djon_parse_key(it);
 		if(!key_idx) { djon_set_error(it,"missing }"); return 0; }
 		if( djon_skip_white_punct(it,"=:") != 1 ) { djon_set_error(it,"missing : or ="); return 0; } // required
+		djon_apply_comments(it,key_idx); // apply any middle comments to the key
 		val_idx=djon_parse_value(it); if(!val_idx){ djon_set_error(it,"missing value"); return 0; }
 		djon_skip_white_punct(it,","); // optional , seperators
 
@@ -1270,17 +1387,22 @@ int djon_parse_array(djon_state *it)
 	djon_value *arr=djon_get(it,arr_idx);
 	if(!arr){return 0;}
 	
-	djon_value *val;
+	djon_value *val=0;
 
 	it->parse_idx++; // skip opener
 	arr->typ=DJON_ARRAY;
 
-	int val_idx;
+	int val_idx=0;
 
 	while(1)
 	{
 		djon_skip_white_punct(it,",");
-		if( it->data[it->parse_idx]==']' ) { it->parse_idx++; return arr_idx; } // found closer
+		if( it->data[it->parse_idx]==']' )  // found closer
+		{
+			djon_apply_comments(it,val_idx?val_idx:arr_idx); // apply any final comments to the last value or the array
+			it->parse_idx++;
+			return arr_idx;
+		}
 
 		val_idx=djon_parse_value(it);
 		if(!val_idx) { djon_set_error(it,"missing ]"); return 0; } // no value, probably missed a ]

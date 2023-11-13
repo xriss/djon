@@ -131,7 +131,11 @@ Possible options are:\n\
 		v=djon_get(it,i);
 		i=v?v->nxt:0;
 	}
-
+	if(write_djon)
+	{
+		djon_write_djon(it,it->parse_com,0); // write final comment if there is one
+	}
+	
 	if( it->error_string ){ goto error; }
 
 	if(fp)
