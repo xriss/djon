@@ -30,7 +30,7 @@ typedef struct djon_value
 	djon_enum typ; // the type of data contained in the string
 
 	int       nxt; // idx to next value if this is an object key/value or array
-	char    * str; // start of string ( points into the input json string )
+	char    * str; // start of string ( points into djon_state.data )
 	int       len; // number of characters
 
 	double    num; // number or bool value
@@ -108,7 +108,7 @@ int djon_check_quote( char *cs , int len , char *quote )
 // Pick a ` quote that does not occur in the string,
 // this will be written into buf as it may be more than one char
 // there are so many possibilities that all though this could technically fail
-// the string to cause this failure would have to be huge...
+// the string to cause this failure would have to be many gigabytes
 void djon_pick_quote( char *cs , int len , char *buf )
 {
 // check 1
@@ -140,7 +140,10 @@ void djon_pick_quote( char *cs , int len , char *buf )
 		*cp++='`';
 		*cp++=0;
 		if(djon_check_quote(cs,len,buf)){return;}
-	}	
+	}
+	// we should never reach here
+	printf("djon_pick_quote failure\n");
+	exit(23);
 }
 
 // replace /n /t /uXXXX etc with utf8 chars, return new length of string
