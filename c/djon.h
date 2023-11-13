@@ -89,6 +89,60 @@ int djon_check_stack(djon_state *it);
 
 #ifdef DJON_C
 
+// check that a quote does not occur in the string, returns 1 if it does not
+int djon_check_quote( char *cs , int len , char *quote )
+{
+	char *cq;
+	char *ct;
+	char *cp;
+	char *ce;
+	for( cp=cs,ce=cs+len ; cp<ce ; cp++ )
+	{
+		for( cq=quote , ct=cp ; (*cq) && (*cq==*ct) ; cq++ , ct++ )
+		{ ; }
+		if(*cq==0) { return 0; } // found quote string
+	}
+	return 1; // not found
+}
+
+// Pick a ` quote that does not occur in the string,
+// this will be written into buf as it may be more than one char
+// there are so many possibilities that all though this could technically fail
+// the string to cause this failure would have to be huge...
+void djon_pick_quote( char *cs , int len , char *buf )
+{
+// check 1
+	buf[0]='`';buf[1]=0;
+	if(djon_check_quote(cs,len,buf)){return;}
+
+// check 2
+	buf[0]='`';buf[1]='`';buf[2]=0;
+	if(djon_check_quote(cs,len,buf)){return;}
+
+// check 2^32 more
+	unsigned int bs;
+	unsigned int bm;
+	char *cp;
+	for(bs=0;bs<=0xffffffff;bs++)
+	{
+		cp=buf;
+		*cp++='`';
+		for( bm=0x80000000 ; bm>0x00000001 ; bm=bm>>1 ) // slide bit right
+		{
+			if( bm<=bs ) { break; } // until we find the top bit
+		}
+		while(bm>0)
+		{
+			if(bs&bm) { *cp++='\''; }
+			else      { *cp++='"'; }
+			bm=bm>>1; // keep sliding
+		}
+		*cp++='`';
+		*cp++=0;
+		if(djon_check_quote(cs,len,buf)){return;}
+	}	
+}
+
 // replace /n /t /uXXXX etc with utf8 chars, return new length of string
 // new string should always be shorter due to encoding inefficiencies
 int djon_unescape( char *cs , int len )
@@ -879,9 +933,11 @@ void djon_write_djon(djon_state *it,int idx,int indent)
 			}
 			if(rawstr) // avoid escapes
 			{
-					fputs("`",it->fp);
+					djon_pick_quote(nxt->str,nxt->len,it->buf);
+					fputs(it->buf,it->fp);
 					fwrite(nxt->str,1,nxt->len,it->fp);
-					fputs("`\n",it->fp);
+					fputs(it->buf,it->fp);
+					fputs("\n",it->fp);
 			}
 			else // normal " string but nothing needs escaping
 			{
