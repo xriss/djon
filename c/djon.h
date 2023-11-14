@@ -72,6 +72,7 @@ typedef struct djon_state
 } djon_state ;
 
 extern djon_state * djon_setup();
+extern int djon_idx(djon_state *it,djon_value *v);
 extern djon_value * djon_get(djon_state *it,int idx);
 extern int djon_load_file(djon_state *it,char *fname);
 extern int djon_parse(djon_state *it);
@@ -607,6 +608,13 @@ void djon_clean(djon_state *it)
 	if(it->values) { free(it->values); }
 }
 
+// get a index from pointer
+int djon_idx(djon_state *it,djon_value *v)
+{
+	if(!v){return 0;}
+	return v - ((djon_value*)it->data);
+}
+
 // get a value by index
 djon_value * djon_get(djon_state *it,int idx)
 {
@@ -713,7 +721,7 @@ int djon_write_indent(djon_state *it,int indent)
 	return indent;
 }
 // write json to the given file handle
-void djon_write_json(djon_state *it,int idx,int indent)
+void djon_write_json(djon_state *it,int idx,int indent,char *coma)
 {
 	djon_value *v=djon_get(it,idx);
 	djon_value *key;
@@ -726,7 +734,7 @@ void djon_write_json(djon_state *it,int idx,int indent)
 	char c;
 	if(v)
 	{
-		char *coma=v->nxt?" ,":"";
+		if(!coma){coma=v->nxt?" ,":"";} // auto coma
 		if((v->typ&DJON_TYPEMASK)==DJON_ARRAY)
 		{
 			indent=djon_write_indent(it,indent);
@@ -734,7 +742,7 @@ void djon_write_json(djon_state *it,int idx,int indent)
 			val_idx=v->val; val=djon_get(it,val_idx);
 			while(val)
 			{
-				djon_write_json(it,val_idx,indent+1);
+				djon_write_json(it,val_idx,indent+1,0);
 				val_idx=val->nxt; val=djon_get(it,val_idx);
 			}
 			indent=djon_write_indent(it,indent);
@@ -746,8 +754,7 @@ void djon_write_json(djon_state *it,int idx,int indent)
 			indent=djon_write_indent(it,indent);
 			fprintf(it->fp,"{\n");
 			key_idx=v->key; key=djon_get(it,key_idx);
-			val_idx=v->val; val=djon_get(it,val_idx);
-			while(key&&val)
+			while(key)
 			{
 				indent=djon_write_indent(it,indent+1)-1;
 				fputs("\"",it->fp);
@@ -764,9 +771,8 @@ void djon_write_json(djon_state *it,int idx,int indent)
 					}
 				}
 				fputs("\" : ",it->fp);
-				djon_write_json(it,val_idx,-(indent+1));
+				djon_write_json(it,key->val,-(indent+1),key->nxt?" ,":"");
 				key_idx=key->nxt; key=djon_get(it,key_idx);
-				val_idx=val->nxt; val=djon_get(it,val_idx);
 			}
 			indent=djon_write_indent(it,indent);
 			fprintf(it->fp,"}%s\n",coma);
@@ -884,16 +890,11 @@ void djon_write_djon(djon_state *it,int idx,int indent)
 			indent=djon_write_indent(it,indent);
 			fprintf(it->fp,"{\n");
 			key_idx=v->key; key=djon_get(it,key_idx);
-			val_idx=v->val; val=djon_get(it,val_idx);
-			while(key&&val)
+			while(key)
 			{
 				if(key->com)
 				{
 					djon_write_djon(it,key->com,indent+1);
-				}
-				if(val->com)
-				{
-					djon_write_djon(it,val->com,indent+1);
 				}
 				indent=djon_write_indent(it,indent+1)-1;
 				if( djon_is_rawkey(key->str,key->len) )
@@ -917,9 +918,8 @@ void djon_write_djon(djon_state *it,int idx,int indent)
 					}
 					fputs("\" = ",it->fp);
 				}
-				djon_write_djon(it,val_idx,-(indent+1));
+				djon_write_djon(it,key->val,-(indent+1));
 				key_idx=key->nxt; key=djon_get(it,key_idx);
-				val_idx=val->nxt; val=djon_get(it,val_idx);
 			}
 			indent=djon_write_indent(it,indent);
 			fprintf(it->fp,"}\n");
@@ -1510,42 +1510,56 @@ int djon_sort_compare( djon_value *a , djon_value *b )
 	return 0;
 }
 
-djon_value* djon_sort_last(djon_state *it, djon_value *v )
-{
-	while( v && djon_get(it,v->nxt) ) { v = djon_get(it,v->nxt); }
-	return v;
-}
-
 // swap a and b
-djon_value* djon_sort_swap(djon_state *it, djon_value *b , djon_value *c )
+void djon_sort_swap(djon_state *it, djon_value *a , djon_value *b )
 {
-}
-
-// sort
-djon_value* djon_sort_part(djon_state *it, djon_value *s, djon_value *e)
-{
-	djon_value *p = s;
-	djon_value *t = s;
-	while( t && t!=e )
+	djon_value *ap = djon_get(it,a->prv);
+	djon_value *bn = djon_get(it,b->nxt);
+	if(ap)
 	{
-		if( djon_sort_compare(t,e) )
-		{
-			p=s; // remember
-			djon_sort_swap(it,t,e);
-			s=djon_get(it,s->nxt);
-		}
-		t=djon_get(it,t->nxt);
+		ap->nxt=djon_idx(it,b);
 	}
-	djon_sort_swap(it,s,e);
-	return p;
+	if(bn)
+	{
+		bn->prv=djon_idx(it,a);
+	}
+	b->nxt=djon_idx(it,a);
+	b->prv=djon_idx(it,ap);
+	a->nxt=djon_idx(it,bn);
+	a->prv=djon_idx(it,b);
 }
 
-void djon_sort_object(djon_state *it, djon_value* s, djon_value* e)
+// dumb sort
+void djon_sort_part(djon_state *it, djon_value *s, djon_value *e )
 {
-	if( s==e ) { return; }
-	djon_value *p = djon_sort_part(it, s, e);
-	if( p && djon_get(it,p->nxt) ) { djon_sort_object(it, djon_get(it,p->nxt), e); }
-	if (p && (s!=p) ) { djon_sort_object(it, s, p); }
+	djon_value *t,*i,*j;
+	for( i=s ; i!=e ; i=djon_get(it,i->nxt) ) // start to end-1
+	{
+		for( j=djon_get(it,i->nxt) ; j!=e ; j=djon_get(it,j->nxt) ) // i+1 to end-1
+		{
+			if( djon_sort_compare(i,j) )
+			{
+				djon_sort_swap(it,i,j);
+				t=i; i=j; j=t; // swap i/j
+			}
+		}
+		if( djon_sort_compare(i,e) ) // check i against end
+		{
+			djon_sort_swap(it,i,e);
+			t=i; i=e; e=t; // swap i/e
+		}
+	}
+}
+
+int djon_sort_object(djon_state *it, djon_value *s, djon_value *e )
+{
+	if(!e) // get end from start
+	{
+		for( e=s ; e && e->nxt ; e=djon_get(it,e->nxt) ) {;}
+	}
+	djon_sort_part(it, s, e );
+	while( s && s->prv ) { s = djon_get(it,s->prv); } // find new start
+	return djon_idx(it,s);
 }
 
 int djon_parse_object(djon_state *it)
@@ -1560,15 +1574,16 @@ int djon_parse_object(djon_state *it)
 	it->parse_idx++; // skip opener
 	obj->typ=DJON_OBJECT;
 
-	int key_idx;
-	int val_idx;
+	int lst_idx=0;
+	int key_idx=0;
+	int val_idx=0;
 
 	while(1)
 	{
 		djon_skip_white_punct(it,",");
 		if( it->data[it->parse_idx]=='}' ) // found closer
 		{
-			djon_apply_comments(it,val_idx?key_idx:obj_idx); // apply any final comments to the last key or the object
+			djon_apply_comments(it,key_idx?key_idx:obj_idx); // apply any final comments to the last key or the object
 			it->parse_idx++;
 			return obj_idx;
 		}
@@ -1585,14 +1600,16 @@ int djon_parse_object(djon_state *it)
 			obj->key=key_idx;
 			obj->val=val_idx;
 			key=djon_get(it,key_idx);
-			val=djon_get(it,val_idx);
+			key->val=val_idx; //  remember val for this key
+			lst_idx=key_idx;
 		}
 		else // chain
 		{
+			key=djon_get(it,lst_idx); // last key
 			key->nxt=key_idx;
-			val->nxt=val_idx;
 			key=djon_get(it,key_idx);
-			val=djon_get(it,val_idx);
+			key->val=val_idx; //  remember val for this key
+			lst_idx=key_idx;
 		}
 	}
 
@@ -1610,6 +1627,7 @@ int djon_parse_array(djon_state *it)
 	it->parse_idx++; // skip opener
 	arr->typ=DJON_ARRAY;
 
+	int lst_idx=0;
 	int val_idx=0;
 
 	while(1)
@@ -1629,12 +1647,13 @@ int djon_parse_array(djon_state *it)
 		if( arr->val==0) // first
 		{
 			arr->val=val_idx;
-			val=djon_get(it,val_idx);
+			lst_idx=val_idx;
 		}
 		else // chain
 		{
+			val=djon_get(it,lst_idx);
 			val->nxt=val_idx;
-			val=djon_get(it,val_idx);
+			lst_idx=val_idx;
 		}
 	}
 
@@ -1750,18 +1769,21 @@ int djon_parse(djon_state *it)
 	it->error_char=0;
 	it->error_line=0;
 
-	int idx;
+	int lst_idx=0;
+	int idx=0;
 	djon_value *v;
 	while( idx=djon_parse_value(it) )
 	{
 		if(it->parse_first==0) // remember the first value
 		{
 			it->parse_first=idx;
+			lst_idx=idx;
 		}
 		else
-		if(v) // multiple values are linked as an array
 		{
+			v=djon_get(it,lst_idx);
 			v->nxt=idx;
+			lst_idx=idx;
 		}
 		v=djon_get(it,idx);
 		if(v==0){	goto error; }

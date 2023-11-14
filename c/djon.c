@@ -126,7 +126,7 @@ Possible options are:\n\
 		}
 		else
 		{
-			djon_write_json(it,i,0);
+			djon_write_json(it,i,0,0);
 		}
 		v=djon_get(it,i);
 		i=v?v->nxt:0;

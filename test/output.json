@@ -1684,10 +1684,10 @@ line 1 char 3 byte 2
 
 #c.json
 stack overflow
-line 1 char 5461 byte 5460
+line 1 char 5851 byte 5850
 #c.djon
 stack overflow
-line 1 char 5461 byte 5460
+line 1 char 5851 byte 5850
 
 #json/bad/n_structure_open_array_open_object.json
 [{
