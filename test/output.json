@@ -2325,13 +2325,13 @@ line 1 char 6 byte 5
 { "min": -1.0e+28, "max": 1.0e+28 }
 #c.json
 {
- "min" : -1e28 ,
- "max" : 1e28
+ "max" : 1e28 ,
+ "min" : -1e28
 }
 #c.djon
 {
- min = -1e28
  max = 1e28
+ min = -1e28
 }
 
 #json/good/y_object.json
@@ -2351,21 +2351,21 @@ line 1 char 6 byte 5
 {"x":[{"id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"}], "id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"}
 #c.json
 {
+ "id" : "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" ,
  "x" : [
   {
    "id" : "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
   }
- ] ,
- "id" : "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+ ]
 }
 #c.djon
 {
+ id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
  x = [
   {
    id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
   }
  ]
- id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 }
 
 #json/good/y_object_simple.json
@@ -3094,13 +3094,13 @@ TRUE
 {"e":"NFD","":"NFC"}
 #c.json
 {
- "e" : "NFD" ,
- "" : "NFC"
+ "" : "NFC" ,
+ "e" : "NFD"
 }
 #c.djon
 {
- "e" = "NFD"
  "" = "NFC"
+ "e" = "NFD"
 }
 
 #json/edge/object_same_key_different_values.json

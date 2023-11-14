@@ -81,6 +81,7 @@ int djon_alloc(djon_state *it);
 int djon_free(djon_state *it,int idx);
 int djon_parse_value(djon_state *it);
 int djon_check_stack(djon_state *it);
+void djon_sort_object(djon_state *it, int idx );
 
 #define DJON_IS_WHITESPACE(c) ( ((c)==' ') || ((c)=='\t') || ((c)=='\n') || ((c)=='\r') || ((c)=='\v') || ((c)=='\f') )
 #define DJON_IS_STRUCTURE(c)  ( ((c)=='{') || ((c)=='}') || ((c)=='[') || ((c)==']') || ((c)==':') || ((c)=='=') || ((c)==',') || ((c)=='/') )
@@ -612,7 +613,7 @@ void djon_clean(djon_state *it)
 int djon_idx(djon_state *it,djon_value *v)
 {
 	if(!v){return 0;}
-	return v - ((djon_value*)it->data);
+	return v - it->values;
 }
 
 // get a value by index
@@ -751,6 +752,7 @@ void djon_write_json(djon_state *it,int idx,int indent,char *coma)
 		else
 		if((v->typ&DJON_TYPEMASK)==DJON_OBJECT)
 		{
+			djon_sort_object(it,idx);
 			indent=djon_write_indent(it,indent);
 			fprintf(it->fp,"{\n");
 			key_idx=v->key; key=djon_get(it,key_idx);
@@ -887,6 +889,7 @@ void djon_write_djon(djon_state *it,int idx,int indent)
 		else
 		if((v->typ&DJON_TYPEMASK)==DJON_OBJECT)
 		{
+			djon_sort_object(it,idx);
 			indent=djon_write_indent(it,indent);
 			fprintf(it->fp,"{\n");
 			key_idx=v->key; key=djon_get(it,key_idx);
@@ -1499,7 +1502,7 @@ error:
 // return a<b
 int djon_sort_compare( djon_value *a , djon_value *b )
 {
-	int i;
+	int i=0;
 	while( i<a->len && i<b->len )
 	{
 		if(a->str[i]<b->str[i]) { return 1; }
@@ -1513,20 +1516,33 @@ int djon_sort_compare( djon_value *a , djon_value *b )
 // swap a and b
 void djon_sort_swap(djon_state *it, djon_value *a , djon_value *b )
 {
-	djon_value *ap = djon_get(it,a->prv);
-	djon_value *bn = djon_get(it,b->nxt);
-	if(ap)
-	{
-		ap->nxt=djon_idx(it,b);
-	}
-	if(bn)
-	{
-		bn->prv=djon_idx(it,a);
-	}
-	b->nxt=djon_idx(it,a);
-	b->prv=djon_idx(it,ap);
-	a->nxt=djon_idx(it,bn);
-	a->prv=djon_idx(it,b);
+	djon_value *p;
+	int aidx=djon_idx(it,a);
+	int bidx=djon_idx(it,b);
+	
+	// cache
+	int anxt=a->nxt;
+	int aprv=a->prv;
+	int bnxt=b->nxt;
+	int bprv=b->prv;
+	
+	// relink
+	p = djon_get(it,aprv); if(p){ p->nxt=bidx; }
+	p = djon_get(it,anxt); if(p){ p->prv=bidx; }
+	p = djon_get(it,bprv); if(p){ p->nxt=aidx; }
+	p = djon_get(it,bnxt); if(p){ p->prv=aidx; }
+
+	// uncache and swap
+	a->nxt=bnxt;
+	a->prv=bprv;
+	b->nxt=anxt;
+	b->prv=aprv;
+	
+	// fix when a and b are linked to each other
+	if(a->nxt==aidx){a->nxt=bidx;}
+	if(a->prv==aidx){a->prv=bidx;}
+	if(b->nxt==bidx){b->nxt=aidx;}
+	if(b->prv==bidx){b->prv=aidx;}
 }
 
 // dumb sort
@@ -1537,13 +1553,13 @@ void djon_sort_part(djon_state *it, djon_value *s, djon_value *e )
 	{
 		for( j=djon_get(it,i->nxt) ; j!=e ; j=djon_get(it,j->nxt) ) // i+1 to end-1
 		{
-			if( djon_sort_compare(i,j) )
+			if( djon_sort_compare(j,i) ) // should j come before i
 			{
 				djon_sort_swap(it,i,j);
 				t=i; i=j; j=t; // swap i/j
 			}
 		}
-		if( djon_sort_compare(i,e) ) // check i against end
+		if( djon_sort_compare(e,i) ) // should e come before i
 		{
 			djon_sort_swap(it,i,e);
 			t=i; i=e; e=t; // swap i/e
@@ -1551,15 +1567,20 @@ void djon_sort_part(djon_state *it, djon_value *s, djon_value *e )
 	}
 }
 
-int djon_sort_object(djon_state *it, djon_value *s, djon_value *e )
+// force sort this object by its keys
+void djon_sort_object(djon_state *it, int idx )
 {
-	if(!e) // get end from start
-	{
-		for( e=s ; e && e->nxt ; e=djon_get(it,e->nxt) ) {;}
-	}
+	djon_value *obj=djon_get(it,idx);
+	if(!obj) { return; }
+	if(!obj->key) { return; }
+	
+	djon_value *s=djon_get(it,obj->key);
+	djon_value *e;
+	for( e=s ; e && e->nxt ; e=djon_get(it,e->nxt) ) {;}
+
 	djon_sort_part(it, s, e );
 	while( s && s->prv ) { s = djon_get(it,s->prv); } // find new start
-	return djon_idx(it,s);
+	obj->key=djon_idx(it,s); // save new start
 }
 
 int djon_parse_object(djon_state *it)
@@ -1608,6 +1629,7 @@ int djon_parse_object(djon_state *it)
 			key=djon_get(it,lst_idx); // last key
 			key->nxt=key_idx;
 			key=djon_get(it,key_idx);
+			key->prv=lst_idx;
 			key->val=val_idx; //  remember val for this key
 			lst_idx=key_idx;
 		}
