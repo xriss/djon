@@ -29,7 +29,9 @@ typedef struct djon_value
 {
 	djon_enum typ; // the type of data contained in the string
 
-	int       nxt; // idx to next value if this is an object key/value or array
+	int       nxt; // idx to next value if this is part of a list
+	int       prv; // idx to prev value if this is part of a list
+
 	char    * str; // start of string ( points into djon_state.data )
 	int       len; // number of characters
 
@@ -635,6 +637,7 @@ int djon_alloc(djon_state *it)
 	}
 	v=djon_get(it,it->values_len);
 	v->nxt=0;
+	v->prv=0;
 	v->str=0;
 	v->len=0;
 	v->typ=DJON_NULL;
@@ -712,7 +715,7 @@ int djon_write_indent(djon_state *it,int indent)
 // write json to the given file handle
 void djon_write_json(djon_state *it,int idx,int indent)
 {
-	djon_value *nxt=djon_get(it,idx);
+	djon_value *v=djon_get(it,idx);
 	djon_value *key;
 	djon_value *val;
 	int key_idx;
@@ -721,14 +724,14 @@ void djon_write_json(djon_state *it,int idx,int indent)
 	char *cp;
 	char *ce;
 	char c;
-	if(nxt)
+	if(v)
 	{
-		char *coma=nxt->nxt?" ,":"";
-		if((nxt->typ&DJON_TYPEMASK)==DJON_ARRAY)
+		char *coma=v->nxt?" ,":"";
+		if((v->typ&DJON_TYPEMASK)==DJON_ARRAY)
 		{
 			indent=djon_write_indent(it,indent);
 			fprintf(it->fp,"[\n");
-			val_idx=nxt->val; val=djon_get(it,val_idx);
+			val_idx=v->val; val=djon_get(it,val_idx);
 			while(val)
 			{
 				djon_write_json(it,val_idx,indent+1);
@@ -738,12 +741,12 @@ void djon_write_json(djon_state *it,int idx,int indent)
 			fprintf(it->fp,"]%s\n",coma);
 		}
 		else
-		if((nxt->typ&DJON_TYPEMASK)==DJON_OBJECT)
+		if((v->typ&DJON_TYPEMASK)==DJON_OBJECT)
 		{
 			indent=djon_write_indent(it,indent);
 			fprintf(it->fp,"{\n");
-			key_idx=nxt->key; key=djon_get(it,key_idx);
-			val_idx=nxt->val; val=djon_get(it,val_idx);
+			key_idx=v->key; key=djon_get(it,key_idx);
+			val_idx=v->val; val=djon_get(it,val_idx);
 			while(key&&val)
 			{
 				indent=djon_write_indent(it,indent+1)-1;
@@ -769,11 +772,11 @@ void djon_write_json(djon_state *it,int idx,int indent)
 			fprintf(it->fp,"}%s\n",coma);
 		}
 		else
-		if((nxt->typ&DJON_TYPEMASK)==DJON_STRING)
+		if((v->typ&DJON_TYPEMASK)==DJON_STRING)
 		{
 			indent=djon_write_indent(it,indent);
 			fputs("\"",it->fp);
-			for( cp=nxt->str,ce=nxt->str+nxt->len ; cp<ce ; cp++ )
+			for( cp=v->str,ce=v->str+v->len ; cp<ce ; cp++ )
 			{
 				c=*cp;
 				if( ( (c>=0x00)&&(c<=0x1F) ) || (c=='"') || (c=='\\') ) // must escape
@@ -790,21 +793,21 @@ void djon_write_json(djon_state *it,int idx,int indent)
 			fputs("\n",it->fp);
 		}
 		else
-		if((nxt->typ&DJON_TYPEMASK)==DJON_NUMBER)
+		if((v->typ&DJON_TYPEMASK)==DJON_NUMBER)
 		{
 			indent=djon_write_indent(it,indent);
-			len=djon_double_to_str(nxt->num,it->buf);
+			len=djon_double_to_str(v->num,it->buf);
 			fwrite(it->buf, 1, len, it->fp);
 			fprintf(it->fp,"%s\n",coma);
 		}
 		else
-		if((nxt->typ&DJON_TYPEMASK)==DJON_BOOL)
+		if((v->typ&DJON_TYPEMASK)==DJON_BOOL)
 		{
 			indent=djon_write_indent(it,indent);
-			fprintf(it->fp,"%s%s\n",nxt->num?"true":"false",coma);
+			fprintf(it->fp,"%s%s\n",v->num?"true":"false",coma);
 		}
 		else
-		if((nxt->typ&DJON_TYPEMASK)==DJON_NULL)
+		if((v->typ&DJON_TYPEMASK)==DJON_NULL)
 		{
 			indent=djon_write_indent(it,indent);
 			fprintf(it->fp,"%s%s\n","null",coma);
@@ -820,7 +823,7 @@ void djon_write_json(djon_state *it,int idx,int indent)
 // write djon to the given file handle
 void djon_write_djon(djon_state *it,int idx,int indent)
 {
-	djon_value *nxt=djon_get(it,idx);
+	djon_value *v=djon_get(it,idx);
 	djon_value *key;
 	djon_value *val;
 	djon_value *com;
@@ -832,14 +835,14 @@ void djon_write_djon(djon_state *it,int idx,int indent)
 	char *ce;
 	char c;
 	int rawstr;
-	if(nxt)
+	if(v)
 	{
-		if( ((nxt->typ&DJON_TYPEMASK)!=DJON_COMMENT) && (nxt->com) )
+		if( ((v->typ&DJON_TYPEMASK)!=DJON_COMMENT) && (v->com) )
 		{
-			djon_write_djon(it,nxt->com,indent);
+			djon_write_djon(it,v->com,indent);
 		}
 
-		if((nxt->typ&DJON_TYPEMASK)==DJON_COMMENT)
+		if((v->typ&DJON_TYPEMASK)==DJON_COMMENT)
 		{
 			len=0;
 			for( com_idx=idx ; com=djon_get(it,com_idx) ; com_idx=com->com )
@@ -858,11 +861,11 @@ void djon_write_djon(djon_state *it,int idx,int indent)
 			}
 		}
 		else
-		if((nxt->typ&DJON_TYPEMASK)==DJON_ARRAY)
+		if((v->typ&DJON_TYPEMASK)==DJON_ARRAY)
 		{
 			indent=djon_write_indent(it,indent);
 			fprintf(it->fp,"[\n");
-			val_idx=nxt->val; val=djon_get(it,val_idx);
+			val_idx=v->val; val=djon_get(it,val_idx);
 			while(val)
 			{
 				if(val->com)
@@ -876,12 +879,12 @@ void djon_write_djon(djon_state *it,int idx,int indent)
 			fprintf(it->fp,"]\n");
 		}
 		else
-		if((nxt->typ&DJON_TYPEMASK)==DJON_OBJECT)
+		if((v->typ&DJON_TYPEMASK)==DJON_OBJECT)
 		{
 			indent=djon_write_indent(it,indent);
 			fprintf(it->fp,"{\n");
-			key_idx=nxt->key; key=djon_get(it,key_idx);
-			val_idx=nxt->val; val=djon_get(it,val_idx);
+			key_idx=v->key; key=djon_get(it,key_idx);
+			val_idx=v->val; val=djon_get(it,val_idx);
 			while(key&&val)
 			{
 				if(key->com)
@@ -922,11 +925,11 @@ void djon_write_djon(djon_state *it,int idx,int indent)
 			fprintf(it->fp,"}\n");
 		}
 		else
-		if((nxt->typ&DJON_TYPEMASK)==DJON_STRING)
+		if((v->typ&DJON_TYPEMASK)==DJON_STRING)
 		{
 			indent=djon_write_indent(it,indent);
 			rawstr=0; // would we like to rawdog?
-			for( cp=nxt->str,ce=nxt->str+nxt->len ; cp<ce ; cp++ )
+			for( cp=v->str,ce=v->str+v->len ; cp<ce ; cp++ )
 			{
 				c=*cp;
 				if( ( (c>=0x00)&&(c<=0x1F) ) || (c=='"') || (c=='\\') ) // must escape
@@ -937,33 +940,33 @@ void djon_write_djon(djon_state *it,int idx,int indent)
 			}
 			if(rawstr) // avoid escapes
 			{
-					djon_pick_quote(nxt->str,nxt->len,it->buf);
+					djon_pick_quote(v->str,v->len,it->buf);
 					fputs(it->buf,it->fp);
-					fwrite(nxt->str,1,nxt->len,it->fp);
+					fwrite(v->str,1,v->len,it->fp);
 					fputs(it->buf,it->fp);
 					fputs("\n",it->fp);
 			}
 			else // normal " string but nothing needs escaping
 			{
-				fprintf(it->fp,"\"%.*s\"\n",nxt->len,nxt->str);
+				fprintf(it->fp,"\"%.*s\"\n",v->len,v->str);
 			}
 		}
 		else
-		if((nxt->typ&DJON_TYPEMASK)==DJON_NUMBER)
+		if((v->typ&DJON_TYPEMASK)==DJON_NUMBER)
 		{
 			indent=djon_write_indent(it,indent);
-			len=djon_double_to_str(nxt->num,it->buf);
+			len=djon_double_to_str(v->num,it->buf);
 			fwrite(it->buf, 1, len, it->fp);
 			fprintf(it->fp,"\n");
 		}
 		else
-		if((nxt->typ&DJON_TYPEMASK)==DJON_BOOL)
+		if((v->typ&DJON_TYPEMASK)==DJON_BOOL)
 		{
 			indent=djon_write_indent(it,indent);
-			fprintf(it->fp,"%s\n",nxt->num?"TRUE":"FALSE");
+			fprintf(it->fp,"%s\n",v->num?"TRUE":"FALSE");
 		}
 		else
-		if((nxt->typ&DJON_TYPEMASK)==DJON_NULL)
+		if((v->typ&DJON_TYPEMASK)==DJON_NULL)
 		{
 			indent=djon_write_indent(it,indent);
 			fprintf(it->fp,"%s\n","NULL");
@@ -1284,16 +1287,16 @@ int djon_parse_next(djon_state *it)
 {
 	if( it->parse_idx >= it->data_len ) { return 0; } // EOF
 
-	djon_value *nxt;
+	djon_value *v;
 	int idx=0;
 
 	idx=djon_alloc(it);
-	nxt=djon_get(it,idx);
-	if(nxt==0) { return 0; }
+	v=djon_get(it,idx);
+	if(v==0) { return 0; }
 
-	nxt->typ=DJON_STRING;
-	nxt->str=it->data+it->parse_idx;
-	nxt->len=0;
+	v->typ=DJON_STRING;
+	v->str=it->data+it->parse_idx;
+	v->len=0;
 
 	djon_apply_comments(it,idx); // apply any comments
 
@@ -1491,6 +1494,60 @@ error:
 	return 0;
 }
 
+
+
+// return a<b
+int djon_sort_compare( djon_value *a , djon_value *b )
+{
+	int i;
+	while( i<a->len && i<b->len )
+	{
+		if(a->str[i]<b->str[i]) { return 1; }
+		if(a->str[i]>b->str[i]) { return 0; }
+		i++;
+	}
+	if(a->len<b->len) { return 1; }
+	return 0;
+}
+
+djon_value* djon_sort_last(djon_state *it, djon_value *v )
+{
+	while( v && djon_get(it,v->nxt) ) { v = djon_get(it,v->nxt); }
+	return v;
+}
+
+// swap a and b
+djon_value* djon_sort_swap(djon_state *it, djon_value *b , djon_value *c )
+{
+}
+
+// sort
+djon_value* djon_sort_part(djon_state *it, djon_value *s, djon_value *e)
+{
+	djon_value *p = s;
+	djon_value *t = s;
+	while( t && t!=e )
+	{
+		if( djon_sort_compare(t,e) )
+		{
+			p=s; // remember
+			djon_sort_swap(it,t,e);
+			s=djon_get(it,s->nxt);
+		}
+		t=djon_get(it,t->nxt);
+	}
+	djon_sort_swap(it,s,e);
+	return p;
+}
+
+void djon_sort_object(djon_state *it, djon_value* s, djon_value* e)
+{
+	if( s==e ) { return; }
+	djon_value *p = djon_sort_part(it, s, e);
+	if( p && djon_get(it,p->nxt) ) { djon_sort_object(it, djon_get(it,p->nxt), e); }
+	if (p && (s!=p) ) { djon_sort_object(it, s, p); }
+}
+
 int djon_parse_object(djon_state *it)
 {
 	int obj_idx=djon_parse_next(it);
@@ -1587,7 +1644,7 @@ int djon_parse_array(djon_state *it)
 int djon_parse_value(djon_state *it)
 {
 	int idx;
-	djon_value *nxt;
+	djon_value *v;
 
 	if(it->error_string){ return 0; }
 	if(!djon_check_stack(it)){ return 0; }
@@ -1598,10 +1655,10 @@ int djon_parse_value(djon_state *it)
 	if( djon_peek_string(it,"true" ) )
 	{
 		idx=djon_alloc(it);
-		nxt=djon_get(it,idx);
-		if(nxt==0) { return 0; }
-		nxt->typ=DJON_BOOL;
-		nxt->num=1.0;
+		v=djon_get(it,idx);
+		if(v==0) { return 0; }
+		v->typ=DJON_BOOL;
+		v->num=1.0;
 		it->parse_idx+=4;
 		return idx;
 	}
@@ -1609,10 +1666,10 @@ int djon_parse_value(djon_state *it)
 	if( djon_peek_string(it,"false" ) )
 	{
 		idx=djon_alloc(it);
-		nxt=djon_get(it,idx);
-		if(nxt==0) { return 0; }
-		nxt->typ=DJON_BOOL;
-		nxt->num=0.0;
+		v=djon_get(it,idx);
+		if(v==0) { return 0; }
+		v->typ=DJON_BOOL;
+		v->num=0.0;
 		it->parse_idx+=5;
 		return idx;
 	}
@@ -1620,9 +1677,9 @@ int djon_parse_value(djon_state *it)
 	if( djon_peek_string(it,"null" ) )
 	{
 		idx=djon_alloc(it);
-		nxt=djon_get(it,idx);
-		if(nxt==0) { return 0; }
-		nxt->typ=DJON_NULL;
+		v=djon_get(it,idx);
+		if(v==0) { return 0; }
+		v->typ=DJON_NULL;
 		it->parse_idx+=4;
 		return idx;
 	}
@@ -1694,7 +1751,7 @@ int djon_parse(djon_state *it)
 	it->error_line=0;
 
 	int idx;
-	djon_value *nxt;
+	djon_value *v;
 	while( idx=djon_parse_value(it) )
 	{
 		if(it->parse_first==0) // remember the first value
@@ -1702,12 +1759,12 @@ int djon_parse(djon_state *it)
 			it->parse_first=idx;
 		}
 		else
-		if(nxt) // multiple values are linked as an array
+		if(v) // multiple values are linked as an array
 		{
-			nxt->nxt=idx;
+			v->nxt=idx;
 		}
-		nxt=djon_get(it,idx);
-		if(nxt==0){	goto error; }
+		v=djon_get(it,idx);
+		if(v==0){	goto error; }
 
 		// , are ignored  between top level values as if this was an array
 		djon_skip_white_punct(it,",");
