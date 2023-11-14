@@ -1151,9 +1151,10 @@ void djon_trim_comment(djon_state *it,int idx)
 		}
 	}
 }
-// skip whitespace and comments
-void djon_skip_white(djon_state *it)
+// skip whitespace and comments return amount skipped
+int djon_skip_white(djon_state *it)
 {
+	int start=it->parse_idx;
 	int com_idx;
 	djon_value * com;
 
@@ -1180,7 +1181,7 @@ void djon_skip_white(djon_state *it)
 				{
 					djon_trim_comment(it,com_idx);
 					it->parse_idx++;
-					return;
+					return it->parse_idx-start;
 				}
 				else
 				{
@@ -1195,7 +1196,7 @@ void djon_skip_white(djon_state *it)
 					}
 				}
 			}
-			return; // file ending counts as a \n so this is OK
+			return it->parse_idx-start; // file ending counts as a \n so this is OK
 		}
 		else
 		if( (c1=='/') && (c2=='*'))
@@ -1213,7 +1214,7 @@ void djon_skip_white(djon_state *it)
 				{
 					djon_trim_comment(it,com_idx);
 					it->parse_idx+=2;
-					return;
+					return it->parse_idx-start;
 				}
 				else
 				{
@@ -1240,9 +1241,10 @@ void djon_skip_white(djon_state *it)
 		}
 		else
 		{
-			return;
+			return it->parse_idx-start;
 		}
 	}
+	return it->parse_idx-start;
 }
 
 // skip these punct chars only, counting thme
@@ -1664,10 +1666,9 @@ int djon_parse_object(djon_state *it)
 
 		key_idx=djon_parse_key(it);
 		if(!key_idx) { djon_set_error(it,"missing }"); return 0; }
-		if( djon_skip_white_punct(it,"=:") != 1 ) { djon_set_error(it,"missing : or ="); return 0; } // required
+		if( djon_skip_white_punct(it,"=:") != 1 ) { djon_set_error(it,"missing :"); return 0; } // required
 		djon_apply_comments(it,key_idx); // apply any middle comments to the key
 		val_idx=djon_parse_value(it); if(!val_idx){ djon_set_error(it,"missing value"); return 0; }
-		djon_skip_white_punct(it,","); // optional , seperators
 
 		if( obj->key==0) // first
 		{
@@ -1686,6 +1687,16 @@ int djon_parse_object(djon_state *it)
 			key->val=val_idx; //  remember val for this key
 			lst_idx=key_idx;
 		}
+
+		if( 0 == djon_skip_white(it) ) // check for whitespace after value
+		{
+			char c=it->data[it->parse_idx]; // if not white then must be one of these chars
+			if( ! ( ( c==',' ) || ( c=='}' ) ) )
+			{
+				djon_set_error(it,"missing ,"); return 0;
+			}
+		}
+
 	}
 
 	return 0;
@@ -1717,7 +1728,6 @@ int djon_parse_array(djon_state *it)
 
 		val_idx=djon_parse_value(it);
 		if(!val_idx) { djon_set_error(it,"missing ]"); return 0; } // no value, probably missed a ]
-		djon_skip_white_punct(it,","); // optional , separators
 
 		if( arr->val==0) // first
 		{
