@@ -15,10 +15,10 @@ typedef enum djon_enum
 	DJON_ARRAY    = 0x0005,
 	DJON_OBJECT   = 0x0006,
 	DJON_COMMENT  = 0x0007,
-	
+
 	DJON_ESCAPED  = 0x0100, // this string contains \n \t \" etc
 	DJON_KEY      = 0x0200, // this string is a key
-	
+
 	DJON_TYPEMASK = 0x00ff, // base types are in lower byte
 	DJON_FLAGMASK = 0xff00, // additional flags are in upper byte
 
@@ -62,11 +62,11 @@ typedef struct djon_state
 	int   error_idx;    // char in buffer
 	int   error_char;   // char in line
 	int   error_line;   // line in file
-	
+
 	FILE *fp; // where to write output
 
 	char buf[256]; // small buffer used for generating text output
-	
+
 } djon_state ;
 
 extern djon_state * djon_setup();
@@ -254,7 +254,7 @@ int djon_is_rawkey( char *cp , int len )
 	{
 		char c=*cp++;
 		if( DJON_IS_TERMINATOR(c) ) { return 0; }
-	} 
+	}
 	return 1; // all chars OK
 }
 
@@ -304,7 +304,7 @@ int djon_double_to_str( double num , char * buf )
 		*cp=0; // null
 		return cp-buf;
 	}
-	
+
 	int e=(int)floor(log10(num)); // find exponent
 
 	int i;
@@ -317,7 +317,7 @@ int djon_double_to_str( double num , char * buf )
 		d=1.0;
 		e=0; // we want a 0.0000001234 style number when it is near 0
 	}
-	
+
 	double t=pow(10.0,(double)e); // divide by this to get current decimal
 	num=num+pow(10.0,(double)e-digits); // add a tiny roundup for the digit after the last one we plan to print
 	if(e>0)
@@ -372,7 +372,7 @@ int djon_double_to_str( double num , char * buf )
 			*cp++='0'+d;
 		}
 	}
-	
+
 	*cp=0; // null
 	return cp-buf;
 }
@@ -382,7 +382,7 @@ int djon_double_to_str( double num , char * buf )
 double djon_str_to_double(char *cps,char **endptr)
 {
 	const double nan = 0.0/0.0;
-	
+
 	int gotdata=0;
 
 	char c;
@@ -393,7 +393,7 @@ double djon_str_to_double(char *cps,char **endptr)
 	if(c=='-') { sign=-1.0; cp++; } // maybe negative
 	else
 	if(c=='+') { cp++; } // allow
-	
+
 	double d=0.0;
 	for( c=*cp ; (c>='0') && (c<='9') ; c=*++cp )// 0 or more integer parts
 	{
@@ -461,7 +461,7 @@ double djon_str_to_hex(char *cps,char **endptr)
 
 	char *cp=cps;
 	char c;
-	
+
 	double sign=1.0;
 	if(c=='-') { sign=-1.0; cp++; } // maybe negative
 	else
@@ -473,7 +473,7 @@ double djon_str_to_hex(char *cps,char **endptr)
 	double d=0.0;
 	for( c=*cp ; c ; c=*++cp )
 	{
-		
+
 		if( (c>='0') && (c<='9') )
 		{
 			d=(d*16.0)+(double)(c-'0');
@@ -531,23 +531,23 @@ double djon_str_to_number(char *cp,char **endptr)
 void djon_set_error(djon_state *it, char *error)
 {
 	if( it->error_string ) { return; } // keep first error
-	
+
 	it->error_string=error;
 	it->error_idx=0;
 	it->error_char=0;
 	it->error_line=0;
-	
+
 	if(!it->data){ return; } // must have some parsing data to locate
 
 	it->error_idx=it->parse_idx;
-	
+
 	int x=0;
 	int y=0;
 	char * cp;
 	char * cp_start = it->data;
 	char * cp_end   = it->data+it->data_len;
 	char * cp_error = it->data+it->parse_idx;
-	
+
 	y++; // 1st line
 	for( cp = it->data ; cp<=cp_end ; cp++ )
 	{
@@ -574,17 +574,17 @@ void djon_set_error(djon_state *it, char *error)
 djon_state * djon_setup()
 {
 	djon_state *it;
-	
+
 	it=(djon_state *)malloc( sizeof(djon_state) );
 	if(!it) { return 0; }
-	
+
 	it->data=0;
 	it->data_len=0;
 	it->parse_stack=0;
 	it->parse_idx=0;
 	it->parse_com=0;
 	it->parse_com_last=0;
-	
+
 	it->error_string=0;
 	it->error_idx=0;
 	it->error_char=0;
@@ -624,7 +624,7 @@ void djon_shrink(djon_state *it)
 
 // allocate a new value and return its index, 0 on error
 int djon_alloc(djon_state *it)
-{	
+{
 	djon_value * v;
 	if( it->values_len+1 >= it->values_siz ) // check for space
 	{
@@ -648,7 +648,7 @@ int djon_alloc(djon_state *it)
 
 // apply current cached comment chain to this value
 void djon_apply_comments(djon_state *it, int idx)
-{	
+{
 	djon_value * v;
 	if( it->parse_com ) // we have a comment to save
 	{
@@ -838,7 +838,7 @@ void djon_write_djon(djon_state *it,int idx,int indent)
 		{
 			djon_write_djon(it,nxt->com,indent);
 		}
-		
+
 		if((nxt->typ&DJON_TYPEMASK)==DJON_COMMENT)
 		{
 			len=0;
@@ -1012,9 +1012,9 @@ int djon_load_file(djon_state *it,char *fname)
 		{
 			temp = realloc(data, used+chunk); if(!temp) { djon_set_error(it,"out of memory"); goto error; }
 			size = used+chunk;
-			data=temp;			
+			data=temp;
 		}
-		used += fread( data+used , 1 , chunk, fp );		
+		used += fread( data+used , 1 , chunk, fp );
 		if(ferror(fp)) { djon_set_error(it,"file error"); goto error; }
     }
 
@@ -1123,7 +1123,7 @@ int djon_alloc_comment(djon_state *it)
 	com->typ=DJON_COMMENT;
 	com->str=it->data+it->parse_idx;
 	com->len=0;
-	
+
 	return com_idx;
 }
 
@@ -1150,7 +1150,7 @@ void djon_skip_white(djon_state *it)
 {
 	int com_idx;
 	djon_value * com;
-	
+
 	while( it->parse_idx < it->data_len )
 	{
 		char c1=it->data[ it->parse_idx ];
@@ -1163,10 +1163,10 @@ void djon_skip_white(djon_state *it)
 		if( (c1=='/') && (c2=='/'))
 		{
 			it->parse_idx+=2;
-			
+
 			// allocate new comment and place it in chain
 			com_idx=djon_alloc_comment(it);
-			
+
 			while( it->parse_idx < it->data_len )
 			{
 				c1=it->data[ it->parse_idx ];
@@ -1195,10 +1195,10 @@ void djon_skip_white(djon_state *it)
 		if( (c1=='/') && (c2=='*'))
 		{
 			it->parse_idx+=2;
-			
+
 			// allocate new comment and place it in chain
 			com_idx=djon_alloc_comment(it);
-			
+
 			while( it->parse_idx < it->data_len )
 			{
 				c1=it->data[ it->parse_idx ];
@@ -1264,11 +1264,11 @@ int djon_skip_white_punct(djon_state *it,char *punct)
 {
 	int ret=0;
 	int progress=-1;
-	
+
 	while( ( progress != it->parse_idx ) && ( it->parse_idx < it->data_len ) )
 	{
 		progress = it->parse_idx;
-		
+
 		djon_skip_white(it);
 		ret+=djon_skip_punct(it,punct);
 		djon_skip_white(it);
@@ -1279,7 +1279,7 @@ int djon_skip_white_punct(djon_state *it,char *punct)
 	return ret;
 }
 
-// allocate 0 length string value pointing at the next char 
+// allocate 0 length string value pointing at the next char
 int djon_parse_next(djon_state *it)
 {
 	if( it->parse_idx >= it->data_len ) { return 0; } // EOF
@@ -1290,13 +1290,13 @@ int djon_parse_next(djon_state *it)
 	idx=djon_alloc(it);
 	nxt=djon_get(it,idx);
 	if(nxt==0) { return 0; }
-	
+
 	nxt->typ=DJON_STRING;
 	nxt->str=it->data+it->parse_idx;
 	nxt->len=0;
-	
+
 	djon_apply_comments(it,idx); // apply any comments
-	
+
 	return idx;
 }
 
@@ -1305,12 +1305,12 @@ int djon_parse_string(djon_state *it,char * term)
 	int str_idx=djon_parse_next(it);
 	djon_value *str=djon_get(it,str_idx);
 	if(!str) { return 0; }
-	
+
 	char c;
 	char *cp;
 	char *tp;
 	int term_len=1; // assume 1 char
-	
+
 	if( *term=='`' ) // need to find special terminator
 	{
 		term=str->str;
@@ -1349,7 +1349,7 @@ int djon_parse_string(djon_state *it,char * term)
 	{
 		cp=it->data+it->parse_idx;
 		c=*cp; // get next char
-		
+
 		if( str->typ=DJON_ESCAPED|DJON_STRING ) // we need to check for back slashes
 		{
 			if(c=='\\') // skip next char whatever it is
@@ -1414,7 +1414,7 @@ int djon_parse_number(djon_state *it)
 
 		num->typ=DJON_NUMBER;
 		num->num=d;
-		
+
 		return num_idx;
 	}
 	djon_set_error(it,"invalid number");
@@ -1439,7 +1439,7 @@ int djon_parse_key(djon_state *it)
 		term=c;
 		key->str++; // skip opening quote
 		it->parse_idx++; // advance
-		key->typ=DJON_KEY|DJON_ESCAPED|DJON_STRING; // this is a key with escapes inside 
+		key->typ=DJON_KEY|DJON_ESCAPED|DJON_STRING; // this is a key with escapes inside
 	}
 	else
 	{
@@ -1454,7 +1454,7 @@ int djon_parse_key(djon_state *it)
 			if( djon_peek_punct(it,"=:") ) { return key_idx; } // stop at punct or closing quote
 			c=it->data[ it->parse_idx ];
 			if( DJON_IS_TERMINATOR(c) ) // a naked key may not contain any terminator
-			{ djon_set_error(it,"invalid naked key"); goto error; } 
+			{ djon_set_error(it,"invalid naked key"); goto error; }
 		}
 		else
 		if( it->data[ it->parse_idx ]=='\\' ) // skip escaped char
@@ -1538,7 +1538,7 @@ int djon_parse_object(djon_state *it)
 			val=djon_get(it,val_idx);
 		}
 	}
-	
+
 	return 0;
 }
 
@@ -1547,7 +1547,7 @@ int djon_parse_array(djon_state *it)
 	int arr_idx=djon_parse_next(it);
 	djon_value *arr=djon_get(it,arr_idx);
 	if(!arr){return 0;}
-	
+
 	djon_value *val=0;
 
 	it->parse_idx++; // skip opener
@@ -1580,7 +1580,7 @@ int djon_parse_array(djon_state *it)
 			val=djon_get(it,val_idx);
 		}
 	}
-	
+
 	return arr_idx;
 }
 
@@ -1588,7 +1588,7 @@ int djon_parse_value(djon_state *it)
 {
 	int idx;
 	djon_value *nxt;
-	
+
 	if(it->error_string){ return 0; }
 	if(!djon_check_stack(it)){ return 0; }
 
@@ -1708,7 +1708,7 @@ int djon_parse(djon_state *it)
 		}
 		nxt=djon_get(it,idx);
 		if(nxt==0){	goto error; }
-		
+
 		// , are ignored  between top level values as if this was an array
 		djon_skip_white_punct(it,",");
 	}
