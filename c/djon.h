@@ -752,7 +752,6 @@ void djon_write_json(djon_state *it,int idx,int indent,char *coma)
 		else
 		if((v->typ&DJON_TYPEMASK)==DJON_OBJECT)
 		{
-			djon_sort_object(it,idx);
 			indent=djon_write_indent(it,indent);
 			fprintf(it->fp,"{\n");
 			key_idx=v->key; key=djon_get(it,key_idx);
@@ -889,7 +888,6 @@ void djon_write_djon(djon_state *it,int idx,int indent)
 		else
 		if((v->typ&DJON_TYPEMASK)==DJON_OBJECT)
 		{
-			djon_sort_object(it,idx);
 			indent=djon_write_indent(it,indent);
 			fprintf(it->fp,"{\n");
 			key_idx=v->key; key=djon_get(it,key_idx);
@@ -1499,22 +1497,19 @@ error:
 
 
 
-// return a<b
-int djon_sort_compare( djon_value *a , djon_value *b )
+
+// remove from list
+void djon_list_remove(djon_state *it, djon_value *v)
 {
-	int i=0;
-	while( i<a->len && i<b->len )
-	{
-		if(a->str[i]<b->str[i]) { return 1; }
-		if(a->str[i]>b->str[i]) { return 0; }
-		i++;
-	}
-	if(a->len<b->len) { return 1; }
-	return 0;
+	djon_value *p;
+	p = djon_get(it,v->nxt); if(p){ p->prv=v->prv; }
+	p = djon_get(it,v->prv); if(p){ p->nxt=v->nxt; }
+	v->nxt=0;
+	v->prv=0;
 }
 
 // swap a and b
-void djon_sort_swap(djon_state *it, djon_value *a , djon_value *b )
+void djon_list_swap(djon_state *it, djon_value *a , djon_value *b )
 {
 	djon_value *p;
 	int aidx=djon_idx(it,a);
@@ -1532,19 +1527,27 @@ void djon_sort_swap(djon_state *it, djon_value *a , djon_value *b )
 	p = djon_get(it,bprv); if(p){ p->nxt=aidx; }
 	p = djon_get(it,bnxt); if(p){ p->prv=aidx; }
 
-	// uncache and swap
-	a->nxt=bnxt;
-	a->prv=bprv;
-	b->nxt=anxt;
-	b->prv=aprv;
-	
-	// fix when a and b are linked to each other
-	if(a->nxt==aidx){a->nxt=bidx;}
-	if(a->prv==aidx){a->prv=bidx;}
-	if(b->nxt==bidx){b->nxt=aidx;}
-	if(b->prv==bidx){b->prv=aidx;}
+	// swap and fix for when ab are adjacent
+	a->nxt = (bnxt==aidx) ? bidx : bnxt ;
+	a->prv = (bprv==aidx) ? bidx : bprv ;
+	b->nxt = (anxt==bidx) ? aidx : anxt ;
+	b->prv = (aprv==bidx) ? aidx : aprv ;
 }
 
+
+// return a<b
+int djon_sort_compare( djon_value *a , djon_value *b )
+{
+	int i=0;
+	while( i<a->len && i<b->len )
+	{
+		if(a->str[i]<b->str[i]) { return 1; }
+		if(a->str[i]>b->str[i]) { return 0; }
+		i++;
+	}
+	if(a->len<b->len) { return 1; }
+	return 0;
+}
 // dumb sort
 void djon_sort_part(djon_state *it, djon_value *s, djon_value *e )
 {
@@ -1555,13 +1558,13 @@ void djon_sort_part(djon_state *it, djon_value *s, djon_value *e )
 		{
 			if( djon_sort_compare(j,i) ) // should j come before i
 			{
-				djon_sort_swap(it,i,j);
+				djon_list_swap(it,i,j);
 				t=i; i=j; j=t; // swap i/j
 			}
 		}
 		if( djon_sort_compare(e,i) ) // should e come before i
 		{
-			djon_sort_swap(it,i,e);
+			djon_list_swap(it,i,e);
 			t=i; i=e; e=t; // swap i/e
 		}
 	}
@@ -1581,6 +1584,53 @@ void djon_sort_object(djon_state *it, int idx )
 	djon_sort_part(it, s, e );
 	while( s && s->prv ) { s = djon_get(it,s->prv); } // find new start
 	obj->key=djon_idx(it,s); // save new start
+}
+
+
+// return a==b
+int djon_clean_compare( djon_value *a , djon_value *b )
+{
+	int i=0;
+	while( i<a->len && i<b->len )
+	{
+		if(a->str[i]!=b->str[i]) { return 0; }
+		i++;
+	}
+	if(a->len!=b->len) { return 0; }
+	return 1;
+}
+
+// remove any duplicate keys keeping the last one
+void djon_clean_object(djon_state *it, int idx )
+{
+	djon_value *obj=djon_get(it,idx);
+	if(!obj) { return; }
+	if(!obj->key) { return; }
+	
+	djon_value *l;
+	
+	djon_value *s=djon_get(it,obj->key);
+	djon_value *e;
+	for( e=s ; e && e->nxt ; e=djon_get(it,e->nxt) ) {;}
+
+	djon_value *i;
+	djon_value *j;
+	int ji;
+	for( i=e ; i ; i=djon_get(it,i->prv) ) // loop backwards checking
+	{
+		ji=i->prv;
+		while( j=djon_get(it,ji) ) // loop backwards deleting
+		{
+			ji=j->prv; // remember so we can move j
+			if(djon_clean_compare(i,j)) // dupe
+			{
+				djon_list_remove(it,j);
+			}
+		}
+	}
+	// end will be the same but start may have changed so
+	for( s=e ; s && s->prv ; s=djon_get(it,s->prv) ) {;}
+	obj->key=djon_idx(it,s);
 }
 
 int djon_parse_object(djon_state *it)
@@ -1606,6 +1656,8 @@ int djon_parse_object(djon_state *it)
 		{
 			djon_apply_comments(it,key_idx?key_idx:obj_idx); // apply any final comments to the last key or the object
 			it->parse_idx++;
+			djon_clean_object(it,obj_idx); // remove duplicate keys
+			djon_sort_object(it,obj_idx); // sort
 			return obj_idx;
 		}
 

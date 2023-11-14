@@ -960,12 +960,10 @@ line 1 char 5 byte 4
 {null:null,null:null}
 #c.json
 {
- "null" : null ,
  "null" : null
 }
 #c.djon
 {
- null = NULL
  null = NULL
 }
 
@@ -2268,12 +2266,10 @@ line 1 char 6 byte 5
 {"a":"b","a":"b"}
 #c.json
 {
- "a" : "b" ,
  "a" : "b"
 }
 #c.djon
 {
- a = "b"
  a = "b"
 }
 
@@ -2281,12 +2277,10 @@ line 1 char 6 byte 5
 {"a":"b","a":"c"}
 #c.json
 {
- "a" : "b" ,
  "a" : "c"
 }
 #c.djon
 {
- a = "b"
  a = "c"
 }
 
@@ -3107,12 +3101,10 @@ TRUE
 {"a":1,"a":2}
 #c.json
 {
- "a" : 1 ,
  "a" : 2
 }
 #c.djon
 {
- a = 1
  a = 2
 }
 
@@ -3120,12 +3112,10 @@ TRUE
 {"a":1,"a":1}
 #c.json
 {
- "a" : 1 ,
  "a" : 1
 }
 #c.djon
 {
- a = 1
  a = 1
 }
 
@@ -3134,12 +3124,10 @@ TRUE
 
 #c.json
 {
- "a" : 0 ,
  "a" : -0
 }
 #c.djon
 {
- a = 0
  a = -0
 }
 
