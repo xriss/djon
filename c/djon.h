@@ -752,6 +752,7 @@ void djon_write_json(djon_state *it,int idx,int indent,char *coma)
 		else
 		if((v->typ&DJON_TYPEMASK)==DJON_OBJECT)
 		{
+			djon_sort_object(it,idx); // sort
 			indent=djon_write_indent(it,indent);
 			fprintf(it->fp,"{\n");
 			key_idx=v->key; key=djon_get(it,key_idx);
@@ -888,6 +889,7 @@ void djon_write_djon(djon_state *it,int idx,int indent)
 		else
 		if((v->typ&DJON_TYPEMASK)==DJON_OBJECT)
 		{
+			djon_sort_object(it,idx); // sort
 			indent=djon_write_indent(it,indent);
 			fprintf(it->fp,"{\n");
 			key_idx=v->key; key=djon_get(it,key_idx);
@@ -1657,7 +1659,6 @@ int djon_parse_object(djon_state *it)
 			djon_apply_comments(it,key_idx?key_idx:obj_idx); // apply any final comments to the last key or the object
 			it->parse_idx++;
 			djon_clean_object(it,obj_idx); // remove duplicate keys
-			djon_sort_object(it,obj_idx); // sort
 			return obj_idx;
 		}
 
