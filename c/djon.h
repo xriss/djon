@@ -1690,10 +1690,13 @@ int djon_parse_object(djon_state *it)
 
 		if( 0 == djon_skip_white(it) ) // check for whitespace after value
 		{
-			char c=it->data[it->parse_idx]; // if not white then must be one of these chars
-			if( ! ( ( c==',' ) || ( c=='}' ) ) )
+			if( it->parse_idx+1 < it->data_len ) // EOF?
 			{
-				djon_set_error(it,"missing ,"); return 0;
+				char c=it->data[it->parse_idx]; // if not white then must be one of these chars
+				if( ! ( ( c==',' ) || ( c=='}' ) ) )
+				{
+					djon_set_error(it,"missing ,"); return 0;
+				}
 			}
 		}
 
@@ -1740,6 +1743,18 @@ int djon_parse_array(djon_state *it)
 			val->nxt=val_idx;
 			lst_idx=val_idx;
 		}
+		if( 0 == djon_skip_white(it) ) // check for whitespace after value
+		{
+			if( it->parse_idx < it->data_len ) // EOF?
+			{
+				char c=it->data[it->parse_idx]; // if not white then must be one of these chars
+				if( ! ( ( c==',' ) || ( c==']' ) ) )
+				{
+					djon_set_error(it,"missing ,"); return 0;
+				}
+			}
+		}
+
 	}
 
 	return arr_idx;
