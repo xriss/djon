@@ -106,6 +106,24 @@ extern void         djon_sort_object( djon_state *it, int idx );
 
 #ifdef DJON_C
 
+// compare lowercase null terminated string s, to the start of the cs buffer
+// returns true if lowercase ( cs < cs+len ) buffer begins with the s string.
+int djon_starts_with_string(char *cs,int len,char *s)
+{
+	char *ce=cs+len;
+	char *sp;
+	char *cp;
+	char c;
+	for( cp=cs,sp=s ; *sp ; cp++,sp++ )
+	{
+		if(cp>=ce) { return 0; } // out of buffer but not out of string
+		c=*cp;
+		if( c>='A' && c<='Z' ) { c=c+('a'-'A'); } // lowercase
+		if( c!=*sp ) { return 0; } // no match
+	}
+	return 1; // cs starts with s
+}
+
 // check that a quote does not occur in the string, returns 1 if it does not
 int djon_check_quote( char *cs , int len , char *quote )
 {
@@ -128,6 +146,10 @@ int djon_check_quote( char *cs , int len , char *quote )
 // the string to cause this failure would have to be many gigabytes
 char * djon_pick_quote( char *cs , int len , char *buf )
 {
+	if(len<=0) // use "" for empty string
+	{
+		buf[0]='"';buf[1]=0;
+	}
 // check 1
 	buf[0]='`';buf[1]=0;
 	if(djon_check_quote(cs,len,buf)){return buf;}
@@ -313,8 +335,35 @@ int djon_unescape_string( djon_value * v )
 	return 1; // we changed the string
 }
 
-// can this string be a rawkey
-int djon_is_rawkey( char *cp , int len )
+// can this string be naked
+int djon_is_naked_string( char *cp , int len )
+{
+	if(len<=0) { return 0; } // string may not empty
+	char *ce=cp+len;
+	char c=*cp;
+	if(!(((c>='a')&&(c<='z')) || ((c>='A')&&(c<='Z'))) ) // check starting char is a letter
+	{
+		return 0; // does not start with a letter
+	}
+	// check for json keywords that will trip us up
+	// a naked string may not begin with these words
+	if( djon_starts_with_string(cp,len,"true") ) { return 0; }
+	if( djon_starts_with_string(cp,len,"false") ) { return 0; }
+	if( djon_starts_with_string(cp,len,"null") ) { return 0; }
+	// string can not end with whitespace as it would be stripped
+	c=*(cp+len-1);
+	if( DJON_IS_WHITESPACE(c) ) { return 0; } // ends in whitespace
+	// finally need to make sure that string down not contain a \n
+	while( cp<ce )
+	{
+		if(*cp=='\n') { return 0; } // found a \n
+		cp++;
+	}
+	return 1; // all chars OK
+}
+
+// can this key be naked
+int djon_is_naked_key( char *cp , int len )
 {
 	if(len<=0) { return 0; } // may not empty
 	char *ce=cp+len;
@@ -1022,37 +1071,18 @@ void djon_write_djon_indent(djon_state *it,int idx,int indent)
 					djon_write_djon_indent(it,key->com,indent+1);
 				}
 				indent=djon_write_indent(it,indent+1)-1;
-				if( djon_is_rawkey(key->str,key->len) )
+				if( djon_is_naked_key(key->str,key->len) )
 				{
 					djon_write_it(it,key->str,key->len);
 					djon_write_string(it," = ");
 				}
 				else
 				{
-					rawstr=0; // would we like to rawdog?
-					for( cp=key->str,ce=key->str+key->len ; cp<ce ; cp++ )
-					{
-						c=*cp;
-						if( ( (c>=0x00)&&(c<=0x1F) ) || (c=='"') || (c=='\\') ) // must escape
-						{
-							rawstr=1;
-							break;
-						}
-					}
-					if(rawstr) // avoid escapes
-					{
-							djon_pick_quote(key->str,key->len,it->buf);
-							djon_write_string(it,it->buf);
-							djon_write_it(it,key->str,key->len);
-							djon_write_string(it,it->buf);
-							djon_write_string(it," = ");
-					}
-					else // normal " string but nothing needs escaping
-					{
-						djon_write_string(it,"\"");
-						djon_write_it(it,key->str,key->len);
-						djon_write_string(it,"\" = ");
-					}
+					djon_pick_quote(key->str,key->len,it->buf);
+					djon_write_string(it,it->buf);
+					djon_write_it(it,key->str,key->len);
+					djon_write_string(it,it->buf);
+					djon_write_string(it," = ");
 				}
 				djon_write_djon_indent(it,key->val,-(indent+1));
 				key_idx=key->nxt; key=djon_get(it,key_idx);
@@ -1063,30 +1093,20 @@ void djon_write_djon_indent(djon_state *it,int idx,int indent)
 		else
 		if((v->typ&DJON_TYPEMASK)==DJON_STRING)
 		{
-			indent=djon_write_indent(it,indent);
-			rawstr=0; // would we like to rawdog?
-			for( cp=v->str,ce=v->str+v->len ; cp<ce ; cp++ )
+			if( djon_is_naked_string(v->str,v->len) )
 			{
-				c=*cp;
-				if( ( (c>=0x00)&&(c<=0x1F) ) || (c=='"') || (c=='\\') ) // must escape
-				{
-					rawstr=1;
-					break;
-				}
-			}
-			if(rawstr) // avoid escapes
-			{
-					djon_pick_quote(v->str,v->len,it->buf);
-					djon_write_string(it,it->buf);
-					djon_write_it(it,v->str,v->len);
-					djon_write_string(it,it->buf);
-					djon_write_string(it,"\n");
-			}
-			else // normal " string but nothing needs escaping
-			{
-				djon_write_string(it,"\"");
+				indent=djon_write_indent(it,indent);
 				djon_write_it(it,v->str,v->len);
-				djon_write_string(it,"\"\n");
+				djon_write_string(it,"\n");
+			}
+			else
+			{
+				indent=djon_write_indent(it,indent);
+				djon_pick_quote(v->str,v->len,it->buf);
+				djon_write_string(it,it->buf);
+				djon_write_it(it,v->str,v->len);
+				djon_write_string(it,it->buf);
+				djon_write_string(it,"\n");
 			}
 		}
 		else
