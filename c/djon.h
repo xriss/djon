@@ -6,6 +6,10 @@
 #ifndef DJON_H
 #define DJON_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef enum djon_enum
 {
 	DJON_NULL     = 0x0001,
@@ -72,16 +76,27 @@ typedef struct djon_state
 } djon_state ;
 
 extern djon_state * djon_setup();
+void djon_clean(djon_state *it);
+
 extern int djon_idx(djon_state *it,djon_value *v);
 extern djon_value * djon_get(djon_state *it,int idx);
+
 extern int djon_load_file(djon_state *it,char *fname);
+
 extern int djon_parse(djon_state *it);
+void djon_set_error(djon_state *it, char *error);
+
+void djon_write_json(djon_state *it,int idx,int indent,char *coma);
+void djon_write_djon(djon_state *it,int idx,int indent);
+
 
 int djon_alloc(djon_state *it);
 int djon_free(djon_state *it,int idx);
 int djon_parse_value(djon_state *it);
 int djon_check_stack(djon_state *it);
 void djon_sort_object(djon_state *it, int idx );
+
+
 
 #define DJON_IS_WHITESPACE(c) ( ((c)==' ') || ((c)=='\t') || ((c)=='\n') || ((c)=='\r') || ((c)=='\v') || ((c)=='\f') )
 #define DJON_IS_STRUCTURE(c)  ( ((c)=='{') || ((c)=='}') || ((c)=='[') || ((c)==']') || ((c)==':') || ((c)=='=') || ((c)==',') || ((c)=='/') )
@@ -155,12 +170,14 @@ char * djon_pick_quote( char *cs , int len , char *buf )
 // new string should always be shorter due to encoding inefficiencies
 int djon_unescape( char *cs , int len )
 {
+	char *cp2;
 	char *cp=cs;     // input
 	char *co=cs;     // output
 	char *ce=cs+len; // end of input
 	char c;
 	int i;
 	int t; // 16bit utf char
+	int t2;
 	while( cp<ce && co<ce ) // check all the chars and do not overrun
 	{
 		c=*cp;
@@ -201,6 +218,47 @@ int djon_unescape( char *cs , int len )
 							cp++;
 						}
 					}
+					
+					// need to check for surrogate pair
+					if( (t&0xFC00)==0xD800 ) // we got the first part, try and parse the second
+					{
+						if( (cp[0]=='\\') && (cp[1]=='u') )
+						{
+							cp2=cp; // might need to undo
+							cp+=2;
+							t2=0;
+							for(i=0;i<4;i++) // grab *upto* four hex chars next
+							{
+								c=*cp;
+								if( c>='0' && c<='9' )
+								{
+									t2=t2*16+(c-'0');
+									cp++;
+								}
+								else
+								if( c>='a' && c<='f' )
+								{
+									t2=t2*16+(c-'a'+10);
+									cp++;
+								}
+								else
+								if( c>='A' && c<='F' )
+								{
+									t2=t2*16+(c-'A'+10);
+									cp++;
+								}
+							}
+							if( (t2&0xFC00)==0xDC00 ) // we got the second part
+							{
+								t= 0x10000 + ((t&0x03FF)*0x0400) + (t2&0x03FF); // 21bitish
+							}
+							else // undo second part, number was not part of a pair
+							{
+								cp=cp2;
+							}
+						}
+					}
+					
 					if(t<=0x007f)
 					{
 						*co++=t; // 7bit ascii
@@ -211,9 +269,17 @@ int djon_unescape( char *cs , int len )
 						*co++=0xc0|((t>>6) &0x1f); // top 5 bits
 						*co++=0x80|( t     &0x3f); // last 6 bits
 					}
-					else // 0xffff
+					else
+					if(t<=0xffff)
 					{
 						*co++=0xe0|((t>>12)&0x0f); // top 4 bits
+						*co++=0x80|((t>>6) &0x3f); // next 6 bits
+						*co++=0x80|( t     &0x3f); // last 6 bits
+					}
+					else // 1FFFFF
+					{
+						*co++=0xf0|((t>>18)&0x03); // top 3 bits
+						*co++=0x80|((t>>12)&0x3f); // next 6 bits
 						*co++=0x80|((t>>6) &0x3f); // next 6 bits
 						*co++=0x80|( t     &0x3f); // last 6 bits
 					}
@@ -1897,6 +1963,10 @@ error:
 	it->parse_stack=0;
 	return 0;
 }
+
+#ifdef __cplusplus
+};
+#endif
 
 #endif
 
