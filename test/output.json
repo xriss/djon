@@ -2304,7 +2304,7 @@ line 1 char 6 byte 5
 }
 #c.djon
 {
- "foo\u0000bar" = 42
+ `foobar` = 42
 }
 
 #json/good/y_object_extreme_numbers.json

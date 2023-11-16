@@ -831,6 +831,7 @@ void djon_write_json(djon_state *it,int idx,int indent,char *coma)
 					c=*cp;
 					if( ( (c>=0x00)&&(c<=0x1F) ) || (c=='"') || (c=='\\') ) // must escape
 					{
+						// need to parse utf8 here
 						djon_write_string_escape(it,c);
 					}
 					else
@@ -972,20 +973,28 @@ void djon_write_djon(djon_state *it,int idx,int indent)
 				}
 				else
 				{
-					fputs("\"",it->fp);
+					rawstr=0; // would we like to rawdog?
 					for( cp=key->str,ce=key->str+key->len ; cp<ce ; cp++ )
 					{
 						c=*cp;
 						if( ( (c>=0x00)&&(c<=0x1F) ) || (c=='"') || (c=='\\') ) // must escape
 						{
-							djon_write_string_escape(it,c);
-						}
-						else
-						{
-							putc(c,it->fp);
+							rawstr=1;
+							break;
 						}
 					}
-					fputs("\" = ",it->fp);
+					if(rawstr) // avoid escapes
+					{
+							djon_pick_quote(key->str,key->len,it->buf);
+							fputs(it->buf,it->fp);
+							fwrite(key->str,1,key->len,it->fp);
+							fputs(it->buf,it->fp);
+							fputs(" = ",it->fp);
+					}
+					else // normal " string but nothing needs escaping
+					{
+						fprintf(it->fp,"\"%.*s\" = ",key->len,key->str);
+					}
 				}
 				djon_write_djon(it,key->val,-(indent+1));
 				key_idx=key->nxt; key=djon_get(it,key_idx);
