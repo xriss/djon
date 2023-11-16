@@ -39,7 +39,7 @@ line 1 char 4 byte 3
 ]
 #c.djon
 [
- ``
+ ""
 ]
 
 #json/bad/n_array_comma_and_number.json
@@ -102,7 +102,7 @@ line 1 char 6 byte 5
 ]
 #c.djon
 [
- ``
+ ""
 ]
 
 #json/bad/n_array_incomplete_invalid_value.json
@@ -176,7 +176,7 @@ line 1 char 2 byte 1
 ]
 #c.djon
 [
- ``
+ ""
 ]
 
 #json/bad/n_array_newlines_unclosed.json
@@ -896,7 +896,7 @@ line 1 char 6 byte 5
 }
 #c.djon
 {
- `` = b
+ "" = b
 }
 
 #json/bad/n_object_missing_semicolon.json
@@ -1413,7 +1413,7 @@ line 1 char 3 byte 2
 #c.djon
 multiple root values
 line 1 char 3 byte 2
-``
+""
 x
 
 #json/bad/n_structure_100000_opening_arrays.json
@@ -1925,7 +1925,7 @@ line 1 char 6 byte 5
 ]
 #c.djon
 [
- ``
+ ""
 ]
 
 #json/good/y_array_ending_with_newline.json
@@ -2293,7 +2293,7 @@ line 1 char 6 byte 5
 }
 #c.djon
 {
- `` = 0
+ "" = 0
 }
 
 #json/good/y_object_escaped_null_in_key.json
@@ -2909,7 +2909,7 @@ TRUE
 #c.json
 ""
 #c.djon
-``
+""
 
 #json/good/y_structure_trailing_newline.json
 ["a"]

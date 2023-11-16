@@ -149,6 +149,7 @@ char * djon_pick_quote( char *cs , int len , char *buf )
 	if(len<=0) // use "" for empty string
 	{
 		buf[0]='"';buf[1]=0;
+		return buf;
 	}
 // check 1
 	buf[0]='`';buf[1]=0;
