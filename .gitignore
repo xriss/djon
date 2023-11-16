@@ -4,5 +4,9 @@ c/djon
 lua/djon.core.o
 djon
 
+js/build
+js/node_modules
+
+
 
 

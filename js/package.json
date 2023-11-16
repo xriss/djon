@@ -4,6 +4,7 @@
   "private": true,
   "gypfile": true,
   "dependencies": {
+    "bindings": "*",
     "nan": "*"
   }
 }

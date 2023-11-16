@@ -1,20 +1,19 @@
 #include <nan.h>
-using namespace Nan;
-using namespace v8;
 
-NAN_METHOD(rotate) {
-    char* buffer = (char*) node::Buffer::Data(info[0]->ToObject());
-    unsigned int size = info[1]->Uint32Value();
-    unsigned int rot = info[2]->Uint32Value();
-   
-    for(unsigned int i = 0; i < size; i++ ) {
-        buffer[i] += rot;
-    }   
+NAN_METHOD(aString);
+
+
+NAN_METHOD(aString) {
+    info.GetReturnValue().Set(Nan::New("This is a thing.").ToLocalChecked());
 }
 
-NAN_MODULE_INIT(Init) {
-   Nan::Set(target, New<String>("rotate").ToLocalChecked(),
-        GetFunction(New<FunctionTemplate>(rotate)).ToLocalChecked());
+using v8::FunctionTemplate;
+
+NAN_MODULE_INIT(InitAll) {
+  Nan::Set(target, Nan::New("aString").ToLocalChecked(),
+    Nan::GetFunction(Nan::New<FunctionTemplate>(aString)).ToLocalChecked());
 }
 
-NODE_MODULE(djon_core, Init)
+NODE_MODULE(djon_core, InitAll)
+
+
