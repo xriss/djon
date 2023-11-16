@@ -1525,7 +1525,7 @@ int djon_parse_key(djon_state *it)
 		if(term==0) // naked string will not contain escapes
 		{
 			if( djon_peek_white(it) ) { return key_idx; } // stop at whitespace
-			if( djon_peek_punct(it,"=:") ) { return key_idx; } // stop at punct or closing quote
+			if( djon_peek_punct(it,"=:") ) { return key_idx; } // stop at punct
 			c=it->data[ it->parse_idx ];
 			if( DJON_IS_TERMINATOR(c) ) // a naked key may not contain any terminator
 			{ djon_set_error(it,"invalid naked key"); goto error; }
@@ -1558,7 +1558,7 @@ int djon_parse_key(djon_state *it)
 	}
 	else
 	{
-		djon_set_error(it,"missing key terminator");
+		djon_set_error(it,"missing :");
 	}
 
 error:
