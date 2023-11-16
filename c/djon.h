@@ -70,31 +70,29 @@ typedef struct djon_state
 	int   error_line;   // line in file
 
 	FILE *fp; // where to write output
+	int   compact; // compact output flag
+	void (*write)(struct djon_state *it, char *cp, int len); // ptr to output function
 
 	char buf[256]; // small buffer used for generating text output
 
 } djon_state ;
 
+
 extern djon_state * djon_setup();
-void djon_clean(djon_state *it);
-
-extern int djon_idx(djon_state *it,djon_value *v);
-extern djon_value * djon_get(djon_state *it,int idx);
-
-extern int djon_load_file(djon_state *it,char *fname);
-
-extern int djon_parse(djon_state *it);
-void djon_set_error(djon_state *it, char *error);
-
-void djon_write_json(djon_state *it,int idx,int indent,char *coma);
-void djon_write_djon(djon_state *it,int idx,int indent);
-
-
-int djon_alloc(djon_state *it);
-int djon_free(djon_state *it,int idx);
-int djon_parse_value(djon_state *it);
-int djon_check_stack(djon_state *it);
-void djon_sort_object(djon_state *it, int idx );
+extern void         djon_clean(       djon_state *it);
+extern int          djon_load_file(   djon_state *it, char *fname);
+extern int          djon_parse(       djon_state *it);
+extern void         djon_set_error(   djon_state *it, char *error);
+extern void         djon_write(       djon_state *it, char *ptr, int len );
+extern void         djon_write_json(  djon_state *it, int idx);
+extern void         djon_write_djon(  djon_state *it, int idx);
+extern int          djon_alloc(       djon_state *it);
+extern int          djon_free(        djon_state *it, int idx);
+extern int          djon_idx(         djon_state *it, djon_value *val);
+extern djon_value * djon_get(         djon_state *it, int idx);
+extern int          djon_parse_value( djon_state *it);
+extern int          djon_check_stack( djon_state *it);
+extern void         djon_sort_object( djon_state *it, int idx );
 
 
 
@@ -660,6 +658,10 @@ djon_state * djon_setup()
 	it->error_char=0;
 	it->error_line=0;
 
+	it->fp=0;
+	it->compact=0;
+
+
 	it->values_len=1; // first value is used as a null so start at 1
 	it->values_siz=16384;
 	it->values=(djon_value *)malloc( it->values_siz * sizeof(djon_value) );
@@ -676,10 +678,10 @@ void djon_clean(djon_state *it)
 }
 
 // get a index from pointer
-int djon_idx(djon_state *it,djon_value *v)
+int djon_idx(djon_state *it,djon_value *val)
 {
-	if(!v){return 0;}
-	return v - it->values;
+	if(!val){return 0;}
+	return val - it->values;
 }
 
 // get a value by index
@@ -787,8 +789,8 @@ int djon_write_indent(djon_state *it,int indent)
 	}
 	return indent;
 }
-// write json to the given file handle
-void djon_write_json(djon_state *it,int idx,int indent,char *coma)
+// write json with indent state
+void djon_write_json_indent(djon_state *it,int idx,int indent,char *coma)
 {
 	djon_value *v=djon_get(it,idx);
 	djon_value *key;
@@ -809,7 +811,7 @@ void djon_write_json(djon_state *it,int idx,int indent,char *coma)
 			val_idx=v->val; val=djon_get(it,val_idx);
 			while(val)
 			{
-				djon_write_json(it,val_idx,indent+1,0);
+				djon_write_json_indent(it,val_idx,indent+1,0);
 				val_idx=val->nxt; val=djon_get(it,val_idx);
 			}
 			indent=djon_write_indent(it,indent);
@@ -839,7 +841,7 @@ void djon_write_json(djon_state *it,int idx,int indent,char *coma)
 					}
 				}
 				fputs("\" : ",it->fp);
-				djon_write_json(it,key->val,-(indent+1),key->nxt?" ,":"");
+				djon_write_json_indent(it,key->val,-(indent+1),key->nxt?" ,":"");
 				key_idx=key->nxt; key=djon_get(it,key_idx);
 			}
 			indent=djon_write_indent(it,indent);
@@ -893,9 +895,14 @@ void djon_write_json(djon_state *it,int idx,int indent,char *coma)
 		}
 	}
 }
+// write json to the it->fp file handle
+void djon_write_json(djon_state *it,int idx)
+{
+	djon_write_json_indent(it,idx,0,0);
+}
 
 // write djon to the given file handle
-void djon_write_djon(djon_state *it,int idx,int indent)
+void djon_write_djon_indent(djon_state *it,int idx,int indent)
 {
 	djon_value *v=djon_get(it,idx);
 	djon_value *key;
@@ -913,7 +920,7 @@ void djon_write_djon(djon_state *it,int idx,int indent)
 	{
 		if( ((v->typ&DJON_TYPEMASK)!=DJON_COMMENT) && (v->com) )
 		{
-			djon_write_djon(it,v->com,indent);
+			djon_write_djon_indent(it,v->com,indent);
 		}
 
 		if((v->typ&DJON_TYPEMASK)==DJON_COMMENT)
@@ -944,9 +951,9 @@ void djon_write_djon(djon_state *it,int idx,int indent)
 			{
 				if(val->com)
 				{
-					djon_write_djon(it,val->com,indent+1);
+					djon_write_djon_indent(it,val->com,indent+1);
 				}
-				djon_write_djon(it,val_idx,indent+1);
+				djon_write_djon_indent(it,val_idx,indent+1);
 				val_idx=val->nxt; val=djon_get(it,val_idx);
 			}
 			indent=djon_write_indent(it,indent);
@@ -963,7 +970,7 @@ void djon_write_djon(djon_state *it,int idx,int indent)
 			{
 				if(key->com)
 				{
-					djon_write_djon(it,key->com,indent+1);
+					djon_write_djon_indent(it,key->com,indent+1);
 				}
 				indent=djon_write_indent(it,indent+1)-1;
 				if( djon_is_rawkey(key->str,key->len) )
@@ -995,7 +1002,7 @@ void djon_write_djon(djon_state *it,int idx,int indent)
 						fprintf(it->fp,"\"%.*s\" = ",key->len,key->str);
 					}
 				}
-				djon_write_djon(it,key->val,-(indent+1));
+				djon_write_djon_indent(it,key->val,-(indent+1));
 				key_idx=key->nxt; key=djon_get(it,key_idx);
 			}
 			indent=djon_write_indent(it,indent);
@@ -1054,6 +1061,11 @@ void djon_write_djon(djon_state *it,int idx,int indent)
 			fprintf(it->fp,"%s\n","UNDEFINED");
 		}
 	}
+}
+// write djon to the it->fp file handle
+void djon_write_djon(djon_state *it,int idx)
+{
+	djon_write_djon_indent(it,idx,0);
 }
 
 // load a new file or possibly from stdin , pipes allowed
