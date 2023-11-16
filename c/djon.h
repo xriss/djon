@@ -868,10 +868,13 @@ int djon_write_indent(djon_state *it,int indent)
 	if(indent<0) { return -indent; } // skip first indent
 	else
 	{
-		int i;
-		for( i=0 ; i<indent ; i++)
+		if(!it->compact)
 		{
-			djon_write_char(it,' ');
+			int i;
+			for( i=0 ; i<indent ; i++)
+			{
+				djon_write_char(it,' ');
+			}
 		}
 	}
 	return indent;
@@ -890,11 +893,22 @@ void djon_write_json_indent(djon_state *it,int idx,int indent,char *coma)
 	char c;
 	if(v)
 	{
-		if(!coma){coma=v->nxt?" ,":"";} // auto coma
+		if(it->compact)
+		{
+			if(!coma){coma=v->nxt?",":"";} // auto coma
+		}
+		else
+		{
+			if(!coma){coma=v->nxt?" ,":"";} // auto coma
+		}
 		if((v->typ&DJON_TYPEMASK)==DJON_ARRAY)
 		{
 			indent=djon_write_indent(it,indent);
-			djon_write_string(it,"[\n");
+			djon_write_string(it,"[");
+			if(!it->compact)
+			{
+				djon_write_string(it,"\n");
+			}
 			val_idx=v->val; val=djon_get(it,val_idx);
 			while(val)
 			{
@@ -904,14 +918,21 @@ void djon_write_json_indent(djon_state *it,int idx,int indent,char *coma)
 			indent=djon_write_indent(it,indent);
 			djon_write_string(it,"]");
 			djon_write_string(it,coma);
-			djon_write_string(it,"\n");
+			if(!it->compact)
+			{
+				djon_write_string(it,"\n");
+			}
 		}
 		else
 		if((v->typ&DJON_TYPEMASK)==DJON_OBJECT)
 		{
 			djon_sort_object(it,idx); // sort
 			indent=djon_write_indent(it,indent);
-			djon_write_string(it,"{\n");
+			djon_write_string(it,"{");
+			if(!it->compact)
+			{
+				djon_write_string(it,"\n");
+			}
 			key_idx=v->key; key=djon_get(it,key_idx);
 			while(key)
 			{
@@ -929,14 +950,25 @@ void djon_write_json_indent(djon_state *it,int idx,int indent,char *coma)
 						djon_write_char(it,c);
 					}
 				}
-				djon_write_string(it,"\" : ");
-				djon_write_json_indent(it,key->val,-(indent+1),key->nxt?" ,":"");
+				if(it->compact)
+				{
+					djon_write_string(it,"\":");
+					djon_write_json_indent(it,key->val,-(indent+1),key->nxt?",":"");
+				}
+				else
+				{
+					djon_write_string(it,"\" : ");
+					djon_write_json_indent(it,key->val,-(indent+1),key->nxt?" ,":"");
+				}
 				key_idx=key->nxt; key=djon_get(it,key_idx);
 			}
 			indent=djon_write_indent(it,indent);
 			djon_write_string(it,"}");
 			djon_write_string(it,coma);
-			djon_write_string(it,"\n");
+			if(!it->compact)
+			{
+				djon_write_string(it,"\n");
+			}
 		}
 		else
 		if((v->typ&DJON_TYPEMASK)==DJON_STRING)
@@ -957,7 +989,10 @@ void djon_write_json_indent(djon_state *it,int idx,int indent,char *coma)
 			}
 			djon_write_string(it,"\"");
 			djon_write_string(it,coma);
-			djon_write_string(it,"\n");
+			if(!it->compact)
+			{
+				djon_write_string(it,"\n");
+			}
 		}
 		else
 		if((v->typ&DJON_TYPEMASK)==DJON_NUMBER)
@@ -966,7 +1001,10 @@ void djon_write_json_indent(djon_state *it,int idx,int indent,char *coma)
 			len=djon_double_to_str(v->num,it->buf);
 			djon_write_it(it,it->buf,len);
 			djon_write_string(it,coma);
-			djon_write_string(it,"\n");
+			if(!it->compact)
+			{
+				djon_write_string(it,"\n");
+			}
 		}
 		else
 		if((v->typ&DJON_TYPEMASK)==DJON_BOOL)
@@ -974,7 +1012,10 @@ void djon_write_json_indent(djon_state *it,int idx,int indent,char *coma)
 			indent=djon_write_indent(it,indent);
 			djon_write_string(it,v->num?"true":"false");
 			djon_write_string(it,coma);
-			djon_write_string(it,"\n");
+			if(!it->compact)
+			{
+				djon_write_string(it,"\n");
+			}
 		}
 		else
 		if((v->typ&DJON_TYPEMASK)==DJON_NULL)
@@ -982,14 +1023,20 @@ void djon_write_json_indent(djon_state *it,int idx,int indent,char *coma)
 			indent=djon_write_indent(it,indent);
 			djon_write_string(it,"null");
 			djon_write_string(it,coma);
-			djon_write_string(it,"\n");
+			if(!it->compact)
+			{
+				djon_write_string(it,"\n");
+			}
 		}
 		else // should not get here
 		{
 			indent=djon_write_indent(it,indent);
 			djon_write_string(it,"null");
 			djon_write_string(it,coma);
-			djon_write_string(it,"\n");
+			if(!it->compact)
+			{
+				djon_write_string(it,"\n");
+			}
 		}
 	}
 }
@@ -1033,7 +1080,11 @@ void djon_write_djon_indent(djon_state *it,int idx,int indent)
 				for( com_idx=idx ; com=djon_get(it,com_idx) ; com_idx=com->com )
 				{
 					indent=djon_write_indent(it,indent);
-					djon_write_string(it,"// ");
+					djon_write_string(it,"//");
+					if(!it->compact)
+					{
+						djon_write_string(it," ");
+					}
 					djon_write_it(it,com->str,com->len);
 					djon_write_string(it,"\n");
 				}
@@ -1043,7 +1094,8 @@ void djon_write_djon_indent(djon_state *it,int idx,int indent)
 		if((v->typ&DJON_TYPEMASK)==DJON_ARRAY)
 		{
 			indent=djon_write_indent(it,indent);
-			djon_write_string(it,"[\n");
+			djon_write_string(it,"[");
+			djon_write_string(it,"\n");
 			val_idx=v->val; val=djon_get(it,val_idx);
 			while(val)
 			{
@@ -1055,14 +1107,16 @@ void djon_write_djon_indent(djon_state *it,int idx,int indent)
 				val_idx=val->nxt; val=djon_get(it,val_idx);
 			}
 			indent=djon_write_indent(it,indent);
-			djon_write_string(it,"]\n");
+			djon_write_string(it,"]");
+			djon_write_string(it,"\n");
 		}
 		else
 		if((v->typ&DJON_TYPEMASK)==DJON_OBJECT)
 		{
 			djon_sort_object(it,idx); // sort
 			indent=djon_write_indent(it,indent);
-			djon_write_string(it,"{\n");
+			djon_write_string(it,"{");
+			djon_write_string(it,"\n");
 			key_idx=v->key; key=djon_get(it,key_idx);
 			while(key)
 			{
@@ -1074,7 +1128,14 @@ void djon_write_djon_indent(djon_state *it,int idx,int indent)
 				if( djon_is_naked_key(key->str,key->len) )
 				{
 					djon_write_it(it,key->str,key->len);
-					djon_write_string(it," = ");
+					if(it->compact)
+					{
+						djon_write_string(it,"=");
+					}
+					else
+					{
+						djon_write_string(it," = ");
+					}
 				}
 				else
 				{
@@ -1082,13 +1143,21 @@ void djon_write_djon_indent(djon_state *it,int idx,int indent)
 					djon_write_string(it,it->buf);
 					djon_write_it(it,key->str,key->len);
 					djon_write_string(it,it->buf);
-					djon_write_string(it," = ");
+					if(it->compact)
+					{
+						djon_write_string(it,"=");
+					}
+					else
+					{
+						djon_write_string(it," = ");
+					}
 				}
 				djon_write_djon_indent(it,key->val,-(indent+1));
 				key_idx=key->nxt; key=djon_get(it,key_idx);
 			}
 			indent=djon_write_indent(it,indent);
-			djon_write_string(it,"}\n");
+			djon_write_string(it,"}");
+			djon_write_string(it,"\n");
 		}
 		else
 		if((v->typ&DJON_TYPEMASK)==DJON_STRING)
@@ -1128,12 +1197,14 @@ void djon_write_djon_indent(djon_state *it,int idx,int indent)
 		if((v->typ&DJON_TYPEMASK)==DJON_NULL)
 		{
 			indent=djon_write_indent(it,indent);
-			djon_write_string(it,"NULL\n");
+			djon_write_string(it,"NULL");
+			djon_write_string(it,"\n");
 		}
 		else
 		{
 			indent=djon_write_indent(it,indent);
-			djon_write_string(it,"NULL\n");
+			djon_write_string(it,"NULL");
+			djon_write_string(it,"\n");
 		}
 	}
 }

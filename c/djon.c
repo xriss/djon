@@ -15,6 +15,7 @@ int main(int argc, char *argv[])
 	FILE *fp=0;
 	int checkopts=1;
 	int write_djon=0;
+	int compact=0;
 	char *fname1=0;
 	char *fname2=0;
 	int i;
@@ -39,6 +40,16 @@ int main(int argc, char *argv[])
 				write_djon=0;
 			}
 			else
+			if( 0==strcmp(cp,"--compact") )
+			{
+				compact=1;
+			}
+			else
+			if( 0==strcmp(cp,"--pretty") )
+			{
+				compact=0;
+			}
+			else
 			if( 0==strcmp(cp,"--help") )
 			{
 				printf("\n\
@@ -49,9 +60,13 @@ djon input.filename output.filename\n\
 \n\
 Possible options are:\n\
 \n\
-	--djon : output djon format\n\
-	--json : output json format\n\
-	--     : stop parsing options\n\
+	--djon    : output djon format\n\
+	--json    : output json format\n\
+	--compact : output compact\n\
+	--pretty  : output pretty\n\
+	--        : stop parsing options\n\
+\n\
+We default to pretty output.\n\
 \n\
 ");
 				return 0;
@@ -77,6 +92,9 @@ Possible options are:\n\
 	
 
 	djon_state *it=djon_setup();
+
+	it->compact=compact; // set compact output flat from command line options
+	
 	if(fname1)
 	{
 		djon_load_file(it,fname1); // filename
