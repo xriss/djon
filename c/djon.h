@@ -831,7 +831,6 @@ void djon_write_json(djon_state *it,int idx,int indent,char *coma)
 					c=*cp;
 					if( ( (c>=0x00)&&(c<=0x1F) ) || (c=='"') || (c=='\\') ) // must escape
 					{
-						// need to parse utf8 here
 						djon_write_string_escape(it,c);
 					}
 					else
