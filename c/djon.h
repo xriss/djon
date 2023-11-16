@@ -1058,7 +1058,7 @@ void djon_write_djon_indent(djon_state *it,int idx,int indent)
 				key_idx=key->nxt; key=djon_get(it,key_idx);
 			}
 			indent=djon_write_indent(it,indent);
-			fprintf(it->fp,"}\n");
+			djon_write_string(it,"}\n");
 		}
 		else
 		if((v->typ&DJON_TYPEMASK)==DJON_STRING)
