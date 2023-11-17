@@ -151,12 +151,8 @@ char * djon_pick_quote( char *cs , int len , char *buf )
 		buf[0]='"';buf[1]=0;
 		return buf;
 	}
-// check 1
+// check single
 	buf[0]='`';buf[1]=0;
-	if(djon_check_quote(cs,len,buf)){return buf;}
-
-// check 2
-	buf[0]='`';buf[1]='`';buf[2]=0;
 	if(djon_check_quote(cs,len,buf)){return buf;}
 
 // check 2^32 more
@@ -177,9 +173,13 @@ char * djon_pick_quote( char *cs , int len , char *buf )
 			else      { *cp++='"'; }
 			bm=bm>>1; // keep sliding
 		}
-		*cp++='`';
-		*cp++=0;
-		if(djon_check_quote(cs,len,buf)){return buf;}
+		*cp=0; // dont include final ` when checking so closing ` is never confusing.
+		if(djon_check_quote(cs,len,buf))
+		{
+			*cp++='`'; // add final ` before returning
+			*cp++=0;
+			return buf;
+		}
 	}
 	// we should never reach here
 	printf("djon_pick_quote failure\n");

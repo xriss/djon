@@ -2399,7 +2399,7 @@ line 1 char 6 byte 5
 ]
 #c.djon
 [
- `````
+ `"```"`
 ]
 
 #json/good/y_string_accepted_surrogate_pair.json
