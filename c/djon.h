@@ -98,7 +98,7 @@ extern void         djon_sort_object( djon_state *it, int idx );
 
 #define DJON_IS_WHITESPACE(c) ( ((c)==' ') || ((c)=='\t') || ((c)=='\n') || ((c)=='\r') || ((c)=='\v') || ((c)=='\f') )
 #define DJON_IS_STRUCTURE(c)  ( ((c)=='{') || ((c)=='}') || ((c)=='[') || ((c)==']') || ((c)==':') || ((c)=='=') || ((c)==',') || ((c)=='/') )
-#define DJON_IS_TERMINATOR(c) ( (((c)<=32)) || (((c)>=128)) || DJON_IS_STRUCTURE(c) )
+#define DJON_IS_TERMINATOR(c) ( (((c)<=32)&&((c)>=0)) || DJON_IS_STRUCTURE(c) )
 // this will work when char is signed or unsigned , note that '/' is the start of /* or // comments
 
 #endif
@@ -164,6 +164,10 @@ char * djon_pick_quote( char *cs , int len , char *buf )
 	}
 // check single
 	buf[0]='`';buf[1]=0;
+	if(djon_check_quote(cs,len,buf)){return buf;}
+
+// check double
+	buf[0]='`';buf[1]='`';buf[2]=0;
 	if(djon_check_quote(cs,len,buf)){return buf;}
 
 // check 2^32 more
@@ -352,19 +356,20 @@ int djon_is_naked_string( char *cp , int len )
 	if(len<=0) { return 0; } // string may not empty
 	char *ce=cp+len;
 	char c=*cp;
-	if(!(((c>='a')&&(c<='z')) || ((c>='A')&&(c<='Z'))) ) // check starting char is a letter
+	// check starting char is a letter or part of a utf8 multibyte
+	if(!(((c>='a')&&(c<='z')) || ((c>='A')&&(c<='Z'))) || (c<0) || (c>127) )
 	{
-		return 0; // does not start with a letter
+		return 0; // does not start with a letter or multibyte utf8
 	}
 	// check for json keywords that will trip us up
-	// a naked string may not begin with these words
+	// a naked string may not begin with these words because json
 	if( djon_starts_with_string(cp,len,"true") ) { return 0; }
 	if( djon_starts_with_string(cp,len,"false") ) { return 0; }
 	if( djon_starts_with_string(cp,len,"null") ) { return 0; }
 	// string can not end with whitespace as it would be stripped
 	c=*(cp+len-1);
 	if( DJON_IS_WHITESPACE(c) ) { return 0; } // ends in whitespace
-	// finally need to make sure that string down not contain a \n
+	// finally need to make sure that string down not contain any \n
 	while( cp<ce )
 	{
 		if(*cp=='\n') { return 0; } // found a \n
