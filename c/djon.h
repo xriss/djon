@@ -131,10 +131,21 @@ int djon_check_quote( char *cs , int len , char *quote )
 	char *ct;
 	char *cp;
 	char *ce;
-	for( cp=cs,ce=cs+len ; cp<ce ; cp++ )
+	char c;
+	for( cp=cs,ce=cs+len ; cp<ce ; cp++ ) // scan buffer
 	{
-		for( cq=quote , ct=cp ; (*cq) && (*cq==*ct) ; cq++ , ct++ )
-		{ ; }
+		for( cq=quote , ct=cp ; *cq && (ct<=ce); cq++ , ct++ ) // step ct one char more
+		{
+			if( ct==ce ) // past end of input
+			{
+				c='`'; // fake end quote
+			}
+			else
+			{
+				c=*ct;
+			}
+			if( *cq!=c ) { break; }
+		}
 		if(*cq==0) { return 0; } // found quote string
 	}
 	return 1; // not found
@@ -162,7 +173,7 @@ char * djon_pick_quote( char *cs , int len , char *buf )
 	for(bs=0;bs<=0xffffffff;bs++)
 	{
 		cp=buf;
-		*cp++='`';
+		*cp++='`'; // first `
 		for( bm=0x80000000 ; bm>0x00000001 ; bm=bm>>1 ) // slide bit right
 		{
 			if( bm<=bs ) { break; } // until we find the top bit
@@ -173,11 +184,10 @@ char * djon_pick_quote( char *cs , int len , char *buf )
 			else      { *cp++='"'; }
 			bm=bm>>1; // keep sliding
 		}
-		*cp=0; // dont include final ` when checking so closing ` is never confusing.
+		*cp++='`'; // final `
+		*cp++=0;
 		if(djon_check_quote(cs,len,buf))
 		{
-			*cp++='`'; // add final ` before returning
-			*cp++=0;
 			return buf;
 		}
 	}
