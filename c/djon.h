@@ -184,7 +184,7 @@ char * djon_pick_quote( char *cs , int len , char *buf )
 		}
 		while(bm>0)
 		{
-			if(bs&bm) { *cp++='"'; } // this will always be the first char after `
+			if(bs&bm) { *cp++='"'; } // this will mostly be the first char after `
 			else      { *cp++='\''; }
 			bm=bm>>1; // keep sliding
 		}
