@@ -91,34 +91,34 @@ We default to pretty output.\n\
 	}
 	
 
-	djon_state *it=djon_setup();
+	djon_state *ds=djon_setup();
 
-	it->compact=compact; // set compact output flat from command line options
+	ds->compact=compact; // set compact output flat from command line options
 	
 	if(fname1)
 	{
-		djon_load_file(it,fname1); // filename
+		djon_load_file(ds,fname1); // filename
 	}
 	else
 	{
-		djon_load_file(it,0); // stdin
+		djon_load_file(ds,0); // stdin
 	}
-	if( it->error_string ){ goto error; }
+	if( ds->error_string ){ goto error; }
 
 	
-	djon_parse(it);
+	djon_parse(ds);
 	
-	djon_value *v=djon_get(it,it->parse_first);
+	djon_value *v=djon_get(ds,ds->parse_first);
 	if(v && v->nxt)
 	{
-		v=djon_get(it,v->nxt);
-		if(v) { it->parse_idx=v->str-it->data; }
-		djon_set_error(it,"multiple root values");
+		v=djon_get(ds,v->nxt);
+		if(v) { ds->parse_idx=v->str-ds->data; }
+		djon_set_error(ds,"multiple root values");
 	}
 	else
 	if(!v)
 	{
-		djon_set_error(it,"no data");
+		djon_set_error(ds,"no data");
 	}
 
 	if(fname2)
@@ -126,64 +126,64 @@ We default to pretty output.\n\
 		fp=fopen(fname2,"wb");
 		if(!fp)
 		{
-			djon_set_error(it,"output file error");
+			djon_set_error(ds,"output file error");
 			goto error;
 		}
-		it->fp=fp;
+		ds->fp=fp;
 	}
 	else
 	{
-		it->fp=stdout;
+		ds->fp=stdout;
 	}
 
-	if( it->error_string ) // print parse error but still try and write json
+	if( ds->error_string ) // print parse error but still try and write json
 	{
-		fprintf(stderr,"%s\n",it->error_string);
-		fprintf(stderr,"line %d char %d byte %d\n",it->error_line,it->error_char,it->error_idx);
-		djon_set_error(it,0);// clear error state
+		fprintf(stderr,"%s\n",ds->error_string);
+		fprintf(stderr,"line %d char %d byte %d\n",ds->error_line,ds->error_char,ds->error_idx);
+		djon_set_error(ds,0);// clear error state
 	}
 
-	i=it->parse_first;
+	i=ds->parse_first;
 	while( i )
 	{
 		if(write_djon)
 		{
-			djon_write_djon(it,i);
+			djon_write_djon(ds,i);
 		}
 		else
 		{
-			djon_write_json(it,i);
+			djon_write_json(ds,i);
 		}
-		v=djon_get(it,i);
+		v=djon_get(ds,i);
 		i=v?v->nxt:0;
 	}
 	if(write_djon)
 	{
-		djon_write_djon(it,it->parse_com); // write final comment if there is one
+		djon_write_djon(ds,ds->parse_com); // write final comment if there is one
 	}
 	
-	if( it->error_string ){ goto error; }
+	if( ds->error_string ){ goto error; }
 
 	if(fp)
 	{
 		fclose(fp);
 	}
-	djon_clean(it);
+	djon_clean(ds);
 
 	return 0;
 error:
-	if( it->error_string )
+	if( ds->error_string )
 	{
-		fprintf(stderr,"%s\n",it->error_string);
-		fprintf(stderr,"line %d char %d byte %d\n",it->error_line,it->error_char,it->error_idx);
+		fprintf(stderr,"%s\n",ds->error_string);
+		fprintf(stderr,"line %d char %d byte %d\n",ds->error_line,ds->error_char,ds->error_idx);
 	}
 	if(fp)
 	{
 		fclose(fp);
 	}
-	if(it)
+	if(ds)
 	{
-		djon_clean(it);
+		djon_clean(ds);
 	}
 	return 20;
 }
