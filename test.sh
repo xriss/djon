@@ -21,6 +21,3 @@ for fname in $files ; do
 	{ ../c/djon --djon "${fname}" | tr -cd '[:print:]\t\n\r' ; } &>>output.json
 
 done
-
-
-
