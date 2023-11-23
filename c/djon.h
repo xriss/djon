@@ -196,8 +196,6 @@ char * djon_pick_quote( char *cs , int len , char *buf )
 		}
 	}
 	// we should never reach here
-	printf("djon_pick_quote failure\n");
-	exit(23);
 	return 0;
 }
 
@@ -663,6 +661,15 @@ double djon_str_to_number(char *cp,char **endptr)
 // set an error string and calculate the line/char that we are currently on
 void djon_set_error(djon_state *it, char *error)
 {
+	if(error==0) // just clear everything
+	{
+		it->error_string=0;
+		it->error_idx=0;
+		it->error_char=0;
+		it->error_line=0;
+		return;
+	}
+	
 	if( it->error_string ) { return; } // keep first error
 
 	it->error_string=error;
@@ -898,6 +905,8 @@ int djon_write_indent(djon_state *it,int indent)
 // write json with indent state
 void djon_write_json_indent(djon_state *it,int idx,int indent,char *coma)
 {
+	if( it->error_string ) { return; } // error
+
 	djon_value *v=djon_get(it,idx);
 	djon_value *key;
 	djon_value *val;
@@ -1059,12 +1068,15 @@ void djon_write_json_indent(djon_state *it,int idx,int indent,char *coma)
 // write json to the it->fp file handle
 void djon_write_json(djon_state *it,int idx)
 {
+	djon_set_error(it,0);// clear error state
 	djon_write_json_indent(it,idx,0,0);
 }
 
 // write djon to the given file handle
 void djon_write_djon_indent(djon_state *it,int idx,int indent)
 {
+	if( it->error_string ) { return; } // error
+
 	djon_value *v=djon_get(it,idx);
 	djon_value *key;
 	djon_value *val;
@@ -1073,6 +1085,7 @@ void djon_write_djon_indent(djon_state *it,int idx,int indent)
 	int val_idx;
 	int com_idx;
 	int len;
+	char *qs;
 	char *cp;
 	char *ce;
 	char c;
@@ -1155,10 +1168,11 @@ void djon_write_djon_indent(djon_state *it,int idx,int indent)
 				}
 				else
 				{
-					djon_pick_quote(key->str,key->len,it->buf);
-					djon_write_string(it,it->buf);
+					qs=djon_pick_quote(key->str,key->len,it->buf);
+					if(!qs){ djon_set_error(it,"quote attack"); return; }
+					djon_write_string(it,qs);
 					djon_write_it(it,key->str,key->len);
-					djon_write_string(it,it->buf);
+					djon_write_string(it,qs);
 					if(it->compact)
 					{
 						djon_write_string(it,"=");
@@ -1187,10 +1201,11 @@ void djon_write_djon_indent(djon_state *it,int idx,int indent)
 			else
 			{
 				indent=djon_write_indent(it,indent);
-				djon_pick_quote(v->str,v->len,it->buf);
-				djon_write_string(it,it->buf);
+				qs=djon_pick_quote(v->str,v->len,it->buf);
+				if(!qs){ djon_set_error(it,"quote attack"); return; }
+				djon_write_string(it,qs);
 				djon_write_it(it,v->str,v->len);
-				djon_write_string(it,it->buf);
+				djon_write_string(it,qs);
 				djon_write_string(it,"\n");
 			}
 		}
@@ -1227,6 +1242,7 @@ void djon_write_djon_indent(djon_state *it,int idx,int indent)
 // write djon to the it->fp file handle
 void djon_write_djon(djon_state *it,int idx)
 {
+	djon_set_error(it,0);// clear error state
 	djon_write_djon_indent(it,idx,0);
 }
 

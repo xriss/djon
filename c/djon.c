@@ -135,6 +135,14 @@ We default to pretty output.\n\
 	{
 		it->fp=stdout;
 	}
+
+	if( it->error_string ) // print parse error but still try and write json
+	{
+		fprintf(stderr,"%s\n",it->error_string);
+		fprintf(stderr,"line %d char %d byte %d\n",it->error_line,it->error_char,it->error_idx);
+		djon_set_error(it,0);// clear error state
+	}
+
 	i=it->parse_first;
 	while( i )
 	{
