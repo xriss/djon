@@ -71,6 +71,9 @@ typedef struct djon_state
 
 	FILE *fp; // where to write output
 	int   compact; // compact output flag
+	char *write_data; // string output
+	int   write_size;
+	int   write_len;
 	void (*write)(struct djon_state *ds, char *cp, int len); // ptr to output function
 
 	char buf[256]; // small buffer used for generating text output
@@ -83,7 +86,8 @@ extern void         djon_clean(       djon_state *ds);
 extern int          djon_load_file(   djon_state *ds, char *fname);
 extern int          djon_parse(       djon_state *ds);
 extern void         djon_set_error(   djon_state *ds, char *error);
-extern void         djon_write(       djon_state *ds, char *ptr, int len );
+extern void         djon_write_fp(    djon_state *ds, char *ptr, int len );
+extern void         djon_write_data(  djon_state *ds, char *ptr, int len );
 extern void         djon_write_json(  djon_state *ds, int idx);
 extern void         djon_write_djon(  djon_state *ds, int idx);
 extern int          djon_alloc(       djon_state *ds);
@@ -100,6 +104,8 @@ extern void         djon_sort_object( djon_state *ds, int idx );
 #define DJON_IS_STRUCTURE(c)  ( ((c)=='{') || ((c)=='}') || ((c)=='[') || ((c)==']') || ((c)==':') || ((c)=='=') || ((c)==',') || ((c)=='/') )
 #define DJON_IS_TERMINATOR(c) ( (((c)<=32)&&((c)>=0)) || DJON_IS_STRUCTURE(c) )
 // this will work when char is signed or unsigned , note that '/' is the start of /* or // comments
+#define DJON_IS_NUMBER_START(c) ( (((c)<='9')&&((c)>='0')) || ((c)=='.') || ((c)=='+') || ((c)=='-') )
+// a number will start with one of these chars
 
 #endif
 
@@ -354,8 +360,8 @@ int djon_is_naked_string( char *cp , int len )
 	if(len<=0) { return 0; } // string may not empty
 	char *ce=cp+len;
 	char c=*cp;
-	// check starting char is a letter or part of a utf8 multibyte
-	if(!(((c>='a')&&(c<='z')) || ((c>='A')&&(c<='Z'))) || (c<0) || (c>127) )
+	// check starting char is not part of djon structure or whitespace
+	if( DJON_IS_STRUCTURE(c) || DJON_IS_WHITESPACE(c) || DJON_IS_NUMBER_START(c) )
 	{
 		return 0; // does not start with a letter or multibyte utf8
 	}
@@ -512,8 +518,6 @@ int djon_double_to_str( double num , char * buf )
 // strtod replacement ?
 double djon_str_to_double(char *cps,char **endptr)
 {
-	const double nan = 0.0/0.0;
-
 	int gotdata=0;
 
 	char c;
@@ -581,13 +585,11 @@ double djon_str_to_double(char *cps,char **endptr)
 
 error:
 	if(endptr){*endptr=cps;} // 0 chars used
-	return nan;
+	return NAN;
 }
 
 double djon_str_to_hex(char *cps,char **endptr)
 {
-	const double nan = 0.0/0.0;
-
 	int gotdata=0;
 
 	char *cp=cps;
@@ -639,7 +641,7 @@ double djon_str_to_hex(char *cps,char **endptr)
 
 error:
 	if(endptr){*endptr=cps;} // 0 chars used
-	return nan;
+	return NAN;
 }
 
 double djon_str_to_number(char *cp,char **endptr)
@@ -730,8 +732,14 @@ djon_state * djon_setup()
 	ds->error_char=0;
 	ds->error_line=0;
 
-	ds->write=&djon_write; // default write function
+	ds->write=&djon_write_fp; // default write function to file
 	ds->fp=0;
+
+//	ds->write=&djon_write_data; // or write to string
+	ds->write_data=0;
+	ds->write_size=0;
+	ds->write_len=0;
+
 	ds->compact=0;
 
 
@@ -748,6 +756,7 @@ void djon_clean(djon_state *ds)
 	if(!ds) { return; }
 	if(ds->data) { free(ds->data); }
 	if(ds->values) { free(ds->values); }
+	if(ds->write_data) { free(ds->write_data); }
 }
 
 // get a index from pointer
@@ -830,11 +839,41 @@ int djon_free(djon_state *ds,int idx)
 	return 0;
 }
 
-// this function the user can replace
-void djon_write(djon_state *ds, char *ptr, int len )
+// write to fp
+void djon_write_fp(djon_state *ds, char *ptr, int len )
 {
 	fwrite(ptr, 1, len, ds->fp);
 }
+
+// write to realloced string buffer
+void djon_write_data(djon_state *ds, char *ptr, int len )
+{
+	if(ds->error_string){return;} // already have error
+	
+	if(!ds->write_data) // first alloc
+	{
+		ds->write_data = malloc(0x10000); // 64k chunks
+		if(!ds->write_data) { goto error; }
+		ds->write_size=0x10000;
+	}
+	while( ds->write_len + len + 1 > ds->write_size ) // realloc
+	{
+		ds->write_data=realloc(ds->write_data,ds->write_size+0x10000);
+		if(!ds->write_data) { goto error; }
+		ds->write_size+=0x10000;
+	}
+	
+	// copy into data buffer
+	memcpy(ds->write_data+ds->write_len,ptr,len);
+	ds->write_len+=len;
+	ds->write_data[ds->write_len]=0; // keep null terminated
+
+	return;	
+error:
+	djon_set_error(ds,"out of memory");
+	return;
+}
+
 
 void djon_write_it(djon_state *ds, char *ptr, int len )
 {

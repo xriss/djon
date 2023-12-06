@@ -13,10 +13,15 @@ local djon=M
 load a json/djon file
 
 ]]
-djon.load_file=function(filename,opts)
-	opts=opts or {}
-	opts.filename=filename
-	return djon.load(opts)
+djon.load_file=function(filename)
+	local it={}
+	it.filename=filename
+
+    local f = assert( io.open( filename, "rb") )
+    it.input = f:read("*all")
+    f:close()
+    
+	return djon.load_core(it)
 end
 
 --[[
@@ -24,10 +29,10 @@ end
 load a json/djon text
 
 ]]
-djon.load_data=function(text,opts)
-	opts=opts or {}
-	opts.text=text
-	return djon.load(opts)
+djon.load=function(text)
+	local it={}
+	it.input=text
+	return djon.load_core(it)
 end
 
 --[[
@@ -35,10 +40,12 @@ end
 load a json/djon
 
 ]]
-djon.load=function(opts)
+djon.load_core=function(it)
 
-	local ds=core.setup()
+	it.ds=core.setup()
+	core.load( it.ds , it.input )
 
+	return core.get(it.ds)
 end
 
 
@@ -47,11 +54,11 @@ end
 save data in a json/djon file
 
 ]]
-djon.save_file=function(filename,tab,opts)
-	opts=opts or {}
-	opts.filename=filename
-	opts.tab=tab
-	return djon.save(opts)
+djon.save_file=function(filename,tab,...)
+	local it={}
+	it.filename=filename
+	it.tab=tab
+	return djon.save_core(it,...)
 end
 
 --[[
@@ -59,10 +66,10 @@ end
 save data in a json/djon string
 
 ]]
-djon.save_data=function(tab,opts)
-	opts=opts or {}
-	opts.tab=tab
-	return djon.save(opts)
+djon.save=function(tab,...)
+	local it={}
+	it.tab=tab
+	return djon.save_core(it,...)
 end
 
 --[[
@@ -70,7 +77,20 @@ end
 save data in a json/djon format
 
 ]]
-djon.save=function(opts)
+djon.save_core=function(it,...)
 
+	it.ds=core.setup()
+	core.set( it.ds , it.tab )
+	local opts={}
+	
+	it.output=core.save(it.ds,...)
+	
+	if it.filename then
+		local fp=io.open(it.filename,"wb")
+		fp:write(it.output)
+		fp:close()
+	else
+		return it.output
+	end
 end
 

@@ -146,21 +146,185 @@ static int lua_djon_clean (lua_State *l)
 
 
 
+static void lua_djon_get_push (lua_State *l,djon_state *ds,djon_value *v)
+{
+int vi=0;
+djon_value *vv;
+int ki=0;
+djon_value *kv;
+
+int idx=0;
+	switch(v->typ&DJON_TYPEMASK)
+	{
+		case DJON_ARRAY:
+			lua_newtable(l);
+			idx=0;
+			vi=v->val;
+			while( vi )
+			{
+				idx++;
+				vv=djon_get(ds,vi);
+				lua_djon_get_push(l,ds,vv);
+				lua_rawseti(l,-2,idx);
+				vi=vv?vv->nxt:0;
+			}
+		break;
+		case DJON_OBJECT:
+			lua_newtable(l);
+			ki=v->key;
+			while( ki )
+			{
+				kv=djon_get(ds,ki);
+				vv=djon_get(ds,kv->val);
+				lua_djon_get_push(l,ds,kv);
+				lua_djon_get_push(l,ds,vv);
+				lua_rawset(l,-3);
+				ki=kv?kv->nxt:0;
+			}
+		break;
+		case DJON_STRING:
+			lua_pushlstring(l,v->str,v->len);
+		break;
+		case DJON_NUMBER:
+			lua_pushnumber(l,v->num);
+		break;
+		case DJON_BOOL:
+			lua_pushboolean(l,v->num);
+		break;
+		case DJON_NULL:
+			lua_pushnumber(l,NAN);
+		break;
+		default:
+			lua_pushnil(l);
+		break;
+	}
+}
+
+/*
+
+Convert internal data state into lua tables.
+
+*/
+static int lua_djon_get (lua_State *l)
+{
+djon_state *ds=lua_djon_check_ptr(l,1);
+djon_value *v=0;
+
+	lua_newtable(l); // we always return an array of data
+
+	int idx=0;
+	int i=ds->parse_first;
+	while( i )
+	{
+		idx++;
+		v=djon_get(ds,i);
+		lua_djon_get_push(l,ds,v);
+		lua_rawseti(l,-2,idx);
+		i=v?v->nxt:0;
+	}
+	return 1;
+}
+
+
+/*
+
+Convert lua tables into internal data state.
+
+Going to share string pointers from the lua strings here, so, be 
+careful not to free the data before you write it.
+
+*/
+static int lua_djon_set (lua_State *l)
+{
+djon_state *ds=lua_djon_check_ptr(l,1);
+
+	return 0;
+}
+
+
+/*
+
+Load internal data state from a json/djon string.
+
+*/
 static int lua_djon_load (lua_State *l)
 {
 djon_state *ds=lua_djon_check_ptr(l,1);
+size_t len=0;
+const char *str=lua_tolstring(l,2,&len);
+char *data;
+
+	if(*str == 0)
+	{
+		luaL_error(l, "djon string required" );
+	}
+	
+	data = malloc(len+1); if(!data) { luaL_error(l, "out of memory" ); }
+	
+	memcpy(data,str,len+1); // includes null term
+
+	ds->data=data;
+	ds->data_len=len;
+	djon_parse(ds);
+
+	if( ds->error_string ){ luaL_error(l, ds->error_string ); }
 
 	return 0;
 }
 
 
+/*
+
+Save internal data state into a json/djon string.
+
+*/
 static int lua_djon_save (lua_State *l)
 {
 djon_state *ds=lua_djon_check_ptr(l,1);
+int write_djon=0;
+djon_value *v=0;
 
-	return 0;
+	ds->write=&djon_write_data; // we want to write to a string
+	if(ds->write_data){ free(ds->write_data); } // free any old data
+	ds->write_data=0; //  and reset
+	ds->write_size=0;
+	ds->write_len=0;
+
+	ds->compact=0;
+
+	for(int i=2;i<=3;i++) // check string flags in args
+	{
+		const char *s=lua_tostring(l,i);
+		if(!s){break;}
+		if( strcmp(s,"djon")==0 ) { write_djon=1; }
+		if( strcmp(s,"compact")==0 ) { ds->compact=1; }
+	}
+	
+
+	// the top level is a pretend array
+	int i=ds->parse_first;
+	while( i )
+	{
+		if(write_djon)
+		{
+			djon_write_djon(ds,i);
+		}
+		else
+		{
+			djon_write_json(ds,i);
+		}
+		v=djon_get(ds,i);
+		i=v?v->nxt:0;
+	}
+	if(write_djon)
+	{
+		djon_write_djon(ds,ds->parse_com); // write final comment if there is one
+	}
+	
+	lua_pushlstring(l,ds->write_data,ds->write_len); // return string we wrote to
+
+	return 1;
 }
-
 
 LUALIB_API int luaopen_djon_core (lua_State *l)
 {
@@ -168,6 +332,10 @@ LUALIB_API int luaopen_djon_core (lua_State *l)
 	{
 		{"setup",					lua_djon_setup},
 		{"clean",					lua_djon_clean},
+
+		{"get",						lua_djon_get},
+		{"set",						lua_djon_set},
+
 		{"load",					lua_djon_load},
 		{"save",					lua_djon_save},
 		{0,0}
