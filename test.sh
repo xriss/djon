@@ -19,5 +19,10 @@ for fname in $files ; do
 	{ ../c/djon "${fname}" | tr -cd '[:print:]\t\n\r' ; } &>>output.json
 	echo "#c.djon" >>output.json
 	{ ../c/djon --djon "${fname}" | tr -cd '[:print:]\t\n\r' ; } &>>output.json
+	echo "#lua.json" >>output.json
+#	{ ../lua/djon.sh "${fname}" | tr -cd '[:print:]\t\n\r' ; } &>>output.json
+	echo "#lua.djon" >>output.json
+#	{ ../lua/djon.sh --djon "${fname}" | tr -cd '[:print:]\t\n\r' ; } &>>output.json
+
 
 done
