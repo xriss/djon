@@ -785,6 +785,7 @@ void djon_shrink(djon_state *ds)
 }
 
 // allocate a new value and return its index, 0 on error
+// note that everytime we call this function all djon_value ptrs are invalidated.
 int djon_alloc(djon_state *ds)
 {
 	djon_value * v;
