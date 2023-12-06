@@ -1,7 +1,7 @@
 #!/bin/sh
 cd `dirname $0`
 
-eval `luarocks path`
+eval `luarocks --lua-version 5.1 path`
 
-lua ./test.lua -- "$@"
+luajit ./test.lua -- "$@"
 

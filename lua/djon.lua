@@ -44,8 +44,8 @@ djon.load_core=function(it)
 
 	it.ds=core.setup()
 	core.load( it.ds , it.input )
-
-	return core.get(it.ds)
+	it.output=core.get(it.ds)
+	return it.output
 end
 
 

@@ -446,11 +446,23 @@ LUALIB_API int luaopen_djon_core (lua_State *l)
 	};
 
 	luaL_newmetatable(l, lua_djon_ptr_name);
+	
+#if defined(LUA_VERSION_NUM) && LUA_VERSION_NUM >= 520
 	luaL_setfuncs(l, meta, 0);
+#else
+	luaL_openlib(l, NULL, lib, 0);
+#endif
+
 	lua_pop(l,1);
 
+
 	lua_newtable(l);
+
+#if defined(LUA_VERSION_NUM) && LUA_VERSION_NUM >= 520
 	luaL_setfuncs(l, lib, 0);
+#else
+	luaL_openlib(l, NULL, lib, 0);
+#endif
 
 	return 1;
 }

@@ -6,6 +6,8 @@ echo "# Converting all input json ( note this file is forced 7bit ascii clean so
 
 files=`find json -name "*.json" -type f -exec echo {} \; && find djon -name "*.djon" -type f -exec echo {} \;`
 
+eval `luarocks --lua-version 5.1 path`
+
 for fname in $files ; do
 
 	echo Transforming ${fname}
@@ -20,9 +22,9 @@ for fname in $files ; do
 	echo "#c.djon" >>output.json
 	{ ../c/djon --djon "${fname}" | tr -cd '[:print:]\t\n\r' ; } &>>output.json
 	echo "#lua.json" >>output.json
-#	{ ../lua/djon.sh "${fname}" | tr -cd '[:print:]\t\n\r' ; } &>>output.json
+	{ luajit -- ../lua/djon.cmd.lua "${fname}" | tr -cd '[:print:]\t\n\r' ; } &>>output.json
 	echo "#lua.djon" >>output.json
-#	{ ../lua/djon.sh --djon "${fname}" | tr -cd '[:print:]\t\n\r' ; } &>>output.json
+	{ luajit -- ../lua/djon.cmd.lua --djon "${fname}" | tr -cd '[:print:]\t\n\r' ; } &>>output.json
 
 
 done
