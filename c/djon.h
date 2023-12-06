@@ -1974,6 +1974,7 @@ int djon_parse_object(djon_state *ds)
 		djon_apply_comments(ds,key_idx); // apply any middle comments to the key
 		val_idx=djon_parse_value(ds); if(!val_idx){ djon_set_error(ds,"missing value"); return 0; }
 
+		obj=djon_get(ds,obj_idx); // realloc safe
 		if( obj->key==0) // first
 		{
 			obj->key=key_idx;
@@ -2036,6 +2037,7 @@ int djon_parse_array(djon_state *ds)
 		val_idx=djon_parse_value(ds);
 		if(!val_idx) { djon_set_error(ds,"missing ]"); return 0; } // no value, probably missed a ]
 
+		arr=djon_get(ds,arr_idx); // realloc safe
 		if( arr->val==0) // first
 		{
 			arr->val=val_idx;

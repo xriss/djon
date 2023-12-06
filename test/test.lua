@@ -30,6 +30,10 @@ end
 
 local tab=djon.load([[ { top:"43" , not:null , boo:true , aaa:[1,2,3,4] , bob:"bob" } ]])
 
+print()
+print( djon.save({"OK"}) )
+print()
+
 dump( tab )
 print()
 print( djon.save(tab) )
