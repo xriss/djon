@@ -2176,6 +2176,7 @@ int djon_parse(djon_state *ds)
 	ds->parse_value=djon_parse_value(ds); // read one value
 
 	djon_skip_white(ds); // after this we must be at end of file
+	djon_apply_comments(ds,ds->parse_value); // apply any final comments
 
 	if( ds->parse_idx < ds->data_len ) // not EOF
 	{
