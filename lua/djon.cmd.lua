@@ -63,7 +63,10 @@ end
 
 local data_tab=djon.load(data_input)
 
-local data_output=djon.save(data_tab)
+local flags={}
+if opts.djon then flags[#flags+1]="djon" end
+if opts.compact then flags[#flags+1]="compact" end
+local data_output=djon.save(data_tab,unpack(flags))
 
 if opts.fname2 then
 	local fp=assert(io.open(opts.fname2,"wb"))
