@@ -108,18 +108,7 @@ We default to pretty output.\n\
 	
 	djon_parse(ds);
 	
-	djon_value *v=djon_get(ds,ds->parse_first);
-	if(v && v->nxt)
-	{
-		v=djon_get(ds,v->nxt);
-		if(v) { ds->parse_idx=v->str-ds->data; }
-		djon_set_error(ds,"multiple root values");
-	}
-	else
-	if(!v)
-	{
-		djon_set_error(ds,"no data");
-	}
+	djon_value *v=djon_get(ds,ds->parse_value);
 
 	if(fname2)
 	{
@@ -143,23 +132,16 @@ We default to pretty output.\n\
 		djon_set_error(ds,0);// clear error state
 	}
 
-	i=ds->parse_first;
-	while( i )
+	if(ds->parse_value)
 	{
 		if(write_djon)
 		{
-			djon_write_djon(ds,i);
+			djon_write_djon(ds,ds->parse_value);
 		}
 		else
 		{
-			djon_write_json(ds,i);
+			djon_write_json(ds,ds->parse_value);
 		}
-		v=djon_get(ds,i);
-		i=v?v->nxt:0;
-	}
-	if(write_djon)
-	{
-		djon_write_djon(ds,ds->parse_com); // write final comment if there is one
 	}
 	
 	if( ds->error_string ){ goto error; }

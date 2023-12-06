@@ -28,7 +28,7 @@ local dump;dump=function(it,idnt)
 end
 
 
-local tab=djon.load([[ { top:"43" , not:null , boo:true , aaa:[1,2,3,4]} , "bob" ]])
+local tab=djon.load([[ { top:"43" , not:null , boo:true , aaa:[1,2,3,4] , bob:"bob" } ]])
 
 dump( tab )
 print()

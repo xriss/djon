@@ -59,7 +59,7 @@ typedef struct djon_state
 
 	// current parse state
 	int   parse_idx;
-	int   parse_first; // first output value
+	int   parse_value; // first output value
 	char *parse_stack; // starting stack so we can play stack overflow chicken
 	int   parse_com;   // a list of comments, cache before we hand it off to a value and a final file comment if non zero.
 	int   parse_com_last; // end of comment chain so we can easily add another one
@@ -104,6 +104,7 @@ extern void         djon_sort_object( djon_state *ds, int idx );
 #define DJON_IS_STRUCTURE(c)  ( ((c)=='{') || ((c)=='}') || ((c)=='[') || ((c)==']') || ((c)==':') || ((c)=='=') || ((c)==',') || ((c)=='/') )
 #define DJON_IS_TERMINATOR(c) ( (((c)<=32)&&((c)>=0)) || DJON_IS_STRUCTURE(c) )
 // this will work when char is signed or unsigned , note that '/' is the start of /* or // comments
+#define DJON_IS_QUOTE(c) ( ((c)=='\'') || ((c)=='"') || ((c)=='`') )
 #define DJON_IS_NUMBER_START(c) ( (((c)<='9')&&((c)>='0')) || ((c)=='.') || ((c)=='+') || ((c)=='-') )
 // a number will start with one of these chars
 
@@ -361,7 +362,7 @@ int djon_is_naked_string( char *cp , int len )
 	char *ce=cp+len;
 	char c=*cp;
 	// check starting char is not part of djon structure or whitespace
-	if( DJON_IS_STRUCTURE(c) || DJON_IS_WHITESPACE(c) || DJON_IS_NUMBER_START(c) )
+	if( DJON_IS_STRUCTURE(c) || DJON_IS_WHITESPACE(c) || DJON_IS_QUOTE(c) || DJON_IS_NUMBER_START(c) )
 	{
 		return 0; // does not start with a letter or multibyte utf8
 	}
@@ -2166,36 +2167,30 @@ int djon_parse(djon_state *ds)
 	int stack=0xdeadbeef;
 	ds->parse_stack=(char*)&stack;
 	ds->parse_idx=0;
-	ds->parse_first=0;
+	ds->parse_value=0;
 
 	ds->error_string=0;
 	ds->error_char=0;
 	ds->error_line=0;
 
-	int lst_idx=0;
-	int idx=0;
-	djon_value *v;
-	while( idx=djon_parse_value(ds) )
-	{
-		if(ds->parse_first==0) // remember the first value
-		{
-			ds->parse_first=idx;
-			lst_idx=idx;
-		}
-		else
-		{
-			v=djon_get(ds,lst_idx);
-			v->nxt=idx;
-			lst_idx=idx;
-		}
-		v=djon_get(ds,idx);
-		if(v==0){	goto error; }
+	ds->parse_value=djon_parse_value(ds); // read one value
 
-		// , are ignored  between top level values as if this was an array
-		djon_skip_white_punct(ds,",");
+	djon_skip_white(ds); // after this we must be at end of file
+
+	if( ds->parse_idx < ds->data_len ) // not EOF
+	{
+		djon_set_error(ds,"garbage at end of file");
+		goto error;
 	}
+
+	if(ds->parse_value==0)
+	{
+		djon_set_error(ds,"no data");
+		goto error;
+	}
+
 	djon_shrink(ds);
-	return ds->parse_first;
+	return ds->parse_value;
 error:
 	ds->parse_stack=0;
 	return 0;

@@ -210,21 +210,43 @@ static int lua_djon_get (lua_State *l)
 djon_state *ds=lua_djon_check_ptr(l,1);
 djon_value *v=0;
 
-	lua_newtable(l); // we always return an array of data
+	v=djon_get(ds,ds->parse_value);
+	lua_djon_get_push(l,ds,v);
 
-	int idx=0;
-	int i=ds->parse_first;
-	while( i )
-	{
-		idx++;
-		v=djon_get(ds,i);
-		lua_djon_get_push(l,ds,v);
-		lua_rawseti(l,-2,idx);
-		i=v?v->nxt:0;
-	}
 	return 1;
 }
 
+
+static void lua_djon_set_val (lua_State *l , djon_state *ds,djon_value *p)
+{
+djon_value *v=0;
+	
+	if( lua_istable(l,-1) )
+	{
+		lua_rawgeti(l,-1,1); // check first element of an array
+		if(lua_isnil(l,-1)) // if nil then this is an object
+		{
+			lua_pop(l,1);
+		}
+		else
+		{
+			lua_pop(l,1);
+		}
+	}
+	else
+	if( lua_isnumber(l,-1) )
+	{
+	}
+	else
+	if( lua_isstring(l,-1) )
+	{
+	}
+	else
+	if( lua_isboolean(l,-1) )
+	{
+	}
+	
+}
 
 /*
 
@@ -237,6 +259,12 @@ careful not to free the data before you write it.
 static int lua_djon_set (lua_State *l)
 {
 djon_state *ds=lua_djon_check_ptr(l,1);
+
+	lua_pushvalue(l,2);
+	
+	lua_djon_set_val(l,ds,0);
+
+	lua_pop(l,1);
 
 	return 0;
 }
@@ -300,25 +328,13 @@ djon_value *v=0;
 		if( strcmp(s,"compact")==0 ) { ds->compact=1; }
 	}
 	
-
-	// the top level is a pretend array
-	int i=ds->parse_first;
-	while( i )
-	{
-		if(write_djon)
-		{
-			djon_write_djon(ds,i);
-		}
-		else
-		{
-			djon_write_json(ds,i);
-		}
-		v=djon_get(ds,i);
-		i=v?v->nxt:0;
-	}
 	if(write_djon)
 	{
-		djon_write_djon(ds,ds->parse_com); // write final comment if there is one
+		djon_write_djon(ds,ds->parse_value);
+	}
+	else
+	{
+		djon_write_json(ds,ds->parse_value);
 	}
 	
 	lua_pushlstring(l,ds->write_data,ds->write_len); // return string we wrote to
