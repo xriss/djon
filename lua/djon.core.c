@@ -146,12 +146,11 @@ static int lua_djon_clean (lua_State *l)
 
 
 
-static void lua_djon_get_push (lua_State *l,djon_state *ds,djon_value *v)
+static void lua_djon_get_push (lua_State *l,djon_state *ds,int i)
 {
 int vi=0;
-djon_value *vv;
 int ki=0;
-djon_value *kv;
+djon_value *v=djon_get(ds,i);
 
 int idx=0;
 	switch(v->typ&DJON_TYPEMASK)
@@ -163,10 +162,9 @@ int idx=0;
 			while( vi )
 			{
 				idx++;
-				vv=djon_get(ds,vi);
-				lua_djon_get_push(l,ds,vv);
+				lua_djon_get_push(l,ds,vi);
 				lua_rawseti(l,-2,idx);
-				vi=vv?vv->nxt:0;
+				vi=djon_get(ds,vi)->nxt;
 			}
 		break;
 		case DJON_OBJECT:
@@ -174,12 +172,10 @@ int idx=0;
 			ki=v->key;
 			while( ki )
 			{
-				kv=djon_get(ds,ki);
-				vv=djon_get(ds,kv->val);
-				lua_djon_get_push(l,ds,kv);
-				lua_djon_get_push(l,ds,vv);
+				lua_djon_get_push(l,ds,ki);
+				lua_djon_get_push(l,ds,djon_get(ds,ki)->val);
 				lua_rawset(l,-3);
-				ki=kv?kv->nxt:0;
+				ki=djon_get(ds,ki)->nxt;
 			}
 		break;
 		case DJON_STRING:
@@ -208,10 +204,8 @@ Convert internal data state into lua tables.
 static int lua_djon_get (lua_State *l)
 {
 djon_state *ds=lua_djon_check_ptr(l,1);
-djon_value *v=0;
 
-	v=djon_get(ds,ds->parse_value);
-	lua_djon_get_push(l,ds,v);
+	lua_djon_get_push(l,ds,ds->parse_value);
 
 	return 1;
 }
@@ -262,8 +256,8 @@ int ki=0;
 				}
 				else // chain
 				{
-					lk=djon_get(ds,li);
-					lk->nxt=ki;
+					djon_get(ds,li)->nxt=ki;
+					djon_get(ds,ki)->prv=li;
 				}
 				li=ki;
 
@@ -295,8 +289,8 @@ int ki=0;
 				}
 				else // chain
 				{
-					lv=djon_get(ds,li);
-					lv->nxt=vi;
+					djon_get(ds,li)->nxt=vi;
+					djon_get(ds,vi)->prv=li;
 				}
 				li=vi;
 			}
