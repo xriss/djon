@@ -22,9 +22,9 @@ for fname in $files ; do
 	echo "#c.djon" >>output.json
 	{ ../c/djon --djon "${fname}" | tr -cd '[:print:]\t\n\r' ; } &>>output.json
 	echo "#lua.json" >>output.json
-	{ luajit -- ../lua/djon.cmd.lua "${fname}" | tr -cd '[:print:]\t\n\r' ; } &>>output.json
+	{ luajit -- ../lua/djon.cmd.lua "${fname}" 2>&1 | sed -n '/stack traceback:/q;p' | tr -cd '[:print:]\t\n\r' ; } &>>output.json
 	echo "#lua.djon" >>output.json
-	{ luajit -- ../lua/djon.cmd.lua --djon "${fname}" | tr -cd '[:print:]\t\n\r' ; } &>>output.json
+	{ luajit -- ../lua/djon.cmd.lua --djon "${fname}" 2>&1 | sed -n '/stack traceback:/q;p' | tr -cd '[:print:]\t\n\r' ; } &>>output.json
 
 
 done
