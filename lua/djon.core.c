@@ -218,6 +218,7 @@ int ki=0;
 djon_value *v=djon_get(ds,i);
 int ci;
 int cc;
+int cb;
 int idx=0;
 
 	lua_newtable(l);
@@ -241,8 +242,24 @@ int idx=0;
 			ki=v->key;
 			while( ki )
 			{
-				lua_djon_get_comment(l,ds,ki);
+				lua_pushlstring(l,djon_get(ds,ki)->str,djon_get(ds,ki)->len);
 				lua_djon_get_comment(l,ds,djon_get(ds,ki)->val);
+				
+				// replace value comments with key and value comments
+				for( ci=djon_get(ds,ki)->com , cc=2 ; ci ; ci=djon_get(ds,ci)->com , cc++ )
+				{
+					v=djon_get(ds,ci);
+					lua_pushlstring(l,v->str,v->len);
+					lua_rawseti(l,-2,cc);
+				}
+				cb=cc;
+				for( ci=djon_get(ds,djon_get(ds,ki)->val)->com , cc=2 ; ci ; ci=djon_get(ds,ci)->com , cc++ )
+				{
+					v=djon_get(ds,ci);
+					lua_pushlstring(l,v->str,v->len);
+					lua_rawseti(l,-2,cc+cb-2);
+				}
+				
 				lua_rawset(l,-3);
 				ki=djon_get(ds,ki)->nxt;
 			}
@@ -348,7 +365,6 @@ int ki=0;
 
 				lua_pop(l, 1);
 			}
-			lua_pop(l, 1);
 
 		}
 		else
@@ -426,6 +442,7 @@ int ci;
 int cc;
 int lc;
 
+if( ! lua_istable(l,-1) ) {luaL_error(l,"need table a"); }
 	lua_rawgeti(l,-1,1);
 	
 	if( lua_istable(l,-1) )
@@ -442,17 +459,14 @@ int lc;
 			lua_pushnil(l);
 			while( lua_next(l, -2) != 0)
 			{
-				lua_rawgeti(l,-2,1);
-				if(!lua_isstring(l,-1)) { luaL_error(l, "object keys must be strings" ); }
+				if(!lua_isstring(l,-2)) { luaL_error(l, "object keys must be strings" ); }
 				ki=djon_alloc(ds); if(!ki) { luaL_error(l, "out of memory" ); }
 				kv=djon_get(ds,ki);
 				kv->typ=DJON_STRING;
-				kv->str=(char*)lua_tolstring(l,-1,&slen);
+				kv->str=(char*)lua_tolstring(l,-2,&slen);
 				kv->len=slen;
-				lua_pop(l, 1);
 				
 				vi=lua_djon_set_comment(l,ds);
-				lua_pop(l, 1);
 				kv=djon_get(ds,ki); // realloc safe
 				kv->val=vi;
 
@@ -467,9 +481,13 @@ int lc;
 					djon_get(ds,ki)->prv=li;
 				}
 				li=ki;
+				
+				// move comments to key
+				djon_get(ds,ki)->com=djon_get(ds,vi)->com;
+				djon_get(ds,vi)->com=0;
 
+				lua_pop(l, 1);
 			}
-			lua_pop(l, 2);
 
 		}
 		else
