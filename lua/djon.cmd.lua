@@ -61,9 +61,37 @@ else
 	data_input=io.read("*all")
 end
 
-local data_tab=djon.load(data_input)
+local data_tab=djon.load(data_input,"comment")
 
-local flags={}
+
+local dump;dump=function(it,idnt)
+	idnt=idnt or ""
+	local first=true
+	local write_idnt=function()
+		if first then first=false return end
+		io.write(idnt)
+	end
+	if type(it)=="table" then
+		write_idnt()
+		io.write("{\n")
+		for k,v in pairs(it) do
+			write_idnt()
+			io.write(" ")
+			io.write( tostring(k) .. " = " )
+			dump(v,idnt.." ")
+		end
+		write_idnt()
+		io.write("}\n")
+	else
+		write_idnt()
+		io.write( tostring(it) )
+		io.write("\n")
+	end
+end
+--dump(data_tab)
+
+
+local flags={"comment"}
 if opts.djon then flags[#flags+1]="djon" end
 if opts.compact then flags[#flags+1]="compact" end
 local data_output=djon.save(data_tab,unpack(flags))
