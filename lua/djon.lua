@@ -43,7 +43,13 @@ load a json/djon
 djon.load_core=function(it)
 
 	it.ds=core.setup()
-	core.load( it.ds , it.input )
+	local r,e=xpcall( function() core.load( it.ds , it.input ) end , function(e)
+		local l,c,b=core.location(it.ds)
+		return( e.." line "..l.." char "..c.." byte "..b )
+	end)
+	if not r then
+		error(e,2)
+	end
 	it.output=core.get(it.ds)
 	return it.output
 end

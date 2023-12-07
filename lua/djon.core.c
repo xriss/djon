@@ -142,6 +142,21 @@ static int lua_djon_clean (lua_State *l)
 	return 0;
 }
 
+/*
+
+Return the current parse location ( error location )
+
+*/
+static int lua_djon_location (lua_State *l)
+{
+djon_state *ds=lua_djon_check_ptr(l,1);
+
+	lua_pushnumber(l,ds->error_line);
+	lua_pushnumber(l,ds->error_char);
+	lua_pushnumber(l,ds->error_idx);
+
+	return 3;
+}
 
 
 
@@ -425,6 +440,8 @@ LUALIB_API int luaopen_djon_core (lua_State *l)
 		{"setup",					lua_djon_setup},
 		{"clean",					lua_djon_clean},
 
+		{"location",				lua_djon_location},
+
 		{"get",						lua_djon_get},
 		{"set",						lua_djon_set},
 
@@ -444,7 +461,7 @@ LUALIB_API int luaopen_djon_core (lua_State *l)
 #if defined(LUA_VERSION_NUM) && LUA_VERSION_NUM >= 520
 	luaL_setfuncs(l, meta, 0);
 #else
-	luaL_openlib(l, NULL, lib, 0);
+	luaL_openlib(l, NULL, meta, 0);
 #endif
 
 	lua_pop(l,1);
