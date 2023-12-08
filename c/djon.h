@@ -1515,7 +1515,7 @@ int djon_skip_white(djon_state *ds)
 			{
 				c1=ds->data[ ds->parse_idx ];
 				c2=ds->data[ ds->parse_idx+1 ];
-				if( (c1=='*') || (c2=='/') )
+				if( (c1=='*') && (c2=='/') )
 				{
 					djon_trim_comment(ds,com_idx);
 					ds->parse_idx+=2;
@@ -1530,7 +1530,6 @@ int djon_skip_white(djon_state *ds)
 					}
 					else
 					{
-						ds->parse_idx++;
 						if(com_idx)
 						{
 							com=djon_get(ds,com_idx);
@@ -1541,6 +1540,7 @@ int djon_skip_white(djon_state *ds)
 						}
 					}
 				}
+				ds->parse_idx++;
 			}
 			djon_set_error(ds,"missing */");
 		}

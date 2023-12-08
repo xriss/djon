@@ -9734,51 +9734,6 @@ luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46:
 #lua.djon
 {}
 
-#djon/comment1.djon
-// first comment
-{
-// front comment
- a=1
- b/*middle comment*/=2 
- c=3// back comment
-}
-// final comment
-
-#c.json
-{
- "a" : 1 ,
- "b" : 2 ,
- "c" : 3
-}
-#c.djon
-// first comment
-// final comment
-{
- // front comment
- a = 1
- // middle comment
- b = 2
- // back comment
- c = 3
-}
-#lua.json
-{
- "a" : 1 ,
- "b" : 2 ,
- "c" : 3
-}
-#lua.djon
-// first comment
-// final comment
-{
- // front comment
- a = 1
- // middle comment
- b = 2
- // back comment
- c = 3
-}
-
 #djon/evilstrings.djon
 [
  "`"
@@ -9840,3 +9795,50 @@ luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46:
  `'``''``'`
  `""```'`"`'"`"'`''`""`
 ]
+
+#djon/comment1.djon
+// first comment
+{
+// front comment
+ a=/*inside comment*/1
+ b/*middle comment*/=2 
+ c=3// back comment
+}
+// final comment
+
+#c.json
+{
+ "a" : 1 ,
+ "b" : 2 ,
+ "c" : 3
+}
+#c.djon
+// first comment
+// final comment
+{
+ // front comment
+ // inside comment
+ a = 1
+ // middle comment
+ b = 2
+ // back comment
+ c = 3
+}
+#lua.json
+{
+ "a" : 1 ,
+ "b" : 2 ,
+ "c" : 3
+}
+#lua.djon
+// first comment
+// final comment
+{
+ // front comment
+ // inside comment
+ a = 1
+ // middle comment
+ b = 2
+ // back comment
+ c = 3
+}
