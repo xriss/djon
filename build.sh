@@ -5,3 +5,5 @@ c/build.sh
 
 luarocks --lua-version 5.1 build --local
 
+npm install --prefix js
+
