@@ -69,6 +69,8 @@ typedef struct djon_state
 	int   error_char;   // char in line
 	int   error_line;   // line in file
 
+	int   comment; // compact style input/output flag
+	// every value is a table starting with the value and followed by optional comment lines
 	FILE *fp; // where to write output
 	int   compact; // compact output flag
 	char *write_data; // string output
@@ -746,7 +748,7 @@ djon_state * djon_setup()
 	ds->write_len=0;
 
 	ds->compact=0;
-
+	ds->comment=0;
 
 	ds->values_len=1; // first value is used as a null so start at 1
 	ds->values_siz=16384;
