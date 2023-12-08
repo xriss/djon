@@ -104,8 +104,8 @@ extern void         djon_sort_object( djon_state *ds, int idx );
 
 #define DJON_IS_WHITESPACE(c) ( ((c)==' ') || ((c)=='\t') || ((c)=='\n') || ((c)=='\r') || ((c)=='\v') || ((c)=='\f') )
 #define DJON_IS_STRUCTURE(c)  ( ((c)=='{') || ((c)=='}') || ((c)=='[') || ((c)==']') || ((c)==':') || ((c)=='=') || ((c)==',') )
-#define DJON_IS_TERMINATOR(c) ( (((c)<=32)&&((c)>=0)) || ((c)=='/') || DJON_IS_STRUCTURE(c) )
-// this will work when char is signed or unsigned , note that '/' is the start of /* or // comments
+#define DJON_IS_TERMINATOR(c) ( ((c)==0) || DJON_IS_WHITESPACE(c) || ((c)=='/') || DJON_IS_STRUCTURE(c) )
+// note that '/' is the start of /* or // comments and 0 will be found at the EOF
 #define DJON_IS_QUOTE(c) ( ((c)=='\'') || ((c)=='"') || ((c)=='`') )
 #define DJON_IS_NUMBER_START(c) ( (((c)<='9')&&((c)>='0')) || ((c)=='.') || ((c)=='+') || ((c)=='-') )
 // a number will start with one of these chars
@@ -366,7 +366,7 @@ int djon_is_naked_string( char *cp , int len )
 	// check starting char is not part of djon structure or whitespace
 	if( DJON_IS_STRUCTURE(c) || DJON_IS_WHITESPACE(c) || DJON_IS_QUOTE(c) || DJON_IS_NUMBER_START(c) )
 	{
-		return 0; // does not start with a letter or multibyte utf8
+		return 0; //  can not be structure or white space or look like a number
 	}
 	// check for json keywords that will trip us up
 	// a naked string may not begin with these words because json
