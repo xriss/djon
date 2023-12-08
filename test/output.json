@@ -9800,7 +9800,8 @@ luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46:
 // first comment
 {
 // front comment
- a=/*inside comment*/1
+ a=/*inside
+ comment*/1
  b/*middle comment*/=2 
  c=3// back comment
 }
@@ -9817,7 +9818,8 @@ luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46:
 // final comment
 {
  // front comment
- // inside comment
+ // inside
+ // comment
  a = 1
  // middle comment
  b = 2
@@ -9835,7 +9837,8 @@ luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46:
 // final comment
 {
  // front comment
- // inside comment
+ // inside
+ // comment
  a = 1
  // middle comment
  b = 2

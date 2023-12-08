@@ -1,7 +1,8 @@
 // first comment
 {
 // front comment
- a=/*inside comment*/1
+ a=/*inside
+ comment*/1
  b/*middle comment*/=2 
  c=3// back comment
 }

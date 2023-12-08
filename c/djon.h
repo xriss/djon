@@ -1155,7 +1155,23 @@ void djon_write_djon_indent(djon_state *ds,int idx,int indent)
 					{
 						djon_write_string(ds," ");
 					}
-					djon_write_it(ds,com->str,com->len);
+					for( cp=com->str ; cp<com->str+com->len ; cp++ )
+					{
+						c=*cp;
+						if(c=='\n')
+						{
+							djon_write_string(ds,"\n");
+							djon_write_string(ds,"//");
+							if(!ds->compact)
+							{
+								djon_write_string(ds," ");
+							}
+						}
+						else
+						{
+							djon_write_char(ds,c);
+						}
+					}
 					djon_write_string(ds,"\n");
 				}
 			}
@@ -1523,6 +1539,7 @@ int djon_skip_white(djon_state *ds)
 				}
 				else
 				{
+					ds->parse_idx++;
 					if(c1=='\n') // chain a new comment at new line
 					{
 						djon_trim_comment(ds,com_idx);
@@ -1540,7 +1557,6 @@ int djon_skip_white(djon_state *ds)
 						}
 					}
 				}
-				ds->parse_idx++;
 			}
 			djon_set_error(ds,"missing */");
 		}
