@@ -5,6 +5,6 @@
   "gypfile": true,
   "dependencies": {
     "bindings": "*",
-    "nan": "*"
+    "node-addon-api": "*"
   }
 }
