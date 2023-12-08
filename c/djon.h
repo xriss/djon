@@ -61,7 +61,7 @@ typedef struct djon_state
 	int   parse_idx;
 	int   parse_value; // first output value
 	char *parse_stack; // starting stack so we can play stack overflow chicken
-	int   parse_com;   // a list of comments, cache before we hand it off to a value and a final file comment if non zero.
+	int   parse_com;   // a list of comments, cache before we hand it off to a value.
 	int   parse_com_last; // end of comment chain so we can easily add another one
 
 	char *error_string; // if this is not 0 we have an error
@@ -101,8 +101,8 @@ extern void         djon_sort_object( djon_state *ds, int idx );
 
 
 #define DJON_IS_WHITESPACE(c) ( ((c)==' ') || ((c)=='\t') || ((c)=='\n') || ((c)=='\r') || ((c)=='\v') || ((c)=='\f') )
-#define DJON_IS_STRUCTURE(c)  ( ((c)=='{') || ((c)=='}') || ((c)=='[') || ((c)==']') || ((c)==':') || ((c)=='=') || ((c)==',') || ((c)=='/') )
-#define DJON_IS_TERMINATOR(c) ( (((c)<=32)&&((c)>=0)) || DJON_IS_STRUCTURE(c) )
+#define DJON_IS_STRUCTURE(c)  ( ((c)=='{') || ((c)=='}') || ((c)=='[') || ((c)==']') || ((c)==':') || ((c)=='=') || ((c)==',') )
+#define DJON_IS_TERMINATOR(c) ( (((c)<=32)&&((c)>=0)) || ((c)=='/') || DJON_IS_STRUCTURE(c) )
 // this will work when char is signed or unsigned , note that '/' is the start of /* or // comments
 #define DJON_IS_QUOTE(c) ( ((c)=='\'') || ((c)=='"') || ((c)=='`') )
 #define DJON_IS_NUMBER_START(c) ( (((c)<='9')&&((c)>='0')) || ((c)=='.') || ((c)=='+') || ((c)=='-') )
@@ -371,6 +371,10 @@ int djon_is_naked_string( char *cp , int len )
 	if( djon_starts_with_string(cp,len,"true") ) { return 0; }
 	if( djon_starts_with_string(cp,len,"false") ) { return 0; }
 	if( djon_starts_with_string(cp,len,"null") ) { return 0; }
+	// and a naked string can not be the start of a comment but can be a /
+	// which is needed for file paths
+	if( djon_starts_with_string(cp,len,"//") ) { return 0; }
+	if( djon_starts_with_string(cp,len,"/*") ) { return 0; }
 	// string can not end with whitespace as it would be stripped
 	c=*(cp+len-1);
 	if( DJON_IS_WHITESPACE(c) ) { return 0; } // ends in whitespace
