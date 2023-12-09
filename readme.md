@@ -1,61 +1,45 @@
 
 ![underconstruction](underconstruction.gif)
 
-DJON or DGAFJSON is JSON but we DGAF.
-=====================================
+DJON is JSON but we DGAF.
+=========================
 
-I honestly can not believe that I have to write this library, it feels 
-like reinventing the wheel but apparently I live in a world full of 
-square wheels.
+DDJON is UTF8 only relaxed superset of JSON. DJON supports comments 
+with a round trip, numbers are explicitly 64bit floats and strings can 
+contain raw binary data.
 
-There are some close projects but JSON5 still bitches about too many 
-things and HJSON has some white space counting style long strings, 
-relaxedjson is close but it considers any whitespace to be the end of a 
-unquoted string which makes unquoted strings mostly useless.
+There are some similar projects but none of them fixes enough things, 
+we should try and "fix" everything or not bother changing anything.
 
-Finally all of these alternative JSON flavours consider the text 
-encoding of the JSON file someone else's problem. This makes including 
-non text data in such files an escaping nightmare.
+* JSON5
 
-In some ways DJON can be considered a "luafication" of JSON so the 
-first rule is.
+	Complains about too many things to be human edited and no naked 
+	strings.
 
-This project will parse valid UTF8 JSON and only UTF8 encoding. We will 
-not care about every UTF8 character being valid (because we DGAF) and 
-will even allow literal \0 characters inside strings.
+* HJSON
 
-Text encoding is a big bucket of sick and you can not ignore how text 
-is encoded. Demanding UTF8 removes many possible encoding issues even 
-if it does make it a little bit harder to support in javascript with 
-its internal UTF16 strings.
+	Close, but has a python style white space indent long strings and 
+	no naked strings.
 
-This encoding rule is why DJON is not just JSON, it not only excludes 
-some valid JSON data but opens the possibility to include binary data 
-within the file. 
+* relaxedjson
 
-This project will contain code written in C and Lua and Javascript that 
-will do the parsing reasonably fast.
+	Closer but unquoted naked strings end on any whitespace, 
+	which_is_only_useful_if_you_type_like_this.
 
-It is intended for configuration files, that are mostly edited by human 
-hand and where strict JSON is often a curse. However it would not be 
-unreasonable to use this for machine communication mostly to take 
-advantage of the ``can contain every possible character`` long strings 
-without escapes that we are adding.
+None of the above flaws are deal breakers, they are all steps in the 
+right direction but none of them remove any of JSONs questionable 
+edges.
 
-Exactly where and how to reduce the strictness is an art form in 
-itself, the following list should be the template for decisions.
+If we are going to mess with what JSON is then we should take the 
+opportunity to demand UTF8 and forbid BOMs ( yes UTF8 has a BOM , the 
+90s were wild ) I say UTF8 but what I really mean is 7bit ASCII with 
+possible UTF8 strings. We do not force strict UTF8 encoding which means 
+we can also include binary in strings.
 
-- Why do you not require , between values in arrays? Because we DGAF.
-
-- Why do you allow accidental characters at the end of a file? Because 
-we DGAF.
-
-- Why do you allow slightly malformed floating point numbers? Because 
-we DGAF.
-
-- Why do you allow all characters, even \0 in strings? Because we DGAF.
-
-- And so on. Because we DGAF.
+Demanding UTF8, breaks us away from JSON slightly, this means a 
+UTF16/UTF32 JSON file is an invalid DJON file. However nobody really 
+wants or expects a UTF16 or UTF32 JSON file and a UTF8 BOM is the 
+easiest way to poison text.
 
 ---
 
@@ -85,7 +69,7 @@ with any number of other quotes inside them eg some examples:
 this gives us range to pick a quote style that will not be found inside 
 the string and treat everything inside as data, even \0 values. 
 Remember we will not deal with back slashes as escapes inside these 
-strings and that \r\n will remain \r\n.
+strings so what you see is what you get.
 
 Here we are copying lua style long strings but using quote characters 
 rather than the sometimes confusing double square bracket which can 
@@ -119,25 +103,5 @@ head going to explode when you find out what a Nan is.
 
 Then we add some special processing of for `` strings and finally a 
 mostly safe way of dropping quotes entirely and using \n as the end of 
-unquoted strings.
-
-Unquoted strings is the most icky and also most demanded by humans. I 
-plan to rewind time when I get an error and try parsing again assuming 
-we are dealing with an unquoted string. This is slightly crazy but 
-should work most of the time, allowing us to guess correctly with 
-unquoted string provided thay are not also valid json.
-
-so
-
-	true
-
-Is a boolean but
-
-	true.
-
-Is a string, since the . at then end is invalid json it triggers string 
-parsing.
-
-Will formalize this all later once I have a C reference lib up and 
-running...
-
+unquoted strings. Any text we do not recognize will be parsed 
+as an unquoted string.
