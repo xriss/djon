@@ -18,7 +18,7 @@ we should try and "fix" everything or not bother changing anything.
 
 * HJSON			https://hjson.github.io/
 
-	Close, but has a python style multi line strings.
+	Close, very close but has a python indent style multi line strings.
 
 * relaxedjson	http://www.relaxedjson.org/
 
@@ -27,7 +27,7 @@ we should try and "fix" everything or not bother changing anything.
 
 None of the above flaws are deal breakers, they are all steps in the 
 right direction but none of them remove any of JSONs questionable 
-edges.
+edges and none of them have a binary string plan. 
 
 If we are going to mess with what JSON is then we should take the 
 opportunity to demand UTF8 and forbid BOMs I say UTF8 but what I really 
@@ -41,22 +41,64 @@ easiest way to poison text.
 
 ---
 
-Some notes.
------------
+Numbers
+=======
 
-Allow multi line quoted strings with any quote so "'` or single line 
-quote-less naked strings and not require , as a separator everywhere.
+All numbers are text representations of 64bit IEEE floating point 
+numbers. They wll be parsed into 64bit floats when scanned and that is 
+all the information you can expect to get out of them. The following 
+exceptional exceptional floating point values are map stringified like 
+so so.
 
-However since we are adding backtick strings here we can also make them 
-special and *allow nulls* and not provide \ escape processing within 
-them so everything inside a ` string is raw data. Not having to worry 
-about escapes is often useful when inputting data. Remember the file 
-*must* be UTF8 but does not have to be valid UTF8 so any stream of 
-bytes can be placed in such a string.
+	Infinity	9e999
+	-Infinity	-9e999
+	Nan			null
 
-In order to deal with the need for a possible backtick inside these 
-strings a double "``" can be used to open and subsequently close them 
-with any number of other quotes inside them eg some examples:
+9e999 should automagically become Infinity when parsed as it is too 
+large to fit into a 64bit float. NaN and -NaN and all the other strange 
+NaNs become a null, which is not a number so that seems reasonable.
+
+When converting Numbers to digits we use large integers with positive e 
+numbers and decimal fractions with -e numbers. This makes the numbers 
+slightly easier to read and explain.
+
+eg 123456789e4 would be 1234677890000 note how with large integer 
+numbers the e4 at the end means place 4 zeros here.
+
+eg 0.123456789e-4 becomes 0.0000123456789 note how the e-4 means add 4 
+zeros after the decimal point.
+
+Numbers can start with a decimal point omitting the leading 0 so we can 
+write .123 instead of 0.123
+
+Numbers may begin with a + sign as well as a - sign and so may 
+exponents.
+
+Numbers may be hexadecimal eg 0xdeadbeef remember these are 64bit 
+floats which makes for 12 hex digits (48bits) of precision.
+
+When writing numbers we try and use 0s rather than exponents until the 
+length of the number becomes unwieldy ( starting around e8 or e-8 ). 
+This is for large and small numbers.
+
+Strings
+=======
+
+Normal JSON style strings wrapped in ' or " which may contain escapes 
+such as \\ \b \f \n \r \t or \u0000 escapes including surrogate pairs. 
+These larger unicode numbers will of course be converted to UTF8 
+multibyte characters. Any other character after \ will be used as is, 
+eg \a is a pointless escaping of the letter a. These strings can also 
+contain newline characters, eg wrap across multiple lines.
+
+A new type of string wrapped in back ticks, ` these can be binary 
+strings and are taken as is, no need for \ anything and any \ in this 
+string is just a \ The only special character is the quote used to open 
+it which will also be used to close it.
+
+In order to deal with the need for a backtick inside these strings a 
+double "``" can be used to open and subsequently close them with any 
+number of other quotes inside them eg some examples:
 
 	`this is a string`
 	``this is a string``
@@ -64,32 +106,31 @@ with any number of other quotes inside them eg some examples:
 	`'"`this is a string`'"`
 	`'"'`this is a string`'"'`
 
-this gives us range to pick a quote style that will not be found inside 
-the string and treat everything inside as data, even \0 values. 
-Remember we will not deal with back slashes as escapes inside these 
-strings so what you see is what you get.
+this gives us range to pick a quote that will not be found inside the 
+string and treat everything inside as data. Remember the file does not 
+have to be valid UTF8 so any stream of bytes can be placed in such a 
+string.
 
-true, false and null keywords will ignore case.
+Unquoted strings can be used where we are expecting a value as long as 
+they would not be mistaken for something else. So a naked string can 
+not start with {}[],:= or +-0123456789. or any of the three keywords, 
+true/false/null. These strings are terminated at \n and are whitespace 
+trimmed. 
 
-Allow = as a synonym for : as they are both used in javascript and I 
-often use the wrong one. An assignment operator must be present as it 
-stops object definitions getting out of sync between the keys and 
-values. Relaxed json echoes this reasoning here 
-http://www.relaxedjson.org/musings/other-considerations
+Keywords
+--------
 
-Allow a bit more flexibility in the numbers, so hex and + signs and not 
-complaining about 1.e2 .1e2 missing numbers after or before the decimal 
-point.
+Same as JSON so "true", "false" and "null" are special, except we 
+ignore case so "null" can also be "Null" or "NULL".
 
-Including inf or nan is not a good idea, it adds more reserved words 
-instead we just use null for nan and a huge number for inf. I think 
-9e999 is a good choice for Inf and -9e999 for -Inf, being the bigest 
-number you can write in the shortest string that will not fit in a 
-double and become Inf. JSON does not specify what information can be 
-stored in a number although double is implied, DJON explicitly demands 
-that numbers are 64bit IEEE floats and must be parsed within these 
-limits. This means we can get away with 9e999 parsing as Inf, without 
-it being a special case.
 
-If you want to complain that null is not a number they oh boy is your 
-head going to explode when you find out what a Nan is.
+Objects
+-------
+
+Allow = as a synonym for :
+
+An assignment operator must be present as it stops object definitions 
+getting out of sync between the keys and values but commas are optional 
+between key value pairs, in fact they are considered whitespace in this 
+situation so multiple commas will be ignored.
+
