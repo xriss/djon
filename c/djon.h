@@ -31,18 +31,18 @@ typedef enum djon_enum
 
 typedef struct djon_value
 {
-	djon_enum typ; // the type of data contained in the string
+	int    typ; // the type of data contained in the string
 
-	int       nxt; // idx to next value if this is part of a list
-	int       prv; // idx to prev value if this is part of a list
+	int    nxt; // idx to next value if this is part of a list
+	int    prv; // idx to prev value if this is part of a list
 
-	char    * str; // start of string ( points into djon_state.data )
-	int       len; // number of characters
+	char * str; // start of string ( points into djon_state.data )
+	int    len; // number of characters
 
-	double    num; // number or bool value
-	int       key; // linked list of keys for object
-	int       val; // linked list of values for object or array
-	int       com; // linked list of comments for this value
+	double num; // number or bool value
+	int    key; // linked list of keys for object
+	int    val; // linked list of values for object or array
+	int    com; // linked list of comments for this value
 
 } djon_value ;
 
@@ -64,7 +64,7 @@ typedef struct djon_state
 	int   parse_com;   // a list of comments, cache before we hand it off to a value.
 	int   parse_com_last; // end of comment chain so we can easily add another one
 
-	char *error_string; // if this is not 0 we have an error
+	const char *error_string; // if this is not 0 we have an error
 	int   error_idx;    // char in buffer
 	int   error_char;   // char in line
 	int   error_line;   // line in file
@@ -76,7 +76,7 @@ typedef struct djon_state
 	char *write_data; // string output
 	int   write_size;
 	int   write_len;
-	void (*write)(struct djon_state *ds, char *cp, int len); // ptr to output function
+	void (*write)(struct djon_state *ds, const char *cp, int len); // ptr to output function
 
 	char buf[256]; // small buffer used for generating text output
 
@@ -85,11 +85,11 @@ typedef struct djon_state
 
 extern djon_state * djon_setup();
 extern void         djon_clean(       djon_state *ds);
-extern int          djon_load_file(   djon_state *ds, char *fname);
+extern int          djon_load_file(   djon_state *ds, const char *fname);
 extern int          djon_parse(       djon_state *ds);
-extern void         djon_set_error(   djon_state *ds, char *error);
-extern void         djon_write_fp(    djon_state *ds, char *ptr, int len );
-extern void         djon_write_data(  djon_state *ds, char *ptr, int len );
+extern void         djon_set_error(   djon_state *ds, const char *error);
+extern void         djon_write_fp(    djon_state *ds, const char *ptr, int len );
+extern void         djon_write_data(  djon_state *ds, const char *ptr, int len );
 extern void         djon_write_json(  djon_state *ds, int idx);
 extern void         djon_write_djon(  djon_state *ds, int idx);
 extern int          djon_alloc(       djon_state *ds);
@@ -110,18 +110,26 @@ extern void         djon_sort_object( djon_state *ds, int idx );
 #define DJON_IS_NUMBER_START(c) ( (((c)<='9')&&((c)>='0')) || ((c)=='.') || ((c)=='+') || ((c)=='-') )
 // a number will start with one of these chars
 
+#ifdef __cplusplus
+};
+#endif
+
 #endif
 
 
 #ifdef DJON_C
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 // compare lowercase null terminated string s, to the start of the cs buffer
 // returns true if lowercase ( cs < cs+len ) buffer begins with the s string.
-int djon_starts_with_string(char *cs,int len,char *s)
+int djon_starts_with_string(const char *cs,int len,const char *s)
 {
-	char *ce=cs+len;
-	char *sp;
-	char *cp;
+	const char *ce=cs+len;
+	const char *sp;
+	const char *cp;
 	char c;
 	for( cp=cs,sp=s ; *sp ; cp++,sp++ )
 	{
@@ -134,12 +142,12 @@ int djon_starts_with_string(char *cs,int len,char *s)
 }
 
 // check that a quote does not occur in the string, returns 1 if it does not
-int djon_check_quote( char *cs , int len , char *quote )
+int djon_check_quote( const char *cs , int len , const char *quote )
 {
-	char *cq;
-	char *ct;
-	char *cp;
-	char *ce;
+	const char *cq;
+	const char *ct;
+	const char *cp;
+	const char *ce;
 	char c;
 	for( cp=cs,ce=cs+len ; cp<ce ; cp++ ) // scan buffer
 	{
@@ -358,10 +366,10 @@ int djon_unescape_string( djon_value * v )
 }
 
 // can this string be naked
-int djon_is_naked_string( char *cp , int len )
+int djon_is_naked_string( const char *cp , int len )
 {
 	if(len<=0) { return 0; } // string may not empty
-	char *ce=cp+len;
+	const char *ce=cp+len;
 	char c=*cp;
 	// check starting char is not part of djon structure or whitespace
 	if( DJON_IS_STRUCTURE(c) || DJON_IS_WHITESPACE(c) || DJON_IS_QUOTE(c) || DJON_IS_NUMBER_START(c) )
@@ -390,10 +398,10 @@ int djon_is_naked_string( char *cp , int len )
 }
 
 // can this key be naked
-int djon_is_naked_key( char *cp , int len )
+int djon_is_naked_key( const char *cp , int len )
 {
 	if(len<=0) { return 0; } // may not empty
-	char *ce=cp+len;
+	const char *ce=cp+len;
 	while( cp<ce ) // check all the chars
 	{
 		char c=*cp++;
@@ -600,17 +608,18 @@ double djon_str_to_hex(char *cps,char **endptr)
 	int gotdata=0;
 
 	char *cp=cps;
-	char c;
+	char c=*cp;
 
 	double sign=1.0;
-	if(c=='-') { sign=-1.0; cp++; } // maybe negative
+	if(c=='-') { sign=-1.0; c=*++cp; } // maybe negative
 	else
-	if(c=='+') { cp++; } // allow
-
-	if(!( (cp[0]=='0') && (cp[1]=='x') || (cp[1]=='X') )){goto error;}
-	cp+=2; // skip 0x
+	if(c=='+') { c=*++cp; } // allow
 
 	double d=0.0;
+
+	if(!( (cp[0]=='0') && ( (cp[1]=='x') || (cp[1]=='X') ) )){goto error;}
+	cp+=2; // skip 0x
+
 	for( c=*cp ; c ; c=*++cp )
 	{
 
@@ -668,7 +677,7 @@ double djon_str_to_number(char *cp,char **endptr)
 }
 
 // set an error string and calculate the line/char that we are currently on
-void djon_set_error(djon_state *ds, char *error)
+void djon_set_error(djon_state *ds, const char *error)
 {
 	if(error==0) // just clear everything
 	{
@@ -693,7 +702,7 @@ void djon_set_error(djon_state *ds, char *error)
 	int x=0;
 	int y=0;
 	char * cp;
-	char * cp_start = ds->data;
+//	char * cp_start = ds->data;
 	char * cp_end   = ds->data+ds->data_len;
 	char * cp_error = ds->data+ds->parse_idx;
 
@@ -848,25 +857,25 @@ int djon_free(djon_state *ds,int idx)
 }
 
 // write to fp
-void djon_write_fp(djon_state *ds, char *ptr, int len )
+void djon_write_fp(djon_state *ds, const char *ptr, int len )
 {
 	fwrite(ptr, 1, len, ds->fp);
 }
 
 // write to realloced string buffer
-void djon_write_data(djon_state *ds, char *ptr, int len )
+void djon_write_data(djon_state *ds, const char *ptr, int len )
 {
 	if(ds->error_string){return;} // already have error
 	
 	if(!ds->write_data) // first alloc
 	{
-		ds->write_data = malloc(0x10000); // 64k chunks
+		ds->write_data = (char*) malloc(0x10000); // 64k chunks
 		if(!ds->write_data) { goto error; }
 		ds->write_size=0x10000;
 	}
 	while( ds->write_len + len + 1 > ds->write_size ) // realloc
 	{
-		ds->write_data=realloc(ds->write_data,ds->write_size+0x10000);
+		ds->write_data=(char*)realloc(ds->write_data,ds->write_size+0x10000);
 		if(!ds->write_data) { goto error; }
 		ds->write_size+=0x10000;
 	}
@@ -883,7 +892,7 @@ error:
 }
 
 
-void djon_write_it(djon_state *ds, char *ptr, int len )
+void djon_write_it(djon_state *ds, const char *ptr, int len )
 {
 	if(ds->write)
 	{
@@ -900,10 +909,10 @@ void djon_write_char(djon_state *ds, char c)
 }
 
 // find length of a null term string and write it
-void djon_write_string(djon_state *ds, char *ptr)
+void djon_write_string(djon_state *ds, const char *ptr)
 {
 	int len=0;
-	char *cp=ptr;
+	const char *cp=ptr;
 	while( *cp ){ len++; cp++; }
 	if(ds->write)
 	{
@@ -967,11 +976,11 @@ void djon_write_json_indent(djon_state *ds,int idx,int indent,char *coma)
 	{
 		if(ds->compact)
 		{
-			if(!coma){coma=v->nxt?",":"";} // auto coma
+			if(!coma){coma=(char*)(v->nxt?",":"");} // auto coma
 		}
 		else
 		{
-			if(!coma){coma=v->nxt?" ,":"";} // auto coma
+			if(!coma){coma=(char*)(v->nxt?" ,":"");} // auto coma
 		}
 		if((v->typ&DJON_TYPEMASK)==DJON_ARRAY)
 		{
@@ -1025,12 +1034,12 @@ void djon_write_json_indent(djon_state *ds,int idx,int indent,char *coma)
 				if(ds->compact)
 				{
 					djon_write_string(ds,"\":");
-					djon_write_json_indent(ds,key->val,-(indent+1),key->nxt?",":"");
+					djon_write_json_indent(ds,key->val,-(indent+1),(char*)(key->nxt?",":""));
 				}
 				else
 				{
 					djon_write_string(ds,"\" : ");
-					djon_write_json_indent(ds,key->val,-(indent+1),key->nxt?" ,":"");
+					djon_write_json_indent(ds,key->val,-(indent+1),(char*)(key->nxt?" ,":""));
 				}
 				key_idx=key->nxt; key=djon_get(ds,key_idx);
 			}
@@ -1082,7 +1091,7 @@ void djon_write_json_indent(djon_state *ds,int idx,int indent,char *coma)
 		if((v->typ&DJON_TYPEMASK)==DJON_BOOL)
 		{
 			indent=djon_write_indent(ds,indent);
-			djon_write_string(ds,v->num?"true":"false");
+			djon_write_string(ds,(char*)(v->num?"true":"false"));
 			djon_write_string(ds,coma);
 			if(!ds->compact)
 			{
@@ -1134,9 +1143,7 @@ void djon_write_djon_indent(djon_state *ds,int idx,int indent)
 	int len;
 	char *qs;
 	char *cp;
-	char *ce;
 	char c;
-	int rawstr;
 	if(v)
 	{
 		if( ((v->typ&DJON_TYPEMASK)!=DJON_COMMENT) && (v->com) )
@@ -1147,13 +1154,13 @@ void djon_write_djon_indent(djon_state *ds,int idx,int indent)
 		if((v->typ&DJON_TYPEMASK)==DJON_COMMENT)
 		{
 			len=0;
-			for( com_idx=idx ; com=djon_get(ds,com_idx) ; com_idx=com->com )
+			for( com_idx=idx ; (com=djon_get(ds,com_idx)) ; com_idx=com->com )
 			{
 				len+=com->len;
 			}
 			if(len>0) // ignore a completely empty comment chain
 			{
-				for( com_idx=idx ; com=djon_get(ds,com_idx) ; com_idx=com->com )
+				for( com_idx=idx ; (com=djon_get(ds,com_idx)) ; com_idx=com->com )
 				{
 					indent=djon_write_indent(ds,indent);
 					djon_write_string(ds,"//");
@@ -1284,7 +1291,7 @@ void djon_write_djon_indent(djon_state *ds,int idx,int indent)
 		if((v->typ&DJON_TYPEMASK)==DJON_BOOL)
 		{
 			indent=djon_write_indent(ds,indent);
-			djon_write_string(ds,v->num?"TRUE":"FALSE");
+			djon_write_string(ds,(char*)(v->num?"TRUE":"FALSE"));
 			djon_write_string(ds,"\n");
 		}
 		else
@@ -1310,23 +1317,23 @@ void djon_write_djon(djon_state *ds,int idx)
 }
 
 // load a new file or possibly from stdin , pipes allowed
-int djon_load_file(djon_state *ds,char *fname)
+int djon_load_file(djon_state *ds,const char *fname)
 {
 	const int chunk=0x10000; // read this much at once
 
-	FILE * fp;
+	FILE * fp=0;
     char * temp;
     char * data=0;
 
     int size=0;
     int used=0;
 
-	ds->data="";
+	ds->data=(char*)"";
 	ds->data_len=0;
 
 	// first alloc
 	size = used+chunk;
-	data = malloc(size); if(!data) { goto error; }
+	data = (char*)malloc(size); if(!data) { goto error; }
 
 	// open file or use stdin
 	if(fname)
@@ -1343,7 +1350,7 @@ int djon_load_file(djon_state *ds,char *fname)
 		// extend buffer
 		while(used+chunk > size)
 		{
-			temp = realloc(data, used+chunk); if(!temp) { djon_set_error(ds,"out of memory"); goto error; }
+			temp = (char*) realloc(data, used+chunk); if(!temp) { djon_set_error(ds,"out of memory"); goto error; }
 			size = used+chunk;
 			data=temp;
 		}
@@ -1353,7 +1360,7 @@ int djon_load_file(djon_state *ds,char *fname)
 
 
 	size = used+1; // this may size up or down
-	temp = realloc(data, size); if(!temp) { djon_set_error(ds,"out of memory"); goto error; }
+	temp = (char*) realloc(data, size); if(!temp) { djon_set_error(ds,"out of memory"); goto error; }
     data = temp;
     data[used] = 0; // null term
 
@@ -1397,10 +1404,10 @@ int djon_peek_white(djon_state *ds)
 }
 
 // peek for punct
-int djon_peek_punct(djon_state *ds,char *punct)
+int djon_peek_punct(djon_state *ds,const char *punct)
 {
 	char c=ds->data[ ds->parse_idx ];
-	char *cp;
+	const char *cp;
 	for( cp=punct ; *cp ; cp++ )
 	{
 		if( c==*cp ) // a punctuation char
@@ -1412,10 +1419,10 @@ int djon_peek_punct(djon_state *ds,char *punct)
 }
 
 // peek for a lowercase string eg, true false null
-int djon_peek_string(djon_state *ds,char *s)
+int djon_peek_string(djon_state *ds,const char *s)
 {
-	char *sp;
-	char *dp;
+	const char *sp;
+	const char *dp;
 	char d;
 	for( sp=s , dp=ds->data+ds->parse_idx ; *sp && *dp ; sp++ , dp++ )
 	{
@@ -1462,7 +1469,6 @@ int djon_alloc_comment(djon_state *ds)
 
 void djon_trim_comment(djon_state *ds,int idx)
 {
-	char *cp;
 	char c;
 	djon_value *com=djon_get(ds,idx);
 	if(com)
@@ -1575,9 +1581,9 @@ int djon_skip_white(djon_state *ds)
 }
 
 // skip these punct chars only, counting thme
-int djon_skip_punct(djon_state *ds,char *punct)
+int djon_skip_punct(djon_state *ds,const char *punct)
 {
-	char *cp;
+	const char *cp;
 	int ret=0;
 	if( ds->parse_idx < ds->data_len )
 	{
@@ -1595,7 +1601,7 @@ int djon_skip_punct(djon_state *ds,char *punct)
 	return ret;
 }
 // skip these punct chars or white space , counting how many punct chars we found.
-int djon_skip_white_punct(djon_state *ds,char *punct)
+int djon_skip_white_punct(djon_state *ds,const char *punct)
 {
 	int ret=0;
 	int progress=-1;
@@ -1635,15 +1641,15 @@ int djon_parse_next(djon_state *ds)
 	return idx;
 }
 
-int djon_parse_string(djon_state *ds,char * term)
+int djon_parse_string(djon_state *ds,const char * term)
 {
 	int str_idx=djon_parse_next(ds);
 	djon_value *str=djon_get(ds,str_idx);
 	if(!str) { return 0; }
 
 	char c;
-	char *cp;
-	char *tp;
+	const char *cp;
+	const char *tp;
 	int term_len=1; // assume 1 char
 
 	if( *term=='`' ) // need to find special terminator
@@ -1685,7 +1691,7 @@ int djon_parse_string(djon_state *ds,char * term)
 		cp=ds->data+ds->parse_idx;
 		c=*cp; // get next char
 
-		if( str->typ=DJON_ESCAPED|DJON_STRING ) // we need to check for back slashes
+		if( str->typ==(DJON_ESCAPED|DJON_STRING) ) // we need to check for back slashes
 		{
 			if(c=='\\') // skip next char whatever it is
 			{
@@ -1766,7 +1772,6 @@ int djon_parse_key(djon_state *ds)
 
 	char term=0;
 	char c;
-	char *cp;
 
 	c=ds->data[ ds->parse_idx ];
 	if( c=='\'' || c=='"' ) // open quote
@@ -1938,8 +1943,6 @@ void djon_clean_object(djon_state *ds, int idx )
 	if(!obj) { return; }
 	if(!obj->key) { return; }
 	
-	djon_value *l;
-	
 	djon_value *s=djon_get(ds,obj->key);
 	djon_value *e;
 	for( e=s ; e && e->nxt ; e=djon_get(ds,e->nxt) ) {;}
@@ -1950,7 +1953,7 @@ void djon_clean_object(djon_state *ds, int idx )
 	for( i=e ; i ; i=djon_get(ds,i->prv) ) // loop backwards checking
 	{
 		ji=i->prv;
-		while( j=djon_get(ds,ji) ) // loop backwards deleting
+		while( ( j=djon_get(ds,ji) ) ) // loop backwards deleting
 		{
 			ji=j->prv; // remember so we can move j
 			if(djon_clean_compare(i,j)) // dupe
@@ -1971,7 +1974,6 @@ int djon_parse_object(djon_state *ds)
 	if(!obj){return 0;}
 
 	djon_value *key;
-	djon_value *val;
 
 	ds->parse_idx++; // skip opener
 	obj->typ=DJON_OBJECT;
