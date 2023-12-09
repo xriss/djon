@@ -18,12 +18,11 @@ we should try and "fix" everything or not bother changing anything.
 
 * HJSON			https://hjson.github.io/
 
-	Close, but has a python style white space indent long strings and 
-	no naked strings.
+	Close, but has a python style multi line strings.
 
 * relaxedjson	http://www.relaxedjson.org/
 
-	Closer but unquoted naked strings end on any whitespace, 
+	Close, but unquoted naked strings end on any whitespace, 
 	which_is_only_useful_if_you_type_like_this.
 
 None of the above flaws are deal breakers, they are all steps in the 
