@@ -1,24 +1,31 @@
+
 #include "napi.h"
 
+#include "djon.h"
 
 class DjonCore : public Napi::ObjectWrap<DjonCore> {
   public:
     static Napi::Object Init(Napi::Env env, Napi::Object exports);
     DjonCore(const Napi::CallbackInfo& info);
-    static Napi::Value CreateNewItem(const Napi::CallbackInfo& info);
+    ~DjonCore();
 
   private:
-    double _value;
-    Napi::Value GetValue(const Napi::CallbackInfo& info);
-    Napi::Value SetValue(const Napi::CallbackInfo& info);
+    djon_state *ds;
+    Napi::Value location(const Napi::CallbackInfo& info);
+    Napi::Value get(const Napi::CallbackInfo& info);
+    Napi::Value set(const Napi::CallbackInfo& info);
+    Napi::Value load(const Napi::CallbackInfo& info);
+    Napi::Value save(const Napi::CallbackInfo& info);
 };
 
 Napi::Object DjonCore::Init(Napi::Env env, Napi::Object exports) {
     // This method is used to hook the accessor and method callbacks
     Napi::Function func = DefineClass(env, "DjonCore", {
-        InstanceMethod<&DjonCore::GetValue>("GetValue", static_cast<napi_property_attributes>(napi_writable | napi_configurable)),
-        InstanceMethod<&DjonCore::SetValue>("SetValue", static_cast<napi_property_attributes>(napi_writable | napi_configurable)),
-        StaticMethod<&DjonCore::CreateNewItem>("CreateNewItem", static_cast<napi_property_attributes>(napi_writable | napi_configurable)),
+        InstanceMethod<&DjonCore::location>("location", static_cast<napi_property_attributes>(napi_writable | napi_configurable)),
+        InstanceMethod<&DjonCore::get>("get", static_cast<napi_property_attributes>(napi_writable | napi_configurable)),
+        InstanceMethod<&DjonCore::set>("set", static_cast<napi_property_attributes>(napi_writable | napi_configurable)),
+        InstanceMethod<&DjonCore::load>("load", static_cast<napi_property_attributes>(napi_writable | napi_configurable)),
+        InstanceMethod<&DjonCore::save>("save", static_cast<napi_property_attributes>(napi_writable | napi_configurable)),
     });
 
     Napi::FunctionReference* constructor = new Napi::FunctionReference();
@@ -39,28 +46,47 @@ Napi::Object DjonCore::Init(Napi::Env env, Napi::Object exports) {
     // possible to supply a custom deleter.
     env.SetInstanceData<Napi::FunctionReference>(constructor);
 
+
     return exports;
 }
 
 DjonCore::DjonCore(const Napi::CallbackInfo& info) :
     Napi::ObjectWrap<DjonCore>(info) {
+/*
   Napi::Env env = info.Env();
   // ...
   Napi::Number value = info[0].As<Napi::Number>();
   this->_value = value.DoubleValue();
+*/
 }
 
-Napi::Value DjonCore::GetValue(const Napi::CallbackInfo& info){
-    Napi::Env env = info.Env();
-    return Napi::Number::New(env, this->_value);
+DjonCore::~DjonCore() {
 }
 
-Napi::Value DjonCore::SetValue(const Napi::CallbackInfo& info){
+
+Napi::Value DjonCore::location(const Napi::CallbackInfo& info){
     Napi::Env env = info.Env();
-    // ...
-    Napi::Number value = info[0].As<Napi::Number>();
-    this->_value = value.DoubleValue();
-    return this->GetValue(info);
+    return Napi::Number::New(env, -1);
+}
+
+Napi::Value DjonCore::get(const Napi::CallbackInfo& info){
+    Napi::Env env = info.Env();
+    return Napi::Number::New(env, -2);
+}
+
+Napi::Value DjonCore::set(const Napi::CallbackInfo& info){
+    Napi::Env env = info.Env();
+    return Napi::Number::New(env, -3);
+}
+
+Napi::Value DjonCore::load(const Napi::CallbackInfo& info){
+    Napi::Env env = info.Env();
+    return Napi::Number::New(env, -4);
+}
+
+Napi::Value DjonCore::save(const Napi::CallbackInfo& info){
+    Napi::Env env = info.Env();
+    return Napi::Number::New(env, -5);
 }
 
 // Initialize native add-on
@@ -69,83 +95,6 @@ Napi::Object Init (Napi::Env env, Napi::Object exports) {
     return exports;
 }
 
-// Create a new item using the constructor stored during Init.
-Napi::Value DjonCore::CreateNewItem(const Napi::CallbackInfo& info) {
-  // Retrieve the instance data we stored during `Init()`. We only stored the
-  // constructor there, so we retrieve it here to create a new instance of the
-  // JS class the constructor represents.
-  Napi::FunctionReference* constructor =
-      info.Env().GetInstanceData<Napi::FunctionReference>();
-  return constructor->New({ Napi::Number::New(info.Env(), 42) });
-}
 
 // Register and initialize native add-on
 NODE_API_MODULE(NODE_GYP_MODULE_NAME, Init)
-
-
-
-
-/*
-
-#include <nan.h>
-
-NAN_METHOD(setup);
-NAN_METHOD(clean);
-NAN_METHOD(location);
-NAN_METHOD(get);
-NAN_METHOD(set);
-NAN_METHOD(load);
-NAN_METHOD(save);
-
-
-NAN_METHOD(setup) {
-    info.GetReturnValue().Set(Nan::New("This is a setup.").ToLocalChecked());
-}
-NAN_METHOD(clean) {
-    info.GetReturnValue().Set(Nan::New("This is a clean.").ToLocalChecked());
-}
-
-NAN_METHOD(location) {
-    info.GetReturnValue().Set(Nan::New("This is a location.").ToLocalChecked());
-}
-
-NAN_METHOD(get) {
-    info.GetReturnValue().Set(Nan::New("This is a get.").ToLocalChecked());
-}
-NAN_METHOD(set) {
-    info.GetReturnValue().Set(Nan::New("This is a set.").ToLocalChecked());
-}
-
-NAN_METHOD(load) {
-    info.GetReturnValue().Set(Nan::New("This is a load.").ToLocalChecked());
-}
-NAN_METHOD(save) {
-    info.GetReturnValue().Set(Nan::New("This is a save.").ToLocalChecked());
-}
-
-using v8::FunctionTemplate;
-
-NAN_MODULE_INIT(InitAll) {
-  Nan::Set(target, Nan::New("setup").ToLocalChecked(),
-    Nan::GetFunction(Nan::New<FunctionTemplate>(setup)).ToLocalChecked());
-  Nan::Set(target, Nan::New("clean").ToLocalChecked(),
-    Nan::GetFunction(Nan::New<FunctionTemplate>(clean)).ToLocalChecked());
-
-  Nan::Set(target, Nan::New("location").ToLocalChecked(),
-    Nan::GetFunction(Nan::New<FunctionTemplate>(location)).ToLocalChecked());
-
-  Nan::Set(target, Nan::New("get").ToLocalChecked(),
-    Nan::GetFunction(Nan::New<FunctionTemplate>(get)).ToLocalChecked());
-  Nan::Set(target, Nan::New("set").ToLocalChecked(),
-    Nan::GetFunction(Nan::New<FunctionTemplate>(set)).ToLocalChecked());
-
-  Nan::Set(target, Nan::New("load").ToLocalChecked(),
-    Nan::GetFunction(Nan::New<FunctionTemplate>(load)).ToLocalChecked());
-  Nan::Set(target, Nan::New("save").ToLocalChecked(),
-    Nan::GetFunction(Nan::New<FunctionTemplate>(save)).ToLocalChecked());
-}
-
-NODE_MODULE(djon_core, InitAll)
-
-
-*/
