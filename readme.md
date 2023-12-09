@@ -4,24 +4,24 @@
 DJON is JSON but we DGAF.
 =========================
 
-DDJON is UTF8 only relaxed superset of JSON. DJON supports comments 
-with a round trip, numbers are explicitly 64bit floats and strings can 
-contain raw binary data.
+DJON is a UTF8 only relaxed superset of JSON. DJON supports round trip 
+comments, numbers are explicitly 64bit floats and strings can contain 
+raw binary data.
 
 There are some similar projects but none of them fixes enough things, 
 we should try and "fix" everything or not bother changing anything.
 
-* JSON5
+* JSON5			https://json5.org/
 
 	Complains about too many things to be human edited and no naked 
 	strings.
 
-* HJSON
+* HJSON			https://hjson.github.io/
 
 	Close, but has a python style white space indent long strings and 
 	no naked strings.
 
-* relaxedjson
+* relaxedjson	http://www.relaxedjson.org/
 
 	Closer but unquoted naked strings end on any whitespace, 
 	which_is_only_useful_if_you_type_like_this.
@@ -31,10 +31,9 @@ right direction but none of them remove any of JSONs questionable
 edges.
 
 If we are going to mess with what JSON is then we should take the 
-opportunity to demand UTF8 and forbid BOMs ( yes UTF8 has a BOM , the 
-90s were wild ) I say UTF8 but what I really mean is 7bit ASCII with 
-possible UTF8 strings. We do not force strict UTF8 encoding which means 
-we can also include binary in strings.
+opportunity to demand UTF8 and forbid BOMs I say UTF8 but what I really 
+mean is 7bit ASCII with possible UTF8 strings. We do not force strict 
+UTF8 encoding which allows us to include binary in strings.
 
 Demanding UTF8, breaks us away from JSON slightly, this means a 
 UTF16/UTF32 JSON file is an invalid DJON file. However nobody really 
@@ -43,11 +42,11 @@ easiest way to poison text.
 
 ---
 
-Some notes that will be moved and rewritten,
+Some notes.
+-----------
 
-Mostly I want to allow multi line quoted strings with any quote so "'` 
-or single line quote-less naked strings and not require , as a 
-separator everywhere.
+Allow multi line quoted strings with any quote so "'` or single line 
+quote-less naked strings and not require , as a separator everywhere.
 
 However since we are adding backtick strings here we can also make them 
 special and *allow nulls* and not provide \ escape processing within 
@@ -71,17 +70,12 @@ the string and treat everything inside as data, even \0 values.
 Remember we will not deal with back slashes as escapes inside these 
 strings so what you see is what you get.
 
-Here we are copying lua style long strings but using quote characters 
-rather than the sometimes confusing double square bracket which can 
-naturally occur with nested arrays.
-
 true, false and null keywords will ignore case.
 
 Allow = as a synonym for : as they are both used in javascript and I 
 often use the wrong one. An assignment operator must be present as it 
 stops object definitions getting out of sync between the keys and 
-values. This makes reading unquoted keys much easier as well.  Relaxed 
-json echoes this reasoning here 
+values. Relaxed json echoes this reasoning here 
 http://www.relaxedjson.org/musings/other-considerations
 
 Allow a bit more flexibility in the numbers, so hex and + signs and not 
@@ -100,8 +94,3 @@ it being a special case.
 
 If you want to complain that null is not a number they oh boy is your 
 head going to explode when you find out what a Nan is.
-
-Then we add some special processing of for `` strings and finally a 
-mostly safe way of dropping quotes entirely and using \n as the end of 
-unquoted strings. Any text we do not recognize will be parsed 
-as an unquoted string.
