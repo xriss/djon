@@ -113,9 +113,11 @@ string.
 
 Unquoted strings can be used where we are expecting a value as long as 
 they would not be mistaken for something else. So a naked string can 
-not start with {}[],:= or +-0123456789. or any of the three keywords, 
-true/false/null. These strings are terminated at \n and are whitespace 
-trimmed. 
+not start with {}[],:= or look like a valid number or any of the three 
+keywords, true/false/null. Note a keyword or number must end with 
+whitespace or a deliminator character so for instance 100a is 
+allowed to start a naked string as would nullly. These strings are 
+terminated at \n and are whitespace trimmed. 
 
 Keywords
 --------

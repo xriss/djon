@@ -104,7 +104,7 @@ extern void         djon_sort_object( djon_state *ds, int idx );
 
 #define DJON_IS_WHITESPACE(c) ( ((c)==' ') || ((c)=='\t') || ((c)=='\n') || ((c)=='\r') || ((c)=='\v') || ((c)=='\f') )
 #define DJON_IS_STRUCTURE(c)  ( ((c)=='{') || ((c)=='}') || ((c)=='[') || ((c)==']') || ((c)==':') || ((c)=='=') || ((c)==',') )
-#define DJON_IS_TERMINATOR(c) ( ((c)==0) || DJON_IS_WHITESPACE(c) || ((c)=='/') || DJON_IS_STRUCTURE(c) )
+#define DJON_IS_DELIMINATOR(c) ( ((c)==0) || DJON_IS_WHITESPACE(c) || ((c)=='/') || DJON_IS_STRUCTURE(c) )
 // note that '/' is the start of /* or // comments and 0 will be found at the EOF
 #define DJON_IS_QUOTE(c) ( ((c)=='\'') || ((c)=='"') || ((c)=='`') )
 #define DJON_IS_NUMBER_START(c) ( (((c)<='9')&&((c)>='0')) || ((c)=='.') || ((c)=='+') || ((c)=='-') )
@@ -405,7 +405,7 @@ int djon_is_naked_key( const char *cp , int len )
 	while( cp<ce ) // check all the chars
 	{
 		char c=*cp++;
-		if( DJON_IS_TERMINATOR(c) ) { return 0; }
+		if( DJON_IS_DELIMINATOR(c) ) { return 0; }
 	}
 	return 1; // all chars OK
 }
@@ -591,9 +591,9 @@ double djon_str_to_double(char *cps,char **endptr)
 	}
 	d*=sign; // apply sign
 
-	// final check, number must be terminated by something to be valid
+	// final check, number must be deliminator by something to be valid
 	c=*cp;
-	if( ! DJON_IS_TERMINATOR(c) ){goto error;}
+	if( ! DJON_IS_DELIMINATOR(c) ){goto error;}
 
 	if(endptr){*endptr=cp;} // we used this many chars
 	return d; // and parsed this number
@@ -647,8 +647,8 @@ double djon_str_to_hex(char *cps,char **endptr)
 	}
 	if(gotdata==0){goto error;} // require some numbers
 
-	// final check, number must be terminated by something to be valid
-	if( ! DJON_IS_TERMINATOR(c) ){goto error;}
+	// final check, number must be deliminator by something to be valid
+	if( ! DJON_IS_DELIMINATOR(c) ){goto error;}
 
 	d*=sign; // apply sign
 
@@ -1432,8 +1432,8 @@ int djon_peek_string(djon_state *ds,const char *s)
 	}
 	if( *sp==0 ) // we got to end of test string
 	{
-		d=*dp; // and text must be followed by some kind of terminator
-		if( DJON_IS_TERMINATOR(d) )
+		d=*dp; // and text must be followed by some kind of deliminator
+		if( DJON_IS_DELIMINATOR(d) )
 		{
 			return 1;
 		}
@@ -1793,7 +1793,7 @@ int djon_parse_key(djon_state *ds)
 			if( djon_peek_white(ds) ) { return key_idx; } // stop at whitespace
 			if( djon_peek_punct(ds,"=:") ) { return key_idx; } // stop at punct
 			c=ds->data[ ds->parse_idx ];
-			if( DJON_IS_TERMINATOR(c) ) // a naked key may not contain any terminator
+			if( DJON_IS_DELIMINATOR(c) ) // a naked key may not contain any deliminator
 			{ djon_set_error(ds,"invalid naked key"); goto error; }
 		}
 		else
