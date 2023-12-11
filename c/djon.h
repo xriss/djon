@@ -73,6 +73,7 @@ typedef struct djon_state
 	// every value is a table starting with the value and followed by optional comment lines
 	FILE *fp; // where to write output
 	int   compact; // compact output flag
+	int   strict; // strict input/output flag
 	char *write_data; // string output
 	int   write_size;
 	int   write_len;
@@ -756,6 +757,7 @@ djon_state * djon_setup()
 	ds->write_size=0;
 	ds->write_len=0;
 
+	ds->strict=0;
 	ds->compact=0;
 	ds->comment=0;
 
@@ -1739,11 +1741,7 @@ int djon_parse_string(djon_state *ds,const char * term)
 
 int djon_parse_number(djon_state *ds)
 {
-	int num_idx=djon_parse_next(ds);
-	djon_value *num=djon_get(ds,num_idx);
-	if(!num){return 0;}
-
-	char *cps=num->str;
+	char *cps=ds->data+ds->parse_idx;
 	char *cpe;
 
 //	double d=strtod(cps,&cpe);
@@ -1751,12 +1749,20 @@ int djon_parse_number(djon_state *ds)
 	int len=cpe-cps;
 	if( len > 0 ) // valid number
 	{
+		int num_idx=djon_parse_next(ds);
+		djon_value *num=djon_get(ds,num_idx);
+		if(!num){return 0;}
+
 		ds->parse_idx+=len;
 
 		num->typ=DJON_NUMBER;
 		num->num=d;
 
 		return num_idx;
+	}
+	if(!ds->strict) // invalid numbers become naked strings
+	{
+		return djon_parse_string(ds,"\n");
 	}
 	djon_set_error(ds,"invalid number");
 	return 0;
@@ -2145,9 +2151,19 @@ int djon_parse_value(djon_state *ds)
 			return djon_parse_array(ds);
 		break;
 		case '\'' :
+			if(ds->strict)
+			{
+				djon_set_error(ds,"single quote string not allowed in strict mode");
+				return 0;
+			}
 			return djon_parse_string(ds,"'");
 		break;
 		case '"' :
+			if(ds->strict)
+			{
+				djon_set_error(ds,"double quote string not allowed in strict mode");
+				return 0;
+			}
 			return djon_parse_string(ds,"\"");
 		break;
 		case '`' :
@@ -2168,6 +2184,12 @@ int djon_parse_value(djon_state *ds)
 		case '-' :
 			return djon_parse_number(ds);
 		break;
+	}
+	
+	if(ds->strict)
+	{
+		djon_set_error(ds,"naked string not allowed in strict mode");
+		return 0;
 	}
 
 	return djon_parse_string(ds,"\n");

@@ -250,15 +250,15 @@ luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46:
 #json/bad/n_array_just_minus.json
 [-]
 #c.json
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 4 byte 3
 #c.djon
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 4 byte 3
 #lua.json
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 4 byte 3
 #lua.djon
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 4 byte 3
 
 #json/bad/n_array_missing_value.json
 [   , ""]
@@ -469,15 +469,15 @@ luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46:
 #json/bad/n_number_0.1.2.json
 [0.1.2]
 #c.json
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 8 byte 7
 #c.djon
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 8 byte 7
 #lua.json
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 8 byte 7
 #lua.djon
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 8 byte 7
 
 #json/bad/n_number_-01.json
 [-01]
@@ -501,54 +501,54 @@ luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46:
 #json/bad/n_number_0.3e+.json
 [0.3e+]
 #c.json
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 8 byte 7
 #c.djon
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 8 byte 7
 #lua.json
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 8 byte 7
 #lua.djon
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 8 byte 7
 
 #json/bad/n_number_0.3e.json
 [0.3e]
 #c.json
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 7 byte 6
 #c.djon
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 7 byte 6
 #lua.json
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 #lua.djon
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 
 #json/bad/n_number_0_capital_E+.json
 [0E+]
 #c.json
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 6 byte 5
 #c.djon
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #lua.djon
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 
 #json/bad/n_number_0_capital_E.json
 [0E]
 #c.json
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 5 byte 4
 #c.djon
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 5 byte 4
 #lua.json
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 5 byte 4
 #lua.djon
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 5 byte 4
 
 #json/bad/n_number_0.e1.json
 [0.e1]
@@ -572,28 +572,28 @@ luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46:
 #json/bad/n_number_0e+.json
 [0e+]
 #c.json
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 6 byte 5
 #c.djon
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #lua.djon
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 
 #json/bad/n_number_0e.json
 [0e]
 #c.json
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 5 byte 4
 #c.djon
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 5 byte 4
 #lua.json
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 5 byte 4
 #lua.djon
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 5 byte 4
 
 #json/bad/n_number_1_000.json
 [1 000.0]
@@ -621,67 +621,67 @@ luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46:
 #json/bad/n_number_1.0e+.json
 [1.0e+]
 #c.json
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 8 byte 7
 #c.djon
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 8 byte 7
 #lua.json
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 8 byte 7
 #lua.djon
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 8 byte 7
 
 #json/bad/n_number_1.0e-.json
 [1.0e-]
 #c.json
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 8 byte 7
 #c.djon
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 8 byte 7
 #lua.json
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 8 byte 7
 #lua.djon
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 8 byte 7
 
 #json/bad/n_number_1.0e.json
 [1.0e]
 #c.json
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 7 byte 6
 #c.djon
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 7 byte 6
 #lua.json
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 #lua.djon
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 
 #json/bad/n_number_-1.0..json
 [-1.0.]
 #c.json
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 8 byte 7
 #c.djon
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 8 byte 7
 #lua.json
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 8 byte 7
 #lua.djon
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 8 byte 7
 
 #json/bad/n_number_1eE2.json
 [1eE2]
 #c.json
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 7 byte 6
 #c.djon
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 7 byte 6
 #lua.json
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 #lua.djon
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 
 #json/bad/n_number_+1.json
 [+1]
@@ -705,15 +705,15 @@ luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46:
 #json/bad/n_number_.-1.json
 [.-1]
 #c.json
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 6 byte 5
 #c.djon
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #lua.djon
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 
 #json/bad/n_number_2.e+3.json
 [2.e+3]
@@ -813,28 +813,28 @@ luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46:
 #json/bad/n_number_9.e+.json
 [9.e+]
 #c.json
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 7 byte 6
 #c.djon
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 7 byte 6
 #lua.json
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 #lua.djon
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 
 #json/bad/n_number_expression.json
 [1+2]
 #c.json
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 6 byte 5
 #c.djon
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #lua.djon
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 
 #json/bad/n_number_hex_1_digit.json
 [0x1]
@@ -890,15 +890,15 @@ luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46:
 #json/bad/n_number_+Inf.json
 [+Inf]
 #c.json
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 7 byte 6
 #c.djon
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 7 byte 6
 #lua.json
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 #lua.djon
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 
 #json/bad/n_number_Inf.json
 [Inf]
@@ -916,133 +916,133 @@ luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46:
 #json/bad/n_number_invalid+-.json
 [0e+-1]
 #c.json
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 8 byte 7
 #c.djon
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 8 byte 7
 #lua.json
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 8 byte 7
 #lua.djon
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 8 byte 7
 
 #json/bad/n_number_invalid-negative-real.json
 [-123.123foo]
 #c.json
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 14 byte 13
 #c.djon
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 14 byte 13
 #lua.json
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 14 byte 13
 #lua.djon
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 14 byte 13
 
 #json/bad/n_number_invalid-utf-8-in-bigger-int.json
 [123]
 #c.json
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 7 byte 6
 #c.djon
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 7 byte 6
 #lua.json
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 #lua.djon
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 
 #json/bad/n_number_invalid-utf-8-in-exponent.json
 [1e1]
 #c.json
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 7 byte 6
 #c.djon
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 7 byte 6
 #lua.json
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 #lua.djon
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 
 #json/bad/n_number_invalid-utf-8-in-int.json
 [0]
 
 #c.json
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 2 char 1 byte 5
 #c.djon
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 2 char 1 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 2 char 1 byte 5
 #lua.djon
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 2 char 1 byte 5
 
 #json/bad/n_number_++.json
 [++1234]
 #c.json
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 9 byte 8
 #c.djon
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 9 byte 8
 #lua.json
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 9 byte 8
 #lua.djon
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 9 byte 8
 
 #json/bad/n_number_minus_infinity.json
 [-Infinity]
 #c.json
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 12 byte 11
 #c.djon
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 12 byte 11
 #lua.json
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 12 byte 11
 #lua.djon
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 12 byte 11
 
 #json/bad/n_number_minus_sign_with_trailing_garbage.json
 [-foo]
 #c.json
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 7 byte 6
 #c.djon
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 7 byte 6
 #lua.json
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 #lua.djon
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 
 #json/bad/n_number_minus_space_1.json
 [- 1]
 #c.json
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 6 byte 5
 #c.djon
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #lua.djon
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 
 #json/bad/n_number_-NaN.json
 [-NaN]
 #c.json
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 7 byte 6
 #c.djon
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 7 byte 6
 #lua.json
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 #lua.djon
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 
 #json/bad/n_number_NaN.json
 [NaN]
@@ -1098,41 +1098,41 @@ luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46:
 #json/bad/n_number_neg_with_garbage_at_end.json
 [-1x]
 #c.json
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 6 byte 5
 #c.djon
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #lua.djon
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 
 #json/bad/n_number_real_garbage_after_e.json
 [1ea]
 #c.json
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 6 byte 5
 #c.djon
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #lua.djon
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 
 #json/bad/n_number_real_with_invalid_utf8_after_e.json
 [1e]
 #c.json
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 6 byte 5
 #c.djon
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #lua.djon
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 
 #json/bad/n_number_real_without_fractional_part.json
 [1.]
@@ -1188,28 +1188,28 @@ luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46:
 #json/bad/n_number_with_alpha_char.json
 [1.8011670033376514H-308]
 #c.json
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 26 byte 25
 #c.djon
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 26 byte 25
 #lua.json
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 26 byte 25
 #lua.djon
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 26 byte 25
 
 #json/bad/n_number_with_alpha.json
 [1.2a-3]
 #c.json
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 9 byte 8
 #c.djon
-invalid number
-line 1 char 2 byte 1
+missing ]
+line 1 char 9 byte 8
 #lua.json
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 9 byte 8
 #lua.djon
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 9 byte 8
 
 #json/bad/n_number_with_leading_zero.json
 [012]
@@ -2434,15 +2434,13 @@ luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46:
 #json/bad/n_structure_number_with_trailing_garbage.json
 2@
 #c.json
-invalid number
-line 1 char 1 byte 0
+"2@"
 #c.djon
-invalid number
-line 1 char 1 byte 0
+`2@`
 #lua.json
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 1 byte 0
+"2@"
 #lua.djon
-luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid number line 1 char 1 byte 0
+`2@`
 
 #json/bad/n_structure_object_followed_by_closing_object.json
 {}}
