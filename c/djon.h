@@ -10,6 +10,22 @@
 extern "C" {
 #endif
 
+// maximum stack to use, when parsing
+// set to 0 to disable our internal stack checking
+#ifndef DJON_MAX_STACK
+#define DJON_MAX_STACK (256*1024)
+#endif
+
+// number of values to realloc when parsing
+#ifndef DJON_VALUE_CHUNK_SIZE
+#define DJON_VALUE_CHUNK_SIZE (16384)
+#endif
+
+// number of bytes to realloc when building strings
+#ifndef DJON_STRING_CHUNK_SIZE
+#define DJON_STRING_CHUNK_SIZE (0x10000)
+#endif
+
 typedef enum djon_enum
 {
 	DJON_NULL     = 0x0001,
@@ -762,7 +778,7 @@ djon_state * djon_setup()
 	ds->comment=0;
 
 	ds->values_len=1; // first value is used as a null so start at 1
-	ds->values_siz=16384;
+	ds->values_siz=(DJON_VALUE_CHUNK_SIZE);
 	ds->values=(djon_value *)malloc( ds->values_siz * sizeof(djon_value) );
 	if(!ds->values) { free(ds); return 0; }
 
@@ -808,9 +824,9 @@ int djon_alloc(djon_state *ds)
 	djon_value * v;
 	if( ds->values_len+1 >= ds->values_siz ) // check for space
 	{
-		v=(djon_value *)realloc( (void*)ds->values , (ds->values_siz+16384) * sizeof(djon_value) );
+		v=(djon_value *)realloc( (void*)ds->values , (ds->values_siz+(DJON_VALUE_CHUNK_SIZE)) * sizeof(djon_value) );
 		if(!v) { djon_set_error(ds,"out of memory"); return 0; }
-		ds->values_siz=ds->values_siz+16384;
+		ds->values_siz=ds->values_siz+(DJON_VALUE_CHUNK_SIZE);
 		ds->values=v; // might change pointer
 	}
 	v=djon_get(ds,ds->values_len);
@@ -871,15 +887,15 @@ void djon_write_data(djon_state *ds, const char *ptr, int len )
 	
 	if(!ds->write_data) // first alloc
 	{
-		ds->write_data = (char*) malloc(0x10000); // 64k chunks
+		ds->write_data = (char*) malloc(DJON_STRING_CHUNK_SIZE); // 64k chunks
 		if(!ds->write_data) { goto error; }
-		ds->write_size=0x10000;
+		ds->write_size=DJON_STRING_CHUNK_SIZE;
 	}
 	while( ds->write_len + len + 1 > ds->write_size ) // realloc
 	{
-		ds->write_data=(char*)realloc(ds->write_data,ds->write_size+0x10000);
+		ds->write_data=(char*)realloc(ds->write_data,ds->write_size+(DJON_STRING_CHUNK_SIZE));
 		if(!ds->write_data) { goto error; }
-		ds->write_size+=0x10000;
+		ds->write_size+=DJON_STRING_CHUNK_SIZE;
 	}
 	
 	// copy into data buffer
@@ -1321,7 +1337,7 @@ void djon_write_djon(djon_state *ds,int idx)
 // load a new file or possibly from stdin , pipes allowed
 int djon_load_file(djon_state *ds,const char *fname)
 {
-	const int chunk=0x10000; // read this much at once
+	const int chunk=DJON_STRING_CHUNK_SIZE; // read this much at once
 
 	FILE * fp=0;
     char * temp;
@@ -2220,10 +2236,11 @@ int djon_parse_value(djon_state *ds)
 int djon_check_stack(djon_state *ds)
 {
 	int stack=0xdeadbeef;
+	if((DJON_MAX_STACK)<=0) { return 1; } // no stack check
 	if(ds->parse_stack) // check stack flag
 	{
 		int stacksize = ds->parse_stack - ((char*)&stack); // oh yeah stack grows backwards
-		if ( stacksize > (256*1024) ) // 256k stack burper, give up if we use too much
+		if ( stacksize > (DJON_MAX_STACK) ) // 256k stack burper, give up if we use too much
 		{
 			djon_set_error(ds,"stack overflow");
 			return 0;
