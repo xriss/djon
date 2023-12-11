@@ -2362,13 +2362,15 @@ luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46:
 #json/bad/n_structure_end_array.json
 ]
 #c.json
-"]"
+unexpected ]
+line 1 char 1 byte 0
 #c.djon
-`]`
+unexpected ]
+line 1 char 1 byte 0
 #lua.json
-"]"
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: unexpected ] line 1 char 1 byte 0
 #lua.djon
-`]`
+luajit: ../lua/djon.cmd.lua:64: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: unexpected ] line 1 char 1 byte 0
 
 #json/bad/n_structure_incomplete_UTF8_BOM.json
 {}

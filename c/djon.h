@@ -2144,6 +2144,26 @@ int djon_parse_value(djon_state *ds)
 
 	switch( c )
 	{
+		case '}' :
+			djon_set_error(ds,"unexpected }");
+			return 0;
+		break;
+		case ']' :
+			djon_set_error(ds,"unexpected ]");
+			return 0;
+		break;
+		case ',' :
+			djon_set_error(ds,"unexpected ,");
+			return 0;
+		break;
+		case ':' :
+			djon_set_error(ds,"unexpected :");
+			return 0;
+		break;
+		case '=' :
+			djon_set_error(ds,"unexpected =");
+			return 0;
+		break;
 		case '{' :
 			return djon_parse_object(ds);
 		break;
