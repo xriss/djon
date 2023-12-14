@@ -117,9 +117,7 @@ extern int          djon_parse_value( djon_state *ds);
 extern int          djon_check_stack( djon_state *ds);
 extern void         djon_sort_object( djon_state *ds, int idx );
 
-
-
-#define DJON_IS_WHITESPACE(c) ( ((c)==' ') || ((c)=='\t') || ((c)=='\n') || ((c)=='\r') || ((c)=='\v') || ((c)=='\f') )
+#define DJON_IS_WHITESPACE(c) ( ((c)==' ') || ((c)=='\t') || ((c)=='\n') || ((c)=='\r')  )
 #define DJON_IS_STRUCTURE(c)  ( ((c)=='{') || ((c)=='}') || ((c)=='[') || ((c)==']') || ((c)==':') || ((c)=='=') || ((c)==',') )
 #define DJON_IS_DELIMINATOR(c) ( ((c)==0) || DJON_IS_WHITESPACE(c) || ((c)=='/') || DJON_IS_STRUCTURE(c) )
 // note that '/' is the start of /* or // comments and 0 will be found at the EOF

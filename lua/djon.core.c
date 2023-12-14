@@ -228,7 +228,7 @@ int idx=0;
 			lua_pushboolean(l,v->num);
 		break;
 		case DJON_NULL:
-			lua_pushnumber(l,NAN);
+			lua_pushnumber(l,NAN); // Lua does not have a null so we use NAN ( important for arrays )
 		break;
 		default:
 			lua_pushnil(l);
