@@ -1280,7 +1280,8 @@ void djon_write_djon_indent(djon_state *ds,int idx,int indent)
 		else
 		if((v->typ&DJON_TYPEMASK)==DJON_STRING)
 		{
-			if( djon_is_naked_string(v->str,v->len) )
+			// no naked strings in strict djon
+			if( (!ds->strict) && djon_is_naked_string(v->str,v->len) )
 			{
 				indent=djon_write_indent(ds,indent);
 				djon_write_it(ds,v->str,v->len);

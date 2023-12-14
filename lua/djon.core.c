@@ -463,6 +463,14 @@ size_t len=0;
 const char *str=lua_tolstring(l,2,&len);
 char *data;
 
+	ds->strict=0;
+	for(int i=3;i<=10;i++) // check string flags in args
+	{
+		const char *s=lua_tostring(l,i);
+		if(!s){break;}
+		if( strcmp(s,"strict")==0 ) { ds->strict=1; }
+	}
+
 	if(*str == 0)
 	{
 		luaL_error(l, "djon string required" );
@@ -500,6 +508,7 @@ djon_value *v=0;
 	ds->write_len=0;
 
 	ds->compact=0;
+	ds->strict=0;
 
 	for(int i=2;i<=10;i++) // check string flags in args
 	{
@@ -507,6 +516,7 @@ djon_value *v=0;
 		if(!s){break;}
 		if( strcmp(s,"djon")==0 ) { write_djon=1; }
 		if( strcmp(s,"compact")==0 ) { ds->compact=1; }
+		if( strcmp(s,"strict")==0 ) { ds->strict=1; }
 	}
 	
 	if(write_djon)

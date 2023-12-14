@@ -16,6 +16,7 @@ int main(int argc, char *argv[])
 	int checkopts=1;
 	int write_djon=0;
 	int compact=0;
+	int strict=0;
 	char *fname1=0;
 	char *fname2=0;
 	int i;
@@ -50,6 +51,11 @@ int main(int argc, char *argv[])
 				compact=0;
 			}
 			else
+			if( 0==strcmp(cp,"--strict") )
+			{
+				strict=0;
+			}
+			else
 			if( 0==strcmp(cp,"--help") )
 			{
 				printf("\n\
@@ -64,6 +70,7 @@ Possible options are:\n\
 	--json    : output json format\n\
 	--compact : output compact\n\
 	--pretty  : output pretty\n\
+	--strict  : input/output strict\n\
 	--        : stop parsing options\n\
 \n\
 We default to pretty output.\n\
@@ -93,6 +100,7 @@ We default to pretty output.\n\
 
 	djon_state *ds=djon_setup();
 
+	ds->strict=strict; // set strict mode from command line options
 	ds->compact=compact; // set compact output flat from command line options
 	
 	if(fname1)
