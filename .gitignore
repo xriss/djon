@@ -1,8 +1,11 @@
 
 c/djon
 
+
+lua/djon.h
 lua/djon.core.o
 djon
+
 
 js/build
 js/node_modules
