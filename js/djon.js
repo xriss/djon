@@ -6,7 +6,7 @@ console.log( DjonCore )
 const djoncore = new DjonCore(11)
 console.log(djoncore.location())
 console.log(djoncore.get())
-console.log(djoncore.set())
+console.log(djoncore.set({a:"b",c:"d"}))
 console.log(djoncore.load())
 console.log(djoncore.save())
 

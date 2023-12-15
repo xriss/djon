@@ -93,7 +93,7 @@ typedef struct djon_state
 	char *write_data; // string output
 	int   write_size;
 	int   write_len;
-	void (*write)(struct djon_state *ds, const char *cp, int len); // ptr to output function
+	int (*write)(struct djon_state *ds, const char *cp, int len); // ptr to output function
 
 	char buf[256]; // small buffer used for generating text output
 
@@ -105,8 +105,8 @@ extern void         djon_clean(       djon_state *ds);
 extern int          djon_load_file(   djon_state *ds, const char *fname);
 extern int          djon_parse(       djon_state *ds);
 extern void         djon_set_error(   djon_state *ds, const char *error);
-extern void         djon_write_fp(    djon_state *ds, const char *ptr, int len );
-extern void         djon_write_data(  djon_state *ds, const char *ptr, int len );
+extern int          djon_write_fp(    djon_state *ds, const char *ptr, int len );
+extern int          djon_write_data(  djon_state *ds, const char *ptr, int len );
 extern void         djon_write_json(  djon_state *ds, int idx);
 extern void         djon_write_djon(  djon_state *ds, int idx);
 extern int          djon_alloc(       djon_state *ds);
@@ -873,26 +873,29 @@ int djon_free(djon_state *ds,int idx)
 }
 
 // write to fp
-void djon_write_fp(djon_state *ds, const char *ptr, int len )
+int djon_write_fp(djon_state *ds, const char *ptr, int len )
 {
 	fwrite(ptr, 1, len, ds->fp);
+	return 0;
 }
 
 // write to realloced string buffer
-void djon_write_data(djon_state *ds, const char *ptr, int len )
+int djon_write_data(djon_state *ds, const char *ptr, int len )
 {
-	if(ds->error_string){return;} // already have error
+	if(ds->error_string){return -1;} // already have error
 	
 	if(!ds->write_data) // first alloc
 	{
 		ds->write_data = (char*) malloc(DJON_STRING_CHUNK_SIZE); // 64k chunks
-		if(!ds->write_data) { goto error; }
+		if(!ds->write_data) { djon_set_error(ds,"out of memory"); return -1; }
 		ds->write_size=DJON_STRING_CHUNK_SIZE;
+		ds->write_len=0;
 	}
+	int idx=ds->write_len;
 	while( ds->write_len + len + 1 > ds->write_size ) // realloc
 	{
 		ds->write_data=(char*)realloc(ds->write_data,ds->write_size+(DJON_STRING_CHUNK_SIZE));
-		if(!ds->write_data) { goto error; }
+		if(!ds->write_data) { djon_set_error(ds,"out of memory"); return -1; }
 		ds->write_size+=DJON_STRING_CHUNK_SIZE;
 	}
 	
@@ -901,10 +904,7 @@ void djon_write_data(djon_state *ds, const char *ptr, int len )
 	ds->write_len+=len;
 	ds->write_data[ds->write_len]=0; // keep null terminated
 
-	return;	
-error:
-	djon_set_error(ds,"out of memory");
-	return;
+	return idx;
 }
 
 

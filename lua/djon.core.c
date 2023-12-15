@@ -442,6 +442,8 @@ djon_state *ds=lua_djon_check_ptr(l,1);
 		if(!s){break;}
 		if( strcmp(s,"comment")==0 ) { ds->comment=1; }
 	}
+	
+	ds->write_data=0; // prepare to alloc strings
 
 	lua_pushvalue(l,2);
 	ds->parse_value=lua_djon_set_value(l,ds);
@@ -502,10 +504,7 @@ int write_djon=0;
 djon_value *v=0;
 
 	ds->write=&djon_write_data; // we want to write to a string
-	if(ds->write_data){ free(ds->write_data); } // free any old data
 	ds->write_data=0; //  and reset
-	ds->write_size=0;
-	ds->write_len=0;
 
 	ds->compact=0;
 	ds->strict=0;
@@ -529,6 +528,8 @@ djon_value *v=0;
 	}
 	
 	lua_pushlstring(l,ds->write_data,ds->write_len); // return string we wrote to
+	free(ds->write_data); // and free buffer
+	ds->write_data=0;
 
 	return 1;
 }
