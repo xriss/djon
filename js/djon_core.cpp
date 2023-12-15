@@ -266,6 +266,7 @@ int ki=0;
 Napi::Value DjonCore::get(const Napi::CallbackInfo& info){
 	Napi::Env env = info.Env();
 
+	ds->comment=0;
 	for(int i=0;(size_t)i<info.Length();i++) // check string flags in args
 	{
 		Napi::String ns=info[i].As<Napi::String>();
@@ -281,6 +282,7 @@ Napi::Value DjonCore::get(const Napi::CallbackInfo& info){
 Napi::Value DjonCore::set(const Napi::CallbackInfo& info){
 	Napi::Env env = info.Env();
 
+	ds->comment=0;
 	for(int i=1;(size_t)i<info.Length();i++) // check string flags in args
 	{
 		Napi::String ns=info[i].As<Napi::String>();
@@ -312,6 +314,7 @@ Napi::Value DjonCore::load(const Napi::CallbackInfo& info){
 	ds->data_len=len;
 	memcpy(ds->data,cp,len+1);
 
+	ds->strict=0;
 	for(int i=1;(size_t)i<info.Length();i++) // check string flags in args
 	{
 		Napi::String ns=info[i].As<Napi::String>();
@@ -338,6 +341,8 @@ int write_djon=0;
 	ds->write=&djon_write_data; // we want to write to a string
 	ds->write_data=0; //  and reset
 
+	ds->compact=0;
+	ds->strict=0;
 	for(int i=0;(size_t)i<info.Length();i++) // check string flags in args
 	{
 		Napi::String ns=info[i].As<Napi::String>();

@@ -21,11 +21,14 @@ djon.load=function(data,...args)
 
 djon.load_core=function(it,...args)
 {
+try{
 	it.core=new DjonCore()
 	it.core.load(it.data,...args)
 	it.tree=it.core.get(...args)
-
 	return it.tree
+}catch(e){
+	error("?")
+}
 }
 
 djon.save_file=function(fname,tree,...args)
@@ -45,8 +48,12 @@ djon.save=function(tree,...args)
 
 djon.save_core=function(it,...args)
 {
+try{
 	it.core=new DjonCore()
 	it.core.set(it.tree,...args)
 	it.data=it.core.save(...args)
 	return it.data
+}catch(e){
+	error("?")
+}
 }
