@@ -6,6 +6,7 @@ djon
 
 js/build
 js/node_modules
+js/djon.h
 
 
 
