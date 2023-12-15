@@ -81,6 +81,7 @@ Napi::Value DjonCore::get_value(const Napi::Env& env,int idx){
 djon_value *v=djon_get(ds,idx);
 int vi=0;
 int ki=0;
+	if(!v) { return env.Null(); }
 	switch(v->typ&DJON_TYPEMASK)
 	{
 		case DJON_ARRAY:
@@ -105,9 +106,6 @@ int ki=0;
 		case DJON_NUMBER:
 		break;
 		case DJON_BOOL:
-		break;
-		default:
-			return env.Null();
 		break;
 	}
 	
