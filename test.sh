@@ -25,6 +25,10 @@ for fname in $files ; do
 	{ luajit -- ../lua/djon.cmd.lua "${fname}" 2>&1 | sed -n '/stack traceback:/q;p' | tr -cd '[:print:]\t\n\r' ; } &>>output.json
 	echo "#lua.djon" >>output.json
 	{ luajit -- ../lua/djon.cmd.lua --djon "${fname}" 2>&1 | sed -n '/stack traceback:/q;p' | tr -cd '[:print:]\t\n\r' ; } &>>output.json
+	echo "#js.json" >>output.json
+	{ ../js/djon.sh "${fname}" 2>&1 | sed -n '/stack traceback:/q;p' | tr -cd '[:print:]\t\n\r' ; } &>>output.json
+	echo "#js.djon" >>output.json
+	{ ../js/djon.sh --djon "${fname}" 2>&1 | sed -n '/stack traceback:/q;p' | tr -cd '[:print:]\t\n\r' ; } &>>output.json
 
 
 done

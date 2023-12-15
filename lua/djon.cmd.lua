@@ -16,7 +16,10 @@ for _,v in ipairs({...}) do
 	elseif vp=="--pretty"  then		opts.compact=false
 	elseif vp=="--help"  then		opts.help=true
 	else
-		if not opts.fname1 then opts.fname1=v
+		if vp and vp:sub(1,2)=="--" then
+			print( "unknown option "..v )
+			os.exit(20)
+		elseif not opts.fname1 then opts.fname1=v
 		elseif not opts.fname2 then opts.fname2=v
 		else
 			print( "unknown option "..v )
