@@ -16,7 +16,7 @@ class DjonCore : public Napi::ObjectWrap<DjonCore> {
 		int         set_value(const Napi::Env& env,const Napi::Value& val);
 		void        set_fix(int idx,char *base);
 
-		Napi::Value location(const Napi::CallbackInfo& info);
+		Napi::Value locate(const Napi::CallbackInfo& info);
 		Napi::Value get(const Napi::CallbackInfo& info);
 		Napi::Value set(const Napi::CallbackInfo& info);
 		Napi::Value load(const Napi::CallbackInfo& info);
@@ -26,7 +26,7 @@ class DjonCore : public Napi::ObjectWrap<DjonCore> {
 Napi::Object DjonCore::Init(Napi::Env env, Napi::Object exports) {
 	// This method is used to hook the accessor and method callbacks
 	Napi::Function func = DefineClass(env, "DjonCore", {
-		InstanceMethod<&DjonCore::location>("location", static_cast<napi_property_attributes>(napi_writable | napi_configurable)),
+		InstanceMethod<&DjonCore::locate>("locate", static_cast<napi_property_attributes>(napi_writable | napi_configurable)),
 		InstanceMethod<&DjonCore::get>("get", static_cast<napi_property_attributes>(napi_writable | napi_configurable)),
 		InstanceMethod<&DjonCore::set>("set", static_cast<napi_property_attributes>(napi_writable | napi_configurable)),
 		InstanceMethod<&DjonCore::load>("load", static_cast<napi_property_attributes>(napi_writable | napi_configurable)),
@@ -69,12 +69,20 @@ DjonCore::~DjonCore() {
 }
 
 
-Napi::Value DjonCore::location(const Napi::CallbackInfo& info){
+Napi::Value DjonCore::locate(const Napi::CallbackInfo& info){
 	Napi::Env env = info.Env();
-	Napi::Array a = Napi::Array::New(env,3);
-	a[(uint32_t)0]=Napi::Number::New(env,ds->error_line);
-	a[(uint32_t)1]=Napi::Number::New(env,ds->error_char);
-	a[(uint32_t)2]=Napi::Number::New(env,ds->error_idx);
+	Napi::Array a = Napi::Array::New(env,4);
+	if(ds->error_string)
+	{
+		a[(uint32_t)0]=Napi::String::New( env , ds->error_string );
+	}
+	else
+	{
+		a[(uint32_t)0]=env.Null();
+	}
+	a[(uint32_t)1]=Napi::Number::New(env,ds->error_line);
+	a[(uint32_t)2]=Napi::Number::New(env,ds->error_char);
+	a[(uint32_t)3]=Napi::Number::New(env,ds->error_idx);
 	return a;
 }
 
@@ -326,7 +334,7 @@ Napi::Value DjonCore::load(const Napi::CallbackInfo& info){
 
 	djon_parse(ds);
 
-	if( ds->error_string ) { Napi::Error::Fatal( "djon.core", ds->error_string ); }
+//	if( ds->error_string ) { Napi::Error::Fatal( "djon.core", ds->error_string ); }
 
 	return Napi::Number::New(env, 0);
 }
