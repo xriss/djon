@@ -26,9 +26,9 @@ for fname in $files ; do
 	echo "#lua.djon" >>output.json
 	{ luajit -- ../lua/djon.cmd.lua --djon "${fname}" 2>&1 | sed -n '/stack traceback:/q;p' | tr -cd '[:print:]\t\n\r' ; } &>>output.json
 	echo "#js.json" >>output.json
-	{ node  -- ../js/djon_cmd.js "${fname}" 2>&1 | sed -n '/----- Native/q;p' | tr -cd '[:print:]\t\n\r' ; } &>>output.json
+	{ node  -- ../js/djon_cmd.js "${fname}" 2>&1 | tr -cd '[:print:]\t\n\r' ; } &>>output.json
 	echo "#js.djon" >>output.json
-	{ node  -- ../js/djon_cmd.js --djon "${fname}" 2>&1 | sed -n '/----- Native/q;p' | tr -cd '[:print:]\t\n\r' ; } &>>output.json
+	{ node  -- ../js/djon_cmd.js --djon "${fname}" 2>&1 | tr -cd '[:print:]\t\n\r' ; } &>>output.json
 
 
 done
