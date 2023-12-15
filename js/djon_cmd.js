@@ -61,8 +61,6 @@ return(0)
 let data_input=""
 let tree=null
 
-try{
-
 if(opts.fname1)
 {
 	tree=djon.load_file(opts.fname1,"comment")
@@ -82,8 +80,4 @@ if(opts.fname2)
 else
 {
 	fs.writeFileSync( process.stdout.fd , data_output , 'utf8' )
-}
-
-}catch(e){
-	console.log(e)
 }
