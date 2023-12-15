@@ -12,10 +12,11 @@ class DjonCore : public Napi::ObjectWrap<DjonCore> {
 
 	private:
 		djon_state *ds;
-		Napi::Value location(const Napi::CallbackInfo& info);
 		Napi::Value get_value(const Napi::Env& env,int idx);
 		int         set_value(const Napi::Env& env,const Napi::Value& val);
 		void        set_fix(int idx,char *base);
+
+		Napi::Value location(const Napi::CallbackInfo& info);
 		Napi::Value get(const Napi::CallbackInfo& info);
 		Napi::Value set(const Napi::CallbackInfo& info);
 		Napi::Value load(const Napi::CallbackInfo& info);
@@ -79,33 +80,43 @@ Napi::Value DjonCore::location(const Napi::CallbackInfo& info){
 
 Napi::Value DjonCore::get_value(const Napi::Env& env,int idx){
 djon_value *v=djon_get(ds,idx);
-int vi=0;
-int ki=0;
+int ai,len;
+Napi::Array arr;
+Napi::Object obj;
 	if(!v) { return env.Null(); }
 	switch(v->typ&DJON_TYPEMASK)
 	{
 		case DJON_ARRAY:
-			vi=v->val;
-			while( vi )
+			len=0;
+			for( int vi=v->val ; vi ; vi=djon_get(ds,vi)->nxt )
 			{
-				get_value( env , vi );
-				vi=djon_get(ds,vi)->nxt;
+				len++;
 			}
+			arr=Napi::Array::New(env,len);
+			ai=0;
+			for( int vi=v->val ; vi ; vi=djon_get(ds,vi)->nxt )
+			{
+				arr[ai]=get_value( env , vi );
+				ai++;
+			}
+			return arr;
 		break;
 		case DJON_OBJECT:
-			ki=v->key;
-			while( ki )
+			obj=Napi::Object::New(env);
+			for( int ki=v->key ; ki ; ki=djon_get(ds,ki)->nxt )
 			{
-				get_value( env , ki );
-				get_value( env , djon_get(ds,ki)->val );
-				ki=djon_get(ds,ki)->nxt;
+				obj.Set( get_value( env , ki ) , get_value( env , djon_get(ds,ki)->val ) );
 			}
+			return obj;
 		break;
 		case DJON_STRING:
+			return Napi::String::New( env , v->str , v->len );
 		break;
 		case DJON_NUMBER:
+			return Napi::Number::New( env , v->num );
 		break;
 		case DJON_BOOL:
+			return Napi::Boolean::New( env , v->num ? true : false );
 		break;
 	}
 	
@@ -222,6 +233,7 @@ djon_value *dv=0;
 	return 0;
 }
 
+// we need to fix all of the string pointers
 void DjonCore::set_fix(int idx,char *base){
 djon_value *v=djon_get(ds,idx);
 int vi=0;
@@ -246,18 +258,38 @@ int ki=0;
 			}
 		break;
 		case DJON_STRING:
-			v->str=((long)v->str)+base;
+			v->str=(v->str-((char*)0))+base;
 		break;
 	}
 }
 
 Napi::Value DjonCore::get(const Napi::CallbackInfo& info){
 	Napi::Env env = info.Env();
+
+	for(int i=0;(size_t)i<info.Length();i++) // check string flags in args
+	{
+		Napi::String ns=info[i].As<Napi::String>();
+		std::string s=ns.Utf8Value();
+		const char *cp=s.c_str();
+		if(!cp){break;}
+		if( strcmp(cp,"comment")==0 ) { ds->comment=1; }
+	}
+
 	return get_value(env,ds->parse_value);
 }
 
 Napi::Value DjonCore::set(const Napi::CallbackInfo& info){
 	Napi::Env env = info.Env();
+
+	for(int i=1;(size_t)i<info.Length();i++) // check string flags in args
+	{
+		Napi::String ns=info[i].As<Napi::String>();
+		std::string s=ns.Utf8Value();
+		const char *cp=s.c_str();
+		if(!cp){break;}
+		if( strcmp(cp,"comment")==0 ) { ds->comment=1; }
+	}
+
 	ds->write_data=0;
 	ds->parse_value=set_value(env,info[0]);
 	// keep string data and fix all the pointers
@@ -270,12 +302,68 @@ Napi::Value DjonCore::set(const Napi::CallbackInfo& info){
 
 Napi::Value DjonCore::load(const Napi::CallbackInfo& info){
 	Napi::Env env = info.Env();
-	return Napi::Number::New(env, -4);
+
+	Napi::String ns=info[0].As<Napi::String>();
+	std::string s=ns.Utf8Value();
+	const char *cp=s.c_str();
+	int len=s.length();
+	
+	ds->data = (char*)malloc(len+1); if(!ds->data) { Napi::Error::Fatal( "djon.core", "out of memory" ); }
+	ds->data_len=len;
+	memcpy(ds->data,cp,len+1);
+
+	for(int i=1;(size_t)i<info.Length();i++) // check string flags in args
+	{
+		Napi::String ns=info[i].As<Napi::String>();
+		std::string s=ns.Utf8Value();
+		const char *cp=s.c_str();
+		if(!cp){break;}
+		if( strcmp(cp,"strict")==0 ) { ds->strict=1; }
+	}
+
+	djon_parse(ds);
+
+	if( ds->error_string ) { Napi::Error::Fatal( "djon.core", ds->error_string ); }
+
+	return Napi::Number::New(env, 0);
 }
 
 Napi::Value DjonCore::save(const Napi::CallbackInfo& info){
 	Napi::Env env = info.Env();
-	return Napi::Number::New(env, -5);
+
+Napi::String ret;
+
+int write_djon=0;
+
+	ds->write=&djon_write_data; // we want to write to a string
+	ds->write_data=0; //  and reset
+
+	for(int i=0;(size_t)i<info.Length();i++) // check string flags in args
+	{
+		Napi::String ns=info[i].As<Napi::String>();
+		std::string s=ns.Utf8Value();
+		const char *cp=s.c_str();
+		if(!cp){break;}
+		if( strcmp(cp,"djon")==0 ) { write_djon=1; }
+		if( strcmp(cp,"compact")==0 ) { ds->compact=1; }
+		if( strcmp(cp,"strict")==0 ) { ds->strict=1; }
+	}
+
+	if(write_djon)
+	{
+		djon_write_djon(ds,ds->parse_value);
+	}
+	else
+	{
+		djon_write_json(ds,ds->parse_value);
+	}
+	
+	ret=Napi::String::New( env , ds->write_data , ds->write_len );
+
+	free(ds->write_data); // and free write buffer
+	ds->write_data=0;
+
+	return ret;
 }
 
 // Initialize native add-on
