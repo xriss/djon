@@ -61,6 +61,8 @@ return(0)
 let data_input=""
 let tree=null
 
+try{
+
 if(opts.fname1)
 {
 	tree=djon.load_file(opts.fname1,"comment")
@@ -75,11 +77,13 @@ let data_output=djon.save(tree,"comment",opts.djon?"djon":"",opts.compact?"compa
 
 if(opts.fname2)
 {
-	fs.writeFileSync(opts.fname2, data_output, 'utf8' )
+	fs.writeFileSync( opts.fname2 , data_output , 'utf8' )
 }
 else
 {
 	fs.writeFileSync( process.stdout.fd , data_output , 'utf8' )
 }
 
-
+}catch(e){
+	console.log(e)
+}

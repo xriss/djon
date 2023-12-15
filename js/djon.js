@@ -23,7 +23,7 @@ djon.load_core=function(it,...args)
 {
 	it.core=new DjonCore()
 	it.core.load(it.data,...args)
-	it.tree=it.core.get()
+	it.tree=it.core.get(...args)
 
 	return it.tree
 }
