@@ -58,26 +58,21 @@ return(0)
 }
 
 
-let data_input=""
-let tree=null
-
-if(opts.fname1)
-{
-	tree=djon.load_file(opts.fname1,"comment")
-}
-else
-{
-	let data_input=fs.readFileSync( process.stdin.fd , 'utf-8' )
-	tree=djon.load(data_input,"comment")
-}
-
-let data_output=djon.save(tree,"comment",opts.djon?"djon":"",opts.compact?"compact":"")
-
-if(opts.fname2)
-{
-	fs.writeFileSync( opts.fname2 , data_output , 'utf8' )
-}
-else
-{
-	fs.writeFileSync( process.stdout.fd , data_output , 'utf8' )
-}
+fs.readFile( opts.fname1 || process.stdin.fd , 'utf-8' , function(err,data_input){
+	if(err)
+	{
+		console.log(err)
+	}
+	else
+	{
+		let tree=djon.load(data_input,"comment")
+		let data_output=djon.save(tree,"comment",opts.djon?"djon":"",opts.compact?"compact":"")
+		
+		fs.writeFile( opts.fname2 || process.stdout.fd , data_output , 'utf8' , function(err){
+			if(err)
+			{
+				console.log(err)
+			}
+		})
+	}
+})
