@@ -1,4 +1,4 @@
-# Converting all input json ( note this file is forced 7bit ascii clean so not exact output )
+# Converting all input json ( note this file is forced 7bit ascii clean with # replacing the missing bytes )
 
 #json/bad/n_array_1_true_without_comma.json
 [1 true]
@@ -34,7 +34,7 @@
 ]
 
 #json/bad/n_array_a_invalid_utf8.json
-[a]
+[a#]
 #c.json
 missing ]
 line 1 char 5 byte 4
@@ -335,7 +335,7 @@ Error: missing , at line 1 char 3 byte 2
 Error: missing , at line 1 char 3 byte 2
 
 #json/bad/n_array_invalid_utf8.json
-[]
+[#]
 #c.json
 missing ]
 line 1 char 4 byte 3
@@ -539,7 +539,7 @@ Error: missing ] at line 3 char 4 byte 11
 ]
 
 #json/bad/n_array_spaces_vertical_tab_formfeed.json
-["a"\f]
+["#a"\f]
 #c.json
 missing ,
 line 1 char 6 byte 5
@@ -766,7 +766,7 @@ Error: missing ] at line 1 char 6 byte 5
 Error: missing ] at line 1 char 6 byte 5
 
 #json/bad/n_multidigit_number_then_00.json
-123
+123#
 #c.json
 garbage at end of file
 line 1 char 4 byte 3
@@ -1596,7 +1596,7 @@ Error: missing ] at line 1 char 14 byte 13
 Error: missing ] at line 1 char 14 byte 13
 
 #json/bad/n_number_invalid-utf-8-in-bigger-int.json
-[123]
+[123#]
 #c.json
 missing ]
 line 1 char 7 byte 6
@@ -1621,7 +1621,7 @@ Error: missing ] at line 1 char 9 byte 8
 Error: missing ] at line 1 char 9 byte 8
 
 #json/bad/n_number_invalid-utf-8-in-exponent.json
-[1e1]
+[1e1#]
 #c.json
 missing ]
 line 1 char 7 byte 6
@@ -1646,7 +1646,7 @@ Error: missing ] at line 1 char 9 byte 8
 Error: missing ] at line 1 char 9 byte 8
 
 #json/bad/n_number_invalid-utf-8-in-int.json
-[0]
+[0#]
 
 #c.json
 missing ]
@@ -1926,7 +1926,7 @@ Error: missing ] at line 1 char 6 byte 5
 Error: missing ] at line 1 char 6 byte 5
 
 #json/bad/n_number_real_with_invalid_utf8_after_e.json
-[1e]
+[1e#]
 #c.json
 missing ]
 line 1 char 6 byte 5
@@ -2005,7 +2005,7 @@ Error: missing ] at line 1 char 8 byte 7
 ]
 
 #json/bad/n_number_U+FF11_fullwidth_digit_one.json
-[]
+[###]
 #c.json
 missing ]
 line 1 char 6 byte 5
@@ -2208,7 +2208,7 @@ Error: missing : at line 1 char 7 byte 6
 Error: missing : at line 1 char 7 byte 6
 
 #json/bad/n_object_emoji.json
-{}
+{########}
 #c.json
 invalid naked key
 line 1 char 10 byte 9
@@ -2285,30 +2285,30 @@ Error: invalid naked key at line 1 char 13 byte 12
 }
 
 #json/bad/n_object_lone_continuation_byte_in_key_and_trailing_comma.json
-{"":"0",}
+{"#":"0",}
 #c.json
 {
- "" : "0"
+ "#" : "0"
 }
 #c.djon
 {
-  = `0`
+ # = `0`
 }
 #lua.json
 {
- "" : 0
+ "#" : 0
 }
 #lua.djon
 {
-  = 0
+ # = 0
 }
 #js.json
 {
- "" : "0"
+ "###" : "0"
 }
 #js.djon
 {
-  = `0`
+ ### = `0`
 }
 
 #json/bad/n_object_missing_colon.json
@@ -2911,85 +2911,85 @@ Error: missing " at line 1 char 12 byte 11
 ["\uD800\u1"]
 #c.json
 [
- "\u0001"
+ "###\u0001"
 ]
 #c.djon
 [
- 
+ ####
 ]
 #lua.json
 [
- "\u0001"
+ "###\u0001"
 ]
 #lua.djon
 [
- 
+ ####
 ]
 #js.json
 [
- "\u0001"
+ "#########\u0001"
 ]
 #js.djon
 [
- 
+ ##########
 ]
 
 #json/bad/n_string_1_surrogate_then_escape_u1x.json
 ["\uD800\u1x"]
 #c.json
 [
- "\u0001x"
+ "###\u0001x"
 ]
 #c.djon
 [
- x
+ ####x
 ]
 #lua.json
 [
- "\u0001x"
+ "###\u0001x"
 ]
 #lua.djon
 [
- x
+ ####x
 ]
 #js.json
 [
- "\u0001x"
+ "#########\u0001x"
 ]
 #js.djon
 [
- x
+ ##########x
 ]
 
 #json/bad/n_string_1_surrogate_then_escape_u.json
 ["\uD800\u"]
 #c.json
 [
- "\u0000"
+ "###\u0000"
 ]
 #c.djon
 [
- 
+ ####
 ]
 #lua.json
 [
- "\u0000"
+ "###\u0000"
 ]
 #lua.djon
 [
- 
+ ####
 ]
 #js.json
 [
- "\u0000"
+ "#########\u0000"
 ]
 #js.djon
 [
- 
+ ##########
 ]
 
 #json/bad/n_string_accentuated_char_no_quotes.json
-[]
+[##]
 #c.json
 missing ]
 line 1 char 5 byte 4
@@ -3014,14 +3014,14 @@ Error: missing ] at line 1 char 5 byte 4
 Error: missing ] at line 1 char 5 byte 4
 
 #json/bad/n_string_backslash_00.json
-["\"]
+["\#"]
 #c.json
 [
  "\u0000"
 ]
 #c.djon
 [
- 
+ #
 ]
 #lua.json
 [
@@ -3029,7 +3029,7 @@ Error: missing ] at line 1 char 5 byte 4
 ]
 #lua.djon
 [
- 
+ #
 ]
 #js.json
 [
@@ -3037,7 +3037,7 @@ Error: missing ] at line 1 char 5 byte 4
 ]
 #js.djon
 [
- 
+ #
 ]
 
 #json/bad/n_string_escaped_backslash_bad.json
@@ -3093,30 +3093,30 @@ Error: missing " at line 1 char 8 byte 7
 ]
 
 #json/bad/n_string_escaped_emoji.json
-["\"]
+["\####"]
 #c.json
 [
- ""
+ "####"
 ]
 #c.djon
 [
- 
+ ####
 ]
 #lua.json
 [
- ""
+ "####"
 ]
 #lua.djon
 [
- 
+ ####
 ]
 #js.json
 [
- ""
+ "####"
 ]
 #js.djon
 [
- 
+ ####
 ]
 
 #json/bad/n_string_escape_x.json
@@ -3205,54 +3205,54 @@ Error: missing " at line 1 char 6 byte 5
 ["\uD800\uD800\x"]
 #c.json
 [
- "x"
+ "######x"
 ]
 #c.djon
 [
- x
+ ######x
 ]
 #lua.json
 [
- "x"
+ "######x"
 ]
 #lua.djon
 [
- x
+ ######x
 ]
 #js.json
 [
- "x"
+ "##################x"
 ]
 #js.djon
 [
- x
+ ##################x
 ]
 
 #json/bad/n_string_incomplete_surrogate.json
 ["\uD834\uDd"]
 #c.json
 [
- ""
+ "#####"
 ]
 #c.djon
 [
- 
+ #####
 ]
 #lua.json
 [
- ""
+ "#####"
 ]
 #lua.djon
 [
- 
+ #####
 ]
 #js.json
 [
- ""
+ "###########"
 ]
 #js.djon
 [
- 
+ ###########
 ]
 
 #json/bad/n_string_invalid_backslash_esc.json
@@ -3290,7 +3290,7 @@ Error: missing " at line 1 char 6 byte 5
 ]
 #c.djon
 [
- qqqq
+ #qqqq
 ]
 #lua.json
 [
@@ -3298,7 +3298,7 @@ Error: missing " at line 1 char 6 byte 5
 ]
 #lua.djon
 [
- qqqq
+ #qqqq
 ]
 #js.json
 [
@@ -3306,61 +3306,61 @@ Error: missing " at line 1 char 6 byte 5
 ]
 #js.djon
 [
- qqqq
+ #qqqq
 ]
 
 #json/bad/n_string_invalid_utf8_after_escape.json
-["\"]
+["\#"]
 #c.json
 [
- ""
+ "#"
 ]
 #c.djon
 [
- 
+ #
 ]
 #lua.json
 [
- ""
+ "#"
 ]
 #lua.djon
 [
- 
+ #
 ]
 #js.json
 [
- ""
+ "###"
 ]
 #js.djon
 [
- 
+ ###
 ]
 
 #json/bad/n_string_invalid-utf-8-in-escape.json
-["\u"]
+["\u#"]
 #c.json
 [
- "\u0000"
+ "\u0000#"
 ]
 #c.djon
 [
- 
+ ##
 ]
 #lua.json
 [
- "\u0000"
+ "\u0000#"
 ]
 #lua.djon
 [
- 
+ ##
 ]
 #js.json
 [
- "\u0000"
+ "\u0000###"
 ]
 #js.djon
 [
- 
+ ####
 ]
 
 #json/bad/n_string_leading_uescaped_thinspace.json
@@ -3506,14 +3506,14 @@ Error: missing " at line 1 char 4 byte 4
 Error: missing " at line 1 char 4 byte 4
 
 #json/bad/n_string_unescaped_ctrl_char.json
-["aa"]
+["a#a"]
 #c.json
 [
  "a\u0000a"
 ]
 #c.djon
 [
- aa
+ a#a
 ]
 #lua.json
 [
@@ -3521,7 +3521,7 @@ Error: missing " at line 1 char 4 byte 4
 ]
 #lua.djon
 [
- aa
+ a#a
 ]
 #js.json
 [
@@ -3529,7 +3529,7 @@ Error: missing " at line 1 char 4 byte 4
 ]
 #js.djon
 [
- aa
+ a#a
 ]
 
 #json/bad/n_string_unescaped_newline.json
@@ -3785,19 +3785,19 @@ Error: missing " at line 1 char 7 byte 6
 Error: missing " at line 1 char 7 byte 6
 
 #json/bad/n_structure_ascii-unicode-identifier.json
-a
+a##
 #c.json
-"a"
+"a##"
 #c.djon
-a
+a##
 #lua.json
-"a"
+"a##"
 #lua.djon
-a
+a##
 #js.json
-"a"
+"a##"
 #js.djon
-a
+a##
 
 #json/bad/n_structure_capitalized_True.json
 [True]
@@ -3933,34 +3933,34 @@ Error: unexpected ] at line 1 char 1 byte 0
 Error: unexpected ] at line 1 char 1 byte 0
 
 #json/bad/n_structure_incomplete_UTF8_BOM.json
-{}
+##{}
 #c.json
-"{}"
+"##{}"
 #c.djon
-{}
+##{}
 #lua.json
-"{}"
+"##{}"
 #lua.djon
-{}
+##{}
 #js.json
-"{}"
+"###{}"
 #js.djon
-{}
+###{}
 
 #json/bad/n_structure_lone-invalid-utf-8.json
-
+#
 #c.json
-""
+"#"
 #c.djon
-
+#
 #lua.json
-""
+"#"
 #lua.djon
-
+#
 #js.json
-""
+"###"
 #js.djon
-
+###
 
 #json/bad/n_structure_lone-open-bracket.json
 [
@@ -4013,7 +4013,7 @@ Error: no data at line 1 char 1 byte 0
 Error: no data at line 1 char 1 byte 0
 
 #json/bad/n_structure_null-byte-outside-string.json
-[]
+[#]
 #c.json
 missing ]
 line 1 char 4 byte 3
@@ -4493,19 +4493,19 @@ Error: missing , at line 1 char 7 byte 6
 Error: missing , at line 1 char 7 byte 6
 
 #json/bad/n_structure_single_eacute.json
-
+#
 #c.json
-""
+"#"
 #c.djon
-
+#
 #lua.json
-""
+"#"
 #lua.djon
-
+#
 #js.json
-""
+"###"
 #js.djon
-
+###
 
 #json/bad/n_structure_single_star.json
 *
@@ -4554,7 +4554,7 @@ Error: garbage at end of file at line 1 char 10 byte 9
 Error: garbage at end of file at line 1 char 10 byte 9
 
 #json/bad/n_structure_U+2060_word_joined.json
-[]
+[###]
 #c.json
 missing ]
 line 1 char 6 byte 5
@@ -4729,37 +4729,37 @@ Error: missing } at line 1 char 13 byte 12
 Error: missing } at line 1 char 13 byte 12
 
 #json/bad/n_structure_unicode-identifier.json
-
+##
 #c.json
-""
+"##"
 #c.djon
-
+##
 #lua.json
-""
+"##"
 #lua.djon
-
+##
 #js.json
-""
+"##"
 #js.djon
-
+##
 
 #json/bad/n_structure_UTF8_BOM_no_data.json
-
+###
 #c.json
-""
+"###"
 #c.djon
-
+###
 #lua.json
-""
+"###"
 #lua.djon
-
+###
 #js.json
-""
+"###"
 #js.djon
-
+###
 
 #json/bad/n_structure_whitespace_formfeed.json
-[]
+[#]
 #c.json
 missing ]
 line 1 char 4 byte 3
@@ -4784,7 +4784,7 @@ Error: missing ] at line 1 char 4 byte 3
 Error: missing ] at line 1 char 4 byte 3
 
 #json/bad/n_structure_whitespace_U+2060_word_joiner.json
-[]
+[###]
 #c.json
 missing ]
 line 1 char 6 byte 5
@@ -5805,7 +5805,7 @@ Error: missing ] at line 1 char 6 byte 5
 }
 #c.djon
 {
- `foobar` = 42
+ `foo#bar` = 42
 }
 #lua.json
 {
@@ -5813,7 +5813,7 @@ Error: missing ] at line 1 char 6 byte 5
 }
 #lua.djon
 {
- `foobar` = 42
+ `foo#bar` = 42
 }
 #js.json
 {
@@ -5821,7 +5821,7 @@ Error: missing ] at line 1 char 6 byte 5
 }
 #js.djon
 {
- `foobar` = 42
+ `foo#bar` = 42
 }
 
 #json/good/y_object_extreme_numbers.json
@@ -5984,27 +5984,27 @@ Error: missing ] at line 1 char 6 byte 5
 {"title":"\u041f\u043e\u043b\u0442\u043e\u0440\u0430 \u0417\u0435\u043c\u043b\u0435\u043a\u043e\u043f\u0430" }
 #c.json
 {
- "title" : " "
+ "title" : "############## ##################"
 }
 #c.djon
 {
- title =  
+ title = ############## ##################
 }
 #lua.json
 {
- "title" : " "
+ "title" : "############## ##################"
 }
 #lua.djon
 {
- title =  
+ title = ############## ##################
 }
 #js.json
 {
- "title" : " "
+ "title" : "############## ##################"
 }
 #js.djon
 {
- title =  
+ title = ############## ##################
 }
 
 #json/good/y_object_with_newlines.json
@@ -6040,81 +6040,81 @@ Error: missing ] at line 1 char 6 byte 5
 ["\u0060\u012a\u12AB"]
 #c.json
 [
- "`"
+ "`#####"
 ]
 #c.djon
 [
- `````
+ ```#####``
 ]
 #lua.json
 [
- "`"
+ "`#####"
 ]
 #lua.djon
 [
- `````
+ ```#####``
 ]
 #js.json
 [
- "`"
+ "`#####"
 ]
 #js.djon
 [
- `````
+ ```#####``
 ]
 
 #json/good/y_string_accepted_surrogate_pair.json
 ["\uD801\udc37"]
 #c.json
 [
- ""
+ "####"
 ]
 #c.djon
 [
- 
+ ####
 ]
 #lua.json
 [
- ""
+ "####"
 ]
 #lua.djon
 [
- 
+ ####
 ]
 #js.json
 [
- ""
+ "####"
 ]
 #js.djon
 [
- 
+ ####
 ]
 
 #json/good/y_string_accepted_surrogate_pairs.json
 ["\ud83d\ude39\ud83d\udc8d"]
 #c.json
 [
- ""
+ "########"
 ]
 #c.djon
 [
- 
+ ########
 ]
 #lua.json
 [
- ""
+ "########"
 ]
 #lua.djon
 [
- 
+ ########
 ]
 #js.json
 [
- ""
+ "########"
 ]
 #js.djon
 [
- 
+ ########
 ]
 
 #json/good/y_string_allowed_escapes.json
@@ -6125,7 +6125,7 @@ Error: missing ] at line 1 char 6 byte 5
 ]
 #c.djon
 [
- `"\/
+ `"\/##
 	`
 ]
 #lua.json
@@ -6134,7 +6134,7 @@ Error: missing ] at line 1 char 6 byte 5
 ]
 #lua.djon
 [
- `"\/
+ `"\/##
 	`
 ]
 #js.json
@@ -6143,7 +6143,7 @@ Error: missing ] at line 1 char 6 byte 5
 ]
 #js.djon
 [
- `"\/
+ `"\/##
 	`
 ]
 
@@ -6290,7 +6290,7 @@ Error: missing ] at line 1 char 6 byte 5
 ]
 #c.djon
 [
- 
+ #
 ]
 #lua.json
 [
@@ -6298,7 +6298,7 @@ Error: missing ] at line 1 char 6 byte 5
 ]
 #lua.djon
 [
- 
+ #
 ]
 #js.json
 [
@@ -6306,34 +6306,34 @@ Error: missing ] at line 1 char 6 byte 5
 ]
 #js.djon
 [
- 
+ #
 ]
 
 #json/good/y_string_escaped_noncharacter.json
 ["\uFFFF"]
 #c.json
 [
- ""
+ "###"
 ]
 #c.djon
 [
- 
+ ###
 ]
 #lua.json
 [
- ""
+ "###"
 ]
 #lua.djon
 [
- 
+ ###
 ]
 #js.json
 [
- ""
+ "###"
 ]
 #js.djon
 [
- 
+ ###
 ]
 
 #json/good/y_string_in_array.json
@@ -6394,108 +6394,108 @@ Error: missing ] at line 1 char 6 byte 5
 ["\uDBFF\uDFFF"]
 #c.json
 [
- ""
+ "####"
 ]
 #c.djon
 [
- 
+ ####
 ]
 #lua.json
 [
- ""
+ "####"
 ]
 #lua.djon
 [
- 
+ ####
 ]
 #js.json
 [
- ""
+ "############"
 ]
 #js.djon
 [
- 
+ ############
 ]
 
 #json/good/y_string_nbsp_uescaped.json
 ["new\u00A0line"]
 #c.json
 [
- "newline"
+ "new##line"
 ]
 #c.djon
 [
- newline
+ new##line
 ]
 #lua.json
 [
- "newline"
+ "new##line"
 ]
 #lua.djon
 [
- newline
+ new##line
 ]
 #js.json
 [
- "newline"
+ "new##line"
 ]
 #js.djon
 [
- newline
+ new##line
 ]
 
 #json/good/y_string_nonCharacterInUTF-8_U+10FFFF.json
-[""]
+["####"]
 #c.json
 [
- ""
+ "####"
 ]
 #c.djon
 [
- 
+ ####
 ]
 #lua.json
 [
- ""
+ "####"
 ]
 #lua.djon
 [
- 
+ ####
 ]
 #js.json
 [
- ""
+ "####"
 ]
 #js.djon
 [
- 
+ ####
 ]
 
 #json/good/y_string_nonCharacterInUTF-8_U+FFFF.json
-[""]
+["###"]
 #c.json
 [
- ""
+ "###"
 ]
 #c.djon
 [
- 
+ ###
 ]
 #lua.json
 [
- ""
+ "###"
 ]
 #lua.djon
 [
- 
+ ###
 ]
 #js.json
 [
- ""
+ "###"
 ]
 #js.djon
 [
- 
+ ###
 ]
 
 #json/good/y_string_null_escape.json
@@ -6506,7 +6506,7 @@ Error: missing ] at line 1 char 6 byte 5
 ]
 #c.djon
 [
- 
+ #
 ]
 #lua.json
 [
@@ -6514,7 +6514,7 @@ Error: missing ] at line 1 char 6 byte 5
 ]
 #lua.djon
 [
- 
+ #
 ]
 #js.json
 [
@@ -6522,7 +6522,7 @@ Error: missing ] at line 1 char 6 byte 5
 ]
 #js.djon
 [
- 
+ #
 ]
 
 #json/good/y_string_one-byte-utf-8.json
@@ -6553,57 +6553,57 @@ Error: missing ] at line 1 char 6 byte 5
 ]
 
 #json/good/y_string_pi.json
-[""]
+["##"]
 #c.json
 [
- ""
+ "##"
 ]
 #c.djon
 [
- 
+ ##
 ]
 #lua.json
 [
- ""
+ "##"
 ]
 #lua.djon
 [
- 
+ ##
 ]
 #js.json
 [
- ""
+ "##"
 ]
 #js.djon
 [
- 
+ ##
 ]
 
 #json/good/y_string_reservedCharacterInUTF-8_U+1BFFF.json
-[""]
+["####"]
 #c.json
 [
- ""
+ "####"
 ]
 #c.djon
 [
- 
+ ####
 ]
 #lua.json
 [
- ""
+ "####"
 ]
 #lua.djon
 [
- 
+ ####
 ]
 #js.json
 [
- ""
+ "####"
 ]
 #js.djon
 [
- 
+ ####
 ]
 
 #json/good/y_string_simple_ascii.json
@@ -6652,135 +6652,135 @@ Error: missing ] at line 1 char 6 byte 5
 ["\uD834\uDd1e"]
 #c.json
 [
- ""
+ "####"
 ]
 #c.djon
 [
- 
+ ####
 ]
 #lua.json
 [
- ""
+ "####"
 ]
 #lua.djon
 [
- 
+ ####
 ]
 #js.json
 [
- ""
+ "####"
 ]
 #js.djon
 [
- 
+ ####
 ]
 
 #json/good/y_string_three-byte-utf-8.json
 ["\u0821"]
 #c.json
 [
- ""
+ "###"
 ]
 #c.djon
 [
- 
+ ###
 ]
 #lua.json
 [
- ""
+ "###"
 ]
 #lua.djon
 [
- 
+ ###
 ]
 #js.json
 [
- ""
+ "###"
 ]
 #js.djon
 [
- 
+ ###
 ]
 
 #json/good/y_string_two-byte-utf-8.json
 ["\u0123"]
 #c.json
 [
- ""
+ "##"
 ]
 #c.djon
 [
- 
+ ##
 ]
 #lua.json
 [
- ""
+ "##"
 ]
 #lua.djon
 [
- 
+ ##
 ]
 #js.json
 [
- ""
+ "##"
 ]
 #js.djon
 [
- 
+ ##
 ]
 
 #json/good/y_string_u+2028_line_sep.json
-[""]
+["###"]
 #c.json
 [
- ""
+ "###"
 ]
 #c.djon
 [
- 
+ ###
 ]
 #lua.json
 [
- ""
+ "###"
 ]
 #lua.djon
 [
- 
+ ###
 ]
 #js.json
 [
- ""
+ "###"
 ]
 #js.djon
 [
- 
+ ###
 ]
 
 #json/good/y_string_u+2029_par_sep.json
-[""]
+["###"]
 #c.json
 [
- ""
+ "###"
 ]
 #c.djon
 [
- 
+ ###
 ]
 #lua.json
 [
- ""
+ "###"
 ]
 #lua.djon
 [
- 
+ ###
 ]
 #js.json
 [
- ""
+ "###"
 ]
 #js.djon
 [
- 
+ ###
 ]
 
 #json/good/y_string_uescaped_newline.json
@@ -6817,81 +6817,81 @@ line`
 ["\u0061\u30af\u30EA\u30b9"]
 #c.json
 [
- "a"
+ "a#########"
 ]
 #c.djon
 [
- a
+ a#########
 ]
 #lua.json
 [
- "a"
+ "a#########"
 ]
 #lua.djon
 [
- a
+ a#########
 ]
 #js.json
 [
- "a"
+ "a#########"
 ]
 #js.djon
 [
- a
+ a#########
 ]
 
 #json/good/y_string_unescaped_char_delete.json
-[""]
+["#"]
 #c.json
 [
- ""
+ "#"
 ]
 #c.djon
 [
- 
+ #
 ]
 #lua.json
 [
- ""
+ "#"
 ]
 #lua.djon
 [
- 
+ #
 ]
 #js.json
 [
- ""
+ "#"
 ]
 #js.djon
 [
- 
+ #
 ]
 
 #json/good/y_string_unicode_2.json
-[""]
+["#########"]
 #c.json
 [
- ""
+ "#########"
 ]
 #c.djon
 [
- 
+ #########
 ]
 #lua.json
 [
- ""
+ "#########"
 ]
 #lua.djon
 [
- 
+ #########
 ]
 #js.json
 [
- ""
+ "#########"
 ]
 #js.djon
 [
- 
+ #########
 ]
 
 #json/good/y_string_unicodeEscapedBackslash.json
@@ -6952,243 +6952,243 @@ line`
 ["\uA66D"]
 #c.json
 [
- ""
+ "###"
 ]
 #c.djon
 [
- 
+ ###
 ]
 #lua.json
 [
- ""
+ "###"
 ]
 #lua.djon
 [
- 
+ ###
 ]
 #js.json
 [
- ""
+ "###"
 ]
 #js.djon
 [
- 
+ ###
 ]
 
 #json/good/y_string_unicode_U+1FFFE_nonchar.json
 ["\uD83F\uDFFE"]
 #c.json
 [
- ""
+ "####"
 ]
 #c.djon
 [
- 
+ ####
 ]
 #lua.json
 [
- ""
+ "####"
 ]
 #lua.djon
 [
- 
+ ####
 ]
 #js.json
 [
- ""
+ "####"
 ]
 #js.djon
 [
- 
+ ####
 ]
 
 #json/good/y_string_unicode_U+10FFFE_nonchar.json
 ["\uDBFF\uDFFE"]
 #c.json
 [
- ""
+ "####"
 ]
 #c.djon
 [
- 
+ ####
 ]
 #lua.json
 [
- ""
+ "####"
 ]
 #lua.djon
 [
- 
+ ####
 ]
 #js.json
 [
- ""
+ "############"
 ]
 #js.djon
 [
- 
+ ############
 ]
 
 #json/good/y_string_unicode_U+200B_ZERO_WIDTH_SPACE.json
 ["\u200B"]
 #c.json
 [
- ""
+ "###"
 ]
 #c.djon
 [
- 
+ ###
 ]
 #lua.json
 [
- ""
+ "###"
 ]
 #lua.djon
 [
- 
+ ###
 ]
 #js.json
 [
- ""
+ "###"
 ]
 #js.djon
 [
- 
+ ###
 ]
 
 #json/good/y_string_unicode_U+2064_invisible_plus.json
 ["\u2064"]
 #c.json
 [
- ""
+ "###"
 ]
 #c.djon
 [
- 
+ ###
 ]
 #lua.json
 [
- ""
+ "###"
 ]
 #lua.djon
 [
- 
+ ###
 ]
 #js.json
 [
- ""
+ "###"
 ]
 #js.djon
 [
- 
+ ###
 ]
 
 #json/good/y_string_unicode_U+FDD0_nonchar.json
 ["\uFDD0"]
 #c.json
 [
- ""
+ "###"
 ]
 #c.djon
 [
- 
+ ###
 ]
 #lua.json
 [
- ""
+ "###"
 ]
 #lua.djon
 [
- 
+ ###
 ]
 #js.json
 [
- ""
+ "###"
 ]
 #js.djon
 [
- 
+ ###
 ]
 
 #json/good/y_string_unicode_U+FFFE_nonchar.json
 ["\uFFFE"]
 #c.json
 [
- ""
+ "###"
 ]
 #c.djon
 [
- 
+ ###
 ]
 #lua.json
 [
- ""
+ "###"
 ]
 #lua.djon
 [
- 
+ ###
 ]
 #js.json
 [
- ""
+ "###"
 ]
 #js.djon
 [
- 
+ ###
 ]
 
 #json/good/y_string_utf8.json
-[""]
+["#######"]
 #c.json
 [
- ""
+ "#######"
 ]
 #c.djon
 [
- 
+ #######
 ]
 #lua.json
 [
- ""
+ "#######"
 ]
 #lua.djon
 [
- 
+ #######
 ]
 #js.json
 [
- ""
+ "#######"
 ]
 #js.djon
 [
- 
+ #######
 ]
 
 #json/good/y_string_with_del_character.json
-["aa"]
+["a#a"]
 #c.json
 [
- "aa"
+ "a#a"
 ]
 #c.djon
 [
- aa
+ a#a
 ]
 #lua.json
 [
- "aa"
+ "a#a"
 ]
 #lua.djon
 [
- aa
+ a#a
 ]
 #js.json
 [
- "aa"
+ "a#a"
 ]
 #js.djon
 [
- aa
+ a#a
 ]
 
 #json/good/y_structure_lonely_false.json
@@ -7653,69 +7653,69 @@ TRUE
 ]
 
 #json/edge/object_key_nfc_nfd.json
-{"":"NFC","e":"NFD"}
+{"##":"NFC","e##":"NFD"}
 #c.json
 {
- "" : "NFC" ,
- "e" : "NFD"
+ "##" : "NFC" ,
+ "e##" : "NFD"
 }
 #c.djon
 {
-  = NFC
- e = NFD
+ ## = NFC
+ e## = NFD
 }
 #lua.json
 {
- "" : "NFC" ,
- "e" : "NFD"
+ "##" : "NFC" ,
+ "e##" : "NFD"
 }
 #lua.djon
 {
-  = NFC
- e = NFD
+ ## = NFC
+ e## = NFD
 }
 #js.json
 {
- "" : "NFC" ,
- "e" : "NFD"
+ "##" : "NFC" ,
+ "e##" : "NFD"
 }
 #js.djon
 {
-  = NFC
- e = NFD
+ ## = NFC
+ e## = NFD
 }
 
 #json/edge/object_key_nfd_nfc.json
-{"e":"NFD","":"NFC"}
+{"e##":"NFD","##":"NFC"}
 #c.json
 {
- "" : "NFC" ,
- "e" : "NFD"
+ "##" : "NFC" ,
+ "e##" : "NFD"
 }
 #c.djon
 {
-  = NFC
- e = NFD
+ ## = NFC
+ e## = NFD
 }
 #lua.json
 {
- "" : "NFC" ,
- "e" : "NFD"
+ "##" : "NFC" ,
+ "e##" : "NFD"
 }
 #lua.djon
 {
-  = NFC
- e = NFD
+ ## = NFC
+ e## = NFD
 }
 #js.json
 {
- "" : "NFC" ,
- "e" : "NFD"
+ "##" : "NFC" ,
+ "e##" : "NFD"
 }
 #js.djon
 {
-  = NFC
- e = NFD
+ ## = NFC
+ e## = NFD
 }
 
 #json/edge/object_same_key_different_values.json
@@ -7804,162 +7804,162 @@ TRUE
 ["\uD800"]
 #c.json
 [
- ""
+ "###"
 ]
 #c.djon
 [
- 
+ ###
 ]
 #lua.json
 [
- ""
+ "###"
 ]
 #lua.djon
 [
- 
+ ###
 ]
 #js.json
 [
- ""
+ "#########"
 ]
 #js.djon
 [
- 
+ #########
 ]
 
 #json/edge/string_1_invalid_codepoint.json
-[""]
+["###"]
 #c.json
 [
- ""
+ "###"
 ]
 #c.djon
 [
- 
+ ###
 ]
 #lua.json
 [
- ""
+ "###"
 ]
 #lua.djon
 [
- 
+ ###
 ]
 #js.json
 [
- ""
+ "#########"
 ]
 #js.djon
 [
- 
+ #########
 ]
 
 #json/edge/string_2_escaped_invalid_codepoints.json
 ["\uD800\uD800"]
 #c.json
 [
- ""
+ "######"
 ]
 #c.djon
 [
- 
+ ######
 ]
 #lua.json
 [
- ""
+ "######"
 ]
 #lua.djon
 [
- 
+ ######
 ]
 #js.json
 [
- ""
+ "##################"
 ]
 #js.djon
 [
- 
+ ##################
 ]
 
 #json/edge/string_2_invalid_codepoints.json
-[""]
+["######"]
 #c.json
 [
- ""
+ "######"
 ]
 #c.djon
 [
- 
+ ######
 ]
 #lua.json
 [
- ""
+ "######"
 ]
 #lua.djon
 [
- 
+ ######
 ]
 #js.json
 [
- ""
+ "##################"
 ]
 #js.djon
 [
- 
+ ##################
 ]
 
 #json/edge/string_3_escaped_invalid_codepoints.json
 ["\uD800\uD800\uD800"]
 #c.json
 [
- ""
+ "#########"
 ]
 #c.djon
 [
- 
+ #########
 ]
 #lua.json
 [
- ""
+ "#########"
 ]
 #lua.djon
 [
- 
+ #########
 ]
 #js.json
 [
- ""
+ "###########################"
 ]
 #js.djon
 [
- 
+ ###########################
 ]
 
 #json/edge/string_3_invalid_codepoints.json
-[""]
+["#########"]
 #c.json
 [
- ""
+ "#########"
 ]
 #c.djon
 [
- 
+ #########
 ]
 #lua.json
 [
- ""
+ "#########"
 ]
 #lua.djon
 [
- 
+ #########
 ]
 #js.json
 [
- ""
+ "###########################"
 ]
 #js.djon
 [
- 
+ ###########################
 ]
 
 #json/edge/string_with_escaped_NULL.json
@@ -7970,7 +7970,7 @@ TRUE
 ]
 #c.djon
 [
- AB
+ A#B
 ]
 #lua.json
 [
@@ -7978,7 +7978,7 @@ TRUE
 ]
 #lua.djon
 [
- AB
+ A#B
 ]
 #js.json
 [
@@ -7986,7 +7986,7 @@ TRUE
 ]
 #js.djon
 [
- AB
+ A#B
 ]
 
 #json/maybe/i_number_double_huge_neg_exp.json
@@ -8263,110 +8263,110 @@ TRUE
 {"\uDFAA":0}
 #c.json
 {
- "" : 0
+ "###" : 0
 }
 #c.djon
 {
-  = 0
+ ### = 0
 }
 #lua.json
 {
- "" : 0
+ "###" : 0
 }
 #lua.djon
 {
-  = 0
+ ### = 0
 }
 #js.json
 {
- "" : 0
+ "#########" : 0
 }
 #js.djon
 {
-  = 0
+ ######### = 0
 }
 
 #json/maybe/i_string_1st_surrogate_but_2nd_missing.json
 ["\uDADA"]
 #c.json
 [
- ""
+ "###"
 ]
 #c.djon
 [
- 
+ ###
 ]
 #lua.json
 [
- ""
+ "###"
 ]
 #lua.djon
 [
- 
+ ###
 ]
 #js.json
 [
- ""
+ "#########"
 ]
 #js.djon
 [
- 
+ #########
 ]
 
 #json/maybe/i_string_1st_valid_surrogate_2nd_invalid.json
 ["\uD888\u1234"]
 #c.json
 [
- ""
+ "######"
 ]
 #c.djon
 [
- 
+ ######
 ]
 #lua.json
 [
- ""
+ "######"
 ]
 #lua.djon
 [
- 
+ ######
 ]
 #js.json
 [
- ""
+ "############"
 ]
 #js.djon
 [
- 
+ ############
 ]
 
 #json/maybe/i_string_incomplete_surrogate_and_escape_valid.json
 ["\uD800\n"]
 #c.json
 [
- "\n"
+ "###\n"
 ]
 #c.djon
 [
- `
+ `###
 `
 ]
 #lua.json
 [
- "\n"
+ "###\n"
 ]
 #lua.djon
 [
- `
+ `###
 `
 ]
 #js.json
 [
- "\n"
+ "#########\n"
 ]
 #js.djon
 [
- `
+ `#########
 `
 ]
 
@@ -8374,56 +8374,56 @@ TRUE
 ["\uDd1ea"]
 #c.json
 [
- "a"
+ "###a"
 ]
 #c.djon
 [
- a
+ ###a
 ]
 #lua.json
 [
- "a"
+ "###a"
 ]
 #lua.djon
 [
- a
+ ###a
 ]
 #js.json
 [
- "a"
+ "#########a"
 ]
 #js.djon
 [
- a
+ #########a
 ]
 
 #json/maybe/i_string_incomplete_surrogates_escape_valid.json
 ["\uD800\uD800\n"]
 #c.json
 [
- "\n"
+ "######\n"
 ]
 #c.djon
 [
- `
+ `######
 `
 ]
 #lua.json
 [
- "\n"
+ "######\n"
 ]
 #lua.djon
 [
- `
+ `######
 `
 ]
 #js.json
 [
- "\n"
+ "##################\n"
 ]
 #js.djon
 [
- `
+ `##################
 `
 ]
 
@@ -8431,343 +8431,343 @@ TRUE
 ["\ud800"]
 #c.json
 [
- ""
+ "###"
 ]
 #c.djon
 [
- 
+ ###
 ]
 #lua.json
 [
- ""
+ "###"
 ]
 #lua.djon
 [
- 
+ ###
 ]
 #js.json
 [
- ""
+ "#########"
 ]
 #js.djon
 [
- 
+ #########
 ]
 
 #json/maybe/i_string_invalid_surrogate.json
 ["\ud800abc"]
 #c.json
 [
- "abc"
+ "###abc"
 ]
 #c.djon
 [
- abc
+ ###abc
 ]
 #lua.json
 [
- "abc"
+ "###abc"
 ]
 #lua.djon
 [
- abc
+ ###abc
 ]
 #js.json
 [
- "abc"
+ "#########abc"
 ]
 #js.djon
 [
- abc
+ #########abc
 ]
 
 #json/maybe/i_string_invalid_utf-8.json
-[""]
+["#"]
 #c.json
 [
- ""
+ "#"
 ]
 #c.djon
 [
- 
+ #
 ]
 #lua.json
 [
- ""
+ "#"
 ]
 #lua.djon
 [
- 
+ #
 ]
 #js.json
 [
- ""
+ "###"
 ]
 #js.djon
 [
- 
+ ###
 ]
 
 #json/maybe/i_string_inverted_surrogates_U+1D11E.json
 ["\uDd1e\uD834"]
 #c.json
 [
- ""
+ "######"
 ]
 #c.djon
 [
- 
+ ######
 ]
 #lua.json
 [
- ""
+ "######"
 ]
 #lua.djon
 [
- 
+ ######
 ]
 #js.json
 [
- ""
+ "##################"
 ]
 #js.djon
 [
- 
+ ##################
 ]
 
 #json/maybe/i_string_iso_latin_1.json
-[""]
+["#"]
 #c.json
 [
- ""
+ "#"
 ]
 #c.djon
 [
- 
+ #
 ]
 #lua.json
 [
- ""
+ "#"
 ]
 #lua.djon
 [
- 
+ #
 ]
 #js.json
 [
- ""
+ "###"
 ]
 #js.djon
 [
- 
+ ###
 ]
 
 #json/maybe/i_string_lone_second_surrogate.json
 ["\uDFAA"]
 #c.json
 [
- ""
+ "###"
 ]
 #c.djon
 [
- 
+ ###
 ]
 #lua.json
 [
- ""
+ "###"
 ]
 #lua.djon
 [
- 
+ ###
 ]
 #js.json
 [
- ""
+ "#########"
 ]
 #js.djon
 [
- 
+ #########
 ]
 
 #json/maybe/i_string_lone_utf8_continuation_byte.json
-[""]
+["#"]
 #c.json
 [
- ""
+ "#"
 ]
 #c.djon
 [
- 
+ #
 ]
 #lua.json
 [
- ""
+ "#"
 ]
 #lua.djon
 [
- 
+ #
 ]
 #js.json
 [
- ""
+ "###"
 ]
 #js.djon
 [
- 
+ ###
 ]
 
 #json/maybe/i_string_not_in_unicode_range.json
-[""]
+["####"]
 #c.json
 [
- ""
+ "####"
 ]
 #c.djon
 [
- 
+ ####
 ]
 #lua.json
 [
- ""
+ "####"
 ]
 #lua.djon
 [
- 
+ ####
 ]
 #js.json
 [
- ""
+ "############"
 ]
 #js.djon
 [
- 
+ ############
 ]
 
 #json/maybe/i_string_overlong_sequence_2_bytes.json
-[""]
+["##"]
 #c.json
 [
- ""
+ "##"
 ]
 #c.djon
 [
- 
+ ##
 ]
 #lua.json
 [
- ""
+ "##"
 ]
 #lua.djon
 [
- 
+ ##
 ]
 #js.json
 [
- ""
+ "######"
 ]
 #js.djon
 [
- 
+ ######
 ]
 
 #json/maybe/i_string_overlong_sequence_6_bytes.json
-[""]
+["######"]
 #c.json
 [
- ""
+ "######"
 ]
 #c.djon
 [
- 
+ ######
 ]
 #lua.json
 [
- ""
+ "######"
 ]
 #lua.djon
 [
- 
+ ######
 ]
 #js.json
 [
- ""
+ "##################"
 ]
 #js.djon
 [
- 
+ ##################
 ]
 
 #json/maybe/i_string_overlong_sequence_6_bytes_null.json
-[""]
+["######"]
 #c.json
 [
- ""
+ "######"
 ]
 #c.djon
 [
- 
+ ######
 ]
 #lua.json
 [
- ""
+ "######"
 ]
 #lua.djon
 [
- 
+ ######
 ]
 #js.json
 [
- ""
+ "##################"
 ]
 #js.djon
 [
- 
+ ##################
 ]
 
 #json/maybe/i_string_truncated-utf-8.json
-[""]
+["##"]
 #c.json
 [
- ""
+ "##"
 ]
 #c.djon
 [
- 
+ ##
 ]
 #lua.json
 [
- ""
+ "##"
 ]
 #lua.djon
 [
- 
+ ##
 ]
 #js.json
 [
- ""
+ "######"
 ]
 #js.djon
 [
- 
+ ######
 ]
 
 #json/maybe/i_string_utf16BE_no_BOM.json
-[""]
+#[#"###"#]
 #c.json
-"\u0000[\u0000\"\u0000\u0000\"\u0000]"
+"\u0000[\u0000\"\u0000#\u0000\"\u0000]"
 #c.djon
-[""]
+#[#"###"#]
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: djon string required line 0 char 0 byte 0
 #lua.djon
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: djon string required line 0 char 0 byte 0
 #js.json
-"\u0000[\u0000\"\u0000\u0000\"\u0000]"
+"\u0000[\u0000\"\u0000###\u0000\"\u0000]"
 #js.djon
-[""]
+#[#"#####"#]
 
 #json/maybe/i_string_utf16LE_no_BOM.json
-[""]
+[#"###"#]#
 #c.json
 missing ]
 line 1 char 11 byte 10
@@ -8792,72 +8792,72 @@ Error: missing ] at line 1 char 13 byte 12
 Error: missing ] at line 1 char 13 byte 12
 
 #json/maybe/i_string_UTF-8_invalid_sequence.json
-[""]
+["######"]
 #c.json
 [
- ""
+ "######"
 ]
 #c.djon
 [
- 
+ ######
 ]
 #lua.json
 [
- ""
+ "######"
 ]
 #lua.djon
 [
- 
+ ######
 ]
 #js.json
 [
- ""
+ "########"
 ]
 #js.djon
 [
- 
+ ########
 ]
 
 #json/maybe/i_string_UTF-16LE_with_BOM.json
-[""]
+##[#"###"#]#
 #c.json
-"[\u0000\"\u0000\u0000\"\u0000]\u0000"
+"##[\u0000\"\u0000#\u0000\"\u0000]\u0000"
 #c.djon
-[""]
+##[#"###"#]#
 #lua.json
-"[\u0000\"\u0000\u0000\"\u0000]\u0000"
+"##[\u0000\"\u0000#\u0000\"\u0000]\u0000"
 #lua.djon
-[""]
+##[#"###"#]#
 #js.json
-"[\u0000\"\u0000\u0000\"\u0000]\u0000"
+"######[\u0000\"\u0000###\u0000\"\u0000]\u0000"
 #js.djon
-[""]
+######[#"#####"#]#
 
 #json/maybe/i_string_UTF8_surrogate_U+D800.json
-[""]
+["###"]
 #c.json
 [
- ""
+ "###"
 ]
 #c.djon
 [
- 
+ ###
 ]
 #lua.json
 [
- ""
+ "###"
 ]
 #lua.djon
 [
- 
+ ###
 ]
 #js.json
 [
- ""
+ "#########"
 ]
 #js.djon
 [
- 
+ #########
 ]
 
 #json/maybe/i_structure_500_nested_arrays.json
@@ -14870,19 +14870,19 @@ Error: missing ] at line 1 char 13 byte 12
 ]
 
 #json/maybe/i_structure_UTF-8_BOM_empty_object.json
-{}
+###{}
 #c.json
-"{}"
+"###{}"
 #c.djon
-{}
+###{}
 #lua.json
-"{}"
+"###{}"
 #lua.djon
-{}
+###{}
 #js.json
-"{}"
+"###{}"
 #js.djon
-{}
+###{}
 
 #djon/evilstrings.djon
 [
