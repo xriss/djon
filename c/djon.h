@@ -832,10 +832,12 @@ djon_state * djon_setup()
 void djon_clean(djon_state *ds)
 {
 	if(!ds) { return; }
+void *memctx=ds->memctx;
 	if(ds->data)       { DJON_MEM_FREE(ds, ds->data       , ds->data_len   ); }
 	if(ds->values)     { DJON_MEM_FREE(ds, ds->values     , ds->values_siz * sizeof(djon_value) ); }
 	if(ds->write_data) { DJON_MEM_FREE(ds, ds->write_data , ds->write_size ); }
-	DJON_MEM_FREE(ds,ds,sizeof(djon_state));
+	DJON_MEM_FREE(ds,ds,sizeof(djon_state)); // free our structure
+	DJON_MEM( memctx , 0 , 0 , 0 ); // free the ctx we allocated at the start
 }
 
 // get a index from pointer

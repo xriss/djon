@@ -478,11 +478,11 @@ char *data;
 		luaL_error(l, "djon string required" );
 	}
 	
-	data = malloc(len+1); if(!data) { luaL_error(l, "out of memory" ); }
+	data = DJON_MEM_MALLOC(ds,len+1); if(!data) { luaL_error(l, "out of memory" ); }
 	
 	memcpy(data,str,len+1); // includes null term
 
-	ds->data=data;
+	ds->data=data; // leave the data here and it will get freed when we clean
 	ds->data_len=len;
 	djon_parse(ds);
 
