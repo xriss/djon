@@ -2,7 +2,7 @@
   "targets": [
     {
         "target_name": "djon_core",
-        "sources": [ "djon_core.cpp" ], 
+        "sources": [ "djon_core.c" ], 
         "include_dirs" : [
             "<!(node -p \"require('node-addon-api').include_dir\")"
         ],

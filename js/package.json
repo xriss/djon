@@ -8,6 +8,7 @@
     "node-addon-api": "*"
   },
   "devDependencies": {
+    "napi-wasm": "^1.1.0",
     "node-api-headers": "^1.1.0"
   }
 }
