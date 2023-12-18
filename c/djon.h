@@ -1,5 +1,4 @@
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 
@@ -25,6 +24,44 @@ extern "C" {
 #ifndef DJON_STRING_CHUNK_SIZE
 #define DJON_STRING_CHUNK_SIZE (0x10000)
 #endif
+
+// include file (fopen fread etc) functions
+#ifndef DJON_FILE
+#define DJON_FILE (1)
+#endif
+#if DJON_FILE
+#include <stdio.h>
+#endif
+
+// Roll your own damn allocator
+#ifndef DJON_MEM
+#define DJON_MEM djon_mem
+// call with 0,?,?,? -> alloc a ctx ( siz can be a hint of future sizes)
+// call with 1,0,?,0 -> free a ctx
+// call with 1,0,?,1 -> alloc a ptr in given ctx
+// call with 1,1,?,0 -> free a ptr in given ctx
+// call with 1,1,?,1 -> realloc a ptr in given ctx
+extern void *djon_mem(void *ctx,void *ptr,int old,int siz);
+void *djon_mem(void *ctx,void *ptr,int old,int siz)
+{
+	if(!ctx) { return (void*)1; } // alloc fake ctx
+	else
+	if(ptr)
+	{
+		if(siz) { return realloc(ptr,siz); }
+		else
+		{ free(ptr); return (void*)0; }
+	}
+	else
+	{
+		if(siz) { return malloc(siz); }
+	}
+	return (void*)0; // free fake ctx
+}
+#endif
+#define DJON_MEM_MALLOC(ds,siz)          DJON_MEM(ds->memctx,0,0,siz)
+#define DJON_MEM_FREE(ds,ptr,old)        DJON_MEM(ds->memctx,ptr,old,0)
+#define DJON_MEM_REALLOC(ds,ptr,old,siz) DJON_MEM(ds->memctx,ptr,old,siz)
 
 typedef enum djon_enum
 {
@@ -87,7 +124,11 @@ typedef struct djon_state
 
 	int   comment; // compact style input/output flag
 	// every value is a table starting with the value and followed by optional comment lines
+#if !DJON_FILE
+	void *fp; // we do not know what a file is
+#else
 	FILE *fp; // where to write output
+#endif
 	int   compact; // compact output flag
 	int   strict; // strict input/output flag
 	char *write_data; // string output
@@ -95,6 +136,7 @@ typedef struct djon_state
 	int   write_len;
 	int (*write)(struct djon_state *ds, const char *cp, int len); // ptr to output function
 
+	void *memctx; // memory allocator ctx
 	char buf[256]; // small buffer used for generating text output
 
 } djon_state ;
@@ -746,10 +788,14 @@ void djon_set_error(djon_state *ds, const char *error)
 // allocate a new parsing state
 djon_state * djon_setup()
 {
+	void *memctx=DJON_MEM(0,0,0,0); // get allocator ctx
+	if(!memctx){ return 0; }
+
 	djon_state *ds;
 
-	ds=(djon_state *)malloc( sizeof(djon_state) );
+	ds=(djon_state *)DJON_MEM( memctx , 0 , 0 , sizeof(djon_state) );
 	if(!ds) { return 0; }
+	ds->memctx=memctx; // can now use DJON_MEM_*(ds,...)
 
 	ds->data=0;
 	ds->data_len=0;
@@ -777,8 +823,8 @@ djon_state * djon_setup()
 
 	ds->values_len=1; // first value is used as a null so start at 1
 	ds->values_siz=(DJON_VALUE_CHUNK_SIZE);
-	ds->values=(djon_value *)malloc( ds->values_siz * sizeof(djon_value) );
-	if(!ds->values) { free(ds); return 0; }
+	ds->values=(djon_value *)DJON_MEM_MALLOC(ds, ds->values_siz * sizeof(djon_value) );
+	if(!ds->values) { djon_clean(ds); return 0; }
 
 	return ds;
 }
@@ -786,9 +832,10 @@ djon_state * djon_setup()
 void djon_clean(djon_state *ds)
 {
 	if(!ds) { return; }
-	if(ds->data) { free(ds->data); }
-	if(ds->values) { free(ds->values); }
-	if(ds->write_data) { free(ds->write_data); }
+	if(ds->data)       { DJON_MEM_FREE(ds, ds->data       , ds->data_len   ); }
+	if(ds->values)     { DJON_MEM_FREE(ds, ds->values     , ds->values_siz * sizeof(djon_value) ); }
+	if(ds->write_data) { DJON_MEM_FREE(ds, ds->write_data , ds->write_size ); }
+	DJON_MEM_FREE(ds,ds,sizeof(djon_state));
 }
 
 // get a index from pointer
@@ -810,7 +857,7 @@ djon_value * djon_get(djon_state *ds,int idx)
 void djon_shrink(djon_state *ds)
 {
 	djon_value * v;
-	v=(djon_value *)realloc( (void*)ds->values , (ds->values_len) * sizeof(djon_value) );
+	v=(djon_value *)DJON_MEM_REALLOC(ds, (void*)ds->values , ds->values_siz * sizeof(djon_value) , (ds->values_len) * sizeof(djon_value) );
 	if(!v) { return; } //  fail but we can ignore
 	ds->values_siz=ds->values_len;
 }
@@ -822,7 +869,7 @@ int djon_alloc(djon_state *ds)
 	djon_value * v;
 	if( ds->values_len+1 >= ds->values_siz ) // check for space
 	{
-		v=(djon_value *)realloc( (void*)ds->values , (ds->values_siz+(DJON_VALUE_CHUNK_SIZE)) * sizeof(djon_value) );
+		v=(djon_value *)DJON_MEM_REALLOC(ds, (void*)ds->values , ds->values_siz * sizeof(djon_value) , (ds->values_siz+(DJON_VALUE_CHUNK_SIZE)) * sizeof(djon_value) );
 		if(!v) { djon_set_error(ds,"out of memory"); return 0; }
 		ds->values_siz=ds->values_siz+(DJON_VALUE_CHUNK_SIZE);
 		ds->values=v; // might change pointer
@@ -875,8 +922,12 @@ int djon_free(djon_state *ds,int idx)
 // write to fp
 int djon_write_fp(djon_state *ds, const char *ptr, int len )
 {
+#if !DJON_FILE
+	return 0;
+#else
 	fwrite(ptr, 1, len, ds->fp);
 	return 0;
+#endif
 }
 
 // write to realloced string buffer
@@ -886,7 +937,7 @@ int djon_write_data(djon_state *ds, const char *ptr, int len )
 	
 	if(!ds->write_data) // first alloc
 	{
-		ds->write_data = (char*) malloc(DJON_STRING_CHUNK_SIZE); // 64k chunks
+		ds->write_data = (char*) DJON_MEM_MALLOC(ds,DJON_STRING_CHUNK_SIZE); // 64k chunks
 		if(!ds->write_data) { djon_set_error(ds,"out of memory"); return -1; }
 		ds->write_size=DJON_STRING_CHUNK_SIZE;
 		ds->write_len=0;
@@ -894,7 +945,7 @@ int djon_write_data(djon_state *ds, const char *ptr, int len )
 	int idx=ds->write_len;
 	while( ds->write_len + len + 1 > ds->write_size ) // realloc
 	{
-		ds->write_data=(char*)realloc(ds->write_data,ds->write_size+(DJON_STRING_CHUNK_SIZE));
+		ds->write_data=(char*)DJON_MEM_REALLOC(ds,ds->write_data,ds->write_size,ds->write_size+(DJON_STRING_CHUNK_SIZE));
 		if(!ds->write_data) { djon_set_error(ds,"out of memory"); return -1; }
 		ds->write_size+=DJON_STRING_CHUNK_SIZE;
 	}
@@ -1137,7 +1188,7 @@ void djon_write_json_indent(djon_state *ds,int idx,int indent,char *coma)
 		}
 	}
 }
-// write json to the ds->fp file handle
+// write json to the write function
 void djon_write_json(djon_state *ds,int idx)
 {
 	djon_set_error(ds,0);// clear error state
@@ -1326,7 +1377,7 @@ void djon_write_djon_indent(djon_state *ds,int idx,int indent)
 		}
 	}
 }
-// write djon to the ds->fp file handle
+// write djon to the write function
 void djon_write_djon(djon_state *ds,int idx)
 {
 	djon_set_error(ds,0);// clear error state
@@ -1336,6 +1387,9 @@ void djon_write_djon(djon_state *ds,int idx)
 // load a new file or possibly from stdin , pipes allowed
 int djon_load_file(djon_state *ds,const char *fname)
 {
+#if !DJON_FILE
+	return 0;
+#else
 	const int chunk=DJON_STRING_CHUNK_SIZE; // read this much at once
 
 	FILE * fp=0;
@@ -1350,7 +1404,7 @@ int djon_load_file(djon_state *ds,const char *fname)
 
 	// first alloc
 	size = used+chunk;
-	data = (char*)malloc(size); if(!data) { goto error; }
+	data = (char*)DJON_MEM_MALLOC(ds,size); if(!data) { goto error; }
 
 	// open file or use stdin
 	if(fname)
@@ -1367,7 +1421,7 @@ int djon_load_file(djon_state *ds,const char *fname)
 		// extend buffer
 		while(used+chunk > size)
 		{
-			temp = (char*) realloc(data, used+chunk); if(!temp) { djon_set_error(ds,"out of memory"); goto error; }
+			temp = (char*) DJON_MEM_REALLOC(ds, data, used,used+chunk); if(!temp) { djon_set_error(ds,"out of memory"); goto error; }
 			size = used+chunk;
 			data=temp;
 		}
@@ -1376,8 +1430,8 @@ int djon_load_file(djon_state *ds,const char *fname)
     }
 
 
+	temp = (char*) DJON_MEM_REALLOC(ds, data, used, used+1); if(!temp) { djon_set_error(ds,"out of memory"); goto error; }
 	size = used+1; // this may size up or down
-	temp = (char*) realloc(data, size); if(!temp) { djon_set_error(ds,"out of memory"); goto error; }
     data = temp;
     data[used] = 0; // null term
 
@@ -1391,8 +1445,9 @@ error:
 	{
 		if(fp) { fclose(fp); }
 	}
-	if(data) { free(data); }
+	if(data) { DJON_MEM_FREE(ds,data,size); }
     return 0;
+#endif
 }
 
 // peek for whitespace or comments
