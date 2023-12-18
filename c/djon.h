@@ -1,5 +1,6 @@
 
 #include <stdlib.h>
+#include <string.h>
 #include <math.h>
 
 #ifndef DJON_H
@@ -992,6 +993,7 @@ void djon_write_string(djon_state *ds, const char *ptr)
 // write this char (16bit maybe) as a string escape sequence
 void djon_write_string_escape(djon_state *ds,int c)
 {
+	char b[16];
 	switch(c)
 	{
 		case '\\' : djon_write_string(ds,"\\"  ); break;
@@ -1004,7 +1006,6 @@ void djon_write_string_escape(djon_state *ds,int c)
 		case '"'  : djon_write_string(ds,"\\\""); break;
 		case '`'  : djon_write_string(ds,"\\`" ); break;
 		default:
-			char b[16];
 			sprintf(b,"\\u%04x",c&0xffff); // 16bit hex only
 			djon_write_string(ds,b);
 		break;
@@ -1584,7 +1585,7 @@ int djon_skip_white(djon_state *ds)
 			while( ds->parse_idx < ds->data_len )
 			{
 				c1=ds->data[ ds->parse_idx ];
-				if( (c1=='\n') )
+				if(c1=='\n')
 				{
 					djon_trim_comment(ds,com_idx);
 					ds->parse_idx++;
@@ -1738,7 +1739,7 @@ int djon_parse_string(djon_state *ds,const char * term)
 				c=*cp++;
 				if( (c=='\'') || (c=='"') ) { term_len++; } // allowable
 				else
-				if( (c=='`') ) { term_len++; break; } // final
+				if(c=='`') { term_len++; break; } // final
 				else
 				{
 					term_len=1; // single ` only
