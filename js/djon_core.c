@@ -58,6 +58,27 @@ static napi_value core_get_null(napi_env env)
 		&ret));
 	return ret;
 }
+
+// alloced, so you will need to free this
+static const char * core_get_string(napi_env env,napi_value val)
+{
+	char *cp;
+	size_t size=0;
+	size_t len=0;
+
+	NODE_API_CALL(env, napi_get_value_string_utf8(env,
+		val,0,0,&size));
+		
+	size=size+1; // term
+	cp=malloc(size);
+	if(!cp){return 0;}
+
+	NODE_API_CALL(env, napi_get_value_string_utf8(env,
+		val,cp,size,&len));
+
+	return cp;
+}
+                                       
 static napi_value core_object_set(napi_env env,napi_value obj, const char *key, napi_value val)
 {
 	NODE_API_CALL(env, napi_set_named_property(env,
@@ -116,7 +137,7 @@ static napi_value core_create_string(napi_env env,const char *cp)
 	napi_value ret;
 	NODE_API_CALL(env, napi_create_string_utf8(env,
 		cp,
-		NAPI_AUTO_LENGTH,
+		strlen(cp),
 		&ret));
 	return ret;
 }
@@ -174,6 +195,20 @@ static napi_value djon_core_load(napi_env env, napi_callback_info info)
 	djon_state *ds;
 	NODE_API_CALL(env, napi_get_cb_info(env, info, &argc, argv, &thisjs, (void**)&ds ));
 
+	ds->data = (char*) core_get_string(env,argv[0]);
+	if(!ds->data){return NULL;}
+	ds->data_len=strlen(ds->data);
+
+	ds->strict=0;
+	for(int i=1;(size_t)i<argc;i++) // check string flags in args
+	{
+		const char *cp=core_get_string(env,argv[i]);
+		if( strcmp(cp,"strict")==0 ) { ds->strict=1; }
+		free((void*)cp);
+	}
+
+	djon_parse(ds);
+
 	return NULL;
 }
 
@@ -185,7 +220,43 @@ static napi_value djon_core_save(napi_env env, napi_callback_info info)
 	djon_state *ds;
 	NODE_API_CALL(env, napi_get_cb_info(env, info, &argc, argv, &thisjs, (void**)&ds ));
 
-	return NULL;
+	napi_value ret;
+
+	int write_djon=0;
+
+	ds->write=&djon_write_data; // we want to write to a string
+	ds->write_data=0; //  and reset
+
+	ds->compact=0;
+	ds->strict=0;
+	for(int i=0;(size_t)i<argc;i++) // check string flags in args
+	{
+		const char *cp=core_get_string(env,argv[i]);
+		if( strcmp(cp,"djon")==0 ) { write_djon=1; }
+		if( strcmp(cp,"compact")==0 ) { ds->compact=1; }
+		if( strcmp(cp,"strict")==0 ) { ds->strict=1; }
+		free((void*)cp);
+	}
+
+	if(write_djon)
+	{
+		djon_write_djon(ds,ds->parse_value);
+	}
+	else
+	{
+		djon_write_json(ds,ds->parse_value);
+	}
+	
+	if(ds->write_data)
+	{
+		ret=core_create_string( env , ds->write_data );
+	}
+	
+	free(ds->write_data); // and free write buffer
+	ds->write_data=0;
+
+
+	return ret;
 }
 
 static void djon_core_finalizer(napi_env env, void *data, void *hint)

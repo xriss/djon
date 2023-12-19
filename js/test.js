@@ -27,6 +27,8 @@ console.log(exports)
 let djon=new exports.djon()
 console.log(djon)
 console.log(djon.locate())
+console.log(djon.load("[1,2,3]"))
+console.log(djon.save())
 
 };f()
 
