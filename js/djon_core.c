@@ -60,34 +60,56 @@ static napi_value core_create_double(napi_env env,double num)
 
 static napi_value djon_core_locate(napi_env env, napi_callback_info info)
 {
-/*
 	size_t argc=8;
 	napi_value argv[8];
 	napi_value thisjs;
 	djon_state *ds;
 	NODE_API_CALL(env, napi_get_cb_info(env, info, &argc, argv, &thisjs, (void**)&ds ));
-*/
 
 	return NULL;
 }
 
 static napi_value djon_core_get(napi_env env, napi_callback_info info)
 {
+	size_t argc=8;
+	napi_value argv[8];
+	napi_value thisjs;
+	djon_state *ds;
+	NODE_API_CALL(env, napi_get_cb_info(env, info, &argc, argv, &thisjs, (void**)&ds ));
+
 	return NULL;
 }
 
 static napi_value djon_core_set(napi_env env, napi_callback_info info)
 {
+	size_t argc=8;
+	napi_value argv[8];
+	napi_value thisjs;
+	djon_state *ds;
+	NODE_API_CALL(env, napi_get_cb_info(env, info, &argc, argv, &thisjs, (void**)&ds ));
+
 	return NULL;
 }
 
 static napi_value djon_core_load(napi_env env, napi_callback_info info)
 {
+	size_t argc=8;
+	napi_value argv[8];
+	napi_value thisjs;
+	djon_state *ds;
+	NODE_API_CALL(env, napi_get_cb_info(env, info, &argc, argv, &thisjs, (void**)&ds ));
+
 	return NULL;
 }
 
 static napi_value djon_core_save(napi_env env, napi_callback_info info)
 {
+	size_t argc=8;
+	napi_value argv[8];
+	napi_value thisjs;
+	djon_state *ds;
+	NODE_API_CALL(env, napi_get_cb_info(env, info, &argc, argv, &thisjs, (void**)&ds ));
+
 	return NULL;
 }
 
