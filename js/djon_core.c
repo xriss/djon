@@ -4,6 +4,7 @@
 extern napi_value djon_test(napi_env env, napi_callback_info info);
 
 
+#define DJON_FILE (0)
 #define DJON_C 1
 #include "djon.h"
 
@@ -113,6 +114,12 @@ static napi_value djon_core_save(napi_env env, napi_callback_info info)
 	return NULL;
 }
 
+static void djon_core_finalizer(napi_env env, void *data, void *hint)
+{
+	djon_state *ds=(djon_state *)data;
+//	printf("it is over\n");
+}
+
 static napi_value djon_core_new(napi_env env, napi_callback_info info)
 {
 	const core_struct_functions funcs[]={
@@ -133,6 +140,10 @@ static napi_value djon_core_new(napi_env env, napi_callback_info info)
 	
 	NODE_API_CALL(env, napi_create_object(env,
 		&exports));
+
+	NODE_API_CALL(env, napi_add_finalizer(env,
+		exports,ds,djon_core_finalizer,0,0));
+                               
 	return core_export_functions(env,exports,funcs,ds);
 }
 

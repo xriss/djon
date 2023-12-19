@@ -468,6 +468,25 @@ int djon_is_naked_key( const char *cp , int len )
 	return 1; // all chars OK
 }
 
+// write len chars into buf ( each char is 4 bits ) 
+void djon_int_to_hexstr( int num , int len , char * buf )
+{
+	char *cp=buf;
+	for(int i=0 ; i<len ; i++ )
+	{
+		int t=0xf&(num>>(4*(len-(i+1))));
+		if(t>=10) // letter
+		{
+			*cp++='A'+(t-10);
+		}
+		else
+		{
+			*cp++='0'+t;
+		}
+	}
+	*cp++=0;
+}
+
 // write into buf, return length of string, maximum 32 including null
 int djon_double_to_str( double num , char * buf )
 {
@@ -1006,7 +1025,9 @@ void djon_write_string_escape(djon_state *ds,int c)
 		case '"'  : djon_write_string(ds,"\\\""); break;
 		case '`'  : djon_write_string(ds,"\\`" ); break;
 		default:
-			sprintf(b,"\\u%04x",c&0xffff); // 16bit hex only
+			b[0]='\\';
+			b[1]='u';
+			djon_int_to_hexstr(c&0xffff,4,b+2);
 			djon_write_string(ds,b);
 		break;
 	}

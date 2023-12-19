@@ -7,7 +7,7 @@ emcc \
 -Wl,--no-entry \
 -Wl,--export-table \
 \
---optimize=1 \
+-Oz --profiling-funcs \
 \
 -I../c \
 -Inode_modules/node-api-headers/include \
