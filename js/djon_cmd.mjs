@@ -1,5 +1,18 @@
 
-import fs from 'fs'
+import util from "util";
+import fs from "fs";
+let pfs={}
+for(let k in fs)
+{
+	if( "function" == typeof fs[k] )
+	{
+		pfs[k]=util.promisify(fs[k])
+	}
+	else
+	{
+		pfs[k]=fs[k]
+	}
+}
 
 import djon from "./djon.mjs";
 
@@ -58,21 +71,12 @@ process.exit(0)
 }
 
 
-fs.readFile( opts.fname1 || process.stdin.fd , 'utf-8' , function(err,data_input){
-	if(err)
-	{
-		console.log(err)
-	}
-	else
-	{
-		let tree=djon.load(data_input,"comment")
-		let data_output=djon.save(tree,"comment",opts.djon?"djon":"",opts.compact?"compact":"")
-		
-		fs.writeFile( opts.fname2 || process.stdout.fd , data_output , 'utf8' , function(err){
-			if(err)
-			{
-				console.log(err)
-			}
-		})
-	}
-})
+let data_input = await pfs.readFile( opts.fname1 || process.stdin.fd , 'utf-8' )
+
+let tree=djon.load(data_input,"comment")
+
+let data_output=djon.save(tree,"comment",opts.djon?"djon":"",opts.compact?"compact":"")
+
+await pfs.writeFile( opts.fname2 || process.stdout.fd , data_output , 'utf8' )
+
+process.exit(0)

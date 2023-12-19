@@ -103,6 +103,16 @@ static napi_value js_string(napi_env env,const char *cp)
 	return ret;
 }
 
+static napi_value js_string_len(napi_env env,const char *cp,int len)
+{
+	napi_value ret;
+	NODE_API_CALL(env, napi_create_string_utf8(env,
+		cp,
+		len,
+		&ret));
+	return ret;
+}
+
 static int js_typeof(napi_env env,napi_value val)
 {
 	napi_valuetype ret=napi_undefined;
@@ -335,7 +345,7 @@ napi_value obj;
 			return obj;
 		break;
 		case DJON_STRING:
-			return js_string( env , v->str );
+			return js_string_len( env , v->str , v->len );
 		break;
 		case DJON_NUMBER:
 			return js_number( env , v->num );
@@ -404,7 +414,7 @@ djon_value *dv=0;
 		dv->typ=DJON_OBJECT;
 		
 		napi_value arr = js_key_array(env,val);
-		int len=js_len_array(env,val);
+		int len=js_len_array(env,arr);
 		int li=0;
 		for(int i=0;i<len;i++)
 		{
@@ -591,7 +601,7 @@ static napi_value djon_core_save(napi_env env, napi_callback_info info)
 	
 	if(ds->write_data)
 	{
-		ret=js_string( env , ds->write_data );
+		ret=js_string_len( env , ds->write_data , ds->write_len );
 	}
 	
 	free(ds->write_data); // and free write buffer

@@ -3,7 +3,9 @@
 import fs from 'fs';
 import { Environment, napi } from 'napi-wasm';
 
-const mod = await WebAssembly.instantiate( fs.readFileSync('./djon_core.wasm') , {napi:napi } )
+const wdat = fs.readFileSync( new URL('./djon_core.wasm', import.meta.url) )
+
+const mod = await WebAssembly.instantiate( wdat , {napi:napi } )
 let djoncore_env = new Environment(mod.instance);
 let djoncore=djoncore_env.exports.djoncore
 
