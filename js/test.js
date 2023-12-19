@@ -15,7 +15,7 @@ let f=async function (){
 
 
 
-const mod = await WebAssembly.instantiate( fs.readFileSync('./djon_core.wasm') , {napi:napiwasm.napi } )
+const mod = await WebAssembly.instantiate( fs.readFileSync('./djon_core.wasm') , {napi:napiwasm.napi,env:{} } )
 
 // Create an environment.
 let env = new napiwasm.Environment(mod.instance);
@@ -24,7 +24,7 @@ let exports = env.exports;
 console.log("napi")
 console.log(exports)
 
-console.log(exports.test())
+console.log(exports.djon())
 
 };f()
 
