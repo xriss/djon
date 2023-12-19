@@ -195,6 +195,7 @@ static napi_value djon_core_load(napi_env env, napi_callback_info info)
 	djon_state *ds;
 	NODE_API_CALL(env, napi_get_cb_info(env, info, &argc, argv, &thisjs, (void**)&ds ));
 
+	// this will get auto free on object cleanup
 	ds->data = (char*) core_get_string(env,argv[0]);
 	if(!ds->data){return NULL;}
 	ds->data_len=strlen(ds->data);
