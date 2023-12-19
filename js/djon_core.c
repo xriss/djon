@@ -51,10 +51,45 @@ static napi_value core_export_functions(napi_env env, napi_value exports, const 
 }
 
 
-static napi_value core_get_null(napi_env env)
+static napi_value core_null(napi_env env)
 {
 	napi_value ret;
 	NODE_API_CALL(env, napi_get_null(env,
+		&ret));
+	return ret;
+}
+
+static napi_value core_boolean(napi_env env,int num)
+{
+	napi_value ret;
+	NODE_API_CALL(env, napi_get_boolean(env,
+		num,
+		&ret));
+	return ret;
+}
+
+static napi_value core_object(napi_env env)
+{
+	napi_value ret;
+	NODE_API_CALL(env, napi_create_object(env,
+		&ret));
+	return ret;
+}
+
+static napi_value core_array(napi_env env,int len)
+{
+	napi_value ret;
+	NODE_API_CALL(env, napi_create_array_with_length(env,
+		len,
+		&ret));
+	return ret;
+}
+
+static napi_value core_number(napi_env env,double num)
+{
+	napi_value ret;
+	NODE_API_CALL(env, napi_create_double(env,
+		num,
 		&ret));
 	return ret;
 }
@@ -78,27 +113,33 @@ static const char * core_get_string(napi_env env,napi_value val)
 
 	return cp;
 }
-                                       
-static napi_value core_object_set(napi_env env,napi_value obj, const char *key, napi_value val)
+
+static napi_value core_val_set(napi_env env,napi_value obj, napi_value key, napi_value val)
+{
+	NODE_API_CALL(env, napi_set_property(env,
+		obj,key,val));
+	return obj;
+}
+static napi_value core_str_set(napi_env env,napi_value obj, const char *key, napi_value val)
 {
 	NODE_API_CALL(env, napi_set_named_property(env,
 		obj,key,val));
 	return obj;
 }
-static napi_value core_object_get(napi_env env,napi_value obj, const char *key)
+static napi_value core_str_get(napi_env env,napi_value obj, const char *key)
 {
 	napi_value ret;
 	NODE_API_CALL(env, napi_get_named_property(env,
 		obj,key,&ret));
 	return ret;
 }
-static napi_value core_array_set(napi_env env,napi_value arr, int idx, napi_value val)
+static napi_value core_num_set(napi_env env,napi_value arr, int idx, napi_value val)
 {
 	NODE_API_CALL(env, napi_set_element(env,
 		arr,idx,val));
 	return arr;
 }
-static napi_value core_array_get(napi_env env,napi_value arr, int idx)
+static napi_value core_num_get(napi_env env,napi_value arr, int idx)
 {
 	napi_value ret;
 	NODE_API_CALL(env, napi_get_element(env,
@@ -106,33 +147,7 @@ static napi_value core_array_get(napi_env env,napi_value arr, int idx)
 	return ret;
 }
 
-static napi_value core_create_object(napi_env env)
-{
-	napi_value ret;
-	NODE_API_CALL(env, napi_create_object(env,
-		&ret));
-	return ret;
-}
-
-static napi_value core_create_array(napi_env env,int len)
-{
-	napi_value ret;
-	NODE_API_CALL(env, napi_create_array_with_length(env,
-		len,
-		&ret));
-	return ret;
-}
-
-static napi_value core_create_number(napi_env env,double num)
-{
-	napi_value ret;
-	NODE_API_CALL(env, napi_create_double(env,
-		num,
-		&ret));
-	return ret;
-}
-
-static napi_value core_create_string(napi_env env,const char *cp)
+static napi_value core_string(napi_env env,const char *cp)
 {
 	napi_value ret;
 	NODE_API_CALL(env, napi_create_string_utf8(env,
@@ -150,21 +165,66 @@ static napi_value djon_core_locate(napi_env env, napi_callback_info info)
 	djon_state *ds;
 	NODE_API_CALL(env, napi_get_cb_info(env, info, &argc, argv, &thisjs, (void**)&ds ));
 
-	napi_value a=core_create_array(env,4);
+	napi_value a=core_array(env,4);
 	if(ds->error_string)
 	{
-		core_array_set(env,a,0,core_create_string(env,(const char *)ds->error_string));
+		core_num_set(env,a,0,core_string(env,(const char *)ds->error_string));
 	}
 	else
 	{
-		core_array_set(env,a,0,core_get_null(env));
+		core_num_set(env,a,0,core_null(env));
 	}
-	core_array_set(env,a,1,core_create_number(env,ds->error_line));
-	core_array_set(env,a,2,core_create_number(env,ds->error_char));
-	core_array_set(env,a,3,core_create_number(env,ds->error_idx));
+	core_num_set(env,a,1,core_number(env,ds->error_line));
+	core_num_set(env,a,2,core_number(env,ds->error_char));
+	core_num_set(env,a,3,core_number(env,ds->error_idx));
 	return a;
 }
 
+static napi_value djon_core_get_value(napi_env env,djon_state *ds,int idx)
+{
+djon_value *v=djon_get(ds,idx);
+int ai,len;
+napi_value arr;
+napi_value obj;
+	if(!v) { return core_null(env); }
+	switch(v->typ&DJON_TYPEMASK)
+	{
+		case DJON_ARRAY:
+			len=0;
+			for( int vi=v->val ; vi ; vi=djon_get(ds,vi)->nxt )
+			{
+				len++;
+			}
+			arr=core_array(env,len);
+			ai=0;
+			for( int vi=v->val ; vi ; vi=djon_get(ds,vi)->nxt )
+			{
+				core_num_set( env , arr , vi , djon_core_get_value( env , ds ,vi ) );
+				ai++;
+			}
+			return arr;
+		break;
+		case DJON_OBJECT:
+			obj=core_object(env);
+			for( int ki=v->key ; ki ; ki=djon_get(ds,ki)->nxt )
+			{
+				core_val_set( env , obj , djon_core_get_value( env , ds , ki ) , djon_core_get_value( env , ds , djon_get(ds,ki)->val ) );
+			}
+			return obj;
+		break;
+		case DJON_STRING:
+			return core_string( env , v->str );
+		break;
+		case DJON_NUMBER:
+			return core_number( env , v->num );
+		break;
+		case DJON_BOOL:
+			return core_boolean( env , v->num ? true : false );
+		break;
+	}
+	
+	return core_null(env);
+}
 static napi_value djon_core_get(napi_env env, napi_callback_info info)
 {
 	size_t argc=8;
@@ -173,7 +233,15 @@ static napi_value djon_core_get(napi_env env, napi_callback_info info)
 	djon_state *ds;
 	NODE_API_CALL(env, napi_get_cb_info(env, info, &argc, argv, &thisjs, (void**)&ds ));
 
-	return NULL;
+	ds->comment=0;
+	for(int i=1;(size_t)i<argc;i++) // check string flags in args
+	{
+		const char *cp=core_get_string(env,argv[i]);
+		if( strcmp(cp,"comment")==0 ) { ds->comment=1; }
+		free((void*)cp);
+	}
+
+	return djon_core_get_value(env,ds,ds->parse_value);
 }
 
 static napi_value djon_core_set(napi_env env, napi_callback_info info)
@@ -250,7 +318,7 @@ static napi_value djon_core_save(napi_env env, napi_callback_info info)
 	
 	if(ds->write_data)
 	{
-		ret=core_create_string( env , ds->write_data );
+		ret=core_string( env , ds->write_data );
 	}
 	
 	free(ds->write_data); // and free write buffer
@@ -297,7 +365,7 @@ static napi_value djon_core_new(napi_env env, napi_callback_info info)
 NAPI_MODULE_INIT() {
 	const core_struct_functions funcs[]={
 
-		{		"djon"	,	djon_core_new	},
+		{		"djoncore"	,	djon_core_new	},
 
 		{0,0}
 	};

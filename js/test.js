@@ -24,11 +24,11 @@ let exports = env.exports;
 console.log("napi")
 console.log(exports)
 
-let djon=new exports.djon()
-console.log(djon)
-console.log(djon.locate())
-console.log(djon.load("[1,2,3]"))
-console.log(djon.save())
+let djoncore=new exports.djoncore()
+console.log(djoncore)
+console.log(djoncore.locate())
+console.log(djoncore.load("[1,2,3]"))
+console.log(djoncore.save())
 
 };f()
 
