@@ -331,7 +331,7 @@ napi_value obj;
 			ai=0;
 			for( int vi=v->val ; vi ; vi=djon_get(ds,vi)->nxt )
 			{
-				js_idx_set( env , arr , vi , djon_core_get_value( env , ds ,vi ) );
+				js_idx_set( env , arr , ai , djon_core_get_value( env , ds ,vi ) );
 				ai++;
 			}
 			return arr;
