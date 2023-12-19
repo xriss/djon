@@ -224,8 +224,8 @@ static napi_value js_key_array(napi_env env,napi_value obj)
 {
 	napi_value ret;
 
-	NODE_API_CALL(env, napi_get_all_property_names(env,
-		obj, napi_key_own_only , napi_key_all_properties , napi_key_numbers_to_strings , &ret ));
+	NODE_API_CALL(env, napi_get_property_names(env,
+		obj, &ret ));
 
 	return ret;
 }

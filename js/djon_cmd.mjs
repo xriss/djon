@@ -1,7 +1,7 @@
 
-let fs = require('fs')
+import fs from 'fs'
 
-let djon=require("./djon.js")
+import djon from "./djon.mjs";
 
 let opts={}
 for( let v of (process.argv.slice(2)) )
@@ -20,14 +20,14 @@ for( let v of (process.argv.slice(2)) )
 		if( vp.slice(0,2)=="--" ) 
 		{
 			console.log( "unknown option "+v )
-			return(20)
+			process.exit(20)
 		}
 		else if(!opts.fname1) { opts.fname1=v }
 		else if(!opts.fname2) { opts.fname2=v }
 		else
 		{
 			console.log( "unknown option "+v )
-			return(20)
+			process.exit(20)
 		}
 	}
 }
@@ -53,7 +53,7 @@ Possible options are:
 We default to pretty output.
 `)
 
-return(0)
+process.exit(0)
 
 }
 

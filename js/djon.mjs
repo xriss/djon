@@ -1,9 +1,14 @@
 
-const fs = require('node:fs');
 
-let DjonCore = require('bindings')('djon_core').DjonCore;
+import fs from 'fs';
+import { Environment, napi } from 'napi-wasm';
 
-let djon=exports
+const mod = await WebAssembly.instantiate( fs.readFileSync('./djon_core.wasm') , {napi:napi } )
+let djoncore_env = new Environment(mod.instance);
+let djoncore=djoncore_env.exports.djoncore
+
+let djon={}
+export default djon
 
 djon.load_file=function(fname,...args)
 {
@@ -21,7 +26,7 @@ djon.load=function(data,...args)
 
 djon.load_core=function(it,...args)
 {
-	it.core=new DjonCore()
+	it.core=new djoncore()
 	it.core.load(it.data,...args)
 	djon.check_error(it)
 	it.tree=it.core.get(...args)
@@ -46,7 +51,7 @@ djon.save=function(tree,...args)
 
 djon.save_core=function(it,...args)
 {
-	it.core=new DjonCore()
+	it.core=new djoncore()
 	it.core.set(it.tree,...args)
 	djon.check_error(it)
 	it.data=it.core.save(...args)
