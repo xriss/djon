@@ -1,9 +1,5 @@
 #!/bin/sh
-
-# copy djon.h from c dir ( npm will package it )
-if [ -f ../c/djon.h ] ; then
-cp ../c/djon.h .
-fi
+cd `dirname $0`
 
 emcc \
 -Wl,--no-entry \
@@ -11,6 +7,7 @@ emcc \
 \
 --optimize=1 \
 \
+-I../c \
 -Inode_modules/node-api-headers/include \
 \
 -s EXPORT_KEEPALIVE \

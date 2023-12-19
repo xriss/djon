@@ -11,7 +11,7 @@ console.log(tt.test())
 
 let f=async function (){
 
-console.log( napiwasm.napi )
+//console.log( napiwasm.napi )
 
 
 
