@@ -23,7 +23,6 @@
 		}                                                         \
 	} while(0)
 
-
 typedef struct js_struct_functions{
 	const char *name;
 	napi_value (*func)(napi_env env, napi_callback_info info);
@@ -59,7 +58,7 @@ static napi_value js_null(napi_env env)
 	return ret;
 }
 
-static napi_value js_boolean(napi_env env,int num)
+static napi_value js_bool(napi_env env,int num)
 {
 	napi_value ret;
 	NODE_API_CALL(env, napi_get_boolean(env,
@@ -104,6 +103,84 @@ static napi_value js_string(napi_env env,const char *cp)
 	return ret;
 }
 
+static int js_typeof(napi_env env,napi_value val)
+{
+	napi_valuetype ret=napi_undefined;
+	napi_typeof(env, val, &ret);
+	return ret;
+}
+
+static int js_is_array(napi_env env,napi_value val)
+{
+	bool ret=0;
+	napi_is_array(env, val, &ret);
+	return ret;
+}
+
+static int js_is_object(napi_env env,napi_value val)
+{
+	napi_valuetype ret=napi_undefined;
+	napi_typeof(env, val, &ret);
+	return (ret==napi_object);
+}
+
+static int js_is_bool(napi_env env,napi_value val)
+{
+	napi_valuetype ret=napi_undefined;
+	napi_typeof(env, val, &ret);
+	return (ret==napi_boolean);
+}
+
+static int js_is_number(napi_env env,napi_value val)
+{
+	napi_valuetype ret=napi_undefined;
+	napi_typeof(env, val, &ret);
+	return (ret==napi_number);
+}
+
+static int js_is_string(napi_env env,napi_value val)
+{
+	napi_valuetype ret=napi_undefined;
+	napi_typeof(env, val, &ret);
+	return (ret==napi_string);
+}
+
+static double js_to_bool(napi_env env,napi_value val)
+{
+	bool ret;
+
+	napi_status status=napi_get_value_bool(env,val,&ret);
+	if (status != napi_ok)
+	{
+		bool is_pending;
+		napi_is_exception_pending((env), &is_pending);
+		if (!is_pending)
+		{
+			napi_throw_error((env), NULL, "error");
+		}
+	}
+
+	return ret;
+}
+
+static double js_to_double(napi_env env,napi_value val)
+{
+	double ret;
+
+	napi_status status=napi_get_value_double(env,val,&ret);
+	if (status != napi_ok)
+	{
+		bool is_pending;
+		napi_is_exception_pending((env), &is_pending);
+		if (!is_pending)
+		{
+			napi_throw_error((env), NULL, "error");
+		}
+	}
+
+	return ret;
+}
+
 // alloced, so you will need to free this
 static const char * js_to_string(napi_env env,napi_value val)
 {
@@ -116,7 +193,7 @@ static const char * js_to_string(napi_env env,napi_value val)
 		
 	size=size+1; // term
 	cp=malloc(size);
-	if(!cp){return 0;}
+	if(!cp){ napi_throw_error(env, NULL, "out of memory" ); return 0; }
 
 	NODE_API_CALL(env, napi_get_value_string_utf8(env,
 		val,cp,size,&len));
@@ -219,13 +296,177 @@ napi_value obj;
 			return js_number( env , v->num );
 		break;
 		case DJON_BOOL:
-			return js_boolean( env , v->num ? true : false );
+			return js_bool( env , v->num ? true : false );
 		break;
 	}
 	
 	return js_null(env);
 }
 static napi_value djon_core_get(napi_env env, napi_callback_info info)
+{
+	size_t argc=8;
+	napi_value argv[8];
+	napi_value thisjs;
+	djon_state *ds;
+	NODE_API_CALL(env, napi_get_cb_info(env, info, &argc, argv, &thisjs, (void**)&ds ));
+
+	ds->comment=0;
+	for(int i=0;(size_t)i<argc;i++) // check string flags in args
+	{
+		const char *cp=js_to_string(env,argv[i]);
+		if( strcmp(cp,"comment")==0 ) { ds->comment=1; }
+		free((void*)cp);
+	}
+
+	return djon_core_get_value(env,ds,ds->parse_value);
+}
+
+
+int djon_core_set_value(napi_env env,djon_state *ds,const napi_value val){
+int di=0;
+djon_value *dv=0;
+	if( js_is_array(env,val) )
+	{
+		di=djon_alloc(ds); if(!di) { napi_throw_error(env, NULL, "out of memory" ); return 0; }
+		dv=djon_get(ds,di);
+		dv->typ=DJON_ARRAY;
+
+/*
+		Napi::Array a = val.As<Napi::Array>();
+		int len=a.Length();
+		int li=0;
+		for(int i=0;i<len;i++)
+		{
+			int vi=this->set_value(env,a[i]);
+
+			dv=djon_get(ds,di); // realloc safe
+			if( dv->val==0) // first
+			{
+				dv->val=vi;
+			}
+			else // chain
+			{
+				djon_get(ds,li)->nxt=vi;
+				djon_get(ds,vi)->prv=li;
+			}
+			li=vi;
+		}
+*/
+		return di;
+	}
+	else
+	if( js_is_object(env,val) )
+	{
+		di=djon_alloc(ds); if(!di) { napi_throw_error(env, NULL, "out of memory" ); return 0; }
+		dv=djon_get(ds,di);
+		dv->typ=DJON_OBJECT;
+
+/*
+		Napi::Object o = val.As<Napi::Object>();
+		Napi::Array  a = o.GetPropertyNames();
+		int len=a.Length();
+		int li=0;
+		for(int i=0;i<len;i++)
+		{
+			Napi::Value k=a[i];
+			Napi::Value v=o.Get(k);
+
+			int ki=this->set_value(env,k);
+			int vi=this->set_value(env,v);
+			djon_get(ds,ki)->val=vi; // key to value
+
+			dv=djon_get(ds,di); // realloc safe
+			if( dv->key==0) // first
+			{
+				dv->key=ki;
+			}
+			else // chain
+			{
+				djon_get(ds,li)->nxt=ki;
+				djon_get(ds,ki)->prv=li;
+			}
+			li=ki;
+
+		}
+*/
+		return di;
+	}
+	else
+	if( js_is_string(env,val) )
+	{
+/*
+		Napi::String ns=val.As<Napi::String>();
+		std::string s=ns.Utf8Value();
+		const char *cp=s.c_str();
+		int len=s.length();
+		int p=djon_write_data(ds,cp,len+1); // save string (hax) and remember its offset into data chunk
+*/
+		di=djon_alloc(ds); if(!di) { napi_throw_error(env, NULL, "out of memory" ); return 0; }
+		dv=djon_get(ds,di);
+		dv->typ=DJON_STRING;
+//		dv->str=((char *)(0))+p; // we will need to add base memory address when we finish
+//		dv->len=len;
+		return di;
+	}
+	else
+	if( js_is_number(env,val) )
+	{
+		di=djon_alloc(ds); if(!di) { napi_throw_error(env, NULL, "out of memory" ); return 0; }
+		dv=djon_get(ds,di);
+		dv->typ=DJON_NUMBER;
+		dv->num=js_to_double(env,val);
+		return di;
+	}
+	else
+	if( js_is_bool(env,val) )
+	{
+		di=djon_alloc(ds); if(!di) { napi_throw_error(env, NULL, "out of memory" ); return 0; }
+		dv=djon_get(ds,di);
+		dv->typ=DJON_BOOL;
+		dv->num=js_to_bool(env,val)?1.0:0.0; // bool to double
+		return di;
+	}
+	else // everything else is a null
+	{
+		di=djon_alloc(ds); if(!di) { napi_throw_error(env, NULL, "out of memory" ); return 0; }
+		dv=djon_get(ds,di);
+		dv->typ=DJON_NULL;
+		return di;
+	}
+	return 0;
+}
+
+// we need to fix all of the string pointers
+void djon_core_set_fix(djon_state *ds,int idx,char *base){
+djon_value *v=djon_get(ds,idx);
+int vi=0;
+int ki=0;
+	switch(v->typ&DJON_TYPEMASK)
+	{
+		case DJON_ARRAY:
+			vi=v->val;
+			while( vi )
+			{
+				djon_core_set_fix( ds , vi , base );
+				vi=djon_get(ds,vi)->nxt;
+			}
+		break;
+		case DJON_OBJECT:
+			ki=v->key;
+			while( ki )
+			{
+				djon_core_set_fix( ds , ki , base );
+				djon_core_set_fix( ds , djon_get(ds,ki)->val , base );
+				ki=djon_get(ds,ki)->nxt;
+			}
+		break;
+		case DJON_STRING:
+			v->str=(v->str-((char*)0))+base;
+		break;
+	}
+}
+
+static napi_value djon_core_set(napi_env env, napi_callback_info info)
 {
 	size_t argc=8;
 	napi_value argv[8];
@@ -241,16 +482,13 @@ static napi_value djon_core_get(napi_env env, napi_callback_info info)
 		free((void*)cp);
 	}
 
-	return djon_core_get_value(env,ds,ds->parse_value);
-}
-
-static napi_value djon_core_set(napi_env env, napi_callback_info info)
-{
-	size_t argc=8;
-	napi_value argv[8];
-	napi_value thisjs;
-	djon_state *ds;
-	NODE_API_CALL(env, napi_get_cb_info(env, info, &argc, argv, &thisjs, (void**)&ds ));
+	ds->write_data=0;
+	ds->parse_value=djon_core_set_value(env,ds,argv[0]);
+	// keep string data and fix all the pointers
+	ds->data=ds->write_data;
+	ds->data_len=ds->write_size;
+	ds->write_data=0;
+	djon_core_set_fix(ds,ds->parse_value,ds->data);
 
 	return NULL;
 }
