@@ -1,14 +1,15 @@
 
 #include "node_api.h"
 
-extern napi_value djon_test(napi_env env, napi_callback_info info);
-
 
 #define DJON_FILE (0)
 #define DJON_C 1
 #include "djon.h"
 
 
+// we can skip providing napi_wasm_malloc as we are not using buffers
+
+// this probably wont error, and if it does...
 #define NODE_API_CALL(env, call)                                  \
 	do {                                                          \
 		napi_status status = (call);                              \
@@ -49,7 +50,59 @@ static napi_value core_export_functions(napi_env env, napi_value exports, const 
 	return exports;
 }
 
-static napi_value core_create_double(napi_env env,double num)
+
+static napi_value core_get_null(napi_env env)
+{
+	napi_value ret;
+	NODE_API_CALL(env, napi_get_null(env,
+		&ret));
+	return ret;
+}
+static napi_value core_object_set(napi_env env,napi_value obj, const char *key, napi_value val)
+{
+	NODE_API_CALL(env, napi_set_named_property(env,
+		obj,key,val));
+	return obj;
+}
+static napi_value core_object_get(napi_env env,napi_value obj, const char *key)
+{
+	napi_value ret;
+	NODE_API_CALL(env, napi_get_named_property(env,
+		obj,key,&ret));
+	return ret;
+}
+static napi_value core_array_set(napi_env env,napi_value arr, int idx, napi_value val)
+{
+	NODE_API_CALL(env, napi_set_element(env,
+		arr,idx,val));
+	return arr;
+}
+static napi_value core_array_get(napi_env env,napi_value arr, int idx)
+{
+	napi_value ret;
+	NODE_API_CALL(env, napi_get_element(env,
+		arr,idx,&ret));
+	return ret;
+}
+
+static napi_value core_create_object(napi_env env)
+{
+	napi_value ret;
+	NODE_API_CALL(env, napi_create_object(env,
+		&ret));
+	return ret;
+}
+
+static napi_value core_create_array(napi_env env,int len)
+{
+	napi_value ret;
+	NODE_API_CALL(env, napi_create_array_with_length(env,
+		len,
+		&ret));
+	return ret;
+}
+
+static napi_value core_create_number(napi_env env,double num)
 {
 	napi_value ret;
 	NODE_API_CALL(env, napi_create_double(env,
@@ -58,6 +111,15 @@ static napi_value core_create_double(napi_env env,double num)
 	return ret;
 }
 
+static napi_value core_create_string(napi_env env,const char *cp)
+{
+	napi_value ret;
+	NODE_API_CALL(env, napi_create_string_utf8(env,
+		cp,
+		NAPI_AUTO_LENGTH,
+		&ret));
+	return ret;
+}
 
 static napi_value djon_core_locate(napi_env env, napi_callback_info info)
 {
@@ -67,7 +129,19 @@ static napi_value djon_core_locate(napi_env env, napi_callback_info info)
 	djon_state *ds;
 	NODE_API_CALL(env, napi_get_cb_info(env, info, &argc, argv, &thisjs, (void**)&ds ));
 
-	return NULL;
+	napi_value a=core_create_array(env,4);
+	if(ds->error_string)
+	{
+		core_array_set(env,a,0,core_create_string(env,(const char *)ds->error_string));
+	}
+	else
+	{
+		core_array_set(env,a,0,core_get_null(env));
+	}
+	core_array_set(env,a,1,core_create_number(env,ds->error_line));
+	core_array_set(env,a,2,core_create_number(env,ds->error_char));
+	core_array_set(env,a,3,core_create_number(env,ds->error_idx));
+	return a;
 }
 
 static napi_value djon_core_get(napi_env env, napi_callback_info info)

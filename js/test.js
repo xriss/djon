@@ -24,7 +24,9 @@ let exports = env.exports;
 console.log("napi")
 console.log(exports)
 
-console.log(new exports.djon())
+let djon=new exports.djon()
+console.log(djon)
+console.log(djon.locate())
 
 };f()
 
