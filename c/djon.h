@@ -973,7 +973,10 @@ int djon_write_data(djon_state *ds, const char *ptr, int len )
 	}
 	
 	// copy into data buffer
-	memcpy(ds->write_data+ds->write_len,ptr,len);
+	if(ptr)
+	{
+		memcpy(ds->write_data+ds->write_len,ptr,len);
+	}
 	ds->write_len+=len;
 	ds->write_data[ds->write_len]=0; // keep null terminated
 

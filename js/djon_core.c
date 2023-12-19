@@ -181,6 +181,24 @@ static double js_to_double(napi_env env,napi_value val)
 	return ret;
 }
 
+static int js_len_string(napi_env env,napi_value val)
+{
+	size_t size=0;
+
+	napi_status status=napi_get_value_string_utf8(env,val,0,0,&size);
+
+	return (int)size;
+}
+
+// write a atring into ptr
+static int js_ptr_string(napi_env env,napi_value val,char *cp,int size)
+{
+	size_t len=0;
+	napi_get_value_string_utf8(env,val,cp,size,&len);
+	return len;
+}
+
+
 // alloced, so you will need to free this
 static const char * js_to_string(napi_env env,napi_value val)
 {
@@ -201,11 +219,38 @@ static const char * js_to_string(napi_env env,napi_value val)
 	return cp;
 }
 
+// get all object keys as array of values
+static napi_value js_key_array(napi_env env,napi_value obj)
+{
+	napi_value ret;
+
+	NODE_API_CALL(env, napi_get_all_property_names(env,
+		obj, napi_key_own_only , napi_key_all_properties , napi_key_numbers_to_strings , &ret ));
+
+	return ret;
+}
+
+static int js_len_array(napi_env env,napi_value arr)
+{
+	uint32_t size=0;
+
+	napi_status status=napi_get_array_length(env,arr,&size);
+
+	return (int)size;
+}
+
 static napi_value js_val_set(napi_env env,napi_value obj, napi_value key, napi_value val)
 {
 	NODE_API_CALL(env, napi_set_property(env,
 		obj,key,val));
 	return obj;
+}
+static napi_value js_val_get(napi_env env,napi_value obj, napi_value key)
+{
+	napi_value ret;
+	NODE_API_CALL(env, napi_get_property(env,
+		obj,key,&ret));
+	return ret;
 }
 static napi_value js_str_set(napi_env env,napi_value obj, const char *key, napi_value val)
 {
@@ -220,13 +265,13 @@ static napi_value js_str_get(napi_env env,napi_value obj, const char *key)
 		obj,key,&ret));
 	return ret;
 }
-static napi_value js_num_set(napi_env env,napi_value arr, int idx, napi_value val)
+static napi_value js_idx_set(napi_env env,napi_value arr, int idx, napi_value val)
 {
 	NODE_API_CALL(env, napi_set_element(env,
 		arr,idx,val));
 	return arr;
 }
-static napi_value js_num_get(napi_env env,napi_value arr, int idx)
+static napi_value js_idx_get(napi_env env,napi_value arr, int idx)
 {
 	napi_value ret;
 	NODE_API_CALL(env, napi_get_element(env,
@@ -245,15 +290,15 @@ static napi_value djon_core_locate(napi_env env, napi_callback_info info)
 	napi_value a=js_array(env,4);
 	if(ds->error_string)
 	{
-		js_num_set(env,a,0,js_string(env,(const char *)ds->error_string));
+		js_idx_set(env,a,0,js_string(env,(const char *)ds->error_string));
 	}
 	else
 	{
-		js_num_set(env,a,0,js_null(env));
+		js_idx_set(env,a,0,js_null(env));
 	}
-	js_num_set(env,a,1,js_number(env,ds->error_line));
-	js_num_set(env,a,2,js_number(env,ds->error_char));
-	js_num_set(env,a,3,js_number(env,ds->error_idx));
+	js_idx_set(env,a,1,js_number(env,ds->error_line));
+	js_idx_set(env,a,2,js_number(env,ds->error_char));
+	js_idx_set(env,a,3,js_number(env,ds->error_idx));
 	return a;
 }
 
@@ -276,7 +321,7 @@ napi_value obj;
 			ai=0;
 			for( int vi=v->val ; vi ; vi=djon_get(ds,vi)->nxt )
 			{
-				js_num_set( env , arr , vi , djon_core_get_value( env , ds ,vi ) );
+				js_idx_set( env , arr , vi , djon_core_get_value( env , ds ,vi ) );
 				ai++;
 			}
 			return arr;
@@ -331,13 +376,11 @@ djon_value *dv=0;
 		dv=djon_get(ds,di);
 		dv->typ=DJON_ARRAY;
 
-/*
-		Napi::Array a = val.As<Napi::Array>();
-		int len=a.Length();
+		int len=js_len_array(env,val);
 		int li=0;
 		for(int i=0;i<len;i++)
 		{
-			int vi=this->set_value(env,a[i]);
+			int vi=djon_core_set_value(env,ds,js_idx_get(env,val,i));
 
 			dv=djon_get(ds,di); // realloc safe
 			if( dv->val==0) // first
@@ -351,7 +394,6 @@ djon_value *dv=0;
 			}
 			li=vi;
 		}
-*/
 		return di;
 	}
 	else
@@ -360,19 +402,17 @@ djon_value *dv=0;
 		di=djon_alloc(ds); if(!di) { napi_throw_error(env, NULL, "out of memory" ); return 0; }
 		dv=djon_get(ds,di);
 		dv->typ=DJON_OBJECT;
-
-/*
-		Napi::Object o = val.As<Napi::Object>();
-		Napi::Array  a = o.GetPropertyNames();
-		int len=a.Length();
+		
+		napi_value arr = js_key_array(env,val);
+		int len=js_len_array(env,val);
 		int li=0;
 		for(int i=0;i<len;i++)
 		{
-			Napi::Value k=a[i];
-			Napi::Value v=o.Get(k);
+			napi_value k=js_idx_get(env,arr,i);
+			napi_value v=js_val_get(env,val,k);
 
-			int ki=this->set_value(env,k);
-			int vi=this->set_value(env,v);
+			int ki=djon_core_set_value(env,ds,k);
+			int vi=djon_core_set_value(env,ds,v);
 			djon_get(ds,ki)->val=vi; // key to value
 
 			dv=djon_get(ds,di); // realloc safe
@@ -388,24 +428,19 @@ djon_value *dv=0;
 			li=ki;
 
 		}
-*/
 		return di;
 	}
 	else
 	if( js_is_string(env,val) )
 	{
-/*
-		Napi::String ns=val.As<Napi::String>();
-		std::string s=ns.Utf8Value();
-		const char *cp=s.c_str();
-		int len=s.length();
-		int p=djon_write_data(ds,cp,len+1); // save string (hax) and remember its offset into data chunk
-*/
+		int len=js_len_string(env,val);
+		int p=djon_write_data(ds,0,len+1); // allocate string but write nothing and return idx
+		js_ptr_string(env,val,ds->write_data+p,len+1);
 		di=djon_alloc(ds); if(!di) { napi_throw_error(env, NULL, "out of memory" ); return 0; }
 		dv=djon_get(ds,di);
 		dv->typ=DJON_STRING;
-//		dv->str=((char *)(0))+p; // we will need to add base memory address when we finish
-//		dv->len=len;
+		dv->str=((char *)(0))+p; // we will need to add base memory address when we finish
+		dv->len=len;
 		return di;
 	}
 	else
