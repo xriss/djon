@@ -12,10 +12,14 @@ emcc \
 -I../c \
 -Inode_modules/node-api-headers/include \
 \
--s EXPORTED_FUNCTIONS=_napi_register_wasm_v1 \
+-s EXPORTED_FUNCTIONS=_napi_register_wasm_v1,_napi_wasm_malloc \
 -s ERROR_ON_UNDEFINED_SYMBOLS=0 \
 \
 -o ./djon_core.wasm \
 \
 ./djon_core.c \
 
+
+
+#-s TOTAL_STACK=16MB \
+#-s INITIAL_MEMORY=256MB \

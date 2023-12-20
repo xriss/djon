@@ -2,6 +2,9 @@
 #include "node_api.h"
 
 
+// stack sniffing not working with wasm
+//#define DJON_MAX_STACK (0)
+
 #define DJON_FILE (0)
 #define DJON_C 1
 #include "djon.h"
@@ -24,6 +27,25 @@ extern void * napi_wasm_malloc( size_t siz ) { return malloc(siz); }
 		}                                                         \
 	} while(0)
 
+// check error state and optionally throw an exception
+static int js_error(napi_env env,int err)
+{
+	// check pending
+	bool pending=0;
+	napi_is_exception_pending( env , &pending );
+	if(pending) { return 1; }
+
+	// check err (status), 0 is OK (napi_ok)
+	if(err)
+	{
+		napi_throw_error( env , NULL , "error" );
+		return 1;
+	}
+	
+	// everything good
+	return 0;
+}
+
 typedef struct js_struct_functions{
 	const char *name;
 	napi_value (*func)(napi_env env, napi_callback_info info);
@@ -31,21 +53,20 @@ typedef struct js_struct_functions{
 
 static napi_value js_export_functions(napi_env env, napi_value exports, const js_struct_functions funcs[], void *data)
 {
+	if(js_error(env,0)){return 0;};
 	for( const js_struct_functions *fp=funcs ; fp->name ; fp++ )
 	{
 		napi_value exported_function;
+		if(js_error(env,
 
-		NODE_API_CALL(env, napi_create_function(env,
-			fp->name,
-			NAPI_AUTO_LENGTH,
-			fp->func,
-			data,
-			&exported_function));
+			napi_create_function(env , fp->name , strlen(fp->name) , fp->func , data , &exported_function )
 
-		NODE_API_CALL(env, napi_set_named_property(env,
-			exports,
-			fp->name,
-			exported_function));
+		)){return 0;}
+		if(js_error(env,
+
+			napi_set_named_property(env , exports , fp->name , exported_function )
+
+		)){return 0;}
 	}
 	return exports;
 }
@@ -54,161 +75,187 @@ static napi_value js_export_functions(napi_env env, napi_value exports, const js
 static napi_value js_null(napi_env env)
 {
 	napi_value ret;
-	NODE_API_CALL(env, napi_get_null(env,
-		&ret));
+	if(js_error(env,
+
+		napi_get_null(env ,  &ret )
+
+	)){return 0;}
 	return ret;
 }
 
 static napi_value js_bool(napi_env env,int num)
 {
 	napi_value ret;
-	NODE_API_CALL(env, napi_get_boolean(env,
-		num,
-		&ret));
+	if(js_error(env,
+
+		napi_get_boolean(env, num , &ret )
+
+	)){return 0;}
 	return ret;
 }
 
 static napi_value js_object(napi_env env)
 {
 	napi_value ret;
-	NODE_API_CALL(env, napi_create_object(env,
-		&ret));
+	if(js_error(env,
+	
+		napi_create_object(env, &ret )
+
+	)){return 0;}
 	return ret;
 }
 
 static napi_value js_array(napi_env env,int len)
 {
 	napi_value ret;
-	NODE_API_CALL(env, napi_create_array_with_length(env,
-		len,
-		&ret));
+	if(js_error(env,
+	
+		napi_create_array_with_length(env, len , &ret )
+	
+	)){return 0;}
 	return ret;
 }
 
 static napi_value js_number(napi_env env,double num)
 {
 	napi_value ret;
-	NODE_API_CALL(env, napi_create_double(env,
-		num,
-		&ret));
+	if(js_error(env,
+
+		napi_create_double(env, num , &ret )
+
+	)){return 0;}
 	return ret;
 }
 
 static napi_value js_string(napi_env env,const char *cp)
 {
 	napi_value ret;
-	NODE_API_CALL(env, napi_create_string_utf8(env,
-		cp,
-		strlen(cp),
-		&ret));
+	if(js_error(env,
+
+		napi_create_string_utf8(env, cp , strlen(cp) , &ret )
+
+	)){return 0;}
 	return ret;
 }
 
 static napi_value js_string_len(napi_env env,const char *cp,int len)
 {
 	napi_value ret;
-	NODE_API_CALL(env, napi_create_string_utf8(env,
-		cp,
-		len,
-		&ret));
+	if(js_error(env,
+
+		napi_create_string_utf8(env, cp , len , &ret )
+
+	)){return 0;}
 	return ret;
 }
 
 static napi_value js_buffer(napi_env env,const char *cp,int len)
 {
 	napi_value ret;
-	NODE_API_CALL(env, napi_create_buffer_copy(env,
-		len,
-		cp,
-		NULL,
-		&ret));
+	if(js_error(env,
+
+		napi_create_buffer_copy(env, len , cp , NULL , &ret)
+
+	)){return 0;}
 	return ret;
 }
 
 static int js_typeof(napi_env env,napi_value val)
 {
 	napi_valuetype ret=napi_undefined;
-	napi_typeof(env, val, &ret);
+	if(js_error(env,
+
+		napi_typeof(env, val, &ret)
+
+	)){return napi_undefined;}
 	return ret;
 }
 
 static int js_is_array(napi_env env,napi_value val)
 {
 	bool ret=0;
-	napi_is_array(env, val, &ret);
+	if(js_error(env,
+
+		napi_is_array(env, val, &ret)
+
+	)){return 0;}
 	return ret;
 }
 
 static int js_is_object(napi_env env,napi_value val)
 {
 	napi_valuetype ret=napi_undefined;
-	napi_typeof(env, val, &ret);
+	if(js_error(env,
+	
+		napi_typeof(env, val, &ret)
+
+	)){return 0;}
 	return (ret==napi_object);
 }
 
 static int js_is_bool(napi_env env,napi_value val)
 {
 	napi_valuetype ret=napi_undefined;
-	napi_typeof(env, val, &ret);
+	if(js_error(env,
+
+		napi_typeof(env, val, &ret)
+
+	)){return 0;}
 	return (ret==napi_boolean);
 }
 
 static int js_is_number(napi_env env,napi_value val)
 {
 	napi_valuetype ret=napi_undefined;
-	napi_typeof(env, val, &ret);
+	if(js_error(env,
+
+		napi_typeof(env, val, &ret)
+		
+	)){return 0;}
 	return (ret==napi_number);
 }
 
 static int js_is_string(napi_env env,napi_value val)
 {
 	napi_valuetype ret=napi_undefined;
-	napi_typeof(env, val, &ret);
+	if(js_error(env,
+
+		napi_typeof(env, val, &ret)
+
+	)){return 0;}
 	return (ret==napi_string);
 }
 
 static double js_to_bool(napi_env env,napi_value val)
 {
 	bool ret;
+	if(js_error(env,
 
-	napi_status status=napi_get_value_bool(env,val,&ret);
-	if (status != napi_ok)
-	{
-		bool is_pending;
-		napi_is_exception_pending((env), &is_pending);
-		if (!is_pending)
-		{
-			napi_throw_error((env), NULL, "error");
-		}
-	}
+		napi_get_value_bool(env,val,&ret)
 
+	)){return 0;}
 	return ret;
 }
 
 static double js_to_double(napi_env env,napi_value val)
 {
 	double ret;
+	if(js_error(env,
 
-	napi_status status=napi_get_value_double(env,val,&ret);
-	if (status != napi_ok)
-	{
-		bool is_pending;
-		napi_is_exception_pending((env), &is_pending);
-		if (!is_pending)
-		{
-			napi_throw_error((env), NULL, "error");
-		}
-	}
+		napi_get_value_double(env,val,&ret)
 
+	)){return 0;}
 	return ret;
 }
 
 static int js_len_string(napi_env env,napi_value val)
 {
 	size_t size=0;
+	if(js_error(env,
 
-	napi_status status=napi_get_value_string_utf8(env,val,0,0,&size);
+		napi_get_value_string_utf8(env,val,0,0,&size)
 
+	)){return 0;}
 	return (int)size;
 }
 
@@ -216,7 +263,11 @@ static int js_len_string(napi_env env,napi_value val)
 static int js_ptr_string(napi_env env,napi_value val,char *cp,int size)
 {
 	size_t len=0;
-	napi_get_value_string_utf8(env,val,cp,size,&len);
+	if(js_error(env,
+
+		napi_get_value_string_utf8(env,val,cp,size,&len)
+
+	)){return 0;}
 	return len;
 }
 
@@ -228,15 +279,21 @@ static const char * js_to_string(napi_env env,napi_value val)
 	size_t size=0;
 	size_t len=0;
 
-	NODE_API_CALL(env, napi_get_value_string_utf8(env,
-		val,0,0,&size));
-		
+	if(js_error(env,
+
+		napi_get_value_string_utf8(env,	val , 0 , 0 , &size )
+
+	)){return 0;}
+
 	size=size+1; // term
 	cp=malloc(size);
 	if(!cp){ napi_throw_error(env, NULL, "out of memory" ); return 0; }
 
-	NODE_API_CALL(env, napi_get_value_string_utf8(env,
-		val,cp,size,&len));
+	if(js_error(env,
+
+		napi_get_value_string_utf8(env, val , cp , size , &len )
+
+	)){return 0;}
 
 	return cp;
 }
@@ -245,59 +302,80 @@ static const char * js_to_string(napi_env env,napi_value val)
 static napi_value js_key_array(napi_env env,napi_value obj)
 {
 	napi_value ret;
+	if(js_error(env,
 
-	NODE_API_CALL(env, napi_get_property_names(env,
-		obj, &ret ));
+		napi_get_property_names(env, obj, &ret )
 
+	)){return 0;}
 	return ret;
 }
 
 static int js_len_array(napi_env env,napi_value arr)
 {
 	uint32_t size=0;
+	if(js_error(env,
 
-	napi_status status=napi_get_array_length(env,arr,&size);
+		napi_get_array_length(env,arr,&size)
 
+	)){return 0;}
 	return (int)size;
 }
 
 static napi_value js_val_set(napi_env env,napi_value obj, napi_value key, napi_value val)
 {
-	NODE_API_CALL(env, napi_set_property(env,
-		obj,key,val));
+	if(js_error(env,
+
+		napi_set_property(env, obj , key , val )
+
+	)){return 0;}
 	return obj;
 }
 static napi_value js_val_get(napi_env env,napi_value obj, napi_value key)
 {
 	napi_value ret;
-	NODE_API_CALL(env, napi_get_property(env,
-		obj,key,&ret));
+	if(js_error(env,
+
+		napi_get_property(env, obj , key , &ret )
+
+	)){return 0;}
 	return ret;
 }
 static napi_value js_str_set(napi_env env,napi_value obj, const char *key, napi_value val)
 {
-	NODE_API_CALL(env, napi_set_named_property(env,
-		obj,key,val));
+	if(js_error(env,
+	
+		napi_set_named_property(env, obj , key , val )
+
+	)){return 0;}
 	return obj;
 }
 static napi_value js_str_get(napi_env env,napi_value obj, const char *key)
 {
 	napi_value ret;
-	NODE_API_CALL(env, napi_get_named_property(env,
-		obj,key,&ret));
+	if(js_error(env,
+
+		napi_get_named_property(env, obj , key , &ret )
+
+	)){return 0;}
 	return ret;
 }
 static napi_value js_idx_set(napi_env env,napi_value arr, int idx, napi_value val)
 {
-	NODE_API_CALL(env, napi_set_element(env,
-		arr,idx,val));
+	if(js_error(env,
+	
+		napi_set_element(env, arr , idx , val )
+
+	)){return 0;}
 	return arr;
 }
 static napi_value js_idx_get(napi_env env,napi_value arr, int idx)
 {
 	napi_value ret;
-	NODE_API_CALL(env, napi_get_element(env,
-		arr,idx,&ret));
+	if(js_error(env,
+
+		napi_get_element(env, arr , idx , &ret )
+
+	)){return 0;}
 	return ret;
 }
 
@@ -307,7 +385,9 @@ static napi_value djon_core_locate(napi_env env, napi_callback_info info)
 	napi_value argv[8];
 	napi_value thisjs;
 	djon_state *ds;
-	NODE_API_CALL(env, napi_get_cb_info(env, info, &argc, argv, &thisjs, (void**)&ds ));
+	if(js_error(env,
+		napi_get_cb_info(env, info, &argc, argv, &thisjs, (void**)&ds )
+	)){return 0;}
 
 	napi_value a=js_array(env,4);
 	if(ds->error_string)
@@ -375,7 +455,9 @@ static napi_value djon_core_get(napi_env env, napi_callback_info info)
 	napi_value argv[8];
 	napi_value thisjs;
 	djon_state *ds;
-	NODE_API_CALL(env, napi_get_cb_info(env, info, &argc, argv, &thisjs, (void**)&ds ));
+	if(js_error(env,
+		napi_get_cb_info(env, info, &argc, argv, &thisjs, (void**)&ds )
+	)){return 0;}
 
 	ds->comment=0;
 	for(int i=0;(size_t)i<argc;i++) // check string flags in args
@@ -529,7 +611,9 @@ static napi_value djon_core_set(napi_env env, napi_callback_info info)
 	napi_value argv[8];
 	napi_value thisjs;
 	djon_state *ds;
-	NODE_API_CALL(env, napi_get_cb_info(env, info, &argc, argv, &thisjs, (void**)&ds ));
+	if(js_error(env,
+		napi_get_cb_info(env, info, &argc, argv, &thisjs, (void**)&ds )
+	)){return 0;}
 
 	ds->comment=0;
 	for(int i=1;(size_t)i<argc;i++) // check string flags in args
@@ -556,7 +640,9 @@ static napi_value djon_core_load(napi_env env, napi_callback_info info)
 	napi_value argv[8];
 	napi_value thisjs;
 	djon_state *ds;
-	NODE_API_CALL(env, napi_get_cb_info(env, info, &argc, argv, &thisjs, (void**)&ds ));
+	if(js_error(env,
+		napi_get_cb_info(env, info, &argc, argv, &thisjs, (void**)&ds )
+	)){return 0;}
 
 	// this will get auto free on object cleanup
 	ds->data = (char*) js_to_string(env,argv[0]);
@@ -582,7 +668,9 @@ static napi_value djon_core_save(napi_env env, napi_callback_info info)
 	napi_value argv[8];
 	napi_value thisjs;
 	djon_state *ds;
-	NODE_API_CALL(env, napi_get_cb_info(env, info, &argc, argv, &thisjs, (void**)&ds ));
+	if(js_error(env,
+		napi_get_cb_info(env, info, &argc, argv, &thisjs, (void**)&ds )
+	)){return 0;}
 
 	napi_value ret;
 
@@ -647,11 +735,16 @@ static napi_value djon_core_new(napi_env env, napi_callback_info info)
 	ds=djon_setup();
 	if(!ds){return NULL;}
 	
-	NODE_API_CALL(env, napi_create_object(env,
-		&exports));
+	if(js_error(env,
 
-	NODE_API_CALL(env, napi_add_finalizer(env,
-		exports,ds,djon_core_finalizer,0,0));
+		napi_create_object(env, &exports)
+	
+	)){return 0;}
+	if(js_error(env,
+
+		napi_add_finalizer(env, exports , ds , djon_core_finalizer , 0 , 0 )
+
+	)){return 0;}
                                
 	return js_export_functions(env,exports,funcs,ds);
 }

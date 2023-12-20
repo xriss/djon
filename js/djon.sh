@@ -1,3 +1,3 @@
 #!/bin/sh
 
-node  -- `dirname $0`/djon_cmd.js "$@"
+node `dirname $0`/djon_cmd.mjs "$@"
