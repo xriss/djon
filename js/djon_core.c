@@ -7,7 +7,8 @@
 #include "djon.h"
 
 
-// we can skip providing napi_wasm_malloc as we are not using buffers
+// is this what we need?
+extern void * napi_wasm_malloc( size_t siz ) { return malloc(siz); }
 
 // this probably wont error, and if it does...
 #define NODE_API_CALL(env, call)                                  \
@@ -109,6 +110,17 @@ static napi_value js_string_len(napi_env env,const char *cp,int len)
 	NODE_API_CALL(env, napi_create_string_utf8(env,
 		cp,
 		len,
+		&ret));
+	return ret;
+}
+
+static napi_value js_buffer(napi_env env,const char *cp,int len)
+{
+	napi_value ret;
+	NODE_API_CALL(env, napi_create_buffer_copy(env,
+		len,
+		cp,
+		NULL,
 		&ret));
 	return ret;
 }
@@ -614,7 +626,7 @@ static napi_value djon_core_save(napi_env env, napi_callback_info info)
 static void djon_core_finalizer(napi_env env, void *data, void *hint)
 {
 	djon_state *ds=(djon_state *)data;
-//	printf("it is over\n");
+	djon_clean(ds);
 }
 
 static napi_value djon_core_new(napi_env env, napi_callback_info info)
