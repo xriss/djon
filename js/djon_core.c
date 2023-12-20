@@ -13,20 +13,6 @@
 // is this what we need?
 extern void * napi_wasm_malloc( size_t siz ) { return malloc(siz); }
 
-// this probably wont error, and if it does...
-#define NODE_API_CALL(env, call)                                  \
-	do {                                                          \
-		napi_status status = (call);                              \
-		if (status != napi_ok) {                                  \
-			bool is_pending;                                      \
-			napi_is_exception_pending((env), &is_pending);        \
-			if (!is_pending) {                                    \
-				napi_throw_error((env), NULL, "error");           \
-			}                                                     \
-			return NULL;                                          \
-		}                                                         \
-	} while(0)
-
 // check error state and optionally throw an exception
 static int js_error(napi_env env,int err)
 {
