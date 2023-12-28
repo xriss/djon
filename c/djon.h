@@ -75,7 +75,8 @@ typedef enum djon_enum
 	DJON_COMMENT  = 0x0007,
 
 	DJON_ESCAPED  = 0x0100, // this string contains \n \t \" etc
-	DJON_KEY      = 0x0200, // this string is a key
+	DJON_LONG     = 0x0200, // this string is long ( remove first/last \n )
+	DJON_KEY      = 0x0400, // this string is a key
 
 	DJON_TYPEMASK = 0x00ff, // base types are in lower byte
 	DJON_FLAGMASK = 0xff00, // additional flags are in upper byte
@@ -413,14 +414,33 @@ int djon_unescape_string( djon_value * v )
 	// must be string
 	if((v->typ&DJON_TYPEMASK)!=DJON_STRING) { return 0; }
 
-	// must be escaped
-	if(!(v->typ&DJON_ESCAPED)) { return 0; }
+	// remove escaped
+	if( v->typ & DJON_ESCAPED )
+	{
 
-	v->len=djon_unescape(v->str,v->len); // perform unescape
+		v->len=djon_unescape(v->str,v->len); // perform unescape
 
-	v->typ&=~DJON_ESCAPED; // remove flag
+		v->typ&=~DJON_ESCAPED; // remove flag
 
-	return 1; // we changed the string
+		return 1; // we changed the string
+	}
+	else // remove long string flag
+	if( v->typ & DJON_LONG )
+	{
+		// when dealing with multi-line strings it feels more natural
+		// to ignore the first newline
+		if( v->len>0 && v->str[0]=='\n' ) // remove first \n
+		{
+			v->len--;
+			v->str++;
+		}
+
+		v->typ&=~DJON_LONG; // remove flag
+
+		return 1; // we changed the string
+	}
+
+	return 0;
 }
 
 // can this string be naked
@@ -1335,6 +1355,7 @@ void djon_write_djon_indent(djon_state *ds,int idx,int indent)
 					qs=djon_pick_quote(key->str,key->len,ds->buf);
 					if(!qs){ djon_set_error(ds,"quote attack"); return; }
 					djon_write_string(ds,qs);
+					if(key->len>0 && key->str[0]=='\n') { djon_write_string(ds,"\n"); }
 					djon_write_it(ds,key->str,key->len);
 					djon_write_string(ds,qs);
 					if(ds->compact)
@@ -1369,6 +1390,7 @@ void djon_write_djon_indent(djon_state *ds,int idx,int indent)
 				qs=djon_pick_quote(v->str,v->len,ds->buf);
 				if(!qs){ djon_set_error(ds,"quote attack"); return; }
 				djon_write_string(ds,qs);
+				if(v->len>0 && v->str[0]=='\n') { djon_write_string(ds,"\n"); }
 				djon_write_it(ds,v->str,v->len);
 				djon_write_string(ds,qs);
 				djon_write_string(ds,"\n");
@@ -1740,13 +1762,14 @@ int djon_parse_next(djon_state *ds)
 	return idx;
 }
 
-int djon_parse_string(djon_state *ds,const char * term)
+int djon_parse_string(djon_state *ds,const char termchar)
 {
 	int str_idx=djon_parse_next(ds);
 	djon_value *str=djon_get(ds,str_idx);
 	if(!str) { return 0; }
 
 	char c;
+	const char *term=&termchar;
 	const char *cp;
 	const char *tp;
 	int term_len=1; // assume 1 char
@@ -1771,11 +1794,11 @@ int djon_parse_string(djon_state *ds,const char * term)
 				}
 			}
 		}
-		str->typ=DJON_STRING; // no escapes allowed
+		str->typ=DJON_LONG|DJON_STRING; // maybe skip first/last newline
 	}
 	else
 	{
-		str->typ=DJON_ESCAPED|DJON_STRING;
+		str->typ=DJON_ESCAPED|DJON_STRING; // deal with backslash escapes
 	}
 
 	if( *term != '\n' ) // need to skip opening quote if not \n terminated
@@ -1859,7 +1882,7 @@ int djon_parse_number(djon_state *ds)
 	}
 	if(!ds->strict) // invalid numbers become naked strings
 	{
-		return djon_parse_string(ds,"\n");
+		return djon_parse_string(ds,'\n');
 	}
 	djon_set_error(ds,"invalid number");
 	return 0;
@@ -1869,66 +1892,40 @@ int djon_parse_key(djon_state *ds)
 {
 	djon_skip_white_punct(ds,",");
 
-	int key_idx=djon_parse_next(ds);
-	djon_value *key=djon_get(ds,key_idx);
-	if(!key){return 0;} // out of data
-
+	djon_value *key=0;
+	int key_idx=0;
 	char term=0;
 	char c;
 
 	c=ds->data[ ds->parse_idx ];
-	if( c=='\'' || c=='"' ) // open quote
+	if( c=='\'' || c=='"' || c=='`') // reuse string parsing
 	{
-		term=c;
-		key->str++; // skip opening quote
-		ds->parse_idx++; // advance
-		key->typ=DJON_KEY|DJON_ESCAPED|DJON_STRING; // this is a key with escapes inside
+		key_idx=djon_parse_string(ds,c);
+		key=djon_get(ds,key_idx);
+		if(!key){return 0;} // out of data
+		key->typ=DJON_KEY|DJON_STRING; // this is a key
+		return key_idx;
 	}
-	else
-	{
-		key->typ=DJON_KEY|DJON_STRING; // this is a key with no escape
-	}
+
+
+	key_idx=djon_parse_next(ds);
+	key=djon_get(ds,key_idx);
+	if(!key){return 0;} // out of data
+	key->typ=DJON_KEY|DJON_STRING; // this is a key with no escape
 
 	while( ds->parse_idx < ds->data_len ) // while data
 	{
-		if(term==0) // naked string will not contain escapes
-		{
-			if( djon_peek_white(ds) ) { return key_idx; } // stop at whitespace
-			if( djon_peek_punct(ds,"=:") ) { return key_idx; } // stop at punct
-			c=ds->data[ ds->parse_idx ];
-			if( DJON_IS_DELIMINATOR(c) ) // a naked key may not contain any deliminator
-			{ djon_set_error(ds,"invalid naked key"); goto error; }
-		}
-		else
-		if( ds->data[ ds->parse_idx ]=='\\' ) // skip escaped char
-		{
-			key->len++; // grow string
-			ds->parse_idx++; // advance
-		}
-		else
-		if( ds->data[ ds->parse_idx ]==term )
-		{
-			ds->parse_idx++; // skip closing quote
-			djon_unescape_string(key); // fix string and remove escape bit
-			return key_idx; // end
-		}
+		if( djon_peek_white(ds) ) { return key_idx; } // stop at whitespace
+		if( djon_peek_punct(ds,"=:") ) { return key_idx; } // stop at punct
+		c=ds->data[ ds->parse_idx ];
+		if( DJON_IS_DELIMINATOR(c) ) // a naked key may not contain any deliminator
+		{ djon_set_error(ds,"invalid naked key"); goto error; }
 
 		key->len++; // grow string
 		ds->parse_idx++; // advance
 	}
-	if(term=='\'')
-	{
-		djon_set_error(ds,"missing '");
-	}
-	else
-	if(term=='"')
-	{
-		djon_set_error(ds,"missing \"");
-	}
-	else
-	{
-		djon_set_error(ds,"missing :");
-	}
+
+	djon_set_error(ds,"missing :");
 
 error:
 	return 0;
@@ -2273,7 +2270,7 @@ int djon_parse_value(djon_state *ds)
 				djon_set_error(ds,"single quote string not allowed in strict mode");
 				return 0;
 			}
-			return djon_parse_string(ds,"'");
+			return djon_parse_string(ds,'\'');
 		break;
 		case '"' :
 			if(ds->strict)
@@ -2281,10 +2278,10 @@ int djon_parse_value(djon_state *ds)
 				djon_set_error(ds,"double quote string not allowed in strict mode");
 				return 0;
 			}
-			return djon_parse_string(ds,"\"");
+			return djon_parse_string(ds,'"');
 		break;
 		case '`' :
-			return djon_parse_string(ds,"`");
+			return djon_parse_string(ds,'`');
 		break;
 		case '0' :
 		case '1' :
@@ -2309,7 +2306,7 @@ int djon_parse_value(djon_state *ds)
 		return 0;
 	}
 
-	return djon_parse_string(ds,"\n");
+	return djon_parse_string(ds,'\n');
 }
 
 
