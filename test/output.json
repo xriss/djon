@@ -3812,35 +3812,11 @@ wasm://wasm/djon_core.wasm-0001db8a:1
 
 
 RangeError: Maximum call stack size exceeded
-    at djon_core.wasm.djon_alloc (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[32]:0x134b)
-    at djon_core.wasm.djon_parse_next (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[47]:0x27e0)
-    at djon_core.wasm.djon_parse_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[51]:0x329f)
-    at djon_core.wasm.djon_parse_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[51]:0x3310)
-    at djon_core.wasm.djon_parse_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[51]:0x3310)
-    at djon_core.wasm.djon_parse_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[51]:0x3310)
-    at djon_core.wasm.djon_parse_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[51]:0x3310)
-    at djon_core.wasm.djon_parse_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[51]:0x3310)
-    at djon_core.wasm.djon_parse_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[51]:0x3310)
-    at djon_core.wasm.djon_parse_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[51]:0x3310)
-
-Node.js v21.4.0
 #js.djon
 wasm://wasm/djon_core.wasm-0001db8a:1
 
 
 RangeError: Maximum call stack size exceeded
-    at djon_core.wasm.djon_alloc (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[32]:0x134b)
-    at djon_core.wasm.djon_parse_next (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[47]:0x27e0)
-    at djon_core.wasm.djon_parse_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[51]:0x329f)
-    at djon_core.wasm.djon_parse_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[51]:0x3310)
-    at djon_core.wasm.djon_parse_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[51]:0x3310)
-    at djon_core.wasm.djon_parse_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[51]:0x3310)
-    at djon_core.wasm.djon_parse_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[51]:0x3310)
-    at djon_core.wasm.djon_parse_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[51]:0x3310)
-    at djon_core.wasm.djon_parse_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[51]:0x3310)
-    at djon_core.wasm.djon_parse_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[51]:0x3310)
-
-Node.js v21.4.0
 
 #json/bad/n_structure_angle_bracket_..json
 <.>
@@ -4419,35 +4395,11 @@ wasm://wasm/djon_core.wasm-0001db8a:1
 
 
 RangeError: Maximum call stack size exceeded
-    at djon_core.wasm.djon_alloc (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[32]:0x134b)
-    at djon_core.wasm.djon_parse_next (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[47]:0x27e0)
-    at djon_core.wasm.djon_parse_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[51]:0x329f)
-    at djon_core.wasm.djon_parse_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[51]:0x31d8)
-    at djon_core.wasm.djon_parse_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[51]:0x3310)
-    at djon_core.wasm.djon_parse_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[51]:0x31d8)
-    at djon_core.wasm.djon_parse_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[51]:0x3310)
-    at djon_core.wasm.djon_parse_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[51]:0x31d8)
-    at djon_core.wasm.djon_parse_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[51]:0x3310)
-    at djon_core.wasm.djon_parse_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[51]:0x31d8)
-
-Node.js v21.4.0
 #js.djon
 wasm://wasm/djon_core.wasm-0001db8a:1
 
 
 RangeError: Maximum call stack size exceeded
-    at djon_core.wasm.djon_alloc (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[32]:0x134b)
-    at djon_core.wasm.djon_parse_next (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[47]:0x27e0)
-    at djon_core.wasm.djon_parse_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[51]:0x329f)
-    at djon_core.wasm.djon_parse_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[51]:0x31d8)
-    at djon_core.wasm.djon_parse_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[51]:0x3310)
-    at djon_core.wasm.djon_parse_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[51]:0x31d8)
-    at djon_core.wasm.djon_parse_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[51]:0x3310)
-    at djon_core.wasm.djon_parse_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[51]:0x31d8)
-    at djon_core.wasm.djon_parse_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[51]:0x3310)
-    at djon_core.wasm.djon_parse_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[51]:0x31d8)
-
-Node.js v21.4.0
 
 #json/bad/n_structure_open_array_open_object.json
 [{
