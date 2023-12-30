@@ -31,10 +31,6 @@ build = {
 				"lua",
 			},
 		},
+		["djon"] = "lua/djon.lua",
 	},
-	install = {
-		lua = {
-			djon	=	"lua/djon.lua",
-		}
-	}
 }

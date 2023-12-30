@@ -1,6 +1,5 @@
 
 #include <stdlib.h>
-#include <string.h>
 #include <math.h>
 
 #ifndef DJON_H
@@ -32,6 +31,12 @@ extern "C" {
 #endif
 #if DJON_FILE
 #include <stdio.h>
+#endif
+
+// memcpy is probably the best way to copy memory
+#ifndef DJON_MEMCPY
+#include <string.h>
+#define DJON_MEMCPY memcpy
 #endif
 
 // Roll your own damn allocator
@@ -995,7 +1000,7 @@ int djon_write_data(djon_state *ds, const char *ptr, int len )
 	// copy into data buffer
 	if(ptr)
 	{
-		memcpy(ds->write_data+ds->write_len,ptr,len);
+		DJON_MEMCPY(ds->write_data+ds->write_len,ptr,len);
 	}
 	ds->write_len+=len;
 	ds->write_data[ds->write_len]=0; // keep null terminated
