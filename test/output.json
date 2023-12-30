@@ -3668,12 +3668,12 @@ luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46:
 #lua.djon
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: stack overflow line 1 char 5462 byte 5461
 #js.json
-wasm://wasm/djon_core.wasm-0001db7a:1
+wasm://wasm/djon_core.wasm-0001dc22:1
 
 
 RangeError: Maximum call stack size exceeded
 #js.djon
-wasm://wasm/djon_core.wasm-0001db7a:1
+wasm://wasm/djon_core.wasm-0001dc22:1
 
 
 RangeError: Maximum call stack size exceeded
@@ -4251,12 +4251,12 @@ luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46:
 #lua.djon
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: stack overflow line 1 char 11702 byte 11701
 #js.json
-wasm://wasm/djon_core.wasm-0001db7a:1
+wasm://wasm/djon_core.wasm-0001dc22:1
 
 
 RangeError: Maximum call stack size exceeded
 #js.djon
-wasm://wasm/djon_core.wasm-0001db7a:1
+wasm://wasm/djon_core.wasm-0001dc22:1
 
 
 RangeError: Maximum call stack size exceeded
@@ -8399,7 +8399,8 @@ TypeError: The encoded data was not valid for encoding utf-8
 ]
 #c.djon
 [
- `###
+ `
+###
 `
 ]
 #lua.json
@@ -8408,7 +8409,8 @@ TypeError: The encoded data was not valid for encoding utf-8
 ]
 #lua.djon
 [
- `###
+ `
+###
 `
 ]
 #js.json
@@ -8463,7 +8465,8 @@ TypeError: The encoded data was not valid for encoding utf-8
 ]
 #c.djon
 [
- `######
+ `
+######
 `
 ]
 #lua.json
@@ -8472,7 +8475,8 @@ TypeError: The encoded data was not valid for encoding utf-8
 ]
 #lua.djon
 [
- `######
+ `
+######
 `
 ]
 #js.json

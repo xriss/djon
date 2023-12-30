@@ -1395,7 +1395,10 @@ void djon_write_djon_indent(djon_state *ds,int idx,int indent)
 					qs=djon_pick_quote(key->str,key->len,ds->buf);
 					if(!qs){ djon_set_error(ds,"quote attack"); return; }
 					djon_write_string(ds,qs);
-					if(key->len>0 && key->str[0]=='\n') { djon_write_string(ds,"\n"); }
+					if(key->len>0 && ( ( key->str[0]=='\n' ) || ( key->str[key->len-1]=='\n' ) ) )
+					{
+						djon_write_string(ds,"\n");
+					}
 					djon_write_it(ds,key->str,key->len);
 					djon_write_string(ds,qs);
 					if(ds->compact)
@@ -1430,7 +1433,10 @@ void djon_write_djon_indent(djon_state *ds,int idx,int indent)
 				qs=djon_pick_quote(v->str,v->len,ds->buf);
 				if(!qs){ djon_set_error(ds,"quote attack"); return; }
 				djon_write_string(ds,qs);
-				if(v->len>0 && v->str[0]=='\n') { djon_write_string(ds,"\n"); }
+				if(v->len>0 && ( ( v->str[0]=='\n' ) || ( v->str[v->len-1]=='\n' ) ) )
+				{
+					djon_write_string(ds,"\n");
+				}
 				djon_write_it(ds,v->str,v->len);
 				djon_write_string(ds,qs);
 				djon_write_string(ds,"\n");
