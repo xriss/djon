@@ -6,6 +6,7 @@ lua/djon.h
 lua/djon.core.o
 djon
 
+test/c/checkobj.o
 
 js/build
 js/node_modules

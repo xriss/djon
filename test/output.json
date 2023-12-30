@@ -2923,40 +2923,12 @@ node:internal/encoding:449
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
-    at TextDecoder.decode (node:internal/encoding:449:16)
-    at napi_create_string_utf8 (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:1069:21)
-    at djon_core.wasm.js_string_len (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[73]:0x4883)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x4760)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x46d0)
-    at djon_core.wasm.djon_core_get (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[64]:0x4466)
-    at Object.get (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:253:19)
-    at djon.load_core (file:///home/kriss/git/djon/js/djon.mjs:34:18)
-    at djon.load (file:///home/kriss/git/djon/js/djon.mjs:26:14)
-    at file:///home/kriss/git/djon/js/djon_cmd.mjs:76:15 {
-  code: 'ERR_ENCODING_INVALID_ENCODED_DATA'
-}
-
-Node.js v21.4.0
 #js.djon
 node:internal/encoding:449
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
-    at TextDecoder.decode (node:internal/encoding:449:16)
-    at napi_create_string_utf8 (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:1069:21)
-    at djon_core.wasm.js_string_len (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[73]:0x4883)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x4760)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x46d0)
-    at djon_core.wasm.djon_core_get (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[64]:0x4466)
-    at Object.get (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:253:19)
-    at djon.load_core (file:///home/kriss/git/djon/js/djon.mjs:34:18)
-    at djon.load (file:///home/kriss/git/djon/js/djon.mjs:26:14)
-    at file:///home/kriss/git/djon/js/djon_cmd.mjs:76:15 {
-  code: 'ERR_ENCODING_INVALID_ENCODED_DATA'
-}
-
-Node.js v21.4.0
 
 #json/bad/n_string_1_surrogate_then_escape_u1x.json
 ["\uD800\u1x"]
@@ -2982,40 +2954,12 @@ node:internal/encoding:449
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
-    at TextDecoder.decode (node:internal/encoding:449:16)
-    at napi_create_string_utf8 (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:1069:21)
-    at djon_core.wasm.js_string_len (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[73]:0x4883)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x4760)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x46d0)
-    at djon_core.wasm.djon_core_get (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[64]:0x4466)
-    at Object.get (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:253:19)
-    at djon.load_core (file:///home/kriss/git/djon/js/djon.mjs:34:18)
-    at djon.load (file:///home/kriss/git/djon/js/djon.mjs:26:14)
-    at file:///home/kriss/git/djon/js/djon_cmd.mjs:76:15 {
-  code: 'ERR_ENCODING_INVALID_ENCODED_DATA'
-}
-
-Node.js v21.4.0
 #js.djon
 node:internal/encoding:449
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
-    at TextDecoder.decode (node:internal/encoding:449:16)
-    at napi_create_string_utf8 (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:1069:21)
-    at djon_core.wasm.js_string_len (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[73]:0x4883)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x4760)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x46d0)
-    at djon_core.wasm.djon_core_get (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[64]:0x4466)
-    at Object.get (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:253:19)
-    at djon.load_core (file:///home/kriss/git/djon/js/djon.mjs:34:18)
-    at djon.load (file:///home/kriss/git/djon/js/djon.mjs:26:14)
-    at file:///home/kriss/git/djon/js/djon_cmd.mjs:76:15 {
-  code: 'ERR_ENCODING_INVALID_ENCODED_DATA'
-}
-
-Node.js v21.4.0
 
 #json/bad/n_string_1_surrogate_then_escape_u.json
 ["\uD800\u"]
@@ -3041,40 +2985,12 @@ node:internal/encoding:449
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
-    at TextDecoder.decode (node:internal/encoding:449:16)
-    at napi_create_string_utf8 (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:1069:21)
-    at djon_core.wasm.js_string_len (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[73]:0x4883)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x4760)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x46d0)
-    at djon_core.wasm.djon_core_get (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[64]:0x4466)
-    at Object.get (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:253:19)
-    at djon.load_core (file:///home/kriss/git/djon/js/djon.mjs:34:18)
-    at djon.load (file:///home/kriss/git/djon/js/djon.mjs:26:14)
-    at file:///home/kriss/git/djon/js/djon_cmd.mjs:76:15 {
-  code: 'ERR_ENCODING_INVALID_ENCODED_DATA'
-}
-
-Node.js v21.4.0
 #js.djon
 node:internal/encoding:449
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
-    at TextDecoder.decode (node:internal/encoding:449:16)
-    at napi_create_string_utf8 (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:1069:21)
-    at djon_core.wasm.js_string_len (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[73]:0x4883)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x4760)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x46d0)
-    at djon_core.wasm.djon_core_get (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[64]:0x4466)
-    at Object.get (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:253:19)
-    at djon.load_core (file:///home/kriss/git/djon/js/djon.mjs:34:18)
-    at djon.load (file:///home/kriss/git/djon/js/djon.mjs:26:14)
-    at file:///home/kriss/git/djon/js/djon_cmd.mjs:76:15 {
-  code: 'ERR_ENCODING_INVALID_ENCODED_DATA'
-}
-
-Node.js v21.4.0
 
 #json/bad/n_string_accentuated_char_no_quotes.json
 [##]
@@ -3320,40 +3236,12 @@ node:internal/encoding:449
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
-    at TextDecoder.decode (node:internal/encoding:449:16)
-    at napi_create_string_utf8 (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:1069:21)
-    at djon_core.wasm.js_string_len (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[73]:0x4883)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x4760)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x46d0)
-    at djon_core.wasm.djon_core_get (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[64]:0x4466)
-    at Object.get (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:253:19)
-    at djon.load_core (file:///home/kriss/git/djon/js/djon.mjs:34:18)
-    at djon.load (file:///home/kriss/git/djon/js/djon.mjs:26:14)
-    at file:///home/kriss/git/djon/js/djon_cmd.mjs:76:15 {
-  code: 'ERR_ENCODING_INVALID_ENCODED_DATA'
-}
-
-Node.js v21.4.0
 #js.djon
 node:internal/encoding:449
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
-    at TextDecoder.decode (node:internal/encoding:449:16)
-    at napi_create_string_utf8 (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:1069:21)
-    at djon_core.wasm.js_string_len (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[73]:0x4883)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x4760)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x46d0)
-    at djon_core.wasm.djon_core_get (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[64]:0x4466)
-    at Object.get (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:253:19)
-    at djon.load_core (file:///home/kriss/git/djon/js/djon.mjs:34:18)
-    at djon.load (file:///home/kriss/git/djon/js/djon.mjs:26:14)
-    at file:///home/kriss/git/djon/js/djon_cmd.mjs:76:15 {
-  code: 'ERR_ENCODING_INVALID_ENCODED_DATA'
-}
-
-Node.js v21.4.0
 
 #json/bad/n_string_incomplete_surrogate.json
 ["\uD834\uDd"]
@@ -3379,40 +3267,12 @@ node:internal/encoding:449
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
-    at TextDecoder.decode (node:internal/encoding:449:16)
-    at napi_create_string_utf8 (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:1069:21)
-    at djon_core.wasm.js_string_len (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[73]:0x4883)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x4760)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x46d0)
-    at djon_core.wasm.djon_core_get (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[64]:0x4466)
-    at Object.get (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:253:19)
-    at djon.load_core (file:///home/kriss/git/djon/js/djon.mjs:34:18)
-    at djon.load (file:///home/kriss/git/djon/js/djon.mjs:26:14)
-    at file:///home/kriss/git/djon/js/djon_cmd.mjs:76:15 {
-  code: 'ERR_ENCODING_INVALID_ENCODED_DATA'
-}
-
-Node.js v21.4.0
 #js.djon
 node:internal/encoding:449
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
-    at TextDecoder.decode (node:internal/encoding:449:16)
-    at napi_create_string_utf8 (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:1069:21)
-    at djon_core.wasm.js_string_len (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[73]:0x4883)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x4760)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x46d0)
-    at djon_core.wasm.djon_core_get (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[64]:0x4466)
-    at Object.get (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:253:19)
-    at djon.load_core (file:///home/kriss/git/djon/js/djon.mjs:34:18)
-    at djon.load (file:///home/kriss/git/djon/js/djon.mjs:26:14)
-    at file:///home/kriss/git/djon/js/djon_cmd.mjs:76:15 {
-  code: 'ERR_ENCODING_INVALID_ENCODED_DATA'
-}
-
-Node.js v21.4.0
 
 #json/bad/n_string_invalid_backslash_esc.json
 ["\a"]
@@ -3808,12 +3668,12 @@ luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46:
 #lua.djon
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: stack overflow line 1 char 5462 byte 5461
 #js.json
-wasm://wasm/djon_core.wasm-0001db8a:1
+wasm://wasm/djon_core.wasm-0001db86:1
 
 
 RangeError: Maximum call stack size exceeded
 #js.djon
-wasm://wasm/djon_core.wasm-0001db8a:1
+wasm://wasm/djon_core.wasm-0001db86:1
 
 
 RangeError: Maximum call stack size exceeded
@@ -4391,12 +4251,12 @@ luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46:
 #lua.djon
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: stack overflow line 1 char 11702 byte 11701
 #js.json
-wasm://wasm/djon_core.wasm-0001db8a:1
+wasm://wasm/djon_core.wasm-0001db86:1
 
 
 RangeError: Maximum call stack size exceeded
 #js.djon
-wasm://wasm/djon_core.wasm-0001db8a:1
+wasm://wasm/djon_core.wasm-0001db86:1
 
 
 RangeError: Maximum call stack size exceeded
@@ -6573,40 +6433,12 @@ node:internal/encoding:449
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
-    at TextDecoder.decode (node:internal/encoding:449:16)
-    at napi_create_string_utf8 (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:1069:21)
-    at djon_core.wasm.js_string_len (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[73]:0x4883)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x4760)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x46d0)
-    at djon_core.wasm.djon_core_get (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[64]:0x4466)
-    at Object.get (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:253:19)
-    at djon.load_core (file:///home/kriss/git/djon/js/djon.mjs:34:18)
-    at djon.load (file:///home/kriss/git/djon/js/djon.mjs:26:14)
-    at file:///home/kriss/git/djon/js/djon_cmd.mjs:76:15 {
-  code: 'ERR_ENCODING_INVALID_ENCODED_DATA'
-}
-
-Node.js v21.4.0
 #js.djon
 node:internal/encoding:449
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
-    at TextDecoder.decode (node:internal/encoding:449:16)
-    at napi_create_string_utf8 (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:1069:21)
-    at djon_core.wasm.js_string_len (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[73]:0x4883)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x4760)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x46d0)
-    at djon_core.wasm.djon_core_get (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[64]:0x4466)
-    at Object.get (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:253:19)
-    at djon.load_core (file:///home/kriss/git/djon/js/djon.mjs:34:18)
-    at djon.load (file:///home/kriss/git/djon/js/djon.mjs:26:14)
-    at file:///home/kriss/git/djon/js/djon_cmd.mjs:76:15 {
-  code: 'ERR_ENCODING_INVALID_ENCODED_DATA'
-}
-
-Node.js v21.4.0
 
 #json/good/y_string_nbsp_uescaped.json
 ["new\u00A0line"]
@@ -7217,40 +7049,12 @@ node:internal/encoding:449
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
-    at TextDecoder.decode (node:internal/encoding:449:16)
-    at napi_create_string_utf8 (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:1069:21)
-    at djon_core.wasm.js_string_len (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[73]:0x4883)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x4760)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x46d0)
-    at djon_core.wasm.djon_core_get (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[64]:0x4466)
-    at Object.get (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:253:19)
-    at djon.load_core (file:///home/kriss/git/djon/js/djon.mjs:34:18)
-    at djon.load (file:///home/kriss/git/djon/js/djon.mjs:26:14)
-    at file:///home/kriss/git/djon/js/djon_cmd.mjs:76:15 {
-  code: 'ERR_ENCODING_INVALID_ENCODED_DATA'
-}
-
-Node.js v21.4.0
 #js.djon
 node:internal/encoding:449
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
-    at TextDecoder.decode (node:internal/encoding:449:16)
-    at napi_create_string_utf8 (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:1069:21)
-    at djon_core.wasm.js_string_len (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[73]:0x4883)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x4760)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x46d0)
-    at djon_core.wasm.djon_core_get (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[64]:0x4466)
-    at Object.get (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:253:19)
-    at djon.load_core (file:///home/kriss/git/djon/js/djon.mjs:34:18)
-    at djon.load (file:///home/kriss/git/djon/js/djon.mjs:26:14)
-    at file:///home/kriss/git/djon/js/djon_cmd.mjs:76:15 {
-  code: 'ERR_ENCODING_INVALID_ENCODED_DATA'
-}
-
-Node.js v21.4.0
 
 #json/good/y_string_unicode_U+200B_ZERO_WIDTH_SPACE.json
 ["\u200B"]
@@ -8047,40 +7851,12 @@ node:internal/encoding:449
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
-    at TextDecoder.decode (node:internal/encoding:449:16)
-    at napi_create_string_utf8 (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:1069:21)
-    at djon_core.wasm.js_string_len (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[73]:0x4883)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x4760)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x46d0)
-    at djon_core.wasm.djon_core_get (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[64]:0x4466)
-    at Object.get (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:253:19)
-    at djon.load_core (file:///home/kriss/git/djon/js/djon.mjs:34:18)
-    at djon.load (file:///home/kriss/git/djon/js/djon.mjs:26:14)
-    at file:///home/kriss/git/djon/js/djon_cmd.mjs:76:15 {
-  code: 'ERR_ENCODING_INVALID_ENCODED_DATA'
-}
-
-Node.js v21.4.0
 #js.djon
 node:internal/encoding:449
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
-    at TextDecoder.decode (node:internal/encoding:449:16)
-    at napi_create_string_utf8 (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:1069:21)
-    at djon_core.wasm.js_string_len (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[73]:0x4883)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x4760)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x46d0)
-    at djon_core.wasm.djon_core_get (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[64]:0x4466)
-    at Object.get (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:253:19)
-    at djon.load_core (file:///home/kriss/git/djon/js/djon.mjs:34:18)
-    at djon.load (file:///home/kriss/git/djon/js/djon.mjs:26:14)
-    at file:///home/kriss/git/djon/js/djon_cmd.mjs:76:15 {
-  code: 'ERR_ENCODING_INVALID_ENCODED_DATA'
-}
-
-Node.js v21.4.0
 
 #json/edge/string_1_invalid_codepoint.json
 ["###"]
@@ -8133,40 +7909,12 @@ node:internal/encoding:449
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
-    at TextDecoder.decode (node:internal/encoding:449:16)
-    at napi_create_string_utf8 (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:1069:21)
-    at djon_core.wasm.js_string_len (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[73]:0x4883)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x4760)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x46d0)
-    at djon_core.wasm.djon_core_get (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[64]:0x4466)
-    at Object.get (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:253:19)
-    at djon.load_core (file:///home/kriss/git/djon/js/djon.mjs:34:18)
-    at djon.load (file:///home/kriss/git/djon/js/djon.mjs:26:14)
-    at file:///home/kriss/git/djon/js/djon_cmd.mjs:76:15 {
-  code: 'ERR_ENCODING_INVALID_ENCODED_DATA'
-}
-
-Node.js v21.4.0
 #js.djon
 node:internal/encoding:449
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
-    at TextDecoder.decode (node:internal/encoding:449:16)
-    at napi_create_string_utf8 (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:1069:21)
-    at djon_core.wasm.js_string_len (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[73]:0x4883)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x4760)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x46d0)
-    at djon_core.wasm.djon_core_get (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[64]:0x4466)
-    at Object.get (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:253:19)
-    at djon.load_core (file:///home/kriss/git/djon/js/djon.mjs:34:18)
-    at djon.load (file:///home/kriss/git/djon/js/djon.mjs:26:14)
-    at file:///home/kriss/git/djon/js/djon_cmd.mjs:76:15 {
-  code: 'ERR_ENCODING_INVALID_ENCODED_DATA'
-}
-
-Node.js v21.4.0
 
 #json/edge/string_2_invalid_codepoints.json
 ["######"]
@@ -8219,40 +7967,12 @@ node:internal/encoding:449
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
-    at TextDecoder.decode (node:internal/encoding:449:16)
-    at napi_create_string_utf8 (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:1069:21)
-    at djon_core.wasm.js_string_len (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[73]:0x4883)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x4760)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x46d0)
-    at djon_core.wasm.djon_core_get (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[64]:0x4466)
-    at Object.get (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:253:19)
-    at djon.load_core (file:///home/kriss/git/djon/js/djon.mjs:34:18)
-    at djon.load (file:///home/kriss/git/djon/js/djon.mjs:26:14)
-    at file:///home/kriss/git/djon/js/djon_cmd.mjs:76:15 {
-  code: 'ERR_ENCODING_INVALID_ENCODED_DATA'
-}
-
-Node.js v21.4.0
 #js.djon
 node:internal/encoding:449
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
-    at TextDecoder.decode (node:internal/encoding:449:16)
-    at napi_create_string_utf8 (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:1069:21)
-    at djon_core.wasm.js_string_len (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[73]:0x4883)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x4760)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x46d0)
-    at djon_core.wasm.djon_core_get (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[64]:0x4466)
-    at Object.get (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:253:19)
-    at djon.load_core (file:///home/kriss/git/djon/js/djon.mjs:34:18)
-    at djon.load (file:///home/kriss/git/djon/js/djon.mjs:26:14)
-    at file:///home/kriss/git/djon/js/djon_cmd.mjs:76:15 {
-  code: 'ERR_ENCODING_INVALID_ENCODED_DATA'
-}
-
-Node.js v21.4.0
 
 #json/edge/string_3_invalid_codepoints.json
 ["#########"]
@@ -8602,40 +8322,12 @@ node:internal/encoding:449
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
-    at TextDecoder.decode (node:internal/encoding:449:16)
-    at napi_create_string_utf8 (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:1069:21)
-    at djon_core.wasm.js_string_len (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[73]:0x4883)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x4760)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x47a1)
-    at djon_core.wasm.djon_core_get (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[64]:0x4466)
-    at Object.get (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:253:19)
-    at djon.load_core (file:///home/kriss/git/djon/js/djon.mjs:34:18)
-    at djon.load (file:///home/kriss/git/djon/js/djon.mjs:26:14)
-    at file:///home/kriss/git/djon/js/djon_cmd.mjs:76:15 {
-  code: 'ERR_ENCODING_INVALID_ENCODED_DATA'
-}
-
-Node.js v21.4.0
 #js.djon
 node:internal/encoding:449
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
-    at TextDecoder.decode (node:internal/encoding:449:16)
-    at napi_create_string_utf8 (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:1069:21)
-    at djon_core.wasm.js_string_len (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[73]:0x4883)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x4760)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x47a1)
-    at djon_core.wasm.djon_core_get (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[64]:0x4466)
-    at Object.get (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:253:19)
-    at djon.load_core (file:///home/kriss/git/djon/js/djon.mjs:34:18)
-    at djon.load (file:///home/kriss/git/djon/js/djon.mjs:26:14)
-    at file:///home/kriss/git/djon/js/djon_cmd.mjs:76:15 {
-  code: 'ERR_ENCODING_INVALID_ENCODED_DATA'
-}
-
-Node.js v21.4.0
 
 #json/maybe/i_string_1st_surrogate_but_2nd_missing.json
 ["\uDADA"]
@@ -8661,40 +8353,12 @@ node:internal/encoding:449
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
-    at TextDecoder.decode (node:internal/encoding:449:16)
-    at napi_create_string_utf8 (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:1069:21)
-    at djon_core.wasm.js_string_len (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[73]:0x4883)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x4760)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x46d0)
-    at djon_core.wasm.djon_core_get (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[64]:0x4466)
-    at Object.get (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:253:19)
-    at djon.load_core (file:///home/kriss/git/djon/js/djon.mjs:34:18)
-    at djon.load (file:///home/kriss/git/djon/js/djon.mjs:26:14)
-    at file:///home/kriss/git/djon/js/djon_cmd.mjs:76:15 {
-  code: 'ERR_ENCODING_INVALID_ENCODED_DATA'
-}
-
-Node.js v21.4.0
 #js.djon
 node:internal/encoding:449
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
-    at TextDecoder.decode (node:internal/encoding:449:16)
-    at napi_create_string_utf8 (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:1069:21)
-    at djon_core.wasm.js_string_len (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[73]:0x4883)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x4760)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x46d0)
-    at djon_core.wasm.djon_core_get (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[64]:0x4466)
-    at Object.get (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:253:19)
-    at djon.load_core (file:///home/kriss/git/djon/js/djon.mjs:34:18)
-    at djon.load (file:///home/kriss/git/djon/js/djon.mjs:26:14)
-    at file:///home/kriss/git/djon/js/djon_cmd.mjs:76:15 {
-  code: 'ERR_ENCODING_INVALID_ENCODED_DATA'
-}
-
-Node.js v21.4.0
 
 #json/maybe/i_string_1st_valid_surrogate_2nd_invalid.json
 ["\uD888\u1234"]
@@ -8720,40 +8384,12 @@ node:internal/encoding:449
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
-    at TextDecoder.decode (node:internal/encoding:449:16)
-    at napi_create_string_utf8 (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:1069:21)
-    at djon_core.wasm.js_string_len (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[73]:0x4883)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x4760)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x46d0)
-    at djon_core.wasm.djon_core_get (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[64]:0x4466)
-    at Object.get (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:253:19)
-    at djon.load_core (file:///home/kriss/git/djon/js/djon.mjs:34:18)
-    at djon.load (file:///home/kriss/git/djon/js/djon.mjs:26:14)
-    at file:///home/kriss/git/djon/js/djon_cmd.mjs:76:15 {
-  code: 'ERR_ENCODING_INVALID_ENCODED_DATA'
-}
-
-Node.js v21.4.0
 #js.djon
 node:internal/encoding:449
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
-    at TextDecoder.decode (node:internal/encoding:449:16)
-    at napi_create_string_utf8 (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:1069:21)
-    at djon_core.wasm.js_string_len (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[73]:0x4883)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x4760)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x46d0)
-    at djon_core.wasm.djon_core_get (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[64]:0x4466)
-    at Object.get (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:253:19)
-    at djon.load_core (file:///home/kriss/git/djon/js/djon.mjs:34:18)
-    at djon.load (file:///home/kriss/git/djon/js/djon.mjs:26:14)
-    at file:///home/kriss/git/djon/js/djon_cmd.mjs:76:15 {
-  code: 'ERR_ENCODING_INVALID_ENCODED_DATA'
-}
-
-Node.js v21.4.0
 
 #json/maybe/i_string_incomplete_surrogate_and_escape_valid.json
 ["\uD800\n"]
@@ -8781,40 +8417,12 @@ node:internal/encoding:449
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
-    at TextDecoder.decode (node:internal/encoding:449:16)
-    at napi_create_string_utf8 (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:1069:21)
-    at djon_core.wasm.js_string_len (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[73]:0x4883)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x4760)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x46d0)
-    at djon_core.wasm.djon_core_get (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[64]:0x4466)
-    at Object.get (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:253:19)
-    at djon.load_core (file:///home/kriss/git/djon/js/djon.mjs:34:18)
-    at djon.load (file:///home/kriss/git/djon/js/djon.mjs:26:14)
-    at file:///home/kriss/git/djon/js/djon_cmd.mjs:76:15 {
-  code: 'ERR_ENCODING_INVALID_ENCODED_DATA'
-}
-
-Node.js v21.4.0
 #js.djon
 node:internal/encoding:449
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
-    at TextDecoder.decode (node:internal/encoding:449:16)
-    at napi_create_string_utf8 (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:1069:21)
-    at djon_core.wasm.js_string_len (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[73]:0x4883)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x4760)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x46d0)
-    at djon_core.wasm.djon_core_get (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[64]:0x4466)
-    at Object.get (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:253:19)
-    at djon.load_core (file:///home/kriss/git/djon/js/djon.mjs:34:18)
-    at djon.load (file:///home/kriss/git/djon/js/djon.mjs:26:14)
-    at file:///home/kriss/git/djon/js/djon_cmd.mjs:76:15 {
-  code: 'ERR_ENCODING_INVALID_ENCODED_DATA'
-}
-
-Node.js v21.4.0
 
 #json/maybe/i_string_incomplete_surrogate_pair.json
 ["\uDd1ea"]
@@ -8840,40 +8448,12 @@ node:internal/encoding:449
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
-    at TextDecoder.decode (node:internal/encoding:449:16)
-    at napi_create_string_utf8 (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:1069:21)
-    at djon_core.wasm.js_string_len (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[73]:0x4883)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x4760)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x46d0)
-    at djon_core.wasm.djon_core_get (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[64]:0x4466)
-    at Object.get (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:253:19)
-    at djon.load_core (file:///home/kriss/git/djon/js/djon.mjs:34:18)
-    at djon.load (file:///home/kriss/git/djon/js/djon.mjs:26:14)
-    at file:///home/kriss/git/djon/js/djon_cmd.mjs:76:15 {
-  code: 'ERR_ENCODING_INVALID_ENCODED_DATA'
-}
-
-Node.js v21.4.0
 #js.djon
 node:internal/encoding:449
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
-    at TextDecoder.decode (node:internal/encoding:449:16)
-    at napi_create_string_utf8 (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:1069:21)
-    at djon_core.wasm.js_string_len (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[73]:0x4883)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x4760)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x46d0)
-    at djon_core.wasm.djon_core_get (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[64]:0x4466)
-    at Object.get (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:253:19)
-    at djon.load_core (file:///home/kriss/git/djon/js/djon.mjs:34:18)
-    at djon.load (file:///home/kriss/git/djon/js/djon.mjs:26:14)
-    at file:///home/kriss/git/djon/js/djon_cmd.mjs:76:15 {
-  code: 'ERR_ENCODING_INVALID_ENCODED_DATA'
-}
-
-Node.js v21.4.0
 
 #json/maybe/i_string_incomplete_surrogates_escape_valid.json
 ["\uD800\uD800\n"]
@@ -8901,40 +8481,12 @@ node:internal/encoding:449
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
-    at TextDecoder.decode (node:internal/encoding:449:16)
-    at napi_create_string_utf8 (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:1069:21)
-    at djon_core.wasm.js_string_len (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[73]:0x4883)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x4760)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x46d0)
-    at djon_core.wasm.djon_core_get (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[64]:0x4466)
-    at Object.get (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:253:19)
-    at djon.load_core (file:///home/kriss/git/djon/js/djon.mjs:34:18)
-    at djon.load (file:///home/kriss/git/djon/js/djon.mjs:26:14)
-    at file:///home/kriss/git/djon/js/djon_cmd.mjs:76:15 {
-  code: 'ERR_ENCODING_INVALID_ENCODED_DATA'
-}
-
-Node.js v21.4.0
 #js.djon
 node:internal/encoding:449
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
-    at TextDecoder.decode (node:internal/encoding:449:16)
-    at napi_create_string_utf8 (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:1069:21)
-    at djon_core.wasm.js_string_len (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[73]:0x4883)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x4760)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x46d0)
-    at djon_core.wasm.djon_core_get (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[64]:0x4466)
-    at Object.get (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:253:19)
-    at djon.load_core (file:///home/kriss/git/djon/js/djon.mjs:34:18)
-    at djon.load (file:///home/kriss/git/djon/js/djon.mjs:26:14)
-    at file:///home/kriss/git/djon/js/djon_cmd.mjs:76:15 {
-  code: 'ERR_ENCODING_INVALID_ENCODED_DATA'
-}
-
-Node.js v21.4.0
 
 #json/maybe/i_string_invalid_lonely_surrogate.json
 ["\ud800"]
@@ -8960,40 +8512,12 @@ node:internal/encoding:449
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
-    at TextDecoder.decode (node:internal/encoding:449:16)
-    at napi_create_string_utf8 (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:1069:21)
-    at djon_core.wasm.js_string_len (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[73]:0x4883)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x4760)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x46d0)
-    at djon_core.wasm.djon_core_get (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[64]:0x4466)
-    at Object.get (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:253:19)
-    at djon.load_core (file:///home/kriss/git/djon/js/djon.mjs:34:18)
-    at djon.load (file:///home/kriss/git/djon/js/djon.mjs:26:14)
-    at file:///home/kriss/git/djon/js/djon_cmd.mjs:76:15 {
-  code: 'ERR_ENCODING_INVALID_ENCODED_DATA'
-}
-
-Node.js v21.4.0
 #js.djon
 node:internal/encoding:449
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
-    at TextDecoder.decode (node:internal/encoding:449:16)
-    at napi_create_string_utf8 (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:1069:21)
-    at djon_core.wasm.js_string_len (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[73]:0x4883)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x4760)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x46d0)
-    at djon_core.wasm.djon_core_get (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[64]:0x4466)
-    at Object.get (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:253:19)
-    at djon.load_core (file:///home/kriss/git/djon/js/djon.mjs:34:18)
-    at djon.load (file:///home/kriss/git/djon/js/djon.mjs:26:14)
-    at file:///home/kriss/git/djon/js/djon_cmd.mjs:76:15 {
-  code: 'ERR_ENCODING_INVALID_ENCODED_DATA'
-}
-
-Node.js v21.4.0
 
 #json/maybe/i_string_invalid_surrogate.json
 ["\ud800abc"]
@@ -9019,40 +8543,12 @@ node:internal/encoding:449
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
-    at TextDecoder.decode (node:internal/encoding:449:16)
-    at napi_create_string_utf8 (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:1069:21)
-    at djon_core.wasm.js_string_len (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[73]:0x4883)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x4760)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x46d0)
-    at djon_core.wasm.djon_core_get (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[64]:0x4466)
-    at Object.get (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:253:19)
-    at djon.load_core (file:///home/kriss/git/djon/js/djon.mjs:34:18)
-    at djon.load (file:///home/kriss/git/djon/js/djon.mjs:26:14)
-    at file:///home/kriss/git/djon/js/djon_cmd.mjs:76:15 {
-  code: 'ERR_ENCODING_INVALID_ENCODED_DATA'
-}
-
-Node.js v21.4.0
 #js.djon
 node:internal/encoding:449
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
-    at TextDecoder.decode (node:internal/encoding:449:16)
-    at napi_create_string_utf8 (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:1069:21)
-    at djon_core.wasm.js_string_len (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[73]:0x4883)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x4760)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x46d0)
-    at djon_core.wasm.djon_core_get (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[64]:0x4466)
-    at Object.get (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:253:19)
-    at djon.load_core (file:///home/kriss/git/djon/js/djon.mjs:34:18)
-    at djon.load (file:///home/kriss/git/djon/js/djon.mjs:26:14)
-    at file:///home/kriss/git/djon/js/djon_cmd.mjs:76:15 {
-  code: 'ERR_ENCODING_INVALID_ENCODED_DATA'
-}
-
-Node.js v21.4.0
 
 #json/maybe/i_string_invalid_utf-8.json
 ["#"]
@@ -9105,40 +8601,12 @@ node:internal/encoding:449
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
-    at TextDecoder.decode (node:internal/encoding:449:16)
-    at napi_create_string_utf8 (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:1069:21)
-    at djon_core.wasm.js_string_len (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[73]:0x4883)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x4760)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x46d0)
-    at djon_core.wasm.djon_core_get (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[64]:0x4466)
-    at Object.get (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:253:19)
-    at djon.load_core (file:///home/kriss/git/djon/js/djon.mjs:34:18)
-    at djon.load (file:///home/kriss/git/djon/js/djon.mjs:26:14)
-    at file:///home/kriss/git/djon/js/djon_cmd.mjs:76:15 {
-  code: 'ERR_ENCODING_INVALID_ENCODED_DATA'
-}
-
-Node.js v21.4.0
 #js.djon
 node:internal/encoding:449
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
-    at TextDecoder.decode (node:internal/encoding:449:16)
-    at napi_create_string_utf8 (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:1069:21)
-    at djon_core.wasm.js_string_len (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[73]:0x4883)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x4760)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x46d0)
-    at djon_core.wasm.djon_core_get (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[64]:0x4466)
-    at Object.get (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:253:19)
-    at djon.load_core (file:///home/kriss/git/djon/js/djon.mjs:34:18)
-    at djon.load (file:///home/kriss/git/djon/js/djon.mjs:26:14)
-    at file:///home/kriss/git/djon/js/djon_cmd.mjs:76:15 {
-  code: 'ERR_ENCODING_INVALID_ENCODED_DATA'
-}
-
-Node.js v21.4.0
 
 #json/maybe/i_string_iso_latin_1.json
 ["#"]
@@ -9191,40 +8659,12 @@ node:internal/encoding:449
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
-    at TextDecoder.decode (node:internal/encoding:449:16)
-    at napi_create_string_utf8 (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:1069:21)
-    at djon_core.wasm.js_string_len (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[73]:0x4883)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x4760)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x46d0)
-    at djon_core.wasm.djon_core_get (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[64]:0x4466)
-    at Object.get (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:253:19)
-    at djon.load_core (file:///home/kriss/git/djon/js/djon.mjs:34:18)
-    at djon.load (file:///home/kriss/git/djon/js/djon.mjs:26:14)
-    at file:///home/kriss/git/djon/js/djon_cmd.mjs:76:15 {
-  code: 'ERR_ENCODING_INVALID_ENCODED_DATA'
-}
-
-Node.js v21.4.0
 #js.djon
 node:internal/encoding:449
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
-    at TextDecoder.decode (node:internal/encoding:449:16)
-    at napi_create_string_utf8 (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:1069:21)
-    at djon_core.wasm.js_string_len (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[73]:0x4883)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x4760)
-    at djon_core.wasm.djon_core_get_value (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[71]:0x46d0)
-    at djon_core.wasm.djon_core_get (wasm://wasm/djon_core.wasm-0001db8a:wasm-function[64]:0x4466)
-    at Object.get (file:///home/kriss/git/djon/js/node_modules/napi-wasm/index.mjs:253:19)
-    at djon.load_core (file:///home/kriss/git/djon/js/djon.mjs:34:18)
-    at djon.load (file:///home/kriss/git/djon/js/djon.mjs:26:14)
-    at file:///home/kriss/git/djon/js/djon_cmd.mjs:76:15 {
-  code: 'ERR_ENCODING_INVALID_ENCODED_DATA'
-}
-
-Node.js v21.4.0
 
 #json/maybe/i_string_lone_utf8_continuation_byte.json
 ["#"]

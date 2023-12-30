@@ -1,7 +1,4 @@
 
-#include <stdlib.h>
-#include <math.h>
-
 #ifndef DJON_H
 #define DJON_H
 
@@ -33,6 +30,17 @@ extern "C" {
 #include <stdio.h>
 #endif
 
+// need some maths
+#if !(defined(DJON_POW)||defined(DJON_LOG10))
+#include <math.h>
+#endif
+#ifndef DJON_POW
+#define DJON_POW pow
+#endif
+#ifndef DJON_LOG10
+#define DJON_LOG10 log10
+#endif
+
 // memcpy is probably the best way to copy memory
 #ifndef DJON_MEMCPY
 #include <string.h>
@@ -41,6 +49,7 @@ extern "C" {
 
 // Roll your own damn allocator
 #ifndef DJON_MEM
+#include <stdlib.h>
 #define DJON_MEM djon_mem
 // call with 0,?,?,? -> alloc a ctx ( siz can be a hint of future sizes)
 // call with 1,0,?,0 -> free a ctx
@@ -559,7 +568,7 @@ int djon_double_to_str( double num , char * buf )
 		return cp-buf;
 	}
 
-	int e=(int)floor(log10(num)); // find exponent
+	int e=(int)DJON_LOG10(num); // find exponent
 
 	int i;
 	int d;
@@ -572,8 +581,8 @@ int djon_double_to_str( double num , char * buf )
 		e=0; // we want a 0.0000001234 style number when it is near 0
 	}
 
-	double t=pow(10.0,(double)e); // divide by this to get current decimal
-	num=num+pow(10.0,(double)e-digits); // add a tiny roundup for the digit after the last one we plan to print
+	double t=DJON_POW(10.0,(double)e); // divide by this to get current decimal
+	num=num+DJON_POW(10.0,(double)e-digits); // add a tiny roundup for the digit after the last one we plan to print
 	if(e>0)
 	{
 		e=e+1-digits; // the e we will be when we print all the digits
@@ -687,7 +696,7 @@ double djon_str_to_double(char *cps,char **endptr)
 			e=(e*10.0)+(c-'0');
 			gotdata++;
 		}
-		d*=pow(10.0,e*esign); // apply exponent
+		d*=DJON_POW(10.0,e*esign); // apply exponent
 
 		if(gotdata==0){goto error;} // require some numbers after the e
 	}
