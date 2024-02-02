@@ -29,7 +29,7 @@ None of the above flaws are deal breakers, they are all steps in the
 right direction but none of them remove any of JSONs questionable edges 
 and none of them have a binary string plan. They also have a javascript 
 first mindset which is not so good for other languages. DJON is a C 
-first library with minimal dependecies that compiles well to wasm, so 
+first library with minimal dependencies that compiles well to wasm, so 
 is as portable as possible without needing specific language rewrites.
 
 If we are going to mess with what JSON is then we should also take the 
@@ -56,14 +56,204 @@ number type which can be a problem on really old hardware and may cause
 number parsing issues.
 
 This C file can be linked explicitly eg with Lua or compiled to wasm 
-for use in JS, 16bit strings cause us a bit of a problem in js so wasm 
-may actually be the most performant way of dealing with them.
+for use in JS, 16bit string issues (DJON is 8bit and may contain 
+invalid UTF8) cause us a bit of a problem in JS so wasm may actually be 
+the best way of dealing with them.
 
 I'm going to assume that other languages I'm less of an expert in will 
 also be able to use this C core so no need to rewrite it in other 
 languages. I expect wasm to become a dominant way of providing portable 
 code in the future so lets see if I am correct.
 
+
+---
+
+Format
+======
+
+This uses C style data so || is a logical OR and && is a logical AND.
+
+To show optional characters we use the idiom of "a" || "" with "" 
+meaning an empty string.
+
+We also use ' or " interchangeably as string deliminator where in C ' 
+is explicitly a single char. Mostly this is so we can use "'" or '"' 
+without needing backslashes.
+
+
+DJON:
+
+A single 8bit string that may not be null terminated consisting of.
+
+	WHITESPACE
+	VALUE
+	WHITESPACE
+
+
+VALUE:
+
+Any valid data type.
+
+	OBJECT || ARRAY || STRING || NUMBER || BOOLEAN || NULL
+
+
+NULL:
+
+An explicit keyword.
+
+	"NULL" || "null" || "Null"
+
+
+TRUE:
+
+An explicit keyword representing the 1 state of a boolean.
+
+	"TRUE" || "true" || "True"
+
+
+FALSE:
+
+An explicit keyword representing the 0 state of a boolean.
+
+	"FALSE" || "false" || "False"
+
+
+BOOLEAN:
+
+Must be one of two possible keywords.
+
+	TRUE || FALSE
+
+
+NUMBER:
+
+	'-' || '+' || ""
+	HEXADECIMAL_NUMBER || DECIMAL_NUMBER
+
+
+HEXADECIMAL_NUMBER:
+
+	'0'
+	'x' || 'X'
+	HEXADECIMAL_DIGITS
+
+
+DECIMAL_NUMBER:
+
+	( DECIMAL_DIGITS && DECIMAL_FRACTION ) || DECIMAL_FRACTION
+	DECIMAL_EXPONENT || ""
+
+
+DECIMAL_FRACTION:
+
+	'.'
+	DECIMAL_DIGITS
+	DECIMAL_EXPONENT || ""
+
+
+DECIMAL_EXPONENT:
+
+	'e' || 'E'
+	'+' || '-' || ""
+	DECIMAL_DIGITS
+
+
+DECIMAL_DIGITS:
+
+A repeating stream of one or more.
+
+	'0' || '1' || '2' || '3' || '4' || '5' || '6' || '7' || '8' || '9'
+
+
+HEXADECIMAL_DIGITS:
+
+A repeating stream of one or more.
+
+	DECIMAL_DIGITS || 'A' || 'a' || 'B' || 'b' || 'C' || 'c' || 'D' || 'd' || 'E' || 'e' || 'F' || 'f'
+
+	
+PUNCTUATION:
+
+Characters used for data structure.
+
+	'{' || '}' || '[' || ']' || ':' || '=' || ','
+
+
+STRING:
+
+	STRING_NAKED || STRING_QUOTED
+
+
+STRING_NAKED:
+
+Must not begin with
+
+	'+' || '-' || '.' || DECIMAL_DIGITS || "/*" || "//" || WHITESPACE || '`' || '"' || "'" || NULL || TRUE || FALSE
+
+Which is to say that it can not be a valid start to any other possible 
+value.
+
+Ends with
+
+	'\n'
+
+Any trailing WHITESPACE at the end will be trimmed. This is simply for 
+human legibility.
+
+
+STRING_QUOTED:
+
+Begins with
+
+	'"' || "'" || '`' || LONG_QUOTE
+
+Ends with the exactly same opening quote string and can contain all 
+other byte values. Yes even 0x00 bytes.
+
+Escape values eg '\n' are only parsed inside strings that are contained 
+in ' or " but not in ` or LONG_QUOTE.
+
+Possible escapes are
+
+	'\b'			=	0x08
+	'\f'			=	0x0C
+	'\n'			=	0x0A
+	'\r'			=	0x0D
+	'\t'			=	0x09
+	'\uXXXX'		=	0xXXXX in UTF8 encoding
+	'\uXXXX\uDCXX'	=	0xCXXXXXX surrogate pair in UTF8 encoding
+	'\?'			= 	the '\' is removed leaving only the '?'
+
+The hexadecimal digits may be upper or lowercase.
+
+As an edge case, If the 4 hexadecimal digits following "\u" is 
+malformed then we will stop at the first non hexadecimal character and 
+use the number parsed so far. Eg with "\uG" since "G" is not valid it 
+would remain in the string and the \u would be replaced with an 0x00 
+byte. Similarly "\u20G" would become " G" even though it is also 
+technically invalid.
+
+A \ followed by any other character, will simply have the \ removed and 
+the second character  will remain, this will work with any character 
+although it is mostly to allow quotes and \ characters within a string.
+
+Note the surrogate pair encoding is for legacy JSON support since JSON 
+is a UTF16 string, UTF16 surrogate pairs must be used to reach 
+characters outside of that 16bit range which we then convert back to 
+UTF8.
+
+
+LONG_QUOTE:
+
+If you are wondering why this is so complex it is so we can generate a 
+quote that will not occur in a given string, this way we can use 
+literal strings with no escape character processing and have support 
+for full binary data inside strings.
+
+	'`'
+		A repeating stream of one or more.
+			"'" || '"' 
+	'`'
 
 ---
 
@@ -138,12 +328,12 @@ strings and are taken as is, no need for \ anything and any \ in this
 string is just a \ The only special character is the quote used to open 
 it which will also be used to close it.
 
-In order to deal with the need for a backtick inside these strings a 
-double "``" can be used to open and subsequently close them with any 
-number of other quotes inside them eg some examples:
+In order to deal with the possible need for a backtick inside these 
+strings a pair of backticks containing single and double quotes to 
+construct a deliminator that does not occur in the string eg some 
+examples:
 
 	`this is a string`
-	``this is a string``
 	`"`this is a string`"`
 	`'"`this is a string`'"`
 	`'"'`this is a string`'"'`
@@ -165,17 +355,19 @@ Keywords
 --------
 
 Same as JSON so "true", "false" and "null" are special, DJON also 
-ignores case so "null" can also be "Null" or "NULL".
+allows some case combinations so that "null" can also be "Null" or 
+"NULL".
 
 These keywords require a deliminator character to follow them, eg 
 whitespace or punctuation, so "NULLL" will never be recognized as the 
 keyword NULL followed by an extra 'L'
 
-The DJON string "NULL" on its own will be parsed correctly despite not 
-having a terminator after the keyword as it is a C style string with an 
-explicit 0x00 following it. The 0x00 is one of the terminator 
-characters we check for and we should null terminate our strings even 
-if the string also contains nulls. This is Lua style string rules.
+Parsing a string "NULL" on its own will be parsed correctly despite not 
+technically having a terminator after the keyword as it is a C style 
+string with an explicit 0x00 following it. The 0x00 is one of the 
+terminator characters we check for and we should null terminate our 
+strings even if the string also contains nulls. This is Lua style 
+string rules.
 
 
 Objects
