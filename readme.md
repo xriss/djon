@@ -83,7 +83,7 @@ without needing backslashes.
 
 DJON:
 
-A single 8bit string that may not be null terminated consisting of.
+A single 8bit string consisting of.
 
 	WHITESPACE
 	VALUE
@@ -128,17 +128,17 @@ Must be one of two possible keywords.
 NUMBER:
 
 	'-' || '+' || ""
-	HEXADECIMAL_NUMBER || DECIMAL_NUMBER
+	HEXADECIMAL || DECIMAL
 
 
-HEXADECIMAL_NUMBER:
+HEXADECIMAL:
 
 	'0'
 	'x' || 'X'
 	HEXADECIMAL_DIGITS
 
 
-DECIMAL_NUMBER:
+DECIMAL:
 
 	( DECIMAL_DIGITS && DECIMAL_FRACTION ) || DECIMAL_FRACTION
 	DECIMAL_EXPONENT || ""
@@ -148,7 +148,6 @@ DECIMAL_FRACTION:
 
 	'.'
 	DECIMAL_DIGITS
-	DECIMAL_EXPONENT || ""
 
 
 DECIMAL_EXPONENT:
@@ -181,6 +180,10 @@ Characters used for data structure.
 
 STRING:
 
+Strings can contain 0x00 bytes and non UTF8 sequences so may need to be 
+considered possible binary data when dealing with a language like 
+java script where strings must be UTF16.
+
 	STRING_NAKED || STRING_QUOTED
 
 
@@ -188,7 +191,7 @@ STRING_NAKED:
 
 Must not begin with
 
-	'+' || '-' || '.' || DECIMAL_DIGITS || "/*" || "//" || WHITESPACE || '`' || '"' || "'" || NULL || TRUE || FALSE
+	'+' || '-' || '.' || DECIMAL_DIGITS || "/*" || "//" || WHITESPACE || '`' || '"' || "'" || PUNCTUATION || NULL || TRUE || FALSE
 
 Which is to say that it can not be a valid start to any other possible 
 value.
@@ -197,8 +200,8 @@ Ends with
 
 	'\n'
 
-Any trailing WHITESPACE at the end will be trimmed. This is simply for 
-human legibility.
+Any trailing WHITESPACE at the end will be trimmed for human 
+legibility.
 
 
 STRING_QUOTED:
@@ -208,7 +211,7 @@ Begins with
 	'"' || "'" || '`' || LONG_QUOTE
 
 Ends with the exactly same opening quote string and can contain all 
-other byte values. Yes even 0x00 bytes.
+other byte values except for the quote string.
 
 Escape values eg '\n' are only parsed inside strings that are contained 
 in ' or " but not in ` or LONG_QUOTE.
@@ -221,7 +224,7 @@ Possible escapes are
 	'\r'			=	0x0D
 	'\t'			=	0x09
 	'\uXXXX'		=	0xXXXX in UTF8 encoding
-	'\uXXXX\uDCXX'	=	0xCXXXXXX surrogate pair in UTF8 encoding
+	'\uXXXX\uDCXX'	=	0xXXXXXX surrogate pair in UTF8 encoding
 	'\?'			= 	the '\' is removed leaving only the '?'
 
 The hexadecimal digits may be upper or lowercase.
@@ -237,10 +240,9 @@ A \ followed by any other character, will simply have the \ removed and
 the second character  will remain, this will work with any character 
 although it is mostly to allow quotes and \ characters within a string.
 
-Note the surrogate pair encoding is for legacy JSON support since JSON 
-is a UTF16 string, UTF16 surrogate pairs must be used to reach 
-characters outside of that 16bit range which we then convert back to 
-UTF8.
+Note the surrogate pair encoding due to JSON being a UTF16 string, 
+UTF16 surrogate pairs must be used to reach characters outside of that 
+16bit range which we then convert back to UTF8.
 
 
 LONG_QUOTE:
@@ -254,6 +256,88 @@ for full binary data inside strings.
 		A repeating stream of one or more.
 			"'" || '"' 
 	'`'
+
+Note, there must be at least one quote or double quote inside the two 
+back ticks.
+
+WHITESPACE:
+
+	COMMENT || ' ' || '\n' || '\r' || '\t' 
+
+COMMENT:
+
+	COMMENT_LINE || COMMENT_STREAM
+
+COMMENT_LINE:
+
+	'//'
+		A stream of any characters except '\n'
+	'\n'
+
+COMMENT_STREAM:
+
+Standard C style comments that can not be nested.
+
+	'/*'
+		A stream of any characters except '*/'
+	'*/'
+
+ARRAY:
+
+	'['
+		Repeating the following for each array value, commas are 
+		optional and trailing commas are ignored. Each value must be 
+		separated by a comma or some whitespace.
+		
+			WHITESPACE || ""
+			VALUE
+			WHITESPACE || ","
+
+	WHITESPACE || ""
+	']'
+
+OBJECT:
+
+	'['
+		Repeating the following for each object key value pair, commas 
+		are optional and trailing commas are ignored. Each key value 
+		pair must be separated by a comma or some whitespace. key value 
+		pairs must be separated by either a ":" or a "="
+		
+			WHITESPACE || ""
+			KEY
+			WHITESPACE || ""
+			":" || "="
+			WHITESPACE || ""
+			VALUE
+			WHITESPACE || ","
+
+	WHITESPACE || ""
+	']'
+
+KEY:
+
+Keys have the same quote rules as strings but slightly different naked 
+rules and keys unlike strings, must be valid UTF8 sequences.
+
+	KEY_NAKED || STRING_QUOTED
+
+
+KEY_NAKED:
+
+Must not begin with
+
+	'+' || '-' || '.' || DECIMAL_DIGITS || "/*" || "//" || WHITESPACE || '`' || '"' || "'" || PUNCTUATION || NULL || TRUE || FALSE
+
+Which is to say that it can not be a valid start to any other possible 
+value.
+
+Ends with
+
+	':' || '='
+
+Any trailing WHITESPACE at the end will be trimmed for human 
+legibility.
 
 ---
 
