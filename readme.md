@@ -74,7 +74,7 @@ Format
 This uses C style data so || is a logical OR and && is a logical AND.
 
 To show optional characters we use the idiom of "a" || "" with "" 
-meaning an empty string.
+meaning an empty string to imply that the "a" is optional.
 
 We also use ' or " interchangeably as string deliminator where in C ' 
 is explicitly a single char. Mostly this is so we can use "'" or '"' 
@@ -83,7 +83,11 @@ without needing backslashes.
 
 DJON:
 
-A single 8bit string consisting of.
+A full byte ( 0x00 to 0xff inclusive ) stream with no special text mode 
+processing of these bytes. Windows user beware of '/r' characters in 
+your text files requiring special consideration although it will mostly 
+just work.
+
 
 	WHITESPACE
 	VALUE
@@ -94,8 +98,23 @@ VALUE:
 
 Any valid data type.
 
-	OBJECT || ARRAY || STRING || NUMBER || BOOLEAN || NULL
+	OBJECT || ARRAY || STRING || WORD
 
+WORD:
+
+	NUMBER || BOOLEAN || NULL
+
+These values must be terminated by one of the following characters, 
+otherwise it may get interpreted as a long string.
+
+	0x00 || PUNCTUATION || '/' || WHITESPACE
+
+The 0x00 is a null terminator, which we will explicitly add to the end 
+of any string before parsing it so it also represents the end of the 
+file.
+
+The '/' check is so we can shortcut the comment check for "//" or "/*" 
+without looking at the second character.
 
 NULL:
 
@@ -182,7 +201,7 @@ STRING:
 
 Strings can contain 0x00 bytes and non UTF8 sequences so may need to be 
 considered possible binary data when dealing with a language like 
-java script where strings must be UTF16.
+javascript where strings must be UTF16.
 
 	STRING_NAKED || STRING_QUOTED
 
@@ -211,10 +230,13 @@ Begins with
 	'"' || "'" || '`' || LONG_QUOTE
 
 Ends with the exactly same opening quote string and can contain all 
-other byte values except for the quote string.
+other byte values except for the quote string. Quotes can of course be 
+included in a string deliminated by the same quote by escaping them 
+with a backslash. This does not work for back ticks as we do not allow 
+escapes in back tick strings, see LONG_QUOTE.
 
 Escape values eg '\n' are only parsed inside strings that are contained 
-in ' or " but not in ` or LONG_QUOTE.
+in ' or " but not in ` or LONG_QUOTE or naked strings.
 
 Possible escapes are
 
@@ -260,19 +282,23 @@ for full binary data inside strings.
 Note, there must be at least one quote or double quote inside the two 
 back ticks.
 
+
 WHITESPACE:
 
 	COMMENT || ' ' || '\n' || '\r' || '\t' 
 
+
 COMMENT:
 
 	COMMENT_LINE || COMMENT_STREAM
+
 
 COMMENT_LINE:
 
 	'//'
 		A stream of any characters except '\n'
 	'\n'
+
 
 COMMENT_STREAM:
 
@@ -281,6 +307,7 @@ Standard C style comments that can not be nested.
 	'/*'
 		A stream of any characters except '*/'
 	'*/'
+
 
 ARRAY:
 
@@ -295,6 +322,7 @@ ARRAY:
 
 	WHITESPACE || ""
 	']'
+
 
 OBJECT:
 
@@ -339,19 +367,9 @@ Ends with
 Any trailing WHITESPACE at the end will be trimmed for human 
 legibility.
 
+
 ---
 
-Bytes
-======
-
-DJON is a full byte ( 0x00 to 0xff inclusive ) stream with no special 
-text mode processing of these bytes. Windows user beware, although it 
-will mostly just work.
-
-When parsing we will be talking about 7bit ASCII strings which we will 
-place inside "quotes" and 7bit ascii bytes such as the letter 'A' in 
-single quotes which is the byte 0x41 in hexadecimal so expect C style 
-notation of strings, chars and bytes.
 
 Numbers
 =======
@@ -359,8 +377,7 @@ Numbers
 All numbers are text representations of 64bit IEEE floating point 
 numbers. They will be parsed into 64bit floats when scanned and that is 
 all the information you can expect to get out of them. The following 
-exceptional exceptional floating point values are map stringified like 
-so.
+exceptional floating point values are stringified like so.
 
 	Infinity	9e999
 	-Infinity	-9e999
@@ -368,7 +385,7 @@ so.
 
 9e999 should automagically become Infinity when parsed as it is too 
 large to fit into a 64bit float. NaN and -NaN and all the other strange 
-NaNs become a null, which is not a number so that seems reasonable.
+NaNs become null, which is also not a number.
 
 When converting Numbers to digits we use large integers with positive e 
 numbers and decimal fractions with -e numbers. This makes the numbers 
@@ -390,8 +407,9 @@ Numbers may be hexadecimal eg 0xdeadbeef remember these are 64bit
 floats which makes for 12 hex digits (48bits) of precision.
 
 When writing numbers we try and use 0s rather than exponents until the 
-length of the number becomes unwieldy ( starting around e8 or e-8 ). 
-This is for large and small numbers.
+length of the number of digits becomes unwieldy, at e8 or e-8 s0 you 
+may not see any exponents betwee -7 and 7 inclusive when stringifying 
+numbers.
 
 Strings
 =======
@@ -424,16 +442,14 @@ examples:
 
 this gives us range to pick a quote that will not be found inside the 
 string and treat everything inside as data. Remember the file does not 
-have to be valid UTF8 so any stream of bytes can be placed in such a 
-string.
+have to be valid UTF8 so any binary stream of bytes can be placed in 
+such a string.
 
-Unquoted strings can be used where we are expecting a value as long as 
-they would not be mistaken for something else. So a naked string can 
-not start with {}[],:= or look like a valid number or any of the three 
-keywords, true/false/null. Note a keyword or number must end with 
-whitespace or a deliminator character so for instance 100a is 
-allowed to start a naked string as would nullly. These strings are 
-terminated at \n and are whitespace trimmed. 
+Unquoted, naked strings can also be used as long as they would not be 
+mistaken for something else. So a naked string can not start with 
+{}[],:= or look like a valid number or any of the keywords. Note a 
+keyword or number must end with a deliminator character so for instance 
+"100a" is allowed to start a naked string as is "nulll".
 
 Keywords
 --------
@@ -446,21 +462,18 @@ These keywords require a deliminator character to follow them, eg
 whitespace or punctuation, so "NULLL" will never be recognized as the 
 keyword NULL followed by an extra 'L'
 
-Parsing a string "NULL" on its own will be parsed correctly despite not 
-technically having a terminator after the keyword as it is a C style 
-string with an explicit 0x00 following it. The 0x00 is one of the 
-terminator characters we check for and we should null terminate our 
-strings even if the string also contains nulls. This is Lua style 
-string rules.
+Note that the string "True" parses correctly as a single boolean value 
+since our strings are C style and have an explicit 0x00 terminating 
+them and 0x00 is one of the terminator characters we check for.
 
 
-Objects
--------
+Objects / Arrays
+----------------
 
-Allow = as a synonym for :
+Allow = as a synonym for : in objects.
 
 An assignment operator must be present as it stops object definitions 
-getting out of sync between the keys and values but commas are optional 
-between key value pairs, in fact they are considered whitespace in this 
-situation so multiple commas will be ignored.
+getting out of sync between the keys and values. Commas between values 
+are optional and can be replaced with a single whitespace and trailing 
+commas will of course be ignored.
 
