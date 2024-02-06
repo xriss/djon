@@ -16,6 +16,13 @@ we should try and "fix" everything or not bother changing anything.
 	Complains about too many things to be human edited and no naked 
 	strings.
 
+* CSON			https://github.com/lifthrasiir/cson
+				https://github.com/bevry/cson
+	
+	Two different formats, same name. One has | for the start 
+	and continuation of long strings and the other uses the triple 
+	backtick style similar to HJSON 
+
 * relaxedjson	http://www.relaxedjson.org/
 
 	Close, but unquoted naked strings end on any whitespace, 
@@ -24,6 +31,7 @@ we should try and "fix" everything or not bother changing anything.
 * HJSON			https://hjson.github.io/
 
 	Close, very close but has a python indent style multi line strings.
+
 
 None of the above flaws are deal breakers, they are all steps in the 
 right direction but none of them remove any of JSONs questionable edges 
@@ -219,8 +227,9 @@ Ends with
 
 	'\n'
 
-Any trailing WHITESPACE at the end will be trimmed for human 
-legibility.
+Any trailing WHITESPACE at the end will be trimmed so a naked string 
+will neither start nor end with whitespace. This trim will remove the 
+possible windows '\r' that may occur before the '\n' terminator.
 
 
 STRING_QUOTED:
@@ -350,6 +359,10 @@ rules and keys unlike strings, must be valid UTF8 sequences.
 
 	KEY_NAKED || STRING_QUOTED
 
+All keys of an object should be unique UTF8 text, if they are not, the 
+last key listed has precedence and should overwrite all previous 
+duplicate keys.
+
 
 KEY_NAKED:
 
@@ -364,11 +377,16 @@ Ends with
 
 	':' || '='
 
-Any trailing WHITESPACE at the end will be trimmed for human 
-legibility.
+Any trailing WHITESPACE at the end will be trimmed so a naked key will 
+neither start nor end with whitespace.
 
 
 ---
+
+Some notes about how to parse and stringify data that is more to do 
+with the internal representation of the data once parsed than the act 
+of parsing. Obviously you can stringify to any valid DJON file but we 
+have preferences on the best way of doing it.
 
 
 Numbers
@@ -383,7 +401,7 @@ exceptional floating point values are stringified like so.
 	-Infinity	-9e999
 	Nan			null
 
-9e999 should automagically become Infinity when parsed as it is too 
+9e999 should automagically become Infinity when parsed since it is too 
 large to fit into a 64bit float. NaN and -NaN and all the other strange 
 NaNs become null, which is also not a number.
 
@@ -407,9 +425,10 @@ Numbers may be hexadecimal eg 0xdeadbeef remember these are 64bit
 floats which makes for 12 hex digits (48bits) of precision.
 
 When writing numbers we try and use 0s rather than exponents until the 
-length of the number of digits becomes unwieldy, at e8 or e-8 s0 you 
-may not see any exponents betwee -7 and 7 inclusive when stringifying 
+length of the number of digits becomes unwieldy, at e8 or e-8 so you 
+may not see any exponents between -7 and 7 inclusive when stringifying 
 numbers.
+
 
 Strings
 =======
@@ -431,9 +450,9 @@ string is just a \ The only special character is the quote used to open
 it which will also be used to close it.
 
 In order to deal with the possible need for a backtick inside these 
-strings a pair of backticks containing single and double quotes to 
-construct a deliminator that does not occur in the string eg some 
-examples:
+strings the opening quote can also be a pair of backticks containing 
+single and double quotes to construct a deliminator that does not occur 
+in the string eg some examples:
 
 	`this is a string`
 	`"`this is a string`"`
@@ -462,9 +481,10 @@ These keywords require a deliminator character to follow them, eg
 whitespace or punctuation, so "NULLL" will never be recognized as the 
 keyword NULL followed by an extra 'L'
 
-Note that the string "True" parses correctly as a single boolean value 
-since our strings are C style and have an explicit 0x00 terminating 
-them and 0x00 is one of the terminator characters we check for.
+Note that the string "True" parsed as DJON will correctly be a single 
+boolean value since our strings are C style and have an explicit 0x00 
+terminating them and 0x00 is one of the terminator characters we check 
+for.
 
 
 Objects / Arrays
