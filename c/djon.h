@@ -222,8 +222,8 @@ extern void         djon_sort_object( djon_state *ds, int idx );
 extern "C" {
 #endif
 
-// compare lowercase null terminated string s, to the start of the cs buffer
-// returns true if lowercase ( cs < cs+len ) buffer begins with the s string.
+// compare null terminated string s, to the start of the cs buffer
+// returns true if buffer begins with the s string.
 int djon_starts_with_string(const char *cs,int len,const char *s)
 {
 	const char *ce=cs+len;
@@ -234,7 +234,6 @@ int djon_starts_with_string(const char *cs,int len,const char *s)
 	{
 		if(cp>=ce) { return 0; } // out of buffer but not out of string
 		c=*cp;
-		if( c>='A' && c<='Z' ) { c=c+('a'-'A'); } // lowercase
 		if( c!=*sp ) { return 0; } // no match
 	}
 	return 1; // cs starts with s
@@ -273,19 +272,21 @@ int djon_check_quote( const char *cs , int len , const char *quote )
 // the string to cause this failure would have to be many gigabytes
 char * djon_pick_quote( char *cs , int len , char *buf )
 {
-	if(len<=0) // use "" for empty string
+// single back tick
+	buf[0]='`';buf[1]=0;
+
+// empty string, is single back tick
+	if(len<=0)
 	{
-		buf[0]='"';buf[1]=0;
 		return buf;
 	}
-// check single
-	buf[0]='`';buf[1]=0;
-	if(djon_check_quote(cs,len,buf)){return buf;}
-
-// check double
-	buf[0]='`';buf[1]='`';buf[2]=0;
-	if(djon_check_quote(cs,len,buf)){return buf;}
-
+	
+// check single back tick
+	if((*cs!='\'')&&(*cs!='"')) // string might be mistaken for longquote
+	{
+		if(djon_check_quote(cs,len-1,buf)){return buf;} // len-1 to skip fake `
+	}
+	
 // check 2^32 more
 	unsigned int bs;
 	unsigned int bm;
@@ -300,8 +301,8 @@ char * djon_pick_quote( char *cs , int len , char *buf )
 		}
 		while(bm>0)
 		{
-			if(bs&bm) { *cp++='"'; } // this will mostly be the first char after `
-			else      { *cp++='\''; }
+			if(bs&bm) { *cp++='\''; }
+			else      { *cp++='"'; } // this will mostly be the first char after `
 			bm=bm>>1; // keep sliding
 		}
 		*cp++='`'; // final `
@@ -497,8 +498,14 @@ int djon_is_naked_string( const char *cp , int len )
 	// check for json keywords that will trip us up
 	// a naked string may not begin with these words because json
 	if( djon_starts_with_string(cp,len,"true") ) { return 0; }
+	if( djon_starts_with_string(cp,len,"True") ) { return 0; }
+	if( djon_starts_with_string(cp,len,"TRUE") ) { return 0; }
 	if( djon_starts_with_string(cp,len,"false") ) { return 0; }
+	if( djon_starts_with_string(cp,len,"False") ) { return 0; }
+	if( djon_starts_with_string(cp,len,"FALSE") ) { return 0; }
 	if( djon_starts_with_string(cp,len,"null") ) { return 0; }
+	if( djon_starts_with_string(cp,len,"Null") ) { return 0; }
+	if( djon_starts_with_string(cp,len,"NULL") ) { return 0; }
 	// and a naked string can not be the start of a comment but can be a /
 	// which is needed for file paths
 	if( djon_starts_with_string(cp,len,"//") ) { return 0; }
@@ -520,12 +527,13 @@ int djon_is_naked_key( const char *cp , int len )
 {
 	if(len<=0) { return 0; } // may not empty
 	const char *ce=cp+len;
-	while( cp<ce ) // check all the chars
+	const char *cs=cp;
+	while( cs<ce ) // check all the chars do not contain a deliminator
 	{
-		char c=*cp++;
+		char c=*cs++;
 		if( DJON_IS_DELIMINATOR(c) ) { return 0; }
 	}
-	return 1; // all chars OK
+	return 1;
 }
 
 // write len chars into buf ( each char is 4 bits ) 
@@ -1078,7 +1086,7 @@ void djon_write_string_escape(djon_state *ds,int c)
 	char b[16];
 	switch(c)
 	{
-		case '\\' : djon_write_string(ds,"\\"  ); break;
+		case '\\' : djon_write_string(ds,"\\\\"); break;
 		case '\b' : djon_write_string(ds,"\\b" ); break;
 		case '\f' : djon_write_string(ds,"\\f" ); break;
 		case '\n' : djon_write_string(ds,"\\n" ); break;
@@ -1433,6 +1441,8 @@ void djon_write_djon_indent(djon_state *ds,int idx,int indent)
 				qs=djon_pick_quote(v->str,v->len,ds->buf);
 				if(!qs){ djon_set_error(ds,"quote attack"); return; }
 				djon_write_string(ds,qs);
+				// a multiline string begins or ends with '\n'
+				// add an extra '\n' at the front for presentation which will be removed when parsed.
 				if(v->len>0 && ( ( v->str[0]=='\n' ) || ( v->str[v->len-1]=='\n' ) ) )
 				{
 					djon_write_string(ds,"\n");
@@ -1825,7 +1835,7 @@ int djon_parse_string(djon_state *ds,const char termchar)
 		term=str->str;
 		cp=term+1; // skip first char which is a `
 		c=*cp; // next char
-		if( (c=='\'') || (c=='"') || (c=='`') )// not a single opener
+		if( (c=='\'') || (c=='"') )// not a single opener
 		{
 			while(1)
 			{
@@ -1936,7 +1946,7 @@ int djon_parse_number(djon_state *ds)
 
 int djon_parse_key(djon_state *ds)
 {
-	djon_skip_white_punct(ds,",");
+	djon_skip_white(ds);
 
 	djon_value *key=0;
 	int key_idx=0;
@@ -2130,7 +2140,7 @@ int djon_parse_object(djon_state *ds)
 
 	while(1)
 	{
-		djon_skip_white_punct(ds,",");
+		djon_skip_white(ds);
 		if( ds->data[ds->parse_idx]=='}' ) // found closer
 		{
 			djon_apply_comments(ds,key_idx?key_idx:obj_idx); // apply any final comments to the last key or the object
@@ -2175,6 +2185,10 @@ int djon_parse_object(djon_state *ds)
 				}
 			}
 		}
+		if( djon_skip_white_punct(ds,",") > 1 ) // only skip upto one coma
+		{
+			djon_set_error(ds,"multiple ,"); return 0;
+		}
 
 	}
 
@@ -2197,7 +2211,7 @@ int djon_parse_array(djon_state *ds)
 
 	while(1)
 	{
-		djon_skip_white_punct(ds,",");
+		djon_skip_white(ds);
 		if( ds->data[ds->parse_idx]==']' )  // found closer
 		{
 			djon_apply_comments(ds,val_idx?val_idx:arr_idx); // apply any final comments to the last value or the array
@@ -2231,6 +2245,10 @@ int djon_parse_array(djon_state *ds)
 				}
 			}
 		}
+		if( djon_skip_white_punct(ds,",") > 1 ) // only skip upto one coma
+		{
+			djon_set_error(ds,"multiple ,"); return 0;
+		}
 
 	}
 
@@ -2247,8 +2265,8 @@ int djon_parse_value(djon_state *ds)
 
 	djon_skip_white(ds);
 
-// check for special strings lowercase only
-	if( djon_peek_string(ds,"true" ) )
+// check for special strings lowercase/camel/upper only
+	if( djon_peek_string(ds,"true" ) || djon_peek_string(ds,"True" ) || djon_peek_string(ds,"TRUE" ) )
 	{
 		idx=djon_alloc(ds);
 		v=djon_get(ds,idx);
@@ -2259,7 +2277,7 @@ int djon_parse_value(djon_state *ds)
 		return idx;
 	}
 	else
-	if( djon_peek_string(ds,"false" ) )
+	if( djon_peek_string(ds,"false" ) || djon_peek_string(ds,"False" ) || djon_peek_string(ds,"FALSE" ) )
 	{
 		idx=djon_alloc(ds);
 		v=djon_get(ds,idx);
@@ -2270,7 +2288,7 @@ int djon_parse_value(djon_state *ds)
 		return idx;
 	}
 	else
-	if( djon_peek_string(ds,"null" ) )
+	if( djon_peek_string(ds,"null" ) || djon_peek_string(ds,"Null" ) || djon_peek_string(ds,"NULL" ) )
 	{
 		idx=djon_alloc(ds);
 		v=djon_get(ds,idx);

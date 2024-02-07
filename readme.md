@@ -241,8 +241,8 @@ Begins with
 Ends with the exactly same opening quote string and can contain all 
 other byte values except for the quote string. Quotes can of course be 
 included in a string deliminated by the same quote by escaping them 
-with a backslash. This does not work for back ticks as we do not allow 
-escapes in back tick strings, see LONG_QUOTE.
+with a backslash. This does not work for backticks as we do not allow 
+escapes in backtick strings, see LONG_QUOTE.
 
 Escape values eg '\n' are only parsed inside strings that are contained 
 in ' or " but not in ` or LONG_QUOTE or naked strings.
@@ -275,6 +275,12 @@ Note the surrogate pair encoding due to JSON being a UTF16 string,
 UTF16 surrogate pairs must be used to reach characters outside of that 
 16bit range which we then convert back to UTF8.
 
+Backtick strings may span multiple lines, with this in mind if the 
+first character is a '\n' then it will be removed. This is for human 
+formatting of the open and close quotes of a multiline string which can 
+now placed on their own lines without generating an extra '\n' at the 
+start.
+
 
 LONG_QUOTE:
 
@@ -289,7 +295,7 @@ for full binary data inside strings.
 	'`'
 
 Note, there must be at least one quote or double quote inside the two 
-back ticks.
+backticks.
 
 
 WHITESPACE:
@@ -366,19 +372,20 @@ duplicate keys.
 
 KEY_NAKED:
 
-Must not begin with
+This is much more forgiving than a naked string as we are not expecting 
+a VALUE here so do not need to exclude keywords or numbers.
 
-	'+' || '-' || '.' || DECIMAL_DIGITS || "/*" || "//" || WHITESPACE || '`' || '"' || "'" || PUNCTUATION || NULL || TRUE || FALSE
+Must not be empty and must not contain
 
-Which is to say that it can not be a valid start to any other possible 
-value.
+	0x00 || '/' || WHITESPACE || PUNCTUATION
 
 Ends with
 
+	WHITESPACE || ""
 	':' || '='
 
-Any trailing WHITESPACE at the end will be trimmed so a naked key will 
-neither start nor end with whitespace.
+Any WHITESPACE at the start or end will be trimmed so a naked key will 
+never start or end with whitespace.
 
 
 ---
@@ -444,7 +451,7 @@ contain newline characters, eg wrap across multiple lines.
 CRLF windows style encoding, we are a full byte ( 0x00 to 0xff 
 inclusive ) stream with no special processing.
 
-A new type of string wrapped in back ticks, ` these can be binary 
+A new type of string wrapped in backticks, ` these can be binary 
 strings and are taken as is, no need for \ anything and any \ in this 
 string is just a \ The only special character is the quote used to open 
 it which will also be used to close it.

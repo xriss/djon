@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
 			else
 			if( 0==strcmp(cp,"--strict") )
 			{
-				strict=0;
+				strict=1;
 			}
 			else
 			if( 0==strcmp(cp,"--help") )
