@@ -281,16 +281,31 @@ char * djon_pick_quote( char *cs , int len , char *buf )
 		return buf;
 	}
 	
-// check single back tick
-	if((*cs!='\'')&&(*cs!='"')) // string might be mistaken for longquote
-	{
-		if(djon_check_quote(cs,len-1,buf)){return buf;} // len-1 to skip fake `
-	}
-	
-// check 2^32 more
 	unsigned int bs;
 	unsigned int bm;
 	char *cp;
+
+// check single back tick
+	int count_back=0;
+	int count_other=0;
+	for( cp=cs ; cp<cs+len ; cp++ )
+	{
+		switch(*cp)
+		{
+			case '\'': break;
+			case '"' : break;
+			case '`' : count_back++;   break;
+			default  : count_other++;  break;
+		}
+	}
+	// we need 0 backticks and chars other than single or double quotes
+	if( count_back==0 && count_other>0 )
+	{
+		return buf;
+	}
+	
+	
+// check 2^32 more
 	for(bs=0;bs<=0xffffffff;bs++)
 	{
 		cp=buf;
@@ -1691,7 +1706,7 @@ int djon_skip_white(djon_state *ds)
 				{
 					djon_trim_comment(ds,com_idx);
 					ds->parse_idx++;
-					return ds->parse_idx-start;
+					break;
 				}
 				else
 				{
@@ -1706,7 +1721,7 @@ int djon_skip_white(djon_state *ds)
 					}
 				}
 			}
-			return ds->parse_idx-start; // file ending counts as a \n so this is OK
+			// file ending counts as a \n so this is always OK
 		}
 		else
 		if( (c1=='/') && (c2=='*'))
@@ -1715,7 +1730,7 @@ int djon_skip_white(djon_state *ds)
 
 			// allocate new comment and place it in chain
 			com_idx=djon_alloc_comment(ds);
-
+			int closed_comment=0;
 			while( ds->parse_idx < ds->data_len )
 			{
 				c1=ds->data[ ds->parse_idx ];
@@ -1724,7 +1739,8 @@ int djon_skip_white(djon_state *ds)
 				{
 					djon_trim_comment(ds,com_idx);
 					ds->parse_idx+=2;
-					return ds->parse_idx-start;
+					closed_comment=1;
+					break;
 				}
 				else
 				{
@@ -1747,7 +1763,10 @@ int djon_skip_white(djon_state *ds)
 					}
 				}
 			}
-			djon_set_error(ds,"missing */");
+			if(!closed_comment)
+			{
+				djon_set_error(ds,"missing */");
+			}
 		}
 		else
 		{
@@ -1853,6 +1872,7 @@ int djon_parse_string(djon_state *ds,const char termchar)
 		str->typ=DJON_LONG|DJON_STRING; // maybe skip first/last newline
 	}
 	else
+	if( *term!='\n' ) // need to escape non naked strings only
 	{
 		str->typ=DJON_ESCAPED|DJON_STRING; // deal with backslash escapes
 	}
