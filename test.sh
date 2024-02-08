@@ -21,16 +21,29 @@ for fname in $files ; do
 	{ ../c/djon "${fname}" | tr -c '[:print:]\t\n\r' '#' ; } &>>output.json
 	echo "#c.djon" >>output.json
 	{ ../c/djon --djon "${fname}" | tr -c '[:print:]\t\n\r' '#' ; } &>>output.json
+
 	../c/djon --djon "${fname}" >tmp1.djon 2>/dev/null
 	../c/djon --djon tmp1.djon  >tmp2.djon 2>/dev/null
-	if cmp tmp1.djon tmp2.djon ; then
-		echo "#cmp OK" >>output.json
+	if cmp --quiet tmp1.djon tmp2.djon ; then
+		:
 	else
-		echo "#cmp BAD" >>output.json
+		echo "#BAD reparsed djon" >>output.json
 		diff tmp1.djon tmp2.djon >>output.json
 	fi
 	rm tmp1.djon
 	rm tmp2.djon
+
+	../c/djon --json "${fname}" >tmp1.json 2>/dev/null
+	../c/djon --json tmp1.json  >tmp2.json 2>/dev/null
+	if cmp --quiet tmp1.json tmp2.json ; then
+		:
+	else
+		echo "#BAD reparsed json" >>output.json
+		diff tmp1.json tmp2.json >>output.json
+	fi
+	rm tmp1.json
+	rm tmp2.json
+
 	echo "#lua.json" >>output.json
 	{ luajit -- ../lua/djon.cmd.lua "${fname}" 2>&1 | sed -n '/stack traceback:/q;p' | tr -c '[:print:]\t\n\r' '#' ; } &>>output.json
 	echo "#lua.djon" >>output.json

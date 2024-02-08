@@ -12,7 +12,6 @@
  1
  TRUE
 ]
-#cmp OK
 #lua.json
 [
  1 ,
@@ -42,7 +41,6 @@ line 1 char 5 byte 4
 #c.djon
 missing ]
 line 1 char 5 byte 4
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 5 byte 4
 #lua.djon
@@ -68,7 +66,6 @@ line 1 char 4 byte 3
 #c.djon
 missing ,
 line 1 char 4 byte 3
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing , line 1 char 4 byte 3
 #lua.djon
@@ -100,7 +97,6 @@ line 1 char 5 byte 4
 [
  ``
 ]
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 5 byte 4
 #lua.djon
@@ -126,7 +122,6 @@ line 1 char 2 byte 1
 #c.djon
 unexpected ,
 line 1 char 2 byte 1
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: unexpected , line 1 char 2 byte 1
 #lua.djon
@@ -152,7 +147,6 @@ line 1 char 5 byte 4
 #c.djon
 multiple ,
 line 1 char 5 byte 4
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: multiple , line 1 char 5 byte 4
 #lua.djon
@@ -178,7 +172,6 @@ line 1 char 7 byte 6
 #c.djon
 multiple ,
 line 1 char 7 byte 6
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: multiple , line 1 char 7 byte 6
 #lua.djon
@@ -210,7 +203,6 @@ line 1 char 6 byte 5
 [
  x
 ]
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 6 byte 5
 #lua.djon
@@ -238,7 +230,6 @@ Error: garbage at end of file at line 1 char 6 byte 5
 [
  ``
 ]
-#cmp OK
 #lua.json
 [
  ""
@@ -264,7 +255,6 @@ line 1 char 3 byte 2
 #c.djon
 missing ]
 line 1 char 3 byte 2
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 3 byte 2
 #lua.djon
@@ -290,7 +280,6 @@ line 1 char 5 byte 4
 #c.djon
 missing ]
 line 1 char 5 byte 4
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 5 byte 4
 #lua.djon
@@ -316,7 +305,6 @@ line 1 char 3 byte 2
 #c.djon
 missing ,
 line 1 char 3 byte 2
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing , line 1 char 3 byte 2
 #lua.djon
@@ -342,7 +330,6 @@ line 1 char 4 byte 3
 #c.djon
 missing ]
 line 1 char 4 byte 3
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 4 byte 3
 #lua.djon
@@ -368,7 +355,6 @@ line 1 char 3 byte 2
 #c.djon
 missing ,
 line 1 char 3 byte 2
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing , line 1 char 3 byte 2
 #lua.djon
@@ -394,7 +380,6 @@ line 1 char 2 byte 1
 #c.djon
 unexpected ,
 line 1 char 2 byte 1
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: unexpected , line 1 char 2 byte 1
 #lua.djon
@@ -420,7 +405,6 @@ line 1 char 4 byte 3
 #c.djon
 missing ]
 line 1 char 4 byte 3
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 4 byte 3
 #lua.djon
@@ -446,7 +430,6 @@ line 1 char 5 byte 4
 #c.djon
 unexpected ,
 line 1 char 5 byte 4
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: unexpected , line 1 char 5 byte 4
 #lua.djon
@@ -474,7 +457,6 @@ line 3 char 4 byte 11
 #c.djon
 missing ]
 line 3 char 4 byte 11
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 3 char 4 byte 11
 #lua.djon
@@ -502,7 +484,6 @@ Error: missing ] at line 3 char 4 byte 11
 [
  1
 ]
-#cmp OK
 #lua.json
 [
  1
@@ -528,7 +509,6 @@ line 1 char 5 byte 4
 #c.djon
 multiple ,
 line 1 char 5 byte 4
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: multiple , line 1 char 5 byte 4
 #lua.djon
@@ -554,7 +534,6 @@ line 1 char 6 byte 5
 #c.djon
 missing ,
 line 1 char 6 byte 5
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing , line 1 char 6 byte 5
 #lua.djon
@@ -580,7 +559,6 @@ line 1 char 4 byte 3
 #c.djon
 missing ]
 line 1 char 4 byte 3
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 4 byte 3
 #lua.djon
@@ -606,7 +584,6 @@ line 1 char 4 byte 3
 #c.djon
 missing ]
 line 1 char 4 byte 3
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 4 byte 3
 #lua.djon
@@ -632,7 +609,6 @@ line 1 char 4 byte 3
 #c.djon
 missing ]
 line 1 char 4 byte 3
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 4 byte 3
 #lua.djon
@@ -660,7 +636,6 @@ line 3 char 3 byte 8
 #c.djon
 missing ]
 line 3 char 3 byte 8
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 3 char 3 byte 8
 #lua.djon
@@ -686,7 +661,6 @@ line 1 char 4 byte 3
 #c.djon
 missing ]
 line 1 char 4 byte 3
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 4 byte 3
 #lua.djon
@@ -712,7 +686,6 @@ line 1 char 7 byte 6
 #c.djon
 missing ]
 line 1 char 7 byte 6
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 #lua.djon
@@ -738,7 +711,6 @@ line 1 char 6 byte 5
 #c.djon
 missing ]
 line 1 char 6 byte 5
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #lua.djon
@@ -764,7 +736,6 @@ line 1 char 6 byte 5
 #c.djon
 missing ]
 line 1 char 6 byte 5
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #lua.djon
@@ -792,7 +763,6 @@ line 1 char 4 byte 3
 garbage at end of file
 line 1 char 4 byte 3
 123
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 4 byte 3
 #lua.djon
@@ -810,7 +780,6 @@ line 1 char 8 byte 7
 #c.djon
 missing ]
 line 1 char 8 byte 7
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 8 byte 7
 #lua.djon
@@ -838,7 +807,6 @@ Error: missing ] at line 1 char 8 byte 7
 [
  -1
 ]
-#cmp OK
 #lua.json
 [
  -1
@@ -864,7 +832,6 @@ line 1 char 8 byte 7
 #c.djon
 missing ]
 line 1 char 8 byte 7
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 8 byte 7
 #lua.djon
@@ -890,7 +857,6 @@ line 1 char 7 byte 6
 #c.djon
 missing ]
 line 1 char 7 byte 6
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 #lua.djon
@@ -916,7 +882,6 @@ line 1 char 6 byte 5
 #c.djon
 missing ]
 line 1 char 6 byte 5
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #lua.djon
@@ -942,7 +907,6 @@ line 1 char 5 byte 4
 #c.djon
 missing ]
 line 1 char 5 byte 4
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 5 byte 4
 #lua.djon
@@ -970,7 +934,6 @@ Error: missing ] at line 1 char 5 byte 4
 [
  0
 ]
-#cmp OK
 #lua.json
 [
  0
@@ -996,7 +959,6 @@ line 1 char 6 byte 5
 #c.djon
 missing ]
 line 1 char 6 byte 5
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #lua.djon
@@ -1022,7 +984,6 @@ line 1 char 5 byte 4
 #c.djon
 missing ]
 line 1 char 5 byte 4
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 5 byte 4
 #lua.djon
@@ -1052,7 +1013,6 @@ Error: missing ] at line 1 char 5 byte 4
  1
  0
 ]
-#cmp OK
 #lua.json
 [
  1 ,
@@ -1082,7 +1042,6 @@ line 1 char 8 byte 7
 #c.djon
 missing ]
 line 1 char 8 byte 7
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 8 byte 7
 #lua.djon
@@ -1108,7 +1067,6 @@ line 1 char 8 byte 7
 #c.djon
 missing ]
 line 1 char 8 byte 7
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 8 byte 7
 #lua.djon
@@ -1134,7 +1092,6 @@ line 1 char 7 byte 6
 #c.djon
 missing ]
 line 1 char 7 byte 6
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 #lua.djon
@@ -1160,7 +1117,6 @@ line 1 char 8 byte 7
 #c.djon
 missing ]
 line 1 char 8 byte 7
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 8 byte 7
 #lua.djon
@@ -1186,7 +1142,6 @@ line 1 char 7 byte 6
 #c.djon
 missing ]
 line 1 char 7 byte 6
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 #lua.djon
@@ -1214,7 +1169,6 @@ Error: missing ] at line 1 char 7 byte 6
 [
  1
 ]
-#cmp OK
 #lua.json
 [
  1
@@ -1240,7 +1194,6 @@ line 1 char 6 byte 5
 #c.djon
 missing ]
 line 1 char 6 byte 5
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #lua.djon
@@ -1268,7 +1221,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  2000
 ]
-#cmp OK
 #lua.json
 [
  2000
@@ -1296,7 +1248,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  0.002
 ]
-#cmp OK
 #lua.json
 [
  0.002
@@ -1324,7 +1275,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  2000
 ]
-#cmp OK
 #lua.json
 [
  2000
@@ -1352,7 +1302,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  0.0002
 ]
-#cmp OK
 #lua.json
 [
  0.0002
@@ -1380,7 +1329,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  -2
 ]
-#cmp OK
 #lua.json
 [
  -2
@@ -1406,7 +1354,6 @@ line 1 char 7 byte 6
 #c.djon
 missing ]
 line 1 char 7 byte 6
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 #lua.djon
@@ -1432,7 +1379,6 @@ line 1 char 6 byte 5
 #c.djon
 missing ]
 line 1 char 6 byte 5
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #lua.djon
@@ -1460,7 +1406,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  1
 ]
-#cmp OK
 #lua.json
 [
  1
@@ -1488,7 +1433,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  66
 ]
-#cmp OK
 #lua.json
 [
  66
@@ -1514,7 +1458,6 @@ line 1 char 11 byte 10
 #c.djon
 missing ]
 line 1 char 11 byte 10
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 11 byte 10
 #lua.djon
@@ -1540,7 +1483,6 @@ line 1 char 7 byte 6
 #c.djon
 missing ]
 line 1 char 7 byte 6
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 #lua.djon
@@ -1566,7 +1508,6 @@ line 1 char 6 byte 5
 #c.djon
 missing ]
 line 1 char 6 byte 5
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #lua.djon
@@ -1592,7 +1533,6 @@ line 1 char 8 byte 7
 #c.djon
 missing ]
 line 1 char 8 byte 7
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 8 byte 7
 #lua.djon
@@ -1618,7 +1558,6 @@ line 1 char 14 byte 13
 #c.djon
 missing ]
 line 1 char 14 byte 13
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 14 byte 13
 #lua.djon
@@ -1644,7 +1583,6 @@ line 1 char 7 byte 6
 #c.djon
 missing ]
 line 1 char 7 byte 6
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 #lua.djon
@@ -1670,7 +1608,6 @@ line 1 char 7 byte 6
 #c.djon
 missing ]
 line 1 char 7 byte 6
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 #lua.djon
@@ -1697,7 +1634,6 @@ line 2 char 1 byte 5
 #c.djon
 missing ]
 line 2 char 1 byte 5
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 2 char 1 byte 5
 #lua.djon
@@ -1723,7 +1659,6 @@ line 1 char 9 byte 8
 #c.djon
 missing ]
 line 1 char 9 byte 8
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 9 byte 8
 #lua.djon
@@ -1749,7 +1684,6 @@ line 1 char 12 byte 11
 #c.djon
 missing ]
 line 1 char 12 byte 11
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 12 byte 11
 #lua.djon
@@ -1775,7 +1709,6 @@ line 1 char 7 byte 6
 #c.djon
 missing ]
 line 1 char 7 byte 6
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 #lua.djon
@@ -1801,7 +1734,6 @@ line 1 char 6 byte 5
 #c.djon
 missing ]
 line 1 char 6 byte 5
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #lua.djon
@@ -1827,7 +1759,6 @@ line 1 char 7 byte 6
 #c.djon
 missing ]
 line 1 char 7 byte 6
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 #lua.djon
@@ -1853,7 +1784,6 @@ line 1 char 6 byte 5
 #c.djon
 missing ]
 line 1 char 6 byte 5
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #lua.djon
@@ -1881,7 +1811,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  -12
 ]
-#cmp OK
 #lua.json
 [
  -12
@@ -1909,7 +1838,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  -0.123
 ]
-#cmp OK
 #lua.json
 [
  -0.123
@@ -1935,7 +1863,6 @@ line 1 char 6 byte 5
 #c.djon
 missing ]
 line 1 char 6 byte 5
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #lua.djon
@@ -1961,7 +1888,6 @@ line 1 char 6 byte 5
 #c.djon
 missing ]
 line 1 char 6 byte 5
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #lua.djon
@@ -1987,7 +1913,6 @@ line 1 char 6 byte 5
 #c.djon
 missing ]
 line 1 char 6 byte 5
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #lua.djon
@@ -2015,7 +1940,6 @@ Error: missing ] at line 1 char 8 byte 7
 [
  1
 ]
-#cmp OK
 #lua.json
 [
  1
@@ -2043,7 +1967,6 @@ Error: missing ] at line 1 char 8 byte 7
 [
  0.123
 ]
-#cmp OK
 #lua.json
 [
  0.123
@@ -2069,7 +1992,6 @@ line 1 char 6 byte 5
 #c.djon
 missing ]
 line 1 char 6 byte 5
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #lua.djon
@@ -2095,7 +2017,6 @@ line 1 char 26 byte 25
 #c.djon
 missing ]
 line 1 char 26 byte 25
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 26 byte 25
 #lua.djon
@@ -2121,7 +2042,6 @@ line 1 char 9 byte 8
 #c.djon
 missing ]
 line 1 char 9 byte 8
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 9 byte 8
 #lua.djon
@@ -2149,7 +2069,6 @@ Error: missing ] at line 1 char 9 byte 8
 [
  12
 ]
-#cmp OK
 #lua.json
 [
  12
@@ -2175,7 +2094,6 @@ line 1 char 13 byte 12
 #c.djon
 missing ]
 line 1 char 13 byte 12
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 13 byte 12
 #lua.djon
@@ -2202,7 +2120,6 @@ line 1 char 2 byte 1
 #c.djon
 invalid naked key
 line 1 char 2 byte 1
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid naked key line 1 char 2 byte 1
 #lua.djon
@@ -2228,7 +2145,6 @@ line 1 char 5 byte 4
 #c.djon
 missing :
 line 1 char 5 byte 4
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing : line 1 char 5 byte 4
 #lua.djon
@@ -2254,7 +2170,6 @@ line 1 char 7 byte 6
 #c.djon
 missing :
 line 1 char 7 byte 6
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing : line 1 char 7 byte 6
 #lua.djon
@@ -2280,7 +2195,6 @@ line 1 char 10 byte 9
 #c.djon
 invalid naked key
 line 1 char 10 byte 9
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid naked key line 1 char 10 byte 9
 #lua.djon
@@ -2306,7 +2220,6 @@ line 1 char 13 byte 12
 #c.djon
 invalid naked key
 line 1 char 13 byte 12
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid naked key line 1 char 13 byte 12
 #lua.djon
@@ -2334,7 +2247,6 @@ Error: invalid naked key at line 1 char 13 byte 12
 {
  key = value
 }
-#cmp OK
 #lua.json
 {
  "key" : "value"
@@ -2362,7 +2274,6 @@ Error: invalid naked key at line 1 char 13 byte 12
 {
  # = `0`
 }
-#cmp OK
 #lua.json
 {
  "#" : 0
@@ -2388,7 +2299,6 @@ line 1 char 6 byte 5
 #c.djon
 missing :
 line 1 char 6 byte 5
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing : line 1 char 6 byte 5
 #lua.djon
@@ -2416,7 +2326,6 @@ Error: missing : at line 1 char 6 byte 5
 {
  `` = b
 }
-#cmp OK
 #lua.json
 {
  "" : "b"
@@ -2442,7 +2351,6 @@ line 1 char 6 byte 5
 #c.djon
 missing :
 line 1 char 6 byte 5
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing : line 1 char 6 byte 5
 #lua.djon
@@ -2468,7 +2376,6 @@ line 1 char 6 byte 5
 #c.djon
 missing value
 line 1 char 6 byte 5
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing value line 1 char 6 byte 5
 #lua.djon
@@ -2494,7 +2401,6 @@ line 1 char 5 byte 4
 #c.djon
 missing :
 line 1 char 5 byte 4
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing : line 1 char 5 byte 4
 #lua.djon
@@ -2522,7 +2428,6 @@ Error: missing : at line 1 char 5 byte 4
 {
  9999E9999 = 1
 }
-#cmp OK
 #lua.json
 {
  "9999E9999" : 1
@@ -2550,7 +2455,6 @@ Error: missing : at line 1 char 5 byte 4
 {
  1 = 1
 }
-#cmp OK
 #lua.json
 {
  "1" : 1
@@ -2578,7 +2482,6 @@ Error: missing : at line 1 char 5 byte 4
 {
  null = NULL
 }
-#cmp OK
 #lua.json
 {
  "null" : null
@@ -2604,7 +2507,6 @@ line 1 char 13 byte 12
 #c.djon
 multiple ,
 line 1 char 13 byte 12
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: multiple , line 1 char 13 byte 12
 #lua.djon
@@ -2632,7 +2534,6 @@ Error: multiple , at line 1 char 13 byte 12
 {
  a = 0
 }
-#cmp OK
 #lua.json
 {
  "a" : 0
@@ -2660,7 +2561,6 @@ Error: multiple , at line 1 char 13 byte 12
 {
  id = 0
 }
-#cmp OK
 #lua.json
 {
  "id" : 0
@@ -2688,7 +2588,6 @@ Error: multiple , at line 1 char 13 byte 12
 {
  a = b
 }
-#cmp OK
 #lua.json
 {
  "a" : "b"
@@ -2720,7 +2619,6 @@ line 1 char 14 byte 13
 {
  a = b
 }
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 14 byte 13
 #lua.djon
@@ -2752,7 +2650,6 @@ line 1 char 10 byte 9
 {
  a = b
 }
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 10 byte 9
 #lua.djon
@@ -2780,7 +2677,6 @@ Error: garbage at end of file at line 1 char 10 byte 9
 {
  a = b
 }
-#cmp OK
 #lua.json
 {
  "a" : "b"
@@ -2806,7 +2702,6 @@ line 1 char 11 byte 10
 #c.djon
 multiple ,
 line 1 char 11 byte 10
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: multiple , line 1 char 11 byte 10
 #lua.djon
@@ -2834,7 +2729,6 @@ Error: multiple , at line 1 char 11 byte 10
 {
  a = b
 }
-#cmp OK
 #lua.json
 {
  "a" : "b"
@@ -2860,7 +2754,6 @@ line 1 char 8 byte 7
 #c.djon
 missing "
 line 1 char 8 byte 7
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing " line 1 char 8 byte 7
 #lua.djon
@@ -2886,7 +2779,6 @@ line 1 char 22 byte 21
 #c.djon
 missing :
 line 1 char 22 byte 21
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing : line 1 char 22 byte 21
 #lua.djon
@@ -2918,7 +2810,6 @@ line 1 char 10 byte 9
 {
  a = b
 }
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 10 byte 9
 #lua.djon
@@ -2944,7 +2835,6 @@ line 1 char 2 byte 1
 #c.djon
 no data
 line 1 char 2 byte 1
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: no data line 1 char 2 byte 1
 #lua.djon
@@ -2970,7 +2860,6 @@ line 1 char 12 byte 11
 #c.djon
 missing "
 line 1 char 12 byte 11
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing " line 1 char 12 byte 11
 #lua.djon
@@ -2998,7 +2887,6 @@ Error: missing " at line 1 char 12 byte 11
 [
  ####
 ]
-#cmp OK
 #lua.json
 [
  "###\u0001"
@@ -3030,7 +2918,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  ####x
 ]
-#cmp OK
 #lua.json
 [
  "###\u0001x"
@@ -3062,7 +2949,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  ####
 ]
-#cmp OK
 #lua.json
 [
  "###\u0000"
@@ -3092,7 +2978,6 @@ line 1 char 5 byte 4
 #c.djon
 missing ]
 line 1 char 5 byte 4
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 5 byte 4
 #lua.djon
@@ -3120,7 +3005,6 @@ Error: missing ] at line 1 char 5 byte 4
 [
  #
 ]
-#cmp OK
 #lua.json
 [
  "\u0000"
@@ -3150,7 +3034,6 @@ line 1 char 8 byte 7
 #c.djon
 missing "
 line 1 char 8 byte 7
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing " line 1 char 8 byte 7
 #lua.djon
@@ -3178,7 +3061,6 @@ Error: missing " at line 1 char 8 byte 7
 [
  `	`
 ]
-#cmp OK
 #lua.json
 [
  "\t"
@@ -3206,7 +3088,6 @@ Error: missing " at line 1 char 8 byte 7
 [
  ####
 ]
-#cmp OK
 #lua.json
 [
  "####"
@@ -3234,7 +3115,6 @@ Error: missing " at line 1 char 8 byte 7
 [
  x00
 ]
-#cmp OK
 #lua.json
 [
  "x00"
@@ -3264,7 +3144,6 @@ Error: missing " at line 1 char 8 byte 7
 
 `
 ]
-#cmp OK
 #lua.json
 [
  "\n"
@@ -3294,7 +3173,6 @@ line 1 char 6 byte 5
 #c.djon
 missing "
 line 1 char 6 byte 5
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing " line 1 char 6 byte 5
 #lua.djon
@@ -3322,7 +3200,6 @@ Error: missing " at line 1 char 6 byte 5
 [
  ######x
 ]
-#cmp OK
 #lua.json
 [
  "######x"
@@ -3354,7 +3231,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  #####
 ]
-#cmp OK
 #lua.json
 [
  "#####"
@@ -3386,7 +3262,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  a
 ]
-#cmp OK
 #lua.json
 [
  "a"
@@ -3414,7 +3289,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  #qqqq
 ]
-#cmp OK
 #lua.json
 [
  "\u0000qqqq"
@@ -3442,7 +3316,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  #
 ]
-#cmp OK
 #lua.json
 [
  "#"
@@ -3470,7 +3343,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  ##
 ]
-#cmp OK
 #lua.json
 [
  "\u0000#"
@@ -3496,7 +3368,6 @@ line 1 char 14 byte 13
 #c.djon
 missing ]
 line 1 char 14 byte 13
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 14 byte 13
 #lua.djon
@@ -3522,7 +3393,6 @@ line 1 char 5 byte 4
 #c.djon
 missing ]
 line 1 char 5 byte 4
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 5 byte 4
 #lua.djon
@@ -3548,7 +3418,6 @@ line 1 char 2 byte 1
 #c.djon
 missing "
 line 1 char 2 byte 1
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing " line 1 char 2 byte 1
 #lua.djon
@@ -3576,7 +3445,6 @@ Error: missing " at line 1 char 2 byte 1
 [
  single quote
 ]
-#cmp OK
 #lua.json
 [
  "single quote"
@@ -3600,7 +3468,6 @@ abc
 "abc"
 #c.djon
 abc
-#cmp OK
 #lua.json
 "abc"
 #lua.djon
@@ -3618,7 +3485,6 @@ line 1 char 4 byte 4
 #c.djon
 missing "
 line 1 char 4 byte 4
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing " line 1 char 4 byte 4
 #lua.djon
@@ -3646,7 +3512,6 @@ Error: missing " at line 1 char 4 byte 4
 [
  a#a
 ]
-#cmp OK
 #lua.json
 [
  "a\u0000a"
@@ -3680,7 +3545,6 @@ line"]
  `new
 line`
 ]
-#cmp OK
 #lua.json
 [
  "new\nline"
@@ -3710,7 +3574,6 @@ line`
 [
  `	`
 ]
-#cmp OK
 #lua.json
 [
  "\t"
@@ -3734,7 +3597,6 @@ line`
 "UA66D"
 #c.djon
 UA66D
-#cmp OK
 #lua.json
 "UA66D"
 #lua.djon
@@ -3754,7 +3616,6 @@ line 1 char 3 byte 2
 garbage at end of file
 line 1 char 3 byte 2
 ``
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 3 byte 2
 #lua.djon
@@ -3780,7 +3641,6 @@ line 1 char 2341 byte 2340
 #c.djon
 stack overflow
 line 1 char 2341 byte 2340
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: stack overflow line 1 char 5462 byte 5461
 #lua.djon
@@ -3802,7 +3662,6 @@ RangeError: Maximum call stack size exceeded
 "<.>"
 #c.djon
 <.>
-#cmp OK
 #lua.json
 "<.>"
 #lua.djon
@@ -3820,7 +3679,6 @@ line 1 char 9 byte 8
 #c.djon
 missing ]
 line 1 char 9 byte 8
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 9 byte 8
 #lua.djon
@@ -3852,7 +3710,6 @@ line 1 char 4 byte 3
 [
  1
 ]
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 4 byte 3
 #lua.djon
@@ -3884,7 +3741,6 @@ line 1 char 4 byte 3
 [
  1
 ]
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 4 byte 3
 #lua.djon
@@ -3910,7 +3766,6 @@ line 1 char 7 byte 6
 #c.djon
 missing "
 line 1 char 7 byte 6
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing " line 1 char 7 byte 6
 #lua.djon
@@ -3934,7 +3789,6 @@ a##
 "a##"
 #c.djon
 a##
-#cmp OK
 #lua.json
 "a##"
 #lua.djon
@@ -3954,7 +3808,6 @@ a##
 [
  TRUE
 ]
-#cmp OK
 #lua.json
 [
  true
@@ -3982,7 +3835,6 @@ line 1 char 2 byte 1
 garbage at end of file
 line 1 char 2 byte 1
 1
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 2 byte 1
 #lua.djon
@@ -4008,7 +3860,6 @@ line 1 char 12 byte 11
 #c.djon
 missing }
 line 1 char 12 byte 11
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing } line 1 char 12 byte 11
 #lua.djon
@@ -4038,7 +3889,6 @@ garbage at end of file
 line 1 char 3 byte 2
 [
 ]
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 3 byte 2
 #lua.djon
@@ -4064,7 +3914,6 @@ line 1 char 1 byte 0
 #c.djon
 unexpected ]
 line 1 char 1 byte 0
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: unexpected ] line 1 char 1 byte 0
 #lua.djon
@@ -4088,7 +3937,6 @@ Error: unexpected ] at line 1 char 1 byte 0
 "##{}"
 #c.djon
 ##{}
-#cmp OK
 #lua.json
 "##{}"
 #lua.djon
@@ -4104,7 +3952,6 @@ Error: unexpected ] at line 1 char 1 byte 0
 "#"
 #c.djon
 #
-#cmp OK
 #lua.json
 "#"
 #lua.djon
@@ -4122,7 +3969,6 @@ line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 2 byte 1
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 2 byte 1
 #lua.djon
@@ -4148,7 +3994,6 @@ line 1 char 1 byte 0
 #c.djon
 no data
 line 1 char 1 byte 0
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: djon string required line 0 char 0 byte 0
 #lua.djon
@@ -4174,7 +4019,6 @@ line 1 char 4 byte 3
 #c.djon
 missing ]
 line 1 char 4 byte 3
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 4 byte 3
 #lua.djon
@@ -4198,7 +4042,6 @@ Error: missing ] at line 1 char 2 byte 1
 "2@"
 #c.djon
 `2@`
-#cmp OK
 #lua.json
 "2@"
 #lua.djon
@@ -4220,7 +4063,6 @@ garbage at end of file
 line 1 char 3 byte 2
 {
 }
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 3 byte 2
 #lua.djon
@@ -4246,7 +4088,6 @@ line 1 char 5 byte 4
 #c.djon
 missing value
 line 1 char 5 byte 4
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing value line 1 char 5 byte 4
 #lua.djon
@@ -4275,7 +4116,6 @@ Error: missing value at line 1 char 5 byte 4
  // comment
  a = b
 }
-#cmp OK
 #lua.json
 {
  "a" : "b"
@@ -4308,7 +4148,6 @@ line 1 char 13 byte 12
 {
  a = TRUE
 }
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 13 byte 12
 #lua.djon
@@ -4334,7 +4173,6 @@ line 1 char 3 byte 2
 #c.djon
 missing '
 line 1 char 3 byte 2
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ' line 1 char 3 byte 2
 #lua.djon
@@ -4360,7 +4198,6 @@ line 1 char 2 byte 1
 #c.djon
 unexpected ,
 line 1 char 2 byte 1
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: unexpected , line 1 char 2 byte 1
 #lua.djon
@@ -4387,7 +4224,6 @@ line 1 char 5461 byte 5460
 #c.djon
 stack overflow
 line 1 char 5461 byte 5460
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: stack overflow line 1 char 11702 byte 11701
 #lua.djon
@@ -4411,7 +4247,6 @@ line 1 char 3 byte 2
 #c.djon
 missing }
 line 1 char 3 byte 2
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing } line 1 char 3 byte 2
 #lua.djon
@@ -4437,7 +4272,6 @@ line 1 char 4 byte 3
 #c.djon
 missing "
 line 1 char 4 byte 3
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing " line 1 char 4 byte 3
 #lua.djon
@@ -4463,7 +4297,6 @@ line 1 char 5 byte 4
 #c.djon
 missing ]
 line 1 char 5 byte 4
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 5 byte 4
 #lua.djon
@@ -4489,7 +4322,6 @@ line 1 char 2 byte 1
 #c.djon
 invalid naked key
 line 1 char 2 byte 1
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid naked key line 1 char 2 byte 1
 #lua.djon
@@ -4515,7 +4347,6 @@ line 1 char 2 byte 1
 #c.djon
 invalid naked key
 line 1 char 2 byte 1
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid naked key line 1 char 2 byte 1
 #lua.djon
@@ -4541,7 +4372,6 @@ line 1 char 2 byte 1
 #c.djon
 missing }
 line 1 char 2 byte 1
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing } line 1 char 2 byte 1
 #lua.djon
@@ -4567,7 +4397,6 @@ line 1 char 2 byte 1
 #c.djon
 invalid naked key
 line 1 char 2 byte 1
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid naked key line 1 char 2 byte 1
 #lua.djon
@@ -4593,7 +4422,6 @@ line 1 char 4 byte 3
 #c.djon
 missing "
 line 1 char 4 byte 3
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing " line 1 char 4 byte 3
 #lua.djon
@@ -4619,7 +4447,6 @@ line 1 char 5 byte 4
 #c.djon
 missing :
 line 1 char 5 byte 4
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing : line 1 char 5 byte 4
 #lua.djon
@@ -4645,7 +4472,6 @@ line 1 char 7 byte 6
 #c.djon
 missing ,
 line 1 char 7 byte 6
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing , line 1 char 7 byte 6
 #lua.djon
@@ -4669,7 +4495,6 @@ Error: missing , at line 1 char 7 byte 6
 "#"
 #c.djon
 #
-#cmp OK
 #lua.json
 "#"
 #lua.djon
@@ -4685,7 +4510,6 @@ Error: missing , at line 1 char 7 byte 6
 "*"
 #c.djon
 *
-#cmp OK
 #lua.json
 "*"
 #lua.djon
@@ -4709,7 +4533,6 @@ line 1 char 10 byte 9
 {
  a = b
 }
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 10 byte 9
 #lua.djon
@@ -4735,7 +4558,6 @@ line 1 char 6 byte 5
 #c.djon
 missing ]
 line 1 char 6 byte 5
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #lua.djon
@@ -4761,7 +4583,6 @@ line 1 char 11 byte 10
 #c.djon
 missing ]
 line 1 char 11 byte 10
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 11 byte 10
 #lua.djon
@@ -4787,7 +4608,6 @@ line 1 char 3 byte 2
 #c.djon
 missing ]
 line 1 char 3 byte 2
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 3 byte 2
 #lua.djon
@@ -4813,7 +4633,6 @@ line 1 char 13 byte 12
 #c.djon
 missing ]
 line 1 char 13 byte 12
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 13 byte 12
 #lua.djon
@@ -4839,7 +4658,6 @@ line 1 char 13 byte 12
 #c.djon
 missing ]
 line 1 char 13 byte 12
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 13 byte 12
 #lua.djon
@@ -4865,7 +4683,6 @@ line 1 char 13 byte 12
 #c.djon
 missing ]
 line 1 char 13 byte 12
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 13 byte 12
 #lua.djon
@@ -4891,7 +4708,6 @@ line 1 char 13 byte 12
 #c.djon
 missing }
 line 1 char 13 byte 12
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing } line 1 char 13 byte 12
 #lua.djon
@@ -4915,7 +4731,6 @@ Error: missing } at line 1 char 13 byte 12
 "##"
 #c.djon
 ##
-#cmp OK
 #lua.json
 "##"
 #lua.djon
@@ -4931,7 +4746,6 @@ Error: missing } at line 1 char 13 byte 12
 "###"
 #c.djon
 ###
-#cmp OK
 #lua.json
 "###"
 #lua.djon
@@ -4949,7 +4763,6 @@ line 1 char 4 byte 3
 #c.djon
 missing ]
 line 1 char 4 byte 3
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 4 byte 3
 #lua.djon
@@ -4975,7 +4788,6 @@ line 1 char 6 byte 5
 #c.djon
 missing ]
 line 1 char 6 byte 5
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #lua.djon
@@ -5005,7 +4817,6 @@ Error: missing ] at line 1 char 6 byte 5
  [
  ]
 ]
-#cmp OK
 #lua.json
 [
  {
@@ -5035,7 +4846,6 @@ Error: missing ] at line 1 char 6 byte 5
 #c.djon
 [
 ]
-#cmp OK
 #lua.json
 {
 }
@@ -5059,7 +4869,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  ``
 ]
-#cmp OK
 #lua.json
 [
  ""
@@ -5087,7 +4896,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  a
 ]
-#cmp OK
 #lua.json
 [
  "a"
@@ -5115,7 +4923,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  FALSE
 ]
-#cmp OK
 #lua.json
 [
  false
@@ -5151,7 +4958,6 @@ Error: missing ] at line 1 char 6 byte 5
  {
  }
 ]
-#cmp OK
 #lua.json
 [
  null ,
@@ -5195,7 +5001,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  NULL
 ]
-#cmp OK
 #lua.json
 [
  null
@@ -5224,7 +5029,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  1
 ]
-#cmp OK
 #lua.json
 [
  1
@@ -5252,7 +5056,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  1
 ]
-#cmp OK
 #lua.json
 [
  1
@@ -5288,7 +5091,6 @@ Error: missing ] at line 1 char 6 byte 5
  NULL
  2
 ]
-#cmp OK
 #lua.json
 [
  1 ,
@@ -5332,7 +5134,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  2
 ]
-#cmp OK
 #lua.json
 [
  2
@@ -5360,7 +5161,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  0
 ]
-#cmp OK
 #lua.json
 [
  0
@@ -5388,7 +5188,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  0
 ]
-#cmp OK
 #lua.json
 [
  0
@@ -5416,7 +5215,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  4
 ]
-#cmp OK
 #lua.json
 [
  4
@@ -5445,7 +5243,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  -.1e-77
 ]
-#cmp OK
 #lua.json
 [
  -.1e-77
@@ -5473,7 +5270,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  200
 ]
-#cmp OK
 #lua.json
 [
  200
@@ -5501,7 +5297,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  123e65
 ]
-#cmp OK
 #lua.json
 [
  123e65
@@ -5529,7 +5324,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  -0
 ]
-#cmp OK
 #lua.json
 [
  -0
@@ -5557,7 +5351,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  -123
 ]
-#cmp OK
 #lua.json
 [
  -123
@@ -5585,7 +5378,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  -1
 ]
-#cmp OK
 #lua.json
 [
  -1
@@ -5613,7 +5405,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  -0
 ]
-#cmp OK
 #lua.json
 [
  -0
@@ -5641,7 +5432,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  10000000000000000000000
 ]
-#cmp OK
 #lua.json
 [
  10000000000000000000000
@@ -5669,7 +5459,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  0.01
 ]
-#cmp OK
 #lua.json
 [
  0.01
@@ -5697,7 +5486,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  100
 ]
-#cmp OK
 #lua.json
 [
  100
@@ -5725,7 +5513,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  123e45
 ]
-#cmp OK
 #lua.json
 [
  123e45
@@ -5753,7 +5540,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  123456e75
 ]
-#cmp OK
 #lua.json
 [
  123456e75
@@ -5781,7 +5567,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  0.01
 ]
-#cmp OK
 #lua.json
 [
  0.01
@@ -5809,7 +5594,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  100
 ]
-#cmp OK
 #lua.json
 [
  100
@@ -5837,7 +5621,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  123
 ]
-#cmp OK
 #lua.json
 [
  123
@@ -5865,7 +5648,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  123.456789
 ]
-#cmp OK
 #lua.json
 [
  123.456789
@@ -5893,7 +5675,6 @@ Error: missing ] at line 1 char 6 byte 5
 {
  asd = sdf
 }
-#cmp OK
 #lua.json
 {
  "asd" : "sdf"
@@ -5921,7 +5702,6 @@ Error: missing ] at line 1 char 6 byte 5
 {
  a = b
 }
-#cmp OK
 #lua.json
 {
  "a" : "b"
@@ -5949,7 +5729,6 @@ Error: missing ] at line 1 char 6 byte 5
 {
  a = c
 }
-#cmp OK
 #lua.json
 {
  "a" : "c"
@@ -5975,7 +5754,6 @@ Error: missing ] at line 1 char 6 byte 5
 #c.djon
 {
 }
-#cmp OK
 #lua.json
 {
 }
@@ -5999,7 +5777,6 @@ Error: missing ] at line 1 char 6 byte 5
 {
  `` = 0
 }
-#cmp OK
 #lua.json
 {
  "" : 0
@@ -6027,7 +5804,6 @@ Error: missing ] at line 1 char 6 byte 5
 {
  `foo#bar` = 42
 }
-#cmp OK
 #lua.json
 {
  "foo\u0000bar" : 42
@@ -6057,7 +5833,6 @@ Error: missing ] at line 1 char 6 byte 5
  max = 1e28
  min = -1e28
 }
-#cmp OK
 #lua.json
 {
  "max" : 1e28 ,
@@ -6091,7 +5866,6 @@ Error: missing ] at line 1 char 6 byte 5
  asd = sdf
  dfg = fgh
 }
-#cmp OK
 #lua.json
 {
  "asd" : "sdf" ,
@@ -6133,7 +5907,6 @@ Error: missing ] at line 1 char 6 byte 5
   }
  ]
 }
-#cmp OK
 #lua.json
 {
  "id" : "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" ,
@@ -6183,7 +5956,6 @@ Error: missing ] at line 1 char 6 byte 5
  a = [
  ]
 }
-#cmp OK
 #lua.json
 {
  "a" : {
@@ -6215,7 +5987,6 @@ Error: missing ] at line 1 char 6 byte 5
 {
  title = ############## ##################
 }
-#cmp OK
 #lua.json
 {
  "title" : "############## ##################"
@@ -6245,7 +6016,6 @@ Error: missing ] at line 1 char 6 byte 5
 {
  a = b
 }
-#cmp OK
 #lua.json
 {
  "a" : "b"
@@ -6273,7 +6043,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  `"``#####`"`
 ]
-#cmp OK
 #lua.json
 [
  "`#####"
@@ -6301,7 +6070,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  ####
 ]
-#cmp OK
 #lua.json
 [
  "####"
@@ -6329,7 +6097,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  ########
 ]
-#cmp OK
 #lua.json
 [
  "########"
@@ -6358,7 +6125,6 @@ Error: missing ] at line 1 char 6 byte 5
  `"\/##
 	`
 ]
-#cmp OK
 #lua.json
 [
  "\"\\/\b\f\n\r\t"
@@ -6388,7 +6154,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  \u0000
 ]
-#cmp OK
 #lua.json
 [
  "\\u0000"
@@ -6416,7 +6181,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  `"`"`"`
 ]
-#cmp OK
 #lua.json
 [
  "\""
@@ -6444,7 +6208,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  a/*b*/c/*d//e
 ]
-#cmp OK
 #lua.json
 [
  "a/*b*/c/*d//e"
@@ -6472,7 +6235,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  \a
 ]
-#cmp OK
 #lua.json
 [
  "\\a"
@@ -6500,7 +6262,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  \n
 ]
-#cmp OK
 #lua.json
 [
  "\\n"
@@ -6528,7 +6289,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  #
 ]
-#cmp OK
 #lua.json
 [
  "\u0012"
@@ -6556,7 +6316,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  ###
 ]
-#cmp OK
 #lua.json
 [
  "###"
@@ -6584,7 +6343,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  asd
 ]
-#cmp OK
 #lua.json
 [
  "asd"
@@ -6612,7 +6370,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  asd
 ]
-#cmp OK
 #lua.json
 [
  "asd"
@@ -6640,7 +6397,6 @@ Error: missing ] at line 1 char 6 byte 5
 [
  ####
 ]
-#cmp OK
 #lua.json
 [
  "####"
@@ -6672,7 +6428,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  new##line
 ]
-#cmp OK
 #lua.json
 [
  "new##line"
@@ -6700,7 +6455,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  ####
 ]
-#cmp OK
 #lua.json
 [
  "####"
@@ -6728,7 +6482,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  ###
 ]
-#cmp OK
 #lua.json
 [
  "###"
@@ -6756,7 +6509,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  #
 ]
-#cmp OK
 #lua.json
 [
  "\u0000"
@@ -6784,7 +6536,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  `,`
 ]
-#cmp OK
 #lua.json
 [
  ","
@@ -6812,7 +6563,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  ##
 ]
-#cmp OK
 #lua.json
 [
  "##"
@@ -6840,7 +6590,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  ####
 ]
-#cmp OK
 #lua.json
 [
  "####"
@@ -6868,7 +6617,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  `asd `
 ]
-#cmp OK
 #lua.json
 [
  "asd "
@@ -6892,7 +6640,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 " "
 #c.djon
 ` `
-#cmp OK
 #lua.json
 " "
 #lua.djon
@@ -6912,7 +6659,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  ####
 ]
-#cmp OK
 #lua.json
 [
  "####"
@@ -6940,7 +6686,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  ###
 ]
-#cmp OK
 #lua.json
 [
  "###"
@@ -6968,7 +6713,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  ##
 ]
-#cmp OK
 #lua.json
 [
  "##"
@@ -6996,7 +6740,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  ###
 ]
-#cmp OK
 #lua.json
 [
  "###"
@@ -7024,7 +6767,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  ###
 ]
-#cmp OK
 #lua.json
 [
  "###"
@@ -7053,7 +6795,6 @@ TypeError: The encoded data was not valid for encoding utf-8
  `new
 line`
 ]
-#cmp OK
 #lua.json
 [
  "new\nline"
@@ -7083,7 +6824,6 @@ line`
 [
  a#########
 ]
-#cmp OK
 #lua.json
 [
  "a#########"
@@ -7111,7 +6851,6 @@ line`
 [
  #
 ]
-#cmp OK
 #lua.json
 [
  "#"
@@ -7139,7 +6878,6 @@ line`
 [
  #########
 ]
-#cmp OK
 #lua.json
 [
  "#########"
@@ -7167,7 +6905,6 @@ line`
 [
  \
 ]
-#cmp OK
 #lua.json
 [
  "\\"
@@ -7195,7 +6932,6 @@ line`
 [
  `"`"`"`
 ]
-#cmp OK
 #lua.json
 [
  "\""
@@ -7223,7 +6959,6 @@ line`
 [
  ###
 ]
-#cmp OK
 #lua.json
 [
  "###"
@@ -7251,7 +6986,6 @@ line`
 [
  ####
 ]
-#cmp OK
 #lua.json
 [
  "####"
@@ -7279,7 +7013,6 @@ line`
 [
  ####
 ]
-#cmp OK
 #lua.json
 [
  "####"
@@ -7311,7 +7044,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  ###
 ]
-#cmp OK
 #lua.json
 [
  "###"
@@ -7339,7 +7071,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  ###
 ]
-#cmp OK
 #lua.json
 [
  "###"
@@ -7367,7 +7098,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  ###
 ]
-#cmp OK
 #lua.json
 [
  "###"
@@ -7395,7 +7125,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  ###
 ]
-#cmp OK
 #lua.json
 [
  "###"
@@ -7423,7 +7152,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  #######
 ]
-#cmp OK
 #lua.json
 [
  "#######"
@@ -7451,7 +7179,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  a#a
 ]
-#cmp OK
 #lua.json
 [
  "a#a"
@@ -7475,7 +7202,6 @@ false
 false
 #c.djon
 FALSE
-#cmp OK
 #lua.json
 false
 #lua.djon
@@ -7491,7 +7217,6 @@ FALSE
 42
 #c.djon
 42
-#cmp OK
 #lua.json
 42
 #lua.djon
@@ -7507,7 +7232,6 @@ FALSE
 -0.1
 #c.djon
 -0.1
-#cmp OK
 #lua.json
 -0.1
 #lua.djon
@@ -7523,7 +7247,6 @@ null
 null
 #c.djon
 NULL
-#cmp OK
 #lua.json
 null
 #lua.djon
@@ -7539,7 +7262,6 @@ NULL
 "asd"
 #c.djon
 asd
-#cmp OK
 #lua.json
 "asd"
 #lua.djon
@@ -7555,7 +7277,6 @@ true
 true
 #c.djon
 TRUE
-#cmp OK
 #lua.json
 true
 #lua.djon
@@ -7571,7 +7292,6 @@ TRUE
 ""
 #c.djon
 ``
-#cmp OK
 #lua.json
 ""
 #lua.djon
@@ -7592,7 +7312,6 @@ TRUE
 [
  a
 ]
-#cmp OK
 #lua.json
 [
  "a"
@@ -7620,7 +7339,6 @@ TRUE
 [
  TRUE
 ]
-#cmp OK
 #lua.json
 [
  true
@@ -7646,7 +7364,6 @@ TRUE
 #c.djon
 [
 ]
-#cmp OK
 #lua.json
 {
 }
@@ -7671,7 +7388,6 @@ TRUE
 [
  1
 ]
-#cmp OK
 #lua.json
 [
  1
@@ -7700,7 +7416,6 @@ TRUE
 [
  1
 ]
-#cmp OK
 #lua.json
 [
  1
@@ -7729,7 +7444,6 @@ TRUE
 [
  1000000
 ]
-#cmp OK
 #lua.json
 [
  1000000
@@ -7758,7 +7472,6 @@ TRUE
 [
  0
 ]
-#cmp OK
 #lua.json
 [
  0
@@ -7787,7 +7500,6 @@ TRUE
 [
  1000000000000000
 ]
-#cmp OK
 #lua.json
 [
  1000000000000000
@@ -7816,7 +7528,6 @@ TRUE
 [
  9223372036854770000
 ]
-#cmp OK
 #lua.json
 [
  9223372036854770000
@@ -7845,7 +7556,6 @@ TRUE
 [
  9223372036854770000
 ]
-#cmp OK
 #lua.json
 [
  9223372036854770000
@@ -7874,7 +7584,6 @@ TRUE
 [
  10000000000000000000
 ]
-#cmp OK
 #lua.json
 [
  10000000000000000000
@@ -7903,7 +7612,6 @@ TRUE
 [
  -9223372036854770000
 ]
-#cmp OK
 #lua.json
 [
  -9223372036854770000
@@ -7932,7 +7640,6 @@ TRUE
 [
  -9223372036854770000
 ]
-#cmp OK
 #lua.json
 [
  -9223372036854770000
@@ -7962,7 +7669,6 @@ TRUE
  ## = NFC
  e## = NFD
 }
-#cmp OK
 #lua.json
 {
  "##" : "NFC" ,
@@ -7996,7 +7702,6 @@ TRUE
  ## = NFC
  e## = NFD
 }
-#cmp OK
 #lua.json
 {
  "##" : "NFC" ,
@@ -8028,7 +7733,6 @@ TRUE
 {
  a = 2
 }
-#cmp OK
 #lua.json
 {
  "a" : 2
@@ -8056,7 +7760,6 @@ TRUE
 {
  a = 1
 }
-#cmp OK
 #lua.json
 {
  "a" : 1
@@ -8085,7 +7788,6 @@ TRUE
 {
  a = -0
 }
-#cmp OK
 #lua.json
 {
  "a" : -0
@@ -8113,7 +7815,6 @@ TRUE
 [
  ###
 ]
-#cmp OK
 #lua.json
 [
  "###"
@@ -8145,7 +7846,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  ###
 ]
-#cmp OK
 #lua.json
 [
  "###"
@@ -8173,7 +7873,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  ######
 ]
-#cmp OK
 #lua.json
 [
  "######"
@@ -8205,7 +7904,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  ######
 ]
-#cmp OK
 #lua.json
 [
  "######"
@@ -8233,7 +7931,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  #########
 ]
-#cmp OK
 #lua.json
 [
  "#########"
@@ -8265,7 +7962,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  #########
 ]
-#cmp OK
 #lua.json
 [
  "#########"
@@ -8293,7 +7989,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  A#B
 ]
-#cmp OK
 #lua.json
 [
  "A\u0000B"
@@ -8321,7 +8016,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  0
 ]
-#cmp OK
 #lua.json
 [
  0
@@ -8349,7 +8043,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  9e999
 ]
-#cmp OK
 #lua.json
 [
  9e999
@@ -8377,7 +8070,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  -9e999
 ]
-#cmp OK
 #lua.json
 [
  -9e999
@@ -8405,7 +8097,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  9e999
 ]
-#cmp OK
 #lua.json
 [
  9e999
@@ -8433,7 +8124,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  -9e999
 ]
-#cmp OK
 #lua.json
 [
  -9e999
@@ -8461,7 +8151,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  9e999
 ]
-#cmp OK
 #lua.json
 [
  9e999
@@ -8489,7 +8178,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  0
 ]
-#cmp OK
 #lua.json
 [
  0
@@ -8517,7 +8205,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  -123123123123123e15
 ]
-#cmp OK
 #lua.json
 [
  -123123123123123e15
@@ -8545,7 +8232,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  100000000000000000000
 ]
-#cmp OK
 #lua.json
 [
  100000000000000000000
@@ -8573,7 +8259,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  -237462374673276e33
 ]
-#cmp OK
 #lua.json
 [
  -237462374673276e33
@@ -8601,7 +8286,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 {
  ### = 0
 }
-#cmp OK
 #lua.json
 {
  "###" : 0
@@ -8633,7 +8317,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  ###
 ]
-#cmp OK
 #lua.json
 [
  "###"
@@ -8665,7 +8348,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  ######
 ]
-#cmp OK
 #lua.json
 [
  "######"
@@ -8699,7 +8381,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 ###
 `
 ]
-#cmp OK
 #lua.json
 [
  "###\n"
@@ -8733,7 +8414,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  ###a
 ]
-#cmp OK
 #lua.json
 [
  "###a"
@@ -8767,7 +8447,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 ######
 `
 ]
-#cmp OK
 #lua.json
 [
  "######\n"
@@ -8801,7 +8480,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  ###
 ]
-#cmp OK
 #lua.json
 [
  "###"
@@ -8833,7 +8511,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  ###abc
 ]
-#cmp OK
 #lua.json
 [
  "###abc"
@@ -8865,7 +8542,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  #
 ]
-#cmp OK
 #lua.json
 [
  "#"
@@ -8893,7 +8569,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  ######
 ]
-#cmp OK
 #lua.json
 [
  "######"
@@ -8925,7 +8600,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  #
 ]
-#cmp OK
 #lua.json
 [
  "#"
@@ -8953,7 +8627,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  ###
 ]
-#cmp OK
 #lua.json
 [
  "###"
@@ -8985,7 +8658,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  #
 ]
-#cmp OK
 #lua.json
 [
  "#"
@@ -9013,7 +8685,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  ####
 ]
-#cmp OK
 #lua.json
 [
  "####"
@@ -9041,7 +8712,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  ##
 ]
-#cmp OK
 #lua.json
 [
  "##"
@@ -9069,7 +8739,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  ######
 ]
-#cmp OK
 #lua.json
 [
  "######"
@@ -9097,7 +8766,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  ######
 ]
-#cmp OK
 #lua.json
 [
  "######"
@@ -9125,7 +8793,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 [
  ##
 ]
-#cmp OK
 #lua.json
 [
  "##"
@@ -9149,7 +8816,6 @@ TypeError: The encoded data was not valid for encoding utf-8
 "\u0000[\u0000\"\u0000#\u0000\"\u0000]"
 #c.djon
 #[#"###"#]
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: djon string required line 0 char 0 byte 0
 #lua.djon
@@ -9175,7 +8841,6 @@ line 1 char 11 byte 10
 #c.djon
 missing ]
 line 1 char 11 byte 10
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 11 byte 10
 #lua.djon
@@ -9203,7 +8868,6 @@ Error: missing ] at line 1 char 2 byte 1
 [
  ######
 ]
-#cmp OK
 #lua.json
 [
  "######"
@@ -9227,7 +8891,6 @@ Error: missing ] at line 1 char 2 byte 1
 "##[\u0000\"\u0000#\u0000\"\u0000]\u0000"
 #c.djon
 ##[#"###"#]#
-#cmp OK
 #lua.json
 "##[\u0000\"\u0000#\u0000\"\u0000]\u0000"
 #lua.djon
@@ -9247,7 +8910,6 @@ Error: missing ] at line 1 char 2 byte 1
 [
  ###
 ]
-#cmp OK
 #lua.json
 [
  "###"
@@ -11269,7 +10931,6 @@ Error: missing ] at line 1 char 2 byte 1
   ]
  ]
 ]
-#cmp OK
 #lua.json
 [
  [
@@ -15281,7 +14942,6 @@ Error: missing ] at line 1 char 2 byte 1
 "###{}"
 #c.djon
 ###{}
-#cmp OK
 #lua.json
 "###{}"
 #lua.djon
@@ -15328,7 +14988,6 @@ Error: missing ] at line 1 char 2 byte 1
  `"``''``"`
  `'""```'`"`'"`"'`''`'""`
 ]
-#cmp OK
 #lua.json
 [
  "`" ,
@@ -15408,7 +15067,6 @@ Error: missing ] at line 1 char 2 byte 1
  // back comment
  c = 3
 }
-#cmp OK
 #lua.json
 {
  "a" : 1 ,
@@ -15452,7 +15110,6 @@ line 2 char 2 byte 3
 #c.djon
 invalid naked key
 line 2 char 2 byte 3
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid naked key line 2 char 2 byte 3
 #lua.djon
@@ -15481,7 +15138,6 @@ line 3 char 1 byte 13
 #c.djon
 multiple ,
 line 3 char 1 byte 13
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: multiple , line 3 char 1 byte 13
 #lua.djon
@@ -15506,7 +15162,6 @@ Error: multiple , at line 3 char 1 byte 13
 ""
 #c.djon
 ``
-#cmp OK
 #lua.json
 ""
 #lua.djon
@@ -15527,7 +15182,6 @@ line 1 char 3 byte 2
 garbage at end of file
 line 1 char 3 byte 2
 ``
-#cmp OK
 #lua.json
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 3 byte 2
 #lua.djon
