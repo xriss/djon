@@ -642,13 +642,20 @@ int djon_double_to_str( double num , char * buf )
 		e=e+1;
 		*cp++='0';
 		*cp++='.';
+		if( ((int)((num)/t)) < 1 ) // off by one
+		{
+			e=e-1;
+			t=t/10.0; // next digit
+		}
+		
 	}
 	int z=0; // run of zeros we will want to undo
 	for(i=0;i<digits;i++) // probably 15 digits
 	{
 		if((t>0.09)&&(t<0.11)) { *cp++='.'; z=1; } // decimal point, reset out count of zeros and include this "."
 		d=(int)((num)/t); //auto floor converting to int
-		if(d<0){d=0;} //should never go bellow 0 but floating point is fun
+		if(d<0){d=0;} //clamp digits because floating point is fun
+		if(d>9){d=9;}
 		num-=((double)d)*t;
 		t=t/10.0; // next digit
 		if(d==0) { z++; } else { z=0; } // count zeros at end
