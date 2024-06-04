@@ -2896,13 +2896,13 @@ Error: missing " at line 1 char 12 byte 11
  ####
 ]
 #js.json
-node:internal/encoding:449
+node:internal/encoding:443
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
 #js.djon
-node:internal/encoding:449
+node:internal/encoding:443
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
@@ -2927,13 +2927,13 @@ TypeError: The encoded data was not valid for encoding utf-8
  ####x
 ]
 #js.json
-node:internal/encoding:449
+node:internal/encoding:443
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
 #js.djon
-node:internal/encoding:449
+node:internal/encoding:443
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
@@ -2958,13 +2958,13 @@ TypeError: The encoded data was not valid for encoding utf-8
  ####
 ]
 #js.json
-node:internal/encoding:449
+node:internal/encoding:443
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
 #js.djon
-node:internal/encoding:449
+node:internal/encoding:443
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
@@ -3209,13 +3209,13 @@ Error: missing " at line 1 char 6 byte 5
  ######x
 ]
 #js.json
-node:internal/encoding:449
+node:internal/encoding:443
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
 #js.djon
-node:internal/encoding:449
+node:internal/encoding:443
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
@@ -3240,13 +3240,13 @@ TypeError: The encoded data was not valid for encoding utf-8
  #####
 ]
 #js.json
-node:internal/encoding:449
+node:internal/encoding:443
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
 #js.djon
-node:internal/encoding:449
+node:internal/encoding:443
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
@@ -3646,12 +3646,12 @@ luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46:
 #lua.djon
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: stack overflow line 1 char 5462 byte 5461
 #js.json
-wasm://wasm/djon_core.wasm-0001dfda:1
+wasm://wasm/djon_core.wasm-0001dfe2:1
 
 
 RangeError: Maximum call stack size exceeded
 #js.djon
-wasm://wasm/djon_core.wasm-0001dfda:1
+wasm://wasm/djon_core.wasm-0001dfe2:1
 
 
 RangeError: Maximum call stack size exceeded
@@ -4229,12 +4229,12 @@ luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46:
 #lua.djon
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: stack overflow line 1 char 11702 byte 11701
 #js.json
-wasm://wasm/djon_core.wasm-0001dfda:1
+wasm://wasm/djon_core.wasm-0001dfe2:1
 
 
 RangeError: Maximum call stack size exceeded
 #js.djon
-wasm://wasm/djon_core.wasm-0001dfda:1
+wasm://wasm/djon_core.wasm-0001dfe2:1
 
 
 RangeError: Maximum call stack size exceeded
@@ -5237,27 +5237,27 @@ Error: missing ] at line 1 char 6 byte 5
 
 #c.json
 [
- -.1e-77
+ -0.1e-77
 ]
 #c.djon
 [
- -.1e-77
+ -0.1e-77
 ]
 #lua.json
 [
- -.1e-77
+ -0.1e-77
 ]
 #lua.djon
 [
- -.1e-77
+ -0.1e-77
 ]
 #js.json
 [
- -.1e-77
+ -0.1e-77
 ]
 #js.djon
 [
- -.1e-77
+ -0.1e-77
 ]
 
 #json/good/y_number_int_with_exp.json
@@ -6406,13 +6406,13 @@ Error: missing ] at line 1 char 6 byte 5
  ####
 ]
 #js.json
-node:internal/encoding:449
+node:internal/encoding:443
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
 #js.djon
-node:internal/encoding:449
+node:internal/encoding:443
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
@@ -7022,13 +7022,13 @@ line`
  ####
 ]
 #js.json
-node:internal/encoding:449
+node:internal/encoding:443
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
 #js.djon
-node:internal/encoding:449
+node:internal/encoding:443
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
@@ -7824,13 +7824,13 @@ TRUE
  ###
 ]
 #js.json
-node:internal/encoding:449
+node:internal/encoding:443
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
 #js.djon
-node:internal/encoding:449
+node:internal/encoding:443
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
@@ -7882,13 +7882,13 @@ TypeError: The encoded data was not valid for encoding utf-8
  ######
 ]
 #js.json
-node:internal/encoding:449
+node:internal/encoding:443
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
 #js.djon
-node:internal/encoding:449
+node:internal/encoding:443
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
@@ -7940,13 +7940,13 @@ TypeError: The encoded data was not valid for encoding utf-8
  #########
 ]
 #js.json
-node:internal/encoding:449
+node:internal/encoding:443
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
 #js.djon
-node:internal/encoding:449
+node:internal/encoding:443
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
@@ -8295,13 +8295,13 @@ TypeError: The encoded data was not valid for encoding utf-8
  ### = 0
 }
 #js.json
-node:internal/encoding:449
+node:internal/encoding:443
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
 #js.djon
-node:internal/encoding:449
+node:internal/encoding:443
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
@@ -8326,13 +8326,13 @@ TypeError: The encoded data was not valid for encoding utf-8
  ###
 ]
 #js.json
-node:internal/encoding:449
+node:internal/encoding:443
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
 #js.djon
-node:internal/encoding:449
+node:internal/encoding:443
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
@@ -8357,13 +8357,13 @@ TypeError: The encoded data was not valid for encoding utf-8
  ######
 ]
 #js.json
-node:internal/encoding:449
+node:internal/encoding:443
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
 #js.djon
-node:internal/encoding:449
+node:internal/encoding:443
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
@@ -8392,13 +8392,13 @@ TypeError: The encoded data was not valid for encoding utf-8
 `
 ]
 #js.json
-node:internal/encoding:449
+node:internal/encoding:443
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
 #js.djon
-node:internal/encoding:449
+node:internal/encoding:443
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
@@ -8423,13 +8423,13 @@ TypeError: The encoded data was not valid for encoding utf-8
  ###a
 ]
 #js.json
-node:internal/encoding:449
+node:internal/encoding:443
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
 #js.djon
-node:internal/encoding:449
+node:internal/encoding:443
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
@@ -8458,13 +8458,13 @@ TypeError: The encoded data was not valid for encoding utf-8
 `
 ]
 #js.json
-node:internal/encoding:449
+node:internal/encoding:443
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
 #js.djon
-node:internal/encoding:449
+node:internal/encoding:443
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
@@ -8489,13 +8489,13 @@ TypeError: The encoded data was not valid for encoding utf-8
  ###
 ]
 #js.json
-node:internal/encoding:449
+node:internal/encoding:443
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
 #js.djon
-node:internal/encoding:449
+node:internal/encoding:443
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
@@ -8520,13 +8520,13 @@ TypeError: The encoded data was not valid for encoding utf-8
  ###abc
 ]
 #js.json
-node:internal/encoding:449
+node:internal/encoding:443
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
 #js.djon
-node:internal/encoding:449
+node:internal/encoding:443
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
@@ -8578,13 +8578,13 @@ TypeError: The encoded data was not valid for encoding utf-8
  ######
 ]
 #js.json
-node:internal/encoding:449
+node:internal/encoding:443
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
 #js.djon
-node:internal/encoding:449
+node:internal/encoding:443
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
@@ -8636,13 +8636,13 @@ TypeError: The encoded data was not valid for encoding utf-8
  ###
 ]
 #js.json
-node:internal/encoding:449
+node:internal/encoding:443
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
 TypeError: The encoded data was not valid for encoding utf-8
 #js.djon
-node:internal/encoding:449
+node:internal/encoding:443
         return decodeUTF8(input, this[kIgnoreBOM], this[kFatal]);
                ^
 
