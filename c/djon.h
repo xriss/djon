@@ -648,6 +648,7 @@ int djon_double_to_str( double num , char * buf )
 	{
 		if((t>0.09)&&(t<0.11)) { *cp++='.'; z=1; } // decimal point, reset out count of zeros and include this "."
 		d=(int)((num)/t); //auto floor converting to int
+		if(d<0){d=0;} //should never go bellow 0 but floating point is fun
 		num-=((double)d)*t;
 		t=t/10.0; // next digit
 		if(d==0) { z++; } else { z=0; } // count zeros at end
