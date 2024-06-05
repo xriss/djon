@@ -570,16 +570,16 @@ void djon_int_to_hexstr( int num , int len , char * buf )
 	*cp++=0;
 }
 
-// write into buf, return length of string, maximum 32 including null
+// write into buf, return length of string, maximum 33 including null
 int djon_double_to_str( double num , char * buf )
 {
 // maximum precision of digits ( dependent on doubles precision )
 #define DJON_DIGIT_PRECISION 15
 // amount of zeros to include before/after decimal point before we switch to e numbers
 #define DJON_DIGIT_ZEROS 8
-// these two numbers +8 is the maximum we write to buf, so be careful
-#define DJON_DIGIT_LEN (8+DJON_DIGIT_ZEROS+DJON_DIGIT_PRECISION)
-// The possible extra non number chars are - . e-123 /0
+// these two numbers +9 is the maximum we write to buf, so be careful
+#define DJON_DIGIT_LEN (9+DJON_DIGIT_ZEROS+DJON_DIGIT_PRECISION)
+// The possible extra chars are - 0. e-123 /0
 
 	char *cp=buf;
 
@@ -620,6 +620,7 @@ int djon_double_to_str( double num , char * buf )
 	int e=(int)DJON_LOG10(num); // find exponent
 
 	int i;
+	int j;
 	int d;
 
 	int digits=DJON_DIGIT_PRECISION;
@@ -630,8 +631,9 @@ int djon_double_to_str( double num , char * buf )
 		e=0; // we want a 0.0000001234 style number when it is near 0
 	}
 
-	double t=DJON_POW10(e); // divide by this to get current decimal
-	num=num+DJON_POW10(e-digits); // add a tiny roundup for the digit after the last one we plan to print
+	int ti=e; // current power of 10 exponent
+	double t=DJON_POW10(ti); // divide by this to get current decimal
+//	num=num+DJON_POW10(1+e-digits); // add a tiny roundup for the digit after the last one we plan to print
 	if(e>0)
 	{
 		e=e+1-digits; // the e we will be when we print all the digits
@@ -644,22 +646,50 @@ int djon_double_to_str( double num , char * buf )
 		*cp++='.';
 		if( ((int)((num)/t)) < 1 ) // off by one
 		{
-			e=e-1;
-			t=t/10.0; // next digit
+			e=e-1; // I want all the numbers after the decimal point
+			t=DJON_POW10(--ti); // next digit
 		}
 		
 	}
-	int z=0; // run of zeros we will want to undo
-	for(i=0;i<digits;i++) // probably 15 digits
+	int z; // run of zeros we will want to undo
+	int reti=ti; // remember so we can reset for a round up
+	double renum=num; // remember ...
+	char *recp=cp; // remember ...
+	for(j=0;j<2;j++) // second time is only if we have to round up
 	{
-		if((t>0.09)&&(t<0.11)) { *cp++='.'; z=1; } // decimal point, reset out count of zeros and include this "."
-		d=(int)((num)/t); //auto floor converting to int
-		if(d<0){d=0;} //clamp digits because floating point is fun
-		if(d>9){d=9;}
-		num-=((double)d)*t;
-		t=t/10.0; // next digit
-		if(d==0) { z++; } else { z=0; } // count zeros at end
-		*cp++='0'+d;
+		z=0;
+		for(i=0;i<digits;i++) // probably 15 digits
+		{
+			if((t>0.09)&&(t<0.11)) { *cp++='.'; z=1; } // decimal point, reset out count of zeros and include this "."
+			d=(int)((num)/t); //auto floor converting to int
+			if(d<0){d=0;} //clamp digits because floating point is fun
+			if(d>9){d=9;}
+			num-=((double)d)*t;
+			t=DJON_POW10(--ti); // next digit
+			if(d==0) { z++; } else { z=0; } // count zeros at end
+			*cp++='0'+d;
+		}
+		if(j==0) // first loop only
+		{
+			d=(int)((num)/t); // next digit
+			if(d<5) // round down
+			{
+				break;
+			}
+			else // round up
+			{
+				num=renum+t*10.0; // add one to last printed digit
+				cp=recp; // reset state so we can loop again
+				ti=reti;
+				t=DJON_POW10(ti);
+				d=(int)((num)/t); //auto floor converting to int
+				if(d>9) // need to go up an exponent
+				{
+					e=e+1;
+					t=DJON_POW10(++ti);
+				}
+			}
+		}
 	}
 
 	if( (e>0) && (e<=DJON_DIGIT_ZEROS) ) // we want to keep all these zeros and add some more
