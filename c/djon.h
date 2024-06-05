@@ -570,16 +570,19 @@ void djon_int_to_hexstr( int num , int len , char * buf )
 	*cp++=0;
 }
 
-// write into buf, return length of string, maximum 33 including null
+// write into buf, return length of string excluding null
+// should be a maximum of 28 including null
+// so rounding up, please supply 32char buffer to write into.
 int djon_double_to_str( double num , char * buf )
 {
 // maximum precision of digits ( dependent on doubles precision )
 #define DJON_DIGIT_PRECISION 15
 // amount of zeros to include before/after decimal point before we switch to e numbers
-#define DJON_DIGIT_ZEROS 8
-// these two numbers +9 is the maximum we write to buf, so be careful
-#define DJON_DIGIT_LEN (9+DJON_DIGIT_ZEROS+DJON_DIGIT_PRECISION)
-// The possible extra chars are - 0. e-123 /0
+// so the two longest string exponents are "e-999" or "000000000"
+#define DJON_DIGIT_ZEROS 9
+// these two numbers +4 is the maximum we write to buf, so be careful
+// The 4 extra worst case chars are "-0." at the start and "/0" at the end
+#define DJON_DIGIT_LEN (4+DJON_DIGIT_ZEROS+DJON_DIGIT_PRECISION)
 
 	char *cp=buf;
 
@@ -624,16 +627,14 @@ int djon_double_to_str( double num , char * buf )
 	int d;
 
 	int digits=DJON_DIGIT_PRECISION;
-	if( (e<0) && (e>=-DJON_DIGIT_ZEROS) ) // special case when close to 0 dont add an e until we get really small
+	if( (e<=0) && (e>=-DJON_DIGIT_ZEROS) ) // special case when close to 0 dont add an e until we get really small
 	{
 		digits=DJON_DIGIT_PRECISION+1-e;
-		d=1.0;
 		e=0; // we want a 0.0000001234 style number when it is near 0
 	}
 
 	int ti=e; // current power of 10 exponent
 	double t=DJON_POW10(ti); // divide by this to get current decimal
-//	num=num+DJON_POW10(1+e-digits); // add a tiny roundup for the digit after the last one we plan to print
 	if(e>0)
 	{
 		e=e+1-digits; // the e we will be when we print all the digits
@@ -668,6 +669,7 @@ int djon_double_to_str( double num , char * buf )
 			t=DJON_POW10(--ti); // next digit
 			if(d==0) { z++; } else { z=0; } // count zeros at end
 			*cp++='0'+d;
+//			if((i==0)&&(d==0)&&(e==0)){digits++;} // leading 0 does not count as a digit
 		}
 		if(j==0) // first loop only
 		{

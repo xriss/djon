@@ -3646,12 +3646,12 @@ luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46:
 #lua.djon
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: stack overflow line 1 char 5462 byte 5461
 #js.json
-wasm://wasm/djon_core.wasm-0001e3c6:1
+wasm://wasm/djon_core.wasm-0001e3d2:1
 
 
 RangeError: Maximum call stack size exceeded
 #js.djon
-wasm://wasm/djon_core.wasm-0001e3c6:1
+wasm://wasm/djon_core.wasm-0001e3d2:1
 
 
 RangeError: Maximum call stack size exceeded
@@ -4229,12 +4229,12 @@ luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46:
 #lua.djon
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: stack overflow line 1 char 11702 byte 11701
 #js.json
-wasm://wasm/djon_core.wasm-0001e3c6:1
+wasm://wasm/djon_core.wasm-0001e3d2:1
 
 
 RangeError: Maximum call stack size exceeded
 #js.djon
-wasm://wasm/djon_core.wasm-0001e3c6:1
+wasm://wasm/djon_core.wasm-0001e3d2:1
 
 
 RangeError: Maximum call stack size exceeded
@@ -15352,7 +15352,7 @@ Error: garbage at end of file at line 1 char 3 byte 2
  123456789123457e15 ,
  12345678912345700000 ,
  1234567891.23457 ,
- 0.12345678912346 ,
+ 0.123456789123457 ,
  0.123456789123457e-20 ,
  0.123456789123457e-30 ,
  0.123456789123457e-40 ,
@@ -15462,7 +15462,7 @@ Error: garbage at end of file at line 1 char 3 byte 2
  123456789123457e15
  12345678912345700000
  1234567891.23457
- 0.12345678912346
+ 0.123456789123457
  0.123456789123457e-20
  0.123456789123457e-30
  0.123456789123457e-40
@@ -15544,10 +15544,6 @@ Error: garbage at end of file at line 1 char 3 byte 2
 <  123456789123457e125
 ---
 >  123456789123458e125
-41c41
-<  0.12345678912346
----
->  0.12345678912347
 48c48
 <  0.123456789123457e-80
 ---
@@ -15601,10 +15597,6 @@ Error: garbage at end of file at line 1 char 3 byte 2
 <  123456789123457e125 ,
 ---
 >  123456789123458e125 ,
-41c41
-<  0.12345678912346 ,
----
->  0.12345678912347 ,
 48c48
 <  0.123456789123457e-80 ,
 ---
@@ -15686,7 +15678,7 @@ Error: garbage at end of file at line 1 char 3 byte 2
  123456789123457e15 ,
  12345678912345700000 ,
  1234567891.23457 ,
- 0.12345678912346 ,
+ 0.123456789123457 ,
  0.123456789123457e-20 ,
  0.123456789123457e-30 ,
  0.123456789123457e-40 ,
@@ -15796,7 +15788,7 @@ Error: garbage at end of file at line 1 char 3 byte 2
  123456789123457e15
  12345678912345700000
  1234567891.23457
- 0.12345678912346
+ 0.123456789123457
  0.123456789123457e-20
  0.123456789123457e-30
  0.123456789123457e-40
@@ -15906,7 +15898,7 @@ Error: garbage at end of file at line 1 char 3 byte 2
  123456789123457e15 ,
  12345678912345700000 ,
  1234567891.23457 ,
- 0.12345678912346 ,
+ 0.123456789123457 ,
  0.123456789123457e-20 ,
  0.123456789123457e-30 ,
  0.123456789123457e-40 ,
@@ -16016,7 +16008,7 @@ Error: garbage at end of file at line 1 char 3 byte 2
  123456789123457e15
  12345678912345700000
  1234567891.23457
- 0.12345678912346
+ 0.123456789123457
  0.123456789123457e-20
  0.123456789123457e-30
  0.123456789123457e-40
