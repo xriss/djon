@@ -682,6 +682,7 @@ int djon_double_to_str_internal( double _num , char * buf , int first_call)
 	d=(int)((num)/t); //auto floor converting to int
 	if( (d>=5) && first_call )// start again and round up
 	{
+		if(negative) { t=-t; }
 		return djon_double_to_str_internal( _num + (t*10.0), buf , 0 );
 	}
 
