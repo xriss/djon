@@ -574,7 +574,7 @@ void djon_int_to_hexstr( int num , int len , char * buf )
 }
 
 // write into buf, return length of string excluding null
-// this should be a maximum of 22 including null
+// this should be a maximum of 28 including null
 // please supply at least a 32char buffer to write into.
 int djon_double_to_str_internal( double _num , char * buf , int first_call)
 {
