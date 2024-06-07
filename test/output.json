@@ -3646,12 +3646,12 @@ luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46:
 #lua.djon
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: stack overflow line 1 char 5462 byte 5461
 #js.json
-wasm://wasm/djon_core.wasm-0001e466:1
+wasm://wasm/djon_core.wasm-0001e40a:1
 
 
 RangeError: Maximum call stack size exceeded
 #js.djon
-wasm://wasm/djon_core.wasm-0001e466:1
+wasm://wasm/djon_core.wasm-0001e40a:1
 
 
 RangeError: Maximum call stack size exceeded
@@ -4229,12 +4229,12 @@ luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46:
 #lua.djon
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: stack overflow line 1 char 11702 byte 11701
 #js.json
-wasm://wasm/djon_core.wasm-0001e466:1
+wasm://wasm/djon_core.wasm-0001e40a:1
 
 
 RangeError: Maximum call stack size exceeded
 #js.djon
-wasm://wasm/djon_core.wasm-0001e466:1
+wasm://wasm/djon_core.wasm-0001e40a:1
 
 
 RangeError: Maximum call stack size exceeded

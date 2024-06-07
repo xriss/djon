@@ -673,7 +673,7 @@ int djon_double_to_str( double num , char * buf )
 		z=0;
 		for(i=0;i<digits;i++) // probably 15 digits
 		{
-			if((t>0.09)&&(t<0.11)) { *cp++='.'; z=1; } // decimal point, reset out count of zeros and include this "."
+			if( ti == -1 ) { *cp++='.'; z=1; } // decimal point, reset out count of zeros and include this "."
 			d=(int)((num)/t); //auto floor converting to int
 			if(d<0){d=0;} //clamp digits because floating point is fun
 			if(d>9){d=9;}
