@@ -66,6 +66,9 @@ extern "C" {
 #ifndef DJON_LOG10
 #define DJON_LOG10(x) log10((double)(x))
 #endif
+#ifndef DJON_FLOOR
+#define DJON_FLOOR(x) floor((double)(x))
+#endif
 
 // memcpy is probably the best way to copy memory
 #ifndef DJON_MEMCPY
@@ -571,9 +574,9 @@ void djon_int_to_hexstr( int num , int len , char * buf )
 }
 
 // write into buf, return length of string excluding null
-// this should be a maximum of 28 including null
+// this should be a maximum of 22 including null
 // please supply at least a 32char buffer to write into.
-int djon_double_to_str( double num , char * buf )
+int djon_double_to_str_internal( double _num , char * buf , int first_call)
 {
 // maximum precision of digits ( chosen for stable doubles precision )
 #define DJON_DIGIT_PRECISION 15
@@ -585,6 +588,7 @@ int djon_double_to_str( double num , char * buf )
 #define DJON_DIGIT_LEN (4+DJON_DIGIT_ZEROS+DJON_DIGIT_PRECISION)
 
 	char *cp=buf;
+	double num=_num;
 
 	if( isnan(num) ) // A nan , so we write null
 	{
@@ -623,9 +627,11 @@ int djon_double_to_str( double num , char * buf )
 		return cp-buf;
 	}
 
-	int e=(int)DJON_LOG10(num); // find exponent	
+	double t; // divide by this to get current decimal
+	int e=(int)DJON_LOG10(num); // find exponent
+	if(e<0) { e=e-1; } // we want to start with 0.
 	
-	if(e<-306) // give up when we get too close to min
+	if(e<-307) // give up when we get too close to min
 	{
 		cp-=negative; // remove "-" so we never "-0"
 		*cp++='0';
@@ -646,7 +652,6 @@ int djon_double_to_str( double num , char * buf )
 	}
 
 	int ti=e; // current power of 10 exponent
-	double t=DJON_POW10(ti); // divide by this to get current decimal
 	if(e>0)
 	{
 		e=e+1-digits; // the e we will be when we print all the digits
@@ -657,55 +662,29 @@ int djon_double_to_str( double num , char * buf )
 		e=e+1;
 		*cp++='0';
 		*cp++='.';
-		if( ((int)((num)/t)) < 1 ) // off by one
-		{
-			e=e-1; // I want all the numbers after the decimal point
-			t=DJON_POW10(--ti); // next digit
-		}
-		
 	}
-	int z; // run of zeros we will want to undo
-	int dz; // flag decimal
-	int reti=ti; // remember so we can reset for a round up
-	double renum=num; // remember ...
-	char *recp=cp; // remember ...
-	for(j=0;j<2;j++) // second time is only if we have to round up
+ 
+	int z=0; // run of zeros we will want to undo
+	int dz=0; // flag decimal point
+	for(i=0;i<digits;i++) // probably 15 digits
 	{
-		z=0;
-		dz=0;
-		for(i=0;i<digits;i++) // probably 15 digits
-		{
-			if( ti == -1 ) { *cp++='.'; z=1; dz=1; } // decimal point, reset out count of zeros and include this "."
-			d=(int)((num)/t); //auto floor converting to int
-			if(d<0){d=0;} //clamp digits because floating point is fun
-			if(d>9){d=9;}
-			num-=((double)d)*t;
-			t=DJON_POW10(--ti); // next digit
-			if(d==0) { z++; } else { z=0; } // count zeros at end
-			*cp++='0'+d;
-		}
-		if(j==0) // first loop only
-		{
-			d=(int)((num)/t); // next digit
-			if(d<5) // round down
-			{
-				break;
-			}
-			else // round up
-			{
-				num=renum+t*10.0; // add one to last printed digit
-				cp=recp; // reset state so we can loop again
-				ti=reti;
-				t=DJON_POW10(ti);
-				d=(int)((num)/t); //auto floor converting to int
-				if(d>9) // need to go up an exponent
-				{
-					e=e+1;
-					t=DJON_POW10(++ti);
-				}
-			}
-		}
+		t=DJON_POW10(ti); // next digit
+		if( ti == -1 ) { *cp++='.'; z=1; dz=1; } // decimal point, reset out count of zeros and include this "."
+		d=(int)((num)/t); //auto floor converting to int
+		if(d<0){d=0;} //clamp digits because floating point is fun
+		if(d>9){d=9;}
+		num-=((double)d)*t;
+		ti--; // next digit
+		if(d==0) { z++; } else { z=0; } // count zeros at end
+		*cp++='0'+d;
 	}
+	t=DJON_POW10(ti); // next digit
+	d=(int)((num)/t); //auto floor converting to int
+	if( (d>=5) && first_call )// start again and round up
+	{
+		return djon_double_to_str_internal( _num + (t*10.0), buf , 0 );
+	}
+
 
 	if( (e>0) && (e<=DJON_DIGIT_ZEROS) ) // we want to keep all these zeros and add some more
 	{
@@ -718,8 +697,7 @@ int djon_double_to_str( double num , char * buf )
 		cp=cp-z; // remove zeros
 		if(e>=0) // adjust e number
 		{
-			e=e+z; // new e
-			if(dz) { e=0; } // we only removed zeros after the . so e should be 0
+			if(dz==0) { e=e+z; } // e needs fixing only if no decimal point
 		}
 	}
 
@@ -815,6 +793,13 @@ double djon_str_to_double(char *cps,char **endptr)
 error:
 	if(endptr){*endptr=cps;} // 0 chars used
 	return NAN;
+}
+
+int djon_double_to_str( double _num , char * buf )
+{
+	djon_double_to_str_internal( _num , buf , 1 );	// write
+	double d=djon_str_to_double(buf,0);						// read
+	return djon_double_to_str_internal( d , buf , 1 );		// write ( now stable )
 }
 
 double djon_str_to_hex(char *cps,char **endptr)
