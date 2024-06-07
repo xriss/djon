@@ -1296,37 +1296,27 @@ Error: missing ] at line 1 char 6 byte 5
 [.2e-3]
 #c.json
 [
- 0.0002000000000000001
+ 0.0002
 ]
 #c.djon
 [
- 0.0002000000000000001
+ 0.0002
 ]
-#BAD reparsed djon
-2c2
-<  0.0002000000000000001
----
->  0.0002000000000000002
-#BAD reparsed json
-2c2
-<  0.0002000000000000001
----
->  0.0002000000000000002
 #lua.json
 [
- 0.0002000000000000001
+ 0.0002
 ]
 #lua.djon
 [
- 0.0002000000000000001
+ 0.0002
 ]
 #js.json
 [
- 0.0002000000000000001
+ 0.0002
 ]
 #js.djon
 [
- 0.0002000000000000001
+ 0.0002
 ]
 
 #json/bad/n_number_-2..json
@@ -3656,12 +3646,12 @@ luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46:
 #lua.djon
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: stack overflow line 1 char 5462 byte 5461
 #js.json
-wasm://wasm/djon_core.wasm-0001e2be:1
+wasm://wasm/djon_core.wasm-0001e2de:1
 
 
 RangeError: Maximum call stack size exceeded
 #js.djon
-wasm://wasm/djon_core.wasm-0001e2be:1
+wasm://wasm/djon_core.wasm-0001e2de:1
 
 
 RangeError: Maximum call stack size exceeded
@@ -4239,12 +4229,12 @@ luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46:
 #lua.djon
 luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: stack overflow line 1 char 11702 byte 11701
 #js.json
-wasm://wasm/djon_core.wasm-0001e2be:1
+wasm://wasm/djon_core.wasm-0001e2de:1
 
 
 RangeError: Maximum call stack size exceeded
 #js.djon
-wasm://wasm/djon_core.wasm-0001e2be:1
+wasm://wasm/djon_core.wasm-0001e2de:1
 
 
 RangeError: Maximum call stack size exceeded
@@ -5247,37 +5237,27 @@ Error: missing ] at line 1 char 6 byte 5
 
 #c.json
 [
- -0.999999999999998e-78
+ -0.999999999999999e-78
 ]
 #c.djon
 [
- -0.999999999999998e-78
+ -0.999999999999999e-78
 ]
-#BAD reparsed djon
-2c2
-<  -0.999999999999998e-78
----
->  -0.999999999999995e-78
-#BAD reparsed json
-2c2
-<  -0.999999999999998e-78
----
->  -0.999999999999995e-78
 #lua.json
 [
- -0.999999999999998e-78
+ -0.999999999999999e-78
 ]
 #lua.djon
 [
- -0.999999999999998e-78
+ -0.999999999999999e-78
 ]
 #js.json
 [
- -0.999999999999998e-78
+ -0.999999999999999e-78
 ]
 #js.djon
 [
- -0.999999999999998e-78
+ -0.999999999999999e-78
 ]
 
 #json/good/y_number_int_with_exp.json
@@ -7626,37 +7606,27 @@ TRUE
 
 #c.json
 [
- -9223372036854740000
+ -9223372036854780000
 ]
 #c.djon
 [
- -9223372036854740000
+ -9223372036854780000
 ]
-#BAD reparsed djon
-2c2
-<  -9223372036854740000
----
->  -9223372036854720000
-#BAD reparsed json
-2c2
-<  -9223372036854740000
----
->  -9223372036854720000
 #lua.json
 [
- -9223372036854740000
+ -9223372036854780000
 ]
 #lua.djon
 [
- -9223372036854740000
+ -9223372036854780000
 ]
 #js.json
 [
- -9223372036854740000
+ -9223372036854780000
 ]
 #js.djon
 [
- -9223372036854740000
+ -9223372036854780000
 ]
 
 #json/edge/number_-9223372036854775809.json
@@ -7664,37 +7634,27 @@ TRUE
 
 #c.json
 [
- -9223372036854740000
+ -9223372036854780000
 ]
 #c.djon
 [
- -9223372036854740000
+ -9223372036854780000
 ]
-#BAD reparsed djon
-2c2
-<  -9223372036854740000
----
->  -9223372036854720000
-#BAD reparsed json
-2c2
-<  -9223372036854740000
----
->  -9223372036854720000
 #lua.json
 [
- -9223372036854740000
+ -9223372036854780000
 ]
 #lua.djon
 [
- -9223372036854740000
+ -9223372036854780000
 ]
 #js.json
 [
- -9223372036854740000
+ -9223372036854780000
 ]
 #js.djon
 [
- -9223372036854740000
+ -9223372036854780000
 ]
 
 #json/edge/object_key_nfc_nfd.json
@@ -8255,11 +8215,11 @@ TypeError: The encoded data was not valid for encoding utf-8
 ]
 #js.json
 [
- -123123123123121e15
+ -123123123123123e15
 ]
 #js.djon
 [
- -123123123123121e15
+ -123123123123123e15
 ]
 
 #json/maybe/i_number_too_big_pos_int.json
@@ -8293,37 +8253,27 @@ TypeError: The encoded data was not valid for encoding utf-8
 [-237462374673276894279832749832423479823246327846]
 #c.json
 [
- -237462374673273e33
+ -237462374673277e33
 ]
 #c.djon
 [
- -237462374673273e33
+ -237462374673277e33
 ]
-#BAD reparsed djon
-2c2
-<  -237462374673273e33
----
->  -237462374673269e33
-#BAD reparsed json
-2c2
-<  -237462374673273e33
----
->  -237462374673269e33
 #lua.json
 [
- -237462374673273e33
+ -237462374673277e33
 ]
 #lua.djon
 [
- -237462374673273e33
+ -237462374673277e33
 ]
 #js.json
 [
- -237462374673273e33
+ -237462374673277e33
 ]
 #js.djon
 [
- -237462374673273e33
+ -237462374673277e33
 ]
 
 #json/maybe/i_object_key_lone_2nd_surrogate.json
