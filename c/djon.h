@@ -665,15 +665,17 @@ int djon_double_to_str( double num , char * buf )
 		
 	}
 	int z; // run of zeros we will want to undo
+	int dz; // flag decimal
 	int reti=ti; // remember so we can reset for a round up
 	double renum=num; // remember ...
 	char *recp=cp; // remember ...
 	for(j=0;j<2;j++) // second time is only if we have to round up
 	{
 		z=0;
+		dz=0;
 		for(i=0;i<digits;i++) // probably 15 digits
 		{
-			if( ti == -1 ) { *cp++='.'; z=1; } // decimal point, reset out count of zeros and include this "."
+			if( ti == -1 ) { *cp++='.'; z=1; dz=1; } // decimal point, reset out count of zeros and include this "."
 			d=(int)((num)/t); //auto floor converting to int
 			if(d<0){d=0;} //clamp digits because floating point is fun
 			if(d>9){d=9;}
@@ -681,7 +683,6 @@ int djon_double_to_str( double num , char * buf )
 			t=DJON_POW10(--ti); // next digit
 			if(d==0) { z++; } else { z=0; } // count zeros at end
 			*cp++='0'+d;
-//			if((i==0)&&(d==0)&&(e==0)){digits++;} // leading 0 does not count as a digit
 		}
 		if(j==0) // first loop only
 		{
@@ -718,7 +719,7 @@ int djon_double_to_str( double num , char * buf )
 		if(e>=0) // adjust e number
 		{
 			e=e+z; // new e
-			if(t<0.1) { e=0; } // we only removed zeros after the . so e should be 0
+			if(dz) { e=0; } // we only removed zeros after the . so e should be 0
 		}
 	}
 
