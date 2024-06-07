@@ -571,17 +571,17 @@ void djon_int_to_hexstr( int num , int len , char * buf )
 }
 
 // write into buf, return length of string excluding null
-// should be a maximum of 28 including null
-// so rounding up, please supply 32char buffer to write into.
+// this should be a maximum of 28 including null
+// please supply at least a 32char buffer to write into.
 int djon_double_to_str( double num , char * buf )
 {
-// maximum precision of digits ( dependent on doubles precision )
+// maximum precision of digits ( chosen for stable doubles precision )
 #define DJON_DIGIT_PRECISION 15
 // amount of zeros to include before/after decimal point before we switch to e numbers
-// so the two longest string exponents are "e-999" or "000000000"
+// so the two longest string exponents are 4:"e-999" or 9:"000000000"
 #define DJON_DIGIT_ZEROS 9
 // these two numbers +4 is the maximum we write to buf, so be careful
-// The 4 extra worst case chars are "-0." at the start and "/0" at the end
+// The 4 extra worst case chars are 3:"-0." at the start and 1:"/0" at the end
 #define DJON_DIGIT_LEN (4+DJON_DIGIT_ZEROS+DJON_DIGIT_PRECISION)
 
 	char *cp=buf;
@@ -596,14 +596,17 @@ int djon_double_to_str( double num , char * buf )
 		return cp-buf;
 	}
 
+	int negative=0;
 	if( signbit(num) )
 	{
+		negative=1; // remember
 		*cp++='-';
 		num=-num; // remove sign
 	}
 
 	if(num==0.0) // zero
 	{
+		cp-=negative; // remove "-" so we never "-0"
 		*cp++='0';
 		*cp=0; // null
 		return cp-buf;
@@ -620,7 +623,16 @@ int djon_double_to_str( double num , char * buf )
 		return cp-buf;
 	}
 
-	int e=(int)DJON_LOG10(num); // find exponent
+	int e=(int)DJON_LOG10(num); // find exponent	
+	
+	if(e<-306) // give up when we get too close to min
+	{
+		cp-=negative; // remove "-" so we never "-0"
+		*cp++='0';
+		*cp=0; // null
+		return cp-buf;
+	}
+
 
 	int i;
 	int j;
