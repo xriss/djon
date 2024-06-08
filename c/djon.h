@@ -573,19 +573,17 @@ void djon_int_to_hexstr( int num , int len , char * buf )
 	*cp++=0;
 }
 
-// write into buf, return length of string excluding null
-// this should be a maximum of 28 including null
-// please supply at least a 32char buffer to write into.
+// write into buf, return length of string writen excluding null terminator
+// this should write a maximum of 26 including null terminator to the buffer
+// so please supply at least a 32 char buffer to write into.
 int djon_double_to_str_internal( double _num , char * buf , int first_call)
 {
 // maximum precision of digits ( chosen for stable doubles precision )
 #define DJON_DIGIT_PRECISION 15
-// amount of zeros to include before/after decimal point before we switch to e numbers
-// so the two longest string exponents are 4:"e-999" or 9:"000000000"
+// amount of zeros to include before/after decimal point before we switch to exponents
 #define DJON_DIGIT_ZEROS 9
-// these two numbers +4 is the maximum we write to buf, so be careful
-// The 4 extra worst case chars are 3:"-0." at the start and 1:"/0" at the end
-#define DJON_DIGIT_LEN (4+DJON_DIGIT_ZEROS+DJON_DIGIT_PRECISION)
+// these two numbers with '-' at the start and a '\0' at the end is the worst case
+#define DJON_DIGIT_LEN 26
 
 	char *cp=buf;
 	double num=_num;
@@ -680,7 +678,7 @@ int djon_double_to_str_internal( double _num , char * buf , int first_call)
 	}
 	t=DJON_POW10(ti); // next digit
 	d=(int)((num)/t); //auto floor converting to int
-	if( (d>=5) && (z<3) && first_call )// start again and round up unless we are looking at a lot of trailing 0s
+	if( (d>=5) && (z<3) && first_call )// start again and round up unless we are looking at multiple trailing 0s
 	{
 		if(negative) { t=-t; }
 		return djon_double_to_str_internal( _num + (t*10.0), buf , 0 );
@@ -704,7 +702,7 @@ int djon_double_to_str_internal( double _num , char * buf , int first_call)
 
 	if(e!=0)
 	{
-		*cp++='e';
+		*cp++='e'; // Lowercase 'e' as it is more visible in a string of digits
 		if(e<0)
 		{
 			*cp++='-';
