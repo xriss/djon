@@ -574,7 +574,7 @@ void djon_int_to_hexstr( int num , int len , char * buf )
 }
 
 // write into buf, return length of string writen excluding null terminator
-// this should write a maximum of 26 including null terminator to the buffer
+// this should write a maximum of 27 including null terminator to the buffer
 // so please supply at least a 32 char buffer to write into.
 int djon_double_to_str_internal( double _num , char * buf , int first_call)
 {
@@ -582,8 +582,8 @@ int djon_double_to_str_internal( double _num , char * buf , int first_call)
 #define DJON_DIGIT_PRECISION 15
 // amount of zeros to include before/after decimal point before we switch to exponents
 #define DJON_DIGIT_ZEROS 9
-// these two numbers with '-' at the start and a '\0' at the end is the worst case
-#define DJON_DIGIT_LEN 26
+// these two numbers with '-' at the start including a decimal '.' and a '\0' at the end is the worst case
+#define DJON_DIGIT_LEN 27
 
 	char *cp=buf;
 	double num=_num;
