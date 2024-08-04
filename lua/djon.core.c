@@ -299,9 +299,13 @@ int lc;
 		lua_pushnil(l);
 		if( lua_next(l,-2) != 0 ) // check first key only
 		{
-			if( lua_type(l, -2) == LUA_TSTRING ) // if first key is a string
+			isarray=0; // assume object unless
+			if( lua_type(l, -2) == LUA_TNUMBER ) // first key is a number
 			{
-				isarray=0; // then it is an object not an array
+				if( lua_tonumber(l, -2) == 1.0 ) // and that number is 1
+				{
+					isarray=1;
+				}
 			}
 			lua_pop(l,2);
 		}
