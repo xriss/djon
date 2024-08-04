@@ -292,12 +292,22 @@ int lc;
 		lua_rawgeti(l,-1,1);
 	}
 	
-	if( lua_istable(l,-1) )
+	if( lua_type(l, -1) == LUA_TTABLE )
 	{
-		lua_rawgeti(l,-1,1); // check first element of an array
-		if(lua_isnil(l,-1)) // if nil then this is an object
+
+		int isarray=1; // assume array if empty
+		lua_pushnil(l);
+		if( lua_next(l,-2) != 0 ) // check first key only
 		{
-			lua_pop(l,1);
+			if( lua_type(l, -2) == LUA_TSTRING ) // if first key is a string
+			{
+				isarray=0; // then it is an object not an array
+			}
+			lua_pop(l,2);
+		}
+
+		if( ! isarray ) // if empty or first key is a string
+		{
 
 			i=djon_alloc(ds); if(!i) { luaL_error(l, "out of memory" ); }
 			v=djon_get(ds,i);
@@ -306,7 +316,7 @@ int lc;
 			lua_pushnil(l);
 			while( lua_next(l, -2) != 0)
 			{
-				if(!lua_isstring(l,-2)) { luaL_error(l, "object keys must be strings" ); }
+				if( lua_type(l, -2) != LUA_TSTRING ) { luaL_error(l, "object keys must be strings" ); }
 				ki=djon_alloc(ds); if(!ki) { luaL_error(l, "out of memory" ); }
 				kv=djon_get(ds,ki);
 				kv->typ=DJON_STRING;
@@ -342,7 +352,6 @@ int lc;
 		}
 		else
 		{
-			lua_pop(l,1);
 
 			i=djon_alloc(ds); if(!i) { luaL_error(l, "out of memory" ); }
 			v=djon_get(ds,i);
@@ -371,7 +380,7 @@ int lc;
 		}
 	}
 	else
-	if( lua_isnumber(l,-1) )
+	if( lua_type(l, -1) == LUA_TNUMBER )
 	{
 		i=djon_alloc(ds); if(!i) { luaL_error(l, "out of memory" ); }
 		v=djon_get(ds,i);
@@ -379,7 +388,7 @@ int lc;
 		v->num=lua_tonumber(l,-1);
 	}
 	else
-	if( lua_isstring(l,-1) )
+	if( lua_type(l, -1) == LUA_TSTRING )
 	{
 		i=djon_alloc(ds); if(!i) { luaL_error(l, "out of memory" ); }
 		v=djon_get(ds,i);
@@ -388,7 +397,7 @@ int lc;
 		v->len=slen;
 	}
 	else
-	if( lua_isboolean(l,-1) )
+	if( lua_type(l, -1) == LUA_TBOOLEAN )
 	{
 		i=djon_alloc(ds); if(!i) { luaL_error(l, "out of memory" ); }
 		v=djon_get(ds,i);
@@ -408,7 +417,7 @@ int lc;
 				break;
 			}
 
-			if(!lua_isstring(l,-1)) { luaL_error(l, "comments must be strings" ); }
+			if( lua_type(l, -1) != LUA_TSTRING ) { luaL_error(l, "comments must be strings" ); }
 			ci=djon_alloc(ds); if(!ci) { luaL_error(l, "out of memory" ); }
 			cv=djon_get(ds,ci);
 			cv->typ=DJON_COMMENT;

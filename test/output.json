@@ -2276,11 +2276,11 @@ Error: invalid naked key at line 1 char 13 byte 12
 }
 #lua.json
 {
- "#" : 0
+ "#" : "0"
 }
 #lua.djon
 {
- # = 0
+ # = `0`
 }
 #js.json
 {
@@ -4819,13 +4819,13 @@ Error: missing ] at line 1 char 6 byte 5
 ]
 #lua.json
 [
- {
- }
+ [
+ ]
 ]
 #lua.djon
 [
- {
- }
+ [
+ ]
 ]
 #js.json
 [
@@ -4847,11 +4847,11 @@ Error: missing ] at line 1 char 6 byte 5
 [
 ]
 #lua.json
-{
-}
+[
+]
 #lua.djon
-{
-}
+[
+]
 #js.json
 [
 ]
@@ -4962,17 +4962,17 @@ Error: missing ] at line 1 char 6 byte 5
 [
  null ,
  1 ,
- 1 ,
- {
- }
+ "1" ,
+ [
+ ]
 ]
 #lua.djon
 [
  null
  1
- 1
- {
- }
+ `1`
+ [
+ ]
 ]
 #js.json
 [
@@ -5755,11 +5755,11 @@ Error: missing ] at line 1 char 6 byte 5
 {
 }
 #lua.json
-{
-}
+[
+]
 #lua.djon
-{
-}
+[
+]
 #js.json
 {
 }
@@ -5958,13 +5958,13 @@ Error: missing ] at line 1 char 6 byte 5
 }
 #lua.json
 {
- "a" : {
- }
+ "a" : [
+ ]
 }
 #lua.djon
 {
- a = {
- }
+ a = [
+ ]
 }
 #js.json
 {
@@ -7365,11 +7365,11 @@ TRUE
 [
 ]
 #lua.json
-{
-}
+[
+]
 #lua.djon
-{
-}
+[
+]
 #js.json
 [
 ]
@@ -11431,8 +11431,8 @@ Error: missing ] at line 1 char 2 byte 1
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 [
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  [
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   [
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   [
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   ]
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   ]
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ]
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 ]
@@ -12432,8 +12432,8 @@ Error: missing ] at line 1 char 2 byte 1
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 [
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  [
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   [
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   [
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   ]
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   ]
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ]
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 ]
