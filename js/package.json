@@ -3,6 +3,10 @@
   "version": "0.0.15",
   "license": "MIT",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xriss/djon.git"
+  },
   "bin": {
     "djon": "./cmd.import.js"
   },
