@@ -1,9 +1,9 @@
 {
   "name": "@xriss/djon",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "license": "MIT",
-	"source": "djon.js",
-	"type": "module",
+  "source": "djon.js",
+  "type": "module",
   "dependencies": {
     "napi-wasm": "^1.1.0"
   },
