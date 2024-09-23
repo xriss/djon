@@ -8,7 +8,7 @@ let opts={}
 for( let v of (process.argv.slice(2)) )
 {
 	let vp=v
-	if(opts.skip_opts) { vp=nil } // skip all opts
+	if(opts.skip_opts) { vp=null } // skip all opts
 
 	if      (vp=="--")        {		opts.skip_opts=true		}
 	else if (vp=="--djon")    {		opts.djon=true			}
@@ -18,7 +18,7 @@ for( let v of (process.argv.slice(2)) )
 	else if (vp=="--help")    {		opts.help=true			}
 	else
 	{
-		if( vp.slice(0,2)=="--" ) 
+		if( vp && vp.slice(0,2)=="--" ) 
 		{
 			console.log( "unknown option "+v )
 			process.exit(20)
