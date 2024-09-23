@@ -3,7 +3,9 @@
   "version": "0.0.6",
   "license": "MIT",
   "type": "module",
-  "bin": "cmd.mjs",
+  "bin": {
+    "djon": "cmd.mjs"
+  },
   "main": "djon.mjs",
   "dependencies": {
     "napi-wasm": "^1.1.0"
