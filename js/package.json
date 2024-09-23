@@ -1,6 +1,6 @@
 {
   "name": "@xriss/djon",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "license": "MIT",
   "source": "cmd.js",
   "type": "module",
