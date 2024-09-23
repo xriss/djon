@@ -1,18 +1,6 @@
 
 import util from "util";
-import fs from "fs";
-let pfs={}
-for(let k in fs)
-{
-	if( "function" == typeof fs[k] )
-	{
-		pfs[k]=util.promisify(fs[k])
-	}
-	else
-	{
-		pfs[k]=fs[k]
-	}
-}
+import { promises as pfs } from 'fs';
 
 import djon from "./djon.js";
 

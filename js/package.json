@@ -4,9 +4,9 @@
   "license": "MIT",
   "type": "module",
   "bin": {
-    "djon": "cmd.mjs"
+    "djon": "cmd.js"
   },
-  "main": "djon.mjs",
+  "main": "djon.js",
   "dependencies": {
     "napi-wasm": "^1.1.0"
   },
