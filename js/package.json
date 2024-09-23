@@ -2,8 +2,9 @@
   "name": "@xriss/djon",
   "version": "0.0.4",
   "license": "MIT",
-  "source": "cmd.js",
   "type": "module",
+  "bin": "cmd.js",
+  "main": "djon.js",
   "dependencies": {
     "napi-wasm": "^1.1.0"
   },
