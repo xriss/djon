@@ -9,7 +9,6 @@ emcc \
 \
 -Oz --profiling-funcs \
 \
--I../c \
 -Inode_modules/node-api-headers/include \
 \
 -s EXPORTED_FUNCTIONS=_napi_register_wasm_v1,_napi_wasm_malloc \
