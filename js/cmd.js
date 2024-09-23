@@ -58,8 +58,21 @@ process.exit(0)
 
 }
 
-
-let data_input = await pfs.readFile( opts.fname1 || process.stdin.fd , 'utf-8' )
+let data_input 
+if(opts.fname1)
+{
+	data_input = await pfs.readFile( opts.fname1 , 'utf-8' )
+}
+else
+{
+	let readstdin = async function()
+	{
+		const chunks = [];
+		for await (const chunk of process.stdin) { chunks.push(chunk); }
+		return Buffer.concat(chunks).toString('utf8');
+	}
+	data_input=await readstdin()
+}
 
 let tree=djon.load(data_input,"comment")
 
