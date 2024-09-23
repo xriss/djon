@@ -14,7 +14,7 @@ for(let k in fs)
 	}
 }
 
-import djon from "./djon.mjs";
+import djon from "./djon.js";
 
 let opts={}
 for( let v of (process.argv.slice(2)) )
