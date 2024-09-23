@@ -4,7 +4,7 @@
   "license": "MIT",
   "type": "module",
   "bin": {
-    "djon": "./cmd"
+    "djon": "./cmd.import.js"
   },
   "main": "./djon.js",
   "dependencies": {
