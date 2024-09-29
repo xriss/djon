@@ -32,6 +32,11 @@ SOFTWARE.
 extern "C" {
 #endif
 
+// maximum path size including null
+#ifndef DJON_MAX_PATH
+#define DJON_MAX_PATH (1024)
+#endif
+
 // maximum stack to use, when parsing
 // set to 0 to disable our internal stack checking
 #ifndef DJON_MAX_STACK
@@ -142,6 +147,9 @@ typedef struct djon_value
 	int    val; // linked list of values for object or array
 	int    com; // linked list of comments for this value
 
+	int    par; // idx of parent array/object ( key for an object value )
+	int    idx; // idx index into array if this is part of an array
+
 } djon_value ;
 
 typedef struct djon_state
@@ -182,7 +190,7 @@ typedef struct djon_state
 	int (*write)(struct djon_state *ds, const char *cp, int len); // ptr to output function
 
 	void *memctx; // memory allocator ctx
-	char buf[256]; // small buffer used for generating text output
+	char buf[DJON_MAX_PATH]; // small very tempory buffer used for generating text
 
 } djon_state ;
 
@@ -200,6 +208,8 @@ extern int          djon_alloc(       djon_state *ds);
 extern int          djon_free(        djon_state *ds, int idx);
 extern int          djon_idx(         djon_state *ds, djon_value *val);
 extern djon_value * djon_get(         djon_state *ds, int idx);
+extern int          djon_by_path(     djon_state *ds, const char *path);
+extern const char * djon_to_path(     djon_state *ds, int idx);
 extern int          djon_parse_value( djon_state *ds);
 extern int          djon_check_stack( djon_state *ds);
 extern void         djon_sort_object( djon_state *ds, int idx );
@@ -995,6 +1005,33 @@ djon_value * djon_get(djon_state *ds,int idx)
 	if( idx >= ds->values_siz ) { return 0; }
 	return ds->values + idx ;
 }
+
+// get a value index by path, path must be less than DJON_MAX_PATH including its null.
+// path may be "part/part.part[part]" and each part may be wrapped in " or ' with /escapes 
+// we may set an error so be sure to check ds->error_string if we return a 0
+// the empty string "" gets you the top level value and "/" gets you  base[""][""] value
+int djon_by_path(djon_state *ds, const char *path)
+{
+	ds->error_string=0;
+	djon_value *val;
+	int val_idx;
+	
+
+	return 0;
+}
+
+// get a path from a value
+// pointer returned will be ds->buf so you do not have to free it
+// but you do have to dupe its data if you want to keep it around.
+// It should be considered invalid after any call to a djon function.
+const char * djon_to_path(djon_state *ds, int idx)
+{
+	djon_value *val;
+	int val_idx;
+	
+	return ds->buf;
+}
+
 
 // unallocate unused values at the end of a parse
 void djon_shrink(djon_state *ds)
@@ -2188,6 +2225,7 @@ int djon_parse_object(djon_state *ds)
 	if(!obj){return 0;}
 
 	djon_value *key;
+	djon_value *val;
 
 	ds->parse_idx++; // skip opener
 	obj->typ=DJON_OBJECT;
@@ -2218,13 +2256,19 @@ int djon_parse_object(djon_state *ds)
 		{
 			obj->key=key_idx;
 			obj->val=val_idx;
+			val=djon_get(ds,val_idx);
+			val->par=key_idx;
 			key=djon_get(ds,key_idx);
+			key->par=obj_idx;
 			key->val=val_idx; //  remember val for this key
 			lst_idx=key_idx;
 		}
 		else // chain
 		{
+			val=djon_get(ds,val_idx);
+			val->par=key_idx;
 			key=djon_get(ds,lst_idx); // last key
+			key->par=obj_idx;
 			key->nxt=key_idx;
 			key=djon_get(ds,key_idx);
 			key->prv=lst_idx;
@@ -2267,6 +2311,7 @@ int djon_parse_array(djon_state *ds)
 	int lst_idx=0;
 	int val_idx=0;
 
+	int idx=0; // 0 based index into array
 	while(1)
 	{
 		djon_skip_white(ds);
@@ -2283,13 +2328,19 @@ int djon_parse_array(djon_state *ds)
 		arr=djon_get(ds,arr_idx); // realloc safe
 		if( arr->val==0) // first
 		{
+			val=djon_get(ds,val_idx);
+			val->par=arr_idx;
+			val->idx=idx++;
 			arr->val=val_idx;
 			lst_idx=val_idx;
 		}
 		else // chain
 		{
-			val=djon_get(ds,lst_idx);
-			val->nxt=val_idx;
+			val=djon_get(ds,val_idx);
+			val->par=arr_idx;
+			val->idx=idx++;
+			val->prv=lst_idx;
+			djon_get(ds,lst_idx)->nxt=val_idx;
 			lst_idx=val_idx;
 		}
 		if( 0 == djon_skip_white(ds) ) // check for whitespace after value

@@ -78,6 +78,13 @@ let tree=djon.load(data_input,"comment")
 
 let data_output=djon.save(tree,"comment",opts.djon?"djon":"",opts.compact?"compact":"")
 
-await pfs.writeFile( opts.fname2 || process.stdout.fd , data_output , 'utf8' )
+if( opts.fname2 )
+{
+	await pfs.writeFile( opts.fname2 , data_output , 'utf8' )
+}
+else
+{
+	await process.stdout.write( data_output , 'utf8' )
+}
 
-process.exit(0)
+//process.exit(0)
