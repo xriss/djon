@@ -175,8 +175,8 @@ typedef struct djon_state
 	int   error_char;   // char in line
 	int   error_line;   // line in file
 
-	int   comment; // compact style input/output flag
-	// every value is a table starting with the value and followed by optional comment lines
+	int   comment; // comment style input/output flag (used by json/lua core)
+	// every value is an array starting with the value and followed by optional comment lines
 #if !DJON_FILE
 	void *fp; // we do not know what a file is
 #else
@@ -188,6 +188,8 @@ typedef struct djon_state
 	int   write_size;
 	int   write_len;
 	int (*write)(struct djon_state *ds, const char *cp, int len); // ptr to output function
+
+	int   path_len; // path size when constructing path ( built backwards in buf )
 
 	void *memctx; // memory allocator ctx
 	char buf[DJON_MAX_PATH]; // small very tempory buffer used for generating text
@@ -234,6 +236,23 @@ extern void         djon_sort_object( djon_state *ds, int idx );
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+// compare null terminated string s, to the cs buffer
+int djon_compare_string(const char *cs,int len,const char *s)
+{
+	const char *ce=cs+len;
+	const char *sp;
+	const char *cp;
+	char c;
+	for( cp=cs,sp=s ; *sp ; cp++,sp++ )
+	{
+		if(cp>=ce) { return 0; } // out of buffer but not out of string
+		c=*cp;
+		if( c!=*sp ) { return 0; } // no match
+	}
+	if(cp==ce) { return 1; } // both strings are of same length
+	return 0; // buffer is longer
+}
 
 // compare null terminated string s, to the start of the cs buffer
 // returns true if buffer begins with the s string.
@@ -1012,24 +1031,299 @@ djon_value * djon_get(djon_state *ds,int idx)
 // the empty string "" gets you the top level value and "/" gets you  base[""][""] value
 int djon_by_path(djon_state *ds, const char *path)
 {
-	ds->error_string=0;
 	djon_value *val;
-	int val_idx;
-	
+	djon_value *key;
+	int val_idx=0;
+	int key_idx=0;
+	int idx=0;
+	int i=0;
 
-	return 0;
+	char buf[DJON_MAX_PATH];
+	int buf_len=0;
+
+	djon_set_error(ds,0); // clear error
+	
+	int brackets=0;
+	char mode='.';
+	int fetch=0;
+	int len=0;
+	char c;
+	const char *cp;
+	for(cp=path;*cp;cp++,len++){} // find length
+	
+	if( len>(DJON_MAX_PATH-1) )
+	{ djon_set_error(ds,"max path length exceeded"); return 0; }
+
+	val_idx=ds->parse_value;
+	val=djon_get(ds,val_idx);
+
+	for( cp=path; cp<=(path+len); )
+	{
+		c=*cp++;
+		switch(mode)
+		{
+			case '"': // part in quotes
+				if(c=='"') // end
+				{
+					mode='.';
+				}
+				else
+				if(c=='\\') // escape
+				{
+					buf[buf_len++]=*cp++; // next char is raw
+				}
+				else
+				{
+					buf[buf_len++]=c; // this char
+				}
+			break;
+
+			case '\'': // part in quote
+				if(c=='\'') // end
+				{
+					mode='.';
+				}
+				else
+				if(c=='\\') // escape
+				{
+					buf[buf_len++]=*cp++; // next char is raw
+				}
+				else
+				{
+					buf[buf_len++]=c; // this char
+				}
+			break;
+
+			case '.': // raw part?
+				if( c==']' ) // ignore closing brackets?
+				{
+					if( brackets>0 ) // if we are looking for them
+					{
+						brackets=0;
+						fetch=1;
+					}
+					else
+					{
+						djon_set_error(ds,"invalid path");
+						return 0;
+					}
+				}
+				else
+				if(c=='"') // in quotes
+				{
+					mode='"';
+				}
+				else
+				if(c=='\'') // in quote
+				{
+					mode='\'';
+				}
+				else
+				if( c=='[' ) // new part in brackets
+				{
+					brackets=1;
+					if(buf_len>0) // might be the end of a part
+					{
+						fetch=1; // do fetch
+					}
+				}
+				else
+				if( c=='.' || c=='/' || c==0 ) // part end
+				{
+					fetch=1; // do fetch
+				}
+				else // raw
+				{
+					buf[buf_len++]=c;
+				}
+			break;
+		}
+		
+		if(fetch && (brackets==0) )
+		{
+			buf[buf_len]=0; // null term
+
+			if(!val) // invalid value
+			{
+				djon_set_error(ds,"invalid path value");
+				return 0;
+			}
+			if((val->typ&DJON_TYPEMASK)==DJON_OBJECT)
+			{
+				key_idx=val->key;
+				while(key_idx)
+				{
+					key=djon_get(ds,key_idx);
+					if( djon_compare_string( val->str , val->len , buf ) ) // found key
+					{
+						val_idx=key->val;
+						val=djon_get(ds,val_idx);
+						break;
+					}
+					else
+					{
+						key_idx=key->nxt;
+					}
+				}
+				if(key_idx==0) // not found
+				{
+					djon_set_error(ds,"invalid path");
+					return 0;
+				}
+			}
+			else
+			if((val->typ&DJON_TYPEMASK)==DJON_ARRAY)
+			{
+				i=(int)djon_str_to_double(buf,0);
+
+				val_idx=val->val;
+				while(val_idx)
+				{
+					val=djon_get(ds,val_idx);
+					if(val->idx==i) // found it
+					{
+						break;
+					}
+					else
+					{
+						val_idx=val->nxt;
+					}
+				}
+				if(val_idx==0) // not found
+				{
+					djon_set_error(ds,"invalid path");
+					return 0;
+				}
+			}
+			else
+			{
+				djon_set_error(ds,"invalid path value");
+				return 0;
+			}
+
+			fetch=0;
+			buf_len=0;
+		}
+	}
+	return val_idx;
+}
+
+void djon_path_push_string(djon_state *ds, char *str, int len)
+{
+	int i;
+	
+	if( (ds->path_len+len) > (DJON_MAX_PATH-1) )
+	{ return djon_set_error(ds,"max path length exceeded"); }
+	
+	for(i=0;i<len;i++)
+	{
+		ds->buf[ ((DJON_MAX_PATH-1)-ds->path_len)+i-len ] = str[len];
+	}
+	ds->path_len+=len;
+}
+
+void djon_path_push_escaped_string(djon_state *ds, char *str, int len)
+{
+	char buf[DJON_MAX_PATH];
+	
+	char c;
+	int cr;
+	int cw;
+	
+	int need_to_escape=0;
+	for( cr=0 , cw=0 ; cr<len ; cr++ , cw++ ) // try and copy string without escaping
+	{
+		c = str[cr] ;
+		if( (c=='"') || (c=='\'') || (c=='/') || (c=='.') || (c=='[') || (c==']') ) // need to be inside "
+		{
+			need_to_escape=1;
+			break; // give up
+		}
+		buf[cw] = c ;
+		if( cw > DJON_MAX_PATH-1 )	{ return djon_set_error(ds,"max path length exceeded"); }
+	}
+	if(need_to_escape) // copy again but escape it this time
+	{
+		cw=0;
+		buf[cw++] = '"' ;
+		if( cw > DJON_MAX_PATH-1 )	{ return djon_set_error(ds,"max path length exceeded"); }
+		
+		for( cr=0 ; cr<len ; cr++ ) // copy string escaping it
+		{
+			c = str[cr] ;
+			if( (c=='"') || (c=='\\') ) // must escape
+			{
+				buf[cw++] = '\\' ;
+				if( cw > DJON_MAX_PATH-1 )	{ return djon_set_error(ds,"max path length exceeded"); }
+			}
+			buf[cw++] = c ;
+			if( cw > DJON_MAX_PATH-1 )	{ return djon_set_error(ds,"max path length exceeded"); }
+		}
+
+		buf[cw++] = '"' ;
+		if( cw > DJON_MAX_PATH-1 )	{ return djon_set_error(ds,"max path length exceeded"); }
+	}
+	djon_path_push_string(ds,buf,cw);
 }
 
 // get a path from a value
 // pointer returned will be ds->buf so you do not have to free it
 // but you do have to dupe its data if you want to keep it around.
 // It should be considered invalid after any call to a djon function.
+// we may set an error so be sure to check ds->error_string if we return a 0
 const char * djon_to_path(djon_state *ds, int idx)
 {
+	djon_value *sub_val;
 	djon_value *val;
 	int val_idx;
 	
-	return ds->buf;
+	char num_buf[32];
+	int num_len;
+	
+	char buf[DJON_MAX_PATH];
+
+	djon_set_error(ds,0); // clear error
+	
+	ds->path_len=0; // start path
+	ds->buf[(DJON_MAX_PATH-1)]=0; // null
+
+	val=djon_get(ds,idx);
+	if(!val) { djon_set_error(ds,"Invalid index"); return 0; }
+	while( val )
+	{
+		if( ! val->par ) { break; } // reached the top
+		sub_val=val;
+		val=djon_get(ds,val->par);
+		if(!val) { djon_set_error(ds,"Invalid parent index"); return 0; }
+		if((val->typ&DJON_TYPEMASK)==DJON_OBJECT)
+		{
+			djon_path_push_escaped_string(ds,sub_val->str,sub_val->len);
+			if(ds->error_string){return 0;}
+
+			if( val->par ) // need another seperator
+			{
+				djon_path_push_string(ds,"/",1); // seperator
+				if(ds->error_string){return 0;}
+			}
+		}
+		else
+		if((val->typ&DJON_TYPEMASK)==DJON_ARRAY)
+		{
+			num_len = djon_double_to_str_internal( ((double)(sub_val->idx)) , num_buf , 1 );
+
+			djon_path_push_string(ds,num_buf,num_len);
+			if(ds->error_string){return 0;}
+
+			if( val->par ) // need another seperator
+			{
+				djon_path_push_string(ds,"/",1);
+				if(ds->error_string){return 0;}
+			}
+		}
+
+	}
+	
+	return ds->buf+((DJON_MAX_PATH-1)-ds->path_len);
 }
 
 
