@@ -17,6 +17,7 @@ int main(int argc, char *argv[])
 	int write_djon=0;
 	int compact=0;
 	int strict=0;
+	int comments=0;
 	char *fname1=0;
 	char *fname2=0;
 	int i;
@@ -56,6 +57,11 @@ int main(int argc, char *argv[])
 				strict=1;
 			}
 			else
+			if( 0==strcmp(cp,"--comments") )
+			{
+				comments=1;
+			}
+			else
 			if( 0==strcmp(cp,"--help") )
 			{
 				printf("\n\
@@ -66,14 +72,17 @@ djon input.filename output.filename\n\
 \n\
 Possible options are:\n\
 \n\
-	--djon    : output djon format\n\
-	--json    : output json format\n\
-	--compact : output compact\n\
-	--pretty  : output pretty\n\
-	--strict  : input/output strict\n\
-	--        : stop parsing options\n\
+	--djon     : output djon format\n\
+	--json     : output json format\n\
+	--compact  : output compact\n\
+	--pretty   : output pretty\n\
+	--strict   : input/output strict\n\
+	--comments : input/output comments formated json*\n\
+	--         : stop parsing options\n\
 \n\
 We default to pretty output.\n\
+When using comments, it is assumed that you are converting between a\n\
+json format with [value,comment] values and djon.\n\
 \n\
 ");
 				return 0;
@@ -102,6 +111,9 @@ We default to pretty output.\n\
 
 	ds->strict=strict; // set strict mode from command line options
 	ds->compact=compact; // set compact output flat from command line options
+	
+	if(write_djon)	{ ds->comments=comments; } // input is json
+	else			{ ds->comments=0; }
 	
 	if(fname1)
 	{
@@ -142,6 +154,9 @@ We default to pretty output.\n\
 
 	if(ds->parse_value)
 	{
+		if(write_djon)	{ ds->comments=0; }
+		else			{ ds->comments=comments; } // output is json
+
 		if(write_djon)
 		{
 			djon_write_djon(ds,ds->parse_value);

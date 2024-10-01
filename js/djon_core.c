@@ -401,13 +401,13 @@ napi_value obj;
 	{
 		case DJON_ARRAY:
 			len=0;
-			for( int vi=v->val ; vi ; vi=djon_get(ds,vi)->nxt )
+			for( int vi=v->lst ; vi ; vi=djon_get(ds,vi)->nxt )
 			{
 				len++;
 			}
 			arr=js_array(env,len);
 			ai=0;
-			for( int vi=v->val ; vi ; vi=djon_get(ds,vi)->nxt )
+			for( int vi=v->lst ; vi ; vi=djon_get(ds,vi)->nxt )
 			{
 				js_idx_set( env , arr , ai , djon_core_get_value( env , ds ,vi ) );
 				ai++;
@@ -416,9 +416,9 @@ napi_value obj;
 		break;
 		case DJON_OBJECT:
 			obj=js_object(env);
-			for( int ki=v->key ; ki ; ki=djon_get(ds,ki)->nxt )
+			for( int ki=v->lst ; ki ; ki=djon_get(ds,ki)->nxt )
 			{
-				js_val_set( env , obj , djon_core_get_value( env , ds , ki ) , djon_core_get_value( env , ds , djon_get(ds,ki)->val ) );
+				js_val_set( env , obj , djon_core_get_value( env , ds , ki ) , djon_core_get_value( env , ds , djon_get(ds,ki)->lst ) );
 			}
 			return obj;
 		break;
@@ -445,11 +445,11 @@ static napi_value djon_core_get(napi_env env, napi_callback_info info)
 		napi_get_cb_info(env, info, &argc, argv, &thisjs, (void**)&ds )
 	)){return 0;}
 
-	ds->comment=0;
+	ds->comments=0;
 	for(int i=0;(size_t)i<argc;i++) // check string flags in args
 	{
 		const char *cp=js_to_string(env,argv[i]);
-		if( strcmp(cp,"comment")==0 ) { ds->comment=1; }
+		if( strcmp(cp,"comments")==0 ) { ds->comments=1; }
 		free((void*)cp);
 	}
 
@@ -473,9 +473,9 @@ djon_value *dv=0;
 			int vi=djon_core_set_value(env,ds,js_idx_get(env,val,i));
 
 			dv=djon_get(ds,di); // realloc safe
-			if( dv->val==0) // first
+			if( dv->lst==0) // first
 			{
-				dv->val=vi;
+				dv->lst=vi;
 			}
 			else // chain
 			{
@@ -503,12 +503,12 @@ djon_value *dv=0;
 
 			int ki=djon_core_set_value(env,ds,k);
 			int vi=djon_core_set_value(env,ds,v);
-			djon_get(ds,ki)->val=vi; // key to value
+			djon_get(ds,ki)->lst=vi; // key to value
 
 			dv=djon_get(ds,di); // realloc safe
-			if( dv->key==0) // first
+			if( dv->lst==0) // first
 			{
-				dv->key=ki;
+				dv->lst=ki;
 			}
 			else // chain
 			{
@@ -569,7 +569,7 @@ int ki=0;
 	switch(v->typ&DJON_TYPEMASK)
 	{
 		case DJON_ARRAY:
-			vi=v->val;
+			vi=v->lst;
 			while( vi )
 			{
 				djon_core_set_fix( ds , vi , base );
@@ -577,11 +577,11 @@ int ki=0;
 			}
 		break;
 		case DJON_OBJECT:
-			ki=v->key;
+			ki=v->lst;
 			while( ki )
 			{
 				djon_core_set_fix( ds , ki , base );
-				djon_core_set_fix( ds , djon_get(ds,ki)->val , base );
+				djon_core_set_fix( ds , djon_get(ds,ki)->lst , base );
 				ki=djon_get(ds,ki)->nxt;
 			}
 		break;
@@ -601,11 +601,11 @@ static napi_value djon_core_set(napi_env env, napi_callback_info info)
 		napi_get_cb_info(env, info, &argc, argv, &thisjs, (void**)&ds )
 	)){return 0;}
 
-	ds->comment=0;
+	ds->comments=0;
 	for(int i=1;(size_t)i<argc;i++) // check string flags in args
 	{
 		const char *cp=js_to_string(env,argv[i]);
-		if( strcmp(cp,"comment")==0 ) { ds->comment=1; }
+		if( strcmp(cp,"comments")==0 ) { ds->comments=1; }
 		free((void*)cp);
 	}
 

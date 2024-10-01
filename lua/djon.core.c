@@ -171,7 +171,7 @@ int cc;
 int cb;
 int idx=0;
 
-	if(ds->comment)
+	if(ds->comments)
 	{
 			lua_newtable(l);
 	}
@@ -181,7 +181,7 @@ int idx=0;
 		case DJON_ARRAY:
 			lua_newtable(l);
 			idx=0;
-			vi=v->val;
+			vi=v->lst;
 			while( vi )
 			{
 				idx++;
@@ -192,12 +192,12 @@ int idx=0;
 		break;
 		case DJON_OBJECT:
 			lua_newtable(l);
-			ki=v->key;
+			ki=v->lst;
 			while( ki )
 			{
 				lua_pushlstring(l,djon_get(ds,ki)->str,djon_get(ds,ki)->len);
-				lua_djon_get_value(l,ds,djon_get(ds,ki)->val);
-				if(ds->comment)
+				lua_djon_get_value(l,ds,djon_get(ds,ki)->lst);
+				if(ds->comments)
 				{
 					// replace value comments with key and value comments
 					for( ci=djon_get(ds,ki)->com , cc=2 ; ci ; ci=djon_get(ds,ci)->com , cc++ )
@@ -207,7 +207,7 @@ int idx=0;
 						lua_rawseti(l,-2,cc);
 					}
 					cb=cc;
-					for( ci=djon_get(ds,djon_get(ds,ki)->val)->com , cc=2 ; ci ; ci=djon_get(ds,ci)->com , cc++ )
+					for( ci=djon_get(ds,djon_get(ds,ki)->lst)->com , cc=2 ; ci ; ci=djon_get(ds,ci)->com , cc++ )
 					{
 						v=djon_get(ds,ci);
 						lua_pushlstring(l,v->str,v->len);
@@ -235,7 +235,7 @@ int idx=0;
 		break;
 	}
 
-	if(ds->comment)
+	if(ds->comments)
 	{
 		lua_rawseti(l,-2,1);
 		for( ci=djon_get(ds,i)->com , cc=2 ; ci ; ci=djon_get(ds,ci)->com , cc++ )
@@ -255,12 +255,12 @@ Convert internal data state into lua tables.
 static int lua_djon_get (lua_State *l)
 {
 djon_state *ds=lua_djon_check_ptr(l,1);
-	ds->comment=0;
+	ds->comments=0;
 	for(int i=2;i<=10;i++) // check string flags in args
 	{
 		const char *s=lua_tostring(l,i);
 		if(!s){break;}
-		if( strcmp(s,"comment")==0 ) { ds->comment=1; }
+		if( strcmp(s,"comment")==0 ) { ds->comments=1; }
 	}
 
 	lua_djon_get_value(l,ds,ds->parse_value);
@@ -286,7 +286,7 @@ int ci;
 int cc;
 int lc;
 	
-	if(ds->comment)
+	if(ds->comments)
 	{
 		if( ! lua_istable(l,-1) ) {luaL_error(l,"values must be tables"); }
 		lua_rawgeti(l,-1,1);
@@ -329,12 +329,12 @@ int lc;
 				
 				vi=lua_djon_set_value(l,ds);
 				kv=djon_get(ds,ki); // realloc safe
-				kv->val=vi;
+				kv->lst=vi;
 
 				v=djon_get(ds,i); // realloc safe
-				if( v->key==0) // first
+				if( v->lst==0) // first
 				{
-					v->key=ki;
+					v->lst=ki;
 				}
 				else // chain
 				{
@@ -343,7 +343,7 @@ int lc;
 				}
 				li=ki;
 
-				if(ds->comment)
+				if(ds->comments)
 				{
 					// move comments to key
 					djon_get(ds,ki)->com=djon_get(ds,vi)->com;
@@ -370,9 +370,9 @@ int lc;
 				lua_pop(l,1);
 
 				v=djon_get(ds,i);
-				if( v->val==0) // first
+				if( v->lst==0) // first
 				{
-					v->val=vi;
+					v->lst=vi;
 				}
 				else // chain
 				{
@@ -409,7 +409,7 @@ int lc;
 		v->num=lua_toboolean(l,-1);
 	}
 
-	if(ds->comment)
+	if(ds->comments)
 	{
 		lua_pop(l, 1);
 		for( cc=2 , lc=i ; 1 ; cc++ )
@@ -448,12 +448,12 @@ careful not to free the data before you write it.
 static int lua_djon_set (lua_State *l)
 {
 djon_state *ds=lua_djon_check_ptr(l,1);
-	ds->comment=0;
+	ds->comments=0;
 	for(int i=3;i<=10;i++) // check string flags in args
 	{
 		const char *s=lua_tostring(l,i);
 		if(!s){break;}
-		if( strcmp(s,"comment")==0 ) { ds->comment=1; }
+		if( strcmp(s,"comment")==0 ) { ds->comments=1; }
 	}
 	
 	ds->write_data=0; // prepare to alloc strings
