@@ -16079,7 +16079,17 @@ Error: garbage at end of file at line 1 char 3 byte 2
  ]
 ]
 #c.comments.djon
-`"```"`
+[
+ `"```"`
+ `"````"`
+ `'``"``'`
+ `"``'``"`
+ `"``'"``"`
+ `"``"'``"`
+ `"``""``"`
+ `"``''``"`
+ `'""```'`"`'"`"'`''`'""`
+]
 
 #djon/comment1.djon
 // first comment
@@ -16113,6 +16123,17 @@ Error: garbage at end of file at line 1 char 3 byte 2
  "final comment"
 ]
 #c.comments.djon
+final comment
+first comment
+{
+ comment
+ inside
+ a = 1
+ middle comment
+ b = 2
+ back comment
+ c = 3
+}
 
 #djon/bad_comma1.djon
 {

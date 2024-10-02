@@ -2016,14 +2016,17 @@ int djon_vca_to_value(djon_state *ds,int idx)
 {
 	int lst_idx;
 	int new_idx;
+	
 	int old_idx;
 	djon_value *old;
 	int key_idx;
 	djon_value *key;
-	int val_idx;
-	djon_value *val;
-	int arr_idx;
-	djon_value *arr;
+	int newkey_idx;
+	djon_value *newkey;
+	int newval_idx;
+	djon_value *newval;
+	int newcom_idx;
+	djon_value *newcom;
 	int com_idx;
 	djon_value *com;
 	int i;
@@ -2033,70 +2036,71 @@ int djon_vca_to_value(djon_state *ds,int idx)
 
 	if((old->typ&DJON_TYPEMASK)==DJON_ARRAY) // need to map back into comments
 	{
-		val_idx=djon_vca_to_value(ds, old->lst );
-		if(!val_idx) { return 0; }
+		old_idx=old->lst;
+		new_idx=djon_dupe_value(ds,old_idx); // this invalidates pointers
+		if(!new_idx) { return 0; }
 		
 		// todo add comments
+		for( lst_idx=new_idx , com_idx=djon_get(ds,old_idx)->nxt ; com_idx ; com_idx=djon_get(ds,com_idx)->nxt )
+		{
+			newcom_idx=djon_dupe_value(ds,com_idx); // this invalidates pointers
+			if(!newcom_idx) { return 0; }
+			newcom=djon_get(ds,newcom_idx);
+			newcom->typ=DJON_STRING|DJON_KEY;
+			djon_get(ds,lst_idx)->com=newcom_idx;
+			lst_idx=newcom_idx;
+		}
 	}
 	else // just dupe
 	{
-		val_idx=djon_dupe_value(ds,idx); // this invalidates pointers
-		if(!val_idx) { return 0; }
+		old_idx=idx;
+		new_idx=djon_dupe_value(ds,old_idx); // this invalidates pointers
+		if(!new_idx) { return 0; }
 	}
-
-	old=djon_get(ds,idx); // check for recursing
+	old=djon_get(ds,old_idx); // check for recursing
 	if((old->typ&DJON_TYPEMASK)==DJON_ARRAY)
 	{
-		for( lst_idx=0 , i=0 , old_idx=old->lst ; old_idx ; i++ , old_idx=djon_get(ds,old_idx)->nxt )
+		for( lst_idx=0 , i=0 , key_idx=old->lst ; key_idx ; i++ , key_idx=djon_get(ds,key_idx)->nxt )
 		{
+			newkey_idx=djon_vca_to_value(ds, key_idx);
+			if(!newkey_idx) { return 0; }
 			if(!lst_idx) // first
 			{
-				new_idx=djon_vca_to_value(ds, old_idx);
-				if(!new_idx) { return 0; }
-				djon_get(ds,new_idx)->idx=i;
-				djon_get(ds,new_idx)->par=val_idx;
-				djon_get(ds,val_idx)->lst=new_idx;
-				lst_idx=new_idx;
+				djon_get(ds,new_idx)->lst=newkey_idx;
 			}
 			else
 			{
-				new_idx=djon_vca_to_value(ds, old_idx);
-				if(!new_idx) { return 0; }
-				djon_get(ds,new_idx)->idx=i;
-				djon_get(ds,new_idx)->par=val_idx;
-				djon_get(ds,lst_idx)->nxt=new_idx;
-				lst_idx=new_idx;
+				djon_get(ds,lst_idx)->nxt=newkey_idx;
 			}
+			djon_get(ds,newkey_idx)->idx=i;
+			djon_get(ds,newkey_idx)->par=new_idx;
+			lst_idx=newkey_idx;
 		}
 	}
 	else
 	if((old->typ&DJON_TYPEMASK)==DJON_OBJECT)
 	{
-		for( lst_idx=0 , old_idx=old->lst ; old_idx ; old_idx=djon_get(ds,old_idx)->nxt )
+		for( lst_idx=0 , i=0 , key_idx=old->lst ; key_idx ; i++ , key_idx=djon_get(ds,key_idx)->nxt )
 		{
+			newkey_idx=djon_dupe_value(ds, key_idx);
+			if(!newkey_idx) { return 0; }
 			if(!lst_idx) // first
 			{
-				key_idx=djon_vca_to_value(ds, old_idx);
-				if(!key_idx) { return 0; }
-				djon_get(ds,key_idx)->par=val_idx;
-				djon_get(ds,val_idx)->lst=key_idx;
+				djon_get(ds,new_idx)->lst=newkey_idx;
 			}
 			else
 			{
-				key_idx=djon_vca_to_value(ds, old_idx);
-				if(!key_idx) { return 0; }
-				djon_get(ds,key_idx)->par=val_idx;
-				djon_get(ds,lst_idx)->nxt=key_idx;
+				djon_get(ds,lst_idx)->nxt=newkey_idx;
 			}
-			new_idx=djon_vca_to_value(ds, djon_get(ds,old_idx)->lst );
-			if(!new_idx) { return 0; }
-			djon_get(ds,key_idx)->lst=new_idx;
-			djon_get(ds,new_idx)->par=key_idx;
-			lst_idx=key_idx;
+			newval_idx=djon_vca_to_value(ds, djon_get(ds,key_idx)->lst );
+			if(!newval_idx) { return 0; }
+			djon_get(ds,newkey_idx)->par=new_idx;
+			djon_get(ds,newkey_idx)->lst=newval_idx;
+			djon_get(ds,newval_idx)->par=newkey_idx;
+			lst_idx=newkey_idx;
 		}
 	}
-
-	return val_idx;
+	return new_idx;
 }
 
 // load a new file or possibly from stdin , pipes allowed
