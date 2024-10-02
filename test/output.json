@@ -16123,15 +16123,15 @@ Error: garbage at end of file at line 1 char 3 byte 2
  "final comment"
 ]
 #c.comments.djon
-final comment
-first comment
+// first comment
+// final comment
 {
- comment
- inside
+ // inside
+ // comment
  a = 1
- middle comment
+ // middle comment
  b = 2
- back comment
+ // back comment
  c = 3
 }
 

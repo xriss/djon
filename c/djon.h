@@ -2040,13 +2040,12 @@ int djon_vca_to_value(djon_state *ds,int idx)
 		new_idx=djon_dupe_value(ds,old_idx); // this invalidates pointers
 		if(!new_idx) { return 0; }
 		
-		// todo add comments
 		for( lst_idx=new_idx , com_idx=djon_get(ds,old_idx)->nxt ; com_idx ; com_idx=djon_get(ds,com_idx)->nxt )
 		{
 			newcom_idx=djon_dupe_value(ds,com_idx); // this invalidates pointers
 			if(!newcom_idx) { return 0; }
 			newcom=djon_get(ds,newcom_idx);
-			newcom->typ=DJON_STRING|DJON_KEY;
+			newcom->typ=DJON_STRING|DJON_COMMENT;
 			djon_get(ds,lst_idx)->com=newcom_idx;
 			lst_idx=newcom_idx;
 		}
