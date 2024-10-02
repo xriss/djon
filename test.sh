@@ -6,6 +6,8 @@ echo "# Converting all input json ( note this file is forced 7bit ascii clean wi
 
 files=`find json -name "*.json" -type f -exec echo {} \; && find djon -name "*.djon" -type f -exec echo {} \;`
 
+djonfiles=`find djon -name "*.djon" -type f -exec echo {} \;`
+
 eval `luarocks --lua-version 5.1 path`
 
 for fname in $files ; do
@@ -53,5 +55,21 @@ for fname in $files ; do
 	echo "#js.djon" >>output.json
 	{ node -- ../js/cmd.js --djon "${fname}" 2>&1 | sed -n '/at djon.check_error/q;p' | sed '/Error:/q' | tr -c '[:print:]\t\n\r' '#' ; } &>>output.json
 
+
+done
+
+for fname in $djonfiles ; do
+
+	echo Transforming ${fname}
+	
+	echo "" >>output.json
+	echo "#$fname" >>output.json
+	{ cat "$fname" | tr -c '[:print:]\t\n\r' '#' ; } &>>output.json
+
+	echo "" >>output.json
+	echo "#c.comments.json" >>output.json
+	{ ../c/djon --comments "${fname}" | tr -c '[:print:]\t\n\r' '#' ; } &>>output.json
+	echo "#c.comments.djon" >>output.json
+	{ ../c/djon --comments "${fname}" | ../c/djon --djon --comments -- | tr -c '[:print:]\t\n\r' '#' ; } &>>output.json
 
 done

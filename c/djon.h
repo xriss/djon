@@ -134,18 +134,18 @@ typedef enum djon_enum
 
 typedef struct djon_value
 {
+// data
 	int    typ; // the type of data contained in the string
-
-	int    nxt; // next value if this is part of a list
-	int    prv; // prev value if this is part of a list
-
 	char * str; // start of string ( points into djon_state.data )
 	int    len; // length of string
 	double num; // number or bool
-
+// pointers to relative values
+	int    nxt; // next value if this is part of a list
+	int    prv; // prev value if this is part of a list
 	int    com; // linked list of comments for this value
 	int    lst; // child keys for object or child values for array or child value for a key
 	int    par; // parent array/object/key
+// array index
 	int    idx; // index into array if parent is an array
 
 } djon_value ;
@@ -1693,7 +1693,15 @@ void djon_write_djon_indent(djon_state *ds,int idx,int indent)
 	{
 		if( ((v->typ&DJON_TYPEMASK)!=DJON_COMMENT) && (v->com) )
 		{
-			djon_write_djon_indent(ds,v->com,indent);
+			key=djon_get(ds,v->par);
+			if( key && ((key->typ&DJON_FLAGMASK)==DJON_KEY) )
+			{
+				// already printed
+			}
+			else
+			{
+				djon_write_djon_indent(ds,v->com,indent);
+			}
 		}
 
 		if((v->typ&DJON_TYPEMASK)==DJON_COMMENT)
@@ -1764,9 +1772,10 @@ void djon_write_djon_indent(djon_state *ds,int idx,int indent)
 			key_idx=v->lst; key=djon_get(ds,key_idx);
 			while(key)
 			{
-				if(key->com)
+				val=djon_get(ds,key->lst);
+				if(val->com)
 				{
-					djon_write_djon_indent(ds,key->com,indent+1);
+					djon_write_djon_indent(ds,val->com,indent+1);
 				}
 				indent=djon_write_indent(ds,indent+1)-1;
 				if( djon_is_naked_key(key->str,key->len) )
@@ -1874,7 +1883,7 @@ void djon_write_djon(djon_state *ds,int idx)
 
 int djon_dupe_value(djon_state *ds,int idx)
 {
-	int val_idx=djon_alloc(ds); // always need to dupe
+	int val_idx=djon_alloc(ds);
 	djon_value *old=djon_get(ds,idx); if(!old) { return 0; }
 	djon_value *val=djon_get(ds,val_idx); if(!val) { return 0; }
 	val->typ=old->typ;
@@ -1912,19 +1921,22 @@ int djon_value_to_vca(djon_state *ds,int idx)
 	if( (old->com) || ((old->typ&DJON_TYPEMASK)==DJON_ARRAY) ) // turn value into array with comments
 	{
 		arr_idx=djon_alloc(ds); // this invalidates pointers
+		if(!arr_idx) { return 0; }
 		val_idx=djon_dupe_value(ds,idx); // this invalidates pointers
 		if(!val_idx) { return 0; }
 
 		// first item
 		arr=djon_get(ds,arr_idx);
+		arr->typ=DJON_ARRAY;
+		arr->lst=val_idx;
+		
 		val=djon_get(ds,val_idx);
 		val->par=arr_idx;
 		val->idx=0;
-		arr->lst=val_idx;
 		lst_idx=val_idx;
 		
 		// loop comments
-		for( i=1 , com_idx=old->com ; com_idx ; i++ , com_idx=djon_get(ds,com_idx)->nxt )
+		for( i=1 , com_idx=old->com ; com_idx ; i++ , com_idx=djon_get(ds,com_idx)->com )
 		{
 			new_idx=djon_dupe_value(ds,com_idx); // this invalidates pointers
 			if(!new_idx) { return 0; }
@@ -1975,14 +1987,14 @@ int djon_value_to_vca(djon_state *ds,int idx)
 		{
 			if(!lst_idx) // first
 			{
-				key_idx=djon_value_to_vca(ds, old_idx);
+				key_idx=djon_dupe_value(ds, old_idx);
 				if(!key_idx) { return 0; }
 				djon_get(ds,key_idx)->par=val_idx;
 				djon_get(ds,val_idx)->lst=key_idx;
 			}
 			else
 			{
-				key_idx=djon_value_to_vca(ds, old_idx);
+				key_idx=djon_dupe_value(ds, old_idx);
 				if(!key_idx) { return 0; }
 				djon_get(ds,key_idx)->par=val_idx;
 				djon_get(ds,lst_idx)->nxt=key_idx;
@@ -1995,7 +2007,7 @@ int djon_value_to_vca(djon_state *ds,int idx)
 		}
 	}
 	
-	return arr_idx || val_idx;
+	return arr_idx ? arr_idx : val_idx ;
 }
 
 // recursivly move the comments back into the ->com from a vca
@@ -2747,7 +2759,7 @@ int djon_parse_object(djon_state *ds)
 		djon_skip_white(ds);
 		if( ds->data[ds->parse_idx]=='}' ) // found closer
 		{
-			djon_apply_comments(ds,key_idx?key_idx:obj_idx); // apply any final comments to the last key or the object
+			djon_apply_comments(ds,val_idx?val_idx:obj_idx); // apply any final comments to the last key or the object
 			ds->parse_idx++;
 			djon_clean_object(ds,obj_idx); // remove duplicate keys
 			return obj_idx;
@@ -2756,8 +2768,8 @@ int djon_parse_object(djon_state *ds)
 		key_idx=djon_parse_key(ds);
 		if(!key_idx) { djon_set_error(ds,"missing }"); return 0; }
 		if( djon_skip_white_punct(ds,"=:") != 1 ) { djon_set_error(ds,"missing :"); return 0; } // required
-		djon_apply_comments(ds,key_idx); // apply any middle comments to the key
 		val_idx=djon_parse_value(ds); if(!val_idx){ djon_set_error(ds,"missing value"); return 0; }
+		djon_apply_comments(ds,val_idx); // apply any middle comments to the key
 
 		obj=djon_get(ds,obj_idx); // realloc safe
 		if( obj->lst==0) // first

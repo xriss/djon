@@ -13,6 +13,7 @@ int main(int argc, char *argv[])
 //printf("START %d\n",argc);
 
 	FILE *fp=0;
+	int idx;
 	int checkopts=1;
 	int write_djon=0;
 	int compact=0;
@@ -111,11 +112,7 @@ json format with [value,comment] values and djon.\n\
 
 	ds->strict=strict; // set strict mode from command line options
 	ds->compact=compact; // set compact output flat from command line options
-	
-	if( write_djon && comments ) // input is json vca
-	{
-	}
-	
+		
 	if(fname1)
 	{
 		djon_load_file(ds,fname1); // filename
@@ -129,6 +126,11 @@ json format with [value,comment] values and djon.\n\
 	
 	djon_parse(ds);
 	
+	if( write_djon && comments ) // input is json vca so convert it
+	{
+		ds->parse_value = djon_vca_to_value(ds, ds->parse_value );
+	}
+
 	djon_value *v=djon_get(ds,ds->parse_value);
 
 	if(fname2)
@@ -165,7 +167,12 @@ json format with [value,comment] values and djon.\n\
 		}
 		else
 		{
-			djon_write_json(ds,ds->parse_value);
+			idx = ds->parse_value ;
+			if( comments ) // output is json vca
+			{
+				idx = djon_value_to_vca(ds,idx);
+			}
+			djon_write_json(ds,idx);
 		}
 	}
 	
