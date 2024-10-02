@@ -112,8 +112,9 @@ json format with [value,comment] values and djon.\n\
 	ds->strict=strict; // set strict mode from command line options
 	ds->compact=compact; // set compact output flat from command line options
 	
-	if(write_djon)	{ ds->comments=comments; } // input is json
-	else			{ ds->comments=0; }
+	if( write_djon && comments ) // input is json vca
+	{
+	}
 	
 	if(fname1)
 	{
@@ -154,8 +155,9 @@ json format with [value,comment] values and djon.\n\
 
 	if(ds->parse_value)
 	{
-		if(write_djon)	{ ds->comments=0; }
-		else			{ ds->comments=comments; } // output is json
+		if( (!write_djon) && comments ) // output is json vca
+		{
+		}
 
 		if(write_djon)
 		{

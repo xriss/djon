@@ -445,6 +445,7 @@ static napi_value djon_core_get(napi_env env, napi_callback_info info)
 		napi_get_cb_info(env, info, &argc, argv, &thisjs, (void**)&ds )
 	)){return 0;}
 
+/*
 	ds->comments=0;
 	for(int i=0;(size_t)i<argc;i++) // check string flags in args
 	{
@@ -452,6 +453,7 @@ static napi_value djon_core_get(napi_env env, napi_callback_info info)
 		if( strcmp(cp,"comments")==0 ) { ds->comments=1; }
 		free((void*)cp);
 	}
+*/
 
 	return djon_core_get_value(env,ds,ds->parse_value);
 }
@@ -601,6 +603,7 @@ static napi_value djon_core_set(napi_env env, napi_callback_info info)
 		napi_get_cb_info(env, info, &argc, argv, &thisjs, (void**)&ds )
 	)){return 0;}
 
+/*
 	ds->comments=0;
 	for(int i=1;(size_t)i<argc;i++) // check string flags in args
 	{
@@ -608,6 +611,7 @@ static napi_value djon_core_set(napi_env env, napi_callback_info info)
 		if( strcmp(cp,"comments")==0 ) { ds->comments=1; }
 		free((void*)cp);
 	}
+*/
 
 	ds->write_data=0;
 	ds->parse_value=djon_core_set_value(env,ds,argv[0]);
