@@ -1982,6 +1982,7 @@ int djon_value_to_vca(djon_state *ds,int idx)
 			new_idx=djon_value_to_vca(ds, djon_get(ds,old_idx)->lst );
 			if(!new_idx) { return 0; }
 			djon_get(ds,key_idx)->lst=new_idx;
+			djon_get(ds,key_idx)->prv=lst_idx;
 			djon_get(ds,new_idx)->par=key_idx;
 			lst_idx=key_idx;
 		}
@@ -2063,6 +2064,7 @@ int djon_vca_to_value(djon_state *ds,int idx)
 			if(!newval_idx) { return 0; }
 			djon_get(ds,newkey_idx)->par=new_idx;
 			djon_get(ds,newkey_idx)->lst=newval_idx;
+			djon_get(ds,newkey_idx)->prv=lst_idx;
 			djon_get(ds,newval_idx)->par=newkey_idx;
 			lst_idx=newkey_idx;
 		}

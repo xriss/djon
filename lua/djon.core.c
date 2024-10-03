@@ -223,13 +223,20 @@ Convert internal data state into lua tables.
 static int lua_djon_get (lua_State *l)
 {
 djon_state *ds=lua_djon_check_ptr(l,1);
-/*
+int comments=0;
+
 	for(int i=2;i<=10;i++) // check string flags in args
 	{
 		const char *s=lua_tostring(l,i);
 		if(!s){break;}
+		if( strcmp(s,"comments")==0 ) { comments=1; }
 	}
-*/
+
+	if(comments)
+	{
+		ds->parse_value=djon_value_to_vca(ds,ds->parse_value);
+	}
+
 	lua_djon_get_value(l,ds,ds->parse_value);
 
 	return 1;
@@ -279,23 +286,24 @@ int lc;
 			v->typ=DJON_OBJECT;
 
 			lua_pushnil(l);
+			li=0;
 			while( lua_next(l, -2) != 0)
 			{
 				if( lua_type(l, -2) != LUA_TSTRING ) { luaL_error(l, "object keys must be strings" ); }
 				ki=djon_alloc(ds); if(!ki) { luaL_error(l, "out of memory" ); }
 				kv=djon_get(ds,ki);
-				kv->typ=DJON_STRING;
+				kv->typ=DJON_KEY|DJON_STRING; // this is a key
 				kv->str=(char*)lua_tolstring(l,-2,&slen);
 				kv->len=slen;
+				kv->par=i;
 				
 				vi=lua_djon_set_value(l,ds);
-				kv=djon_get(ds,ki); // realloc safe
-				kv->lst=vi;
+				djon_get(ds,ki)->lst=vi; // realloc safe
+				djon_get(ds,vi)->par=ki;
 
-				v=djon_get(ds,i); // realloc safe
-				if( v->lst==0) // first
+				if( li==0 ) // first
 				{
-					v->lst=ki;
+					djon_get(ds,i)->lst=ki;
 				}
 				else // chain
 				{
@@ -308,25 +316,27 @@ int lc;
 			}
 
 		}
-		else
+		else // array
 		{
 
 			i=djon_alloc(ds); if(!i) { luaL_error(l, "out of memory" ); }
 			v=djon_get(ds,i);
 			v->typ=DJON_ARRAY;
 			
+			li=0;
 			for( idx=1 ; 1 ; idx++)
 			{
 				lua_rawgeti(l,-1,idx);
 				if(lua_isnil(l,-1)) { lua_pop(l,1); break; }
 
 				vi=lua_djon_set_value(l,ds);
+				djon_get(ds,vi)->par=i;
+				djon_get(ds,vi)->idx=idx-1;
 				lua_pop(l,1);
 
-				v=djon_get(ds,i);
-				if( v->lst==0) // first
+				if( li==0 ) // first
 				{
-					v->lst=vi;
+					djon_get(ds,i)->lst=vi;
 				}
 				else // chain
 				{
@@ -377,18 +387,25 @@ careful not to free the data before you write it.
 static int lua_djon_set (lua_State *l)
 {
 djon_state *ds=lua_djon_check_ptr(l,1);
-/*
+int comments=0;
+
 	for(int i=3;i<=10;i++) // check string flags in args
 	{
 		const char *s=lua_tostring(l,i);
 		if(!s){break;}
+		if( strcmp(s,"comments")==0 ) { comments=1; }
 	}
-*/	
+
 	ds->write_data=0; // prepare to alloc strings
 
 	lua_pushvalue(l,2);
 	ds->parse_value=lua_djon_set_value(l,ds);
 	lua_pop(l,1);
+
+	if(comments)
+	{
+		ds->parse_value=djon_vca_to_value(ds,ds->parse_value);
+	}
 
 	return 0;
 }

@@ -42,9 +42,9 @@ line 1 char 5 byte 4
 missing ]
 line 1 char 5 byte 4
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 5 byte 4
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 5 byte 4
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -67,9 +67,9 @@ line 1 char 4 byte 3
 missing ,
 line 1 char 4 byte 3
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing , line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing , line 1 char 4 byte 3
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing , line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing , line 1 char 4 byte 3
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -98,9 +98,9 @@ line 1 char 5 byte 4
  ``
 ]
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 5 byte 4
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 5 byte 4
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -123,9 +123,9 @@ line 1 char 2 byte 1
 unexpected ,
 line 1 char 2 byte 1
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: unexpected , line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: unexpected , line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: unexpected , line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: unexpected , line 1 char 2 byte 1
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -148,9 +148,9 @@ line 1 char 5 byte 4
 multiple ,
 line 1 char 5 byte 4
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: multiple , line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: multiple , line 1 char 5 byte 4
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: multiple , line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: multiple , line 1 char 5 byte 4
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -173,9 +173,9 @@ line 1 char 7 byte 6
 multiple ,
 line 1 char 7 byte 6
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: multiple , line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: multiple , line 1 char 7 byte 6
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: multiple , line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: multiple , line 1 char 7 byte 6
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -204,9 +204,9 @@ line 1 char 6 byte 5
  x
 ]
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 6 byte 5
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 6 byte 5
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -256,9 +256,9 @@ line 1 char 3 byte 2
 missing ]
 line 1 char 3 byte 2
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 3 byte 2
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 3 byte 2
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 3 byte 2
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 3 byte 2
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -281,9 +281,9 @@ line 1 char 5 byte 4
 missing ]
 line 1 char 5 byte 4
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 5 byte 4
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 5 byte 4
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -306,9 +306,9 @@ line 1 char 3 byte 2
 missing ,
 line 1 char 3 byte 2
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing , line 1 char 3 byte 2
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing , line 1 char 3 byte 2
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing , line 1 char 3 byte 2
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing , line 1 char 3 byte 2
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -331,9 +331,9 @@ line 1 char 4 byte 3
 missing ]
 line 1 char 4 byte 3
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 4 byte 3
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 4 byte 3
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -356,9 +356,9 @@ line 1 char 3 byte 2
 missing ,
 line 1 char 3 byte 2
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing , line 1 char 3 byte 2
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing , line 1 char 3 byte 2
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing , line 1 char 3 byte 2
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing , line 1 char 3 byte 2
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -381,9 +381,9 @@ line 1 char 2 byte 1
 unexpected ,
 line 1 char 2 byte 1
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: unexpected , line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: unexpected , line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: unexpected , line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: unexpected , line 1 char 2 byte 1
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -406,9 +406,9 @@ line 1 char 4 byte 3
 missing ]
 line 1 char 4 byte 3
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 4 byte 3
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 4 byte 3
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -431,9 +431,9 @@ line 1 char 5 byte 4
 unexpected ,
 line 1 char 5 byte 4
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: unexpected , line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: unexpected , line 1 char 5 byte 4
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: unexpected , line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: unexpected , line 1 char 5 byte 4
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -458,9 +458,9 @@ line 3 char 4 byte 11
 missing ]
 line 3 char 4 byte 11
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 3 char 4 byte 11
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 3 char 4 byte 11
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 3 char 4 byte 11
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 3 char 4 byte 11
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -510,9 +510,9 @@ line 1 char 5 byte 4
 multiple ,
 line 1 char 5 byte 4
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: multiple , line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: multiple , line 1 char 5 byte 4
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: multiple , line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: multiple , line 1 char 5 byte 4
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -535,9 +535,9 @@ line 1 char 6 byte 5
 missing ,
 line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing , line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing , line 1 char 6 byte 5
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing , line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing , line 1 char 6 byte 5
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -560,9 +560,9 @@ line 1 char 4 byte 3
 missing ]
 line 1 char 4 byte 3
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 4 byte 3
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 4 byte 3
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -585,9 +585,9 @@ line 1 char 4 byte 3
 missing ]
 line 1 char 4 byte 3
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 4 byte 3
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 4 byte 3
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -610,9 +610,9 @@ line 1 char 4 byte 3
 missing ]
 line 1 char 4 byte 3
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 4 byte 3
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 4 byte 3
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -637,9 +637,9 @@ line 3 char 3 byte 8
 missing ]
 line 3 char 3 byte 8
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 3 char 3 byte 8
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 3 char 3 byte 8
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 3 char 3 byte 8
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 3 char 3 byte 8
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -662,9 +662,9 @@ line 1 char 4 byte 3
 missing ]
 line 1 char 4 byte 3
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 4 byte 3
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 4 byte 3
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -687,9 +687,9 @@ line 1 char 7 byte 6
 missing ]
 line 1 char 7 byte 6
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -712,9 +712,9 @@ line 1 char 6 byte 5
 missing ]
 line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -737,9 +737,9 @@ line 1 char 6 byte 5
 missing ]
 line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -764,9 +764,9 @@ garbage at end of file
 line 1 char 4 byte 3
 123
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 4 byte 3
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 4 byte 3
 #js.json
 123
 #js.djon
@@ -781,9 +781,9 @@ line 1 char 8 byte 7
 missing ]
 line 1 char 8 byte 7
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 8 byte 7
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 8 byte 7
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 8 byte 7
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 8 byte 7
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -833,9 +833,9 @@ line 1 char 8 byte 7
 missing ]
 line 1 char 8 byte 7
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 8 byte 7
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 8 byte 7
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 8 byte 7
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 8 byte 7
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -858,9 +858,9 @@ line 1 char 7 byte 6
 missing ]
 line 1 char 7 byte 6
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -883,9 +883,9 @@ line 1 char 6 byte 5
 missing ]
 line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -908,9 +908,9 @@ line 1 char 5 byte 4
 missing ]
 line 1 char 5 byte 4
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 5 byte 4
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 5 byte 4
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -960,9 +960,9 @@ line 1 char 6 byte 5
 missing ]
 line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -985,9 +985,9 @@ line 1 char 5 byte 4
 missing ]
 line 1 char 5 byte 4
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 5 byte 4
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 5 byte 4
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1043,9 +1043,9 @@ line 1 char 8 byte 7
 missing ]
 line 1 char 8 byte 7
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 8 byte 7
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 8 byte 7
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 8 byte 7
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 8 byte 7
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1068,9 +1068,9 @@ line 1 char 8 byte 7
 missing ]
 line 1 char 8 byte 7
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 8 byte 7
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 8 byte 7
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 8 byte 7
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 8 byte 7
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1093,9 +1093,9 @@ line 1 char 7 byte 6
 missing ]
 line 1 char 7 byte 6
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1118,9 +1118,9 @@ line 1 char 8 byte 7
 missing ]
 line 1 char 8 byte 7
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 8 byte 7
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 8 byte 7
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 8 byte 7
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 8 byte 7
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1143,9 +1143,9 @@ line 1 char 7 byte 6
 missing ]
 line 1 char 7 byte 6
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1195,9 +1195,9 @@ line 1 char 6 byte 5
 missing ]
 line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1355,9 +1355,9 @@ line 1 char 7 byte 6
 missing ]
 line 1 char 7 byte 6
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1380,9 +1380,9 @@ line 1 char 6 byte 5
 missing ]
 line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1459,9 +1459,9 @@ line 1 char 11 byte 10
 missing ]
 line 1 char 11 byte 10
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 11 byte 10
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 11 byte 10
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 11 byte 10
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 11 byte 10
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1484,9 +1484,9 @@ line 1 char 7 byte 6
 missing ]
 line 1 char 7 byte 6
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1509,9 +1509,9 @@ line 1 char 6 byte 5
 missing ]
 line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1534,9 +1534,9 @@ line 1 char 8 byte 7
 missing ]
 line 1 char 8 byte 7
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 8 byte 7
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 8 byte 7
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 8 byte 7
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 8 byte 7
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1559,9 +1559,9 @@ line 1 char 14 byte 13
 missing ]
 line 1 char 14 byte 13
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 14 byte 13
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 14 byte 13
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 14 byte 13
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 14 byte 13
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1584,9 +1584,9 @@ line 1 char 7 byte 6
 missing ]
 line 1 char 7 byte 6
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1609,9 +1609,9 @@ line 1 char 7 byte 6
 missing ]
 line 1 char 7 byte 6
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1635,9 +1635,9 @@ line 2 char 1 byte 5
 missing ]
 line 2 char 1 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 2 char 1 byte 5
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 2 char 1 byte 5
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 2 char 1 byte 5
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 2 char 1 byte 5
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1660,9 +1660,9 @@ line 1 char 9 byte 8
 missing ]
 line 1 char 9 byte 8
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 9 byte 8
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 9 byte 8
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 9 byte 8
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 9 byte 8
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1685,9 +1685,9 @@ line 1 char 12 byte 11
 missing ]
 line 1 char 12 byte 11
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 12 byte 11
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 12 byte 11
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 12 byte 11
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 12 byte 11
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1710,9 +1710,9 @@ line 1 char 7 byte 6
 missing ]
 line 1 char 7 byte 6
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1735,9 +1735,9 @@ line 1 char 6 byte 5
 missing ]
 line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1760,9 +1760,9 @@ line 1 char 7 byte 6
 missing ]
 line 1 char 7 byte 6
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 7 byte 6
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1785,9 +1785,9 @@ line 1 char 6 byte 5
 missing ]
 line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1864,9 +1864,9 @@ line 1 char 6 byte 5
 missing ]
 line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1889,9 +1889,9 @@ line 1 char 6 byte 5
 missing ]
 line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1914,9 +1914,9 @@ line 1 char 6 byte 5
 missing ]
 line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1993,9 +1993,9 @@ line 1 char 6 byte 5
 missing ]
 line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -2018,9 +2018,9 @@ line 1 char 26 byte 25
 missing ]
 line 1 char 26 byte 25
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 26 byte 25
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 26 byte 25
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 26 byte 25
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 26 byte 25
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -2043,9 +2043,9 @@ line 1 char 9 byte 8
 missing ]
 line 1 char 9 byte 8
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 9 byte 8
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 9 byte 8
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 9 byte 8
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 9 byte 8
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -2095,9 +2095,9 @@ line 1 char 13 byte 12
 missing ]
 line 1 char 13 byte 12
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 13 byte 12
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 13 byte 12
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 13 byte 12
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 13 byte 12
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -2121,9 +2121,9 @@ line 1 char 2 byte 1
 invalid naked key
 line 1 char 2 byte 1
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid naked key line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid naked key line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid naked key line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid naked key line 1 char 2 byte 1
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -2146,9 +2146,9 @@ line 1 char 5 byte 4
 missing :
 line 1 char 5 byte 4
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing : line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing : line 1 char 5 byte 4
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing : line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing : line 1 char 5 byte 4
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -2171,9 +2171,9 @@ line 1 char 7 byte 6
 missing :
 line 1 char 7 byte 6
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing : line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing : line 1 char 7 byte 6
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing : line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing : line 1 char 7 byte 6
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -2196,9 +2196,9 @@ line 1 char 10 byte 9
 invalid naked key
 line 1 char 10 byte 9
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid naked key line 1 char 10 byte 9
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid naked key line 1 char 10 byte 9
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid naked key line 1 char 10 byte 9
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid naked key line 1 char 10 byte 9
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -2221,9 +2221,9 @@ line 1 char 13 byte 12
 invalid naked key
 line 1 char 13 byte 12
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid naked key line 1 char 13 byte 12
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid naked key line 1 char 13 byte 12
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid naked key line 1 char 13 byte 12
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid naked key line 1 char 13 byte 12
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -2300,9 +2300,9 @@ line 1 char 6 byte 5
 missing :
 line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing : line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing : line 1 char 6 byte 5
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing : line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing : line 1 char 6 byte 5
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -2352,9 +2352,9 @@ line 1 char 6 byte 5
 missing :
 line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing : line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing : line 1 char 6 byte 5
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing : line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing : line 1 char 6 byte 5
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -2377,9 +2377,9 @@ line 1 char 6 byte 5
 missing value
 line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing value line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing value line 1 char 6 byte 5
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing value line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing value line 1 char 6 byte 5
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -2402,9 +2402,9 @@ line 1 char 5 byte 4
 missing :
 line 1 char 5 byte 4
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing : line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing : line 1 char 5 byte 4
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing : line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing : line 1 char 5 byte 4
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -2508,9 +2508,9 @@ line 1 char 13 byte 12
 multiple ,
 line 1 char 13 byte 12
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: multiple , line 1 char 13 byte 12
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: multiple , line 1 char 13 byte 12
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: multiple , line 1 char 13 byte 12
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: multiple , line 1 char 13 byte 12
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -2620,9 +2620,9 @@ line 1 char 14 byte 13
  a = b
 }
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 14 byte 13
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 14 byte 13
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 14 byte 13
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 14 byte 13
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -2651,9 +2651,9 @@ line 1 char 10 byte 9
  a = b
 }
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 10 byte 9
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 10 byte 9
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 10 byte 9
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 10 byte 9
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -2703,9 +2703,9 @@ line 1 char 11 byte 10
 multiple ,
 line 1 char 11 byte 10
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: multiple , line 1 char 11 byte 10
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: multiple , line 1 char 11 byte 10
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: multiple , line 1 char 11 byte 10
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: multiple , line 1 char 11 byte 10
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -2755,9 +2755,9 @@ line 1 char 8 byte 7
 missing "
 line 1 char 8 byte 7
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing " line 1 char 8 byte 7
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing " line 1 char 8 byte 7
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing " line 1 char 8 byte 7
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing " line 1 char 8 byte 7
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -2780,9 +2780,9 @@ line 1 char 22 byte 21
 missing :
 line 1 char 22 byte 21
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing : line 1 char 22 byte 21
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing : line 1 char 22 byte 21
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing : line 1 char 22 byte 21
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing : line 1 char 22 byte 21
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -2811,9 +2811,9 @@ line 1 char 10 byte 9
  a = b
 }
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 10 byte 9
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 10 byte 9
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 10 byte 9
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 10 byte 9
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -2836,9 +2836,9 @@ line 1 char 2 byte 1
 no data
 line 1 char 2 byte 1
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: no data line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: no data line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: no data line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: no data line 1 char 2 byte 1
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -2861,9 +2861,9 @@ line 1 char 12 byte 11
 missing "
 line 1 char 12 byte 11
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing " line 1 char 12 byte 11
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing " line 1 char 12 byte 11
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing " line 1 char 12 byte 11
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing " line 1 char 12 byte 11
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -2979,9 +2979,9 @@ line 1 char 5 byte 4
 missing ]
 line 1 char 5 byte 4
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 5 byte 4
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 5 byte 4
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -3035,9 +3035,9 @@ line 1 char 8 byte 7
 missing "
 line 1 char 8 byte 7
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing " line 1 char 8 byte 7
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing " line 1 char 8 byte 7
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing " line 1 char 8 byte 7
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing " line 1 char 8 byte 7
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -3174,9 +3174,9 @@ line 1 char 6 byte 5
 missing "
 line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing " line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing " line 1 char 6 byte 5
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing " line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing " line 1 char 6 byte 5
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -3369,9 +3369,9 @@ line 1 char 14 byte 13
 missing ]
 line 1 char 14 byte 13
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 14 byte 13
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 14 byte 13
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 14 byte 13
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 14 byte 13
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -3394,9 +3394,9 @@ line 1 char 5 byte 4
 missing ]
 line 1 char 5 byte 4
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 5 byte 4
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 5 byte 4
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -3419,9 +3419,9 @@ line 1 char 2 byte 1
 missing "
 line 1 char 2 byte 1
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing " line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing " line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing " line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing " line 1 char 2 byte 1
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -3486,9 +3486,9 @@ line 1 char 4 byte 4
 missing "
 line 1 char 4 byte 4
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing " line 1 char 4 byte 4
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing " line 1 char 4 byte 4
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing " line 1 char 4 byte 4
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing " line 1 char 4 byte 4
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -3617,9 +3617,9 @@ garbage at end of file
 line 1 char 3 byte 2
 ``
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 3 byte 2
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 3 byte 2
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 3 byte 2
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 3 byte 2
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -3642,16 +3642,16 @@ line 1 char 2049 byte 2048
 stack overflow
 line 1 char 2049 byte 2048
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: stack overflow line 1 char 3278 byte 3277
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: stack overflow line 1 char 3278 byte 3277
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: stack overflow line 1 char 3278 byte 3277
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: stack overflow line 1 char 3278 byte 3277
 #js.json
-wasm://wasm/djon_core.wasm-0001fd9a:1
+wasm://wasm/djon_core.wasm-0001fdda:1
 
 
 RangeError: Maximum call stack size exceeded
 #js.djon
-wasm://wasm/djon_core.wasm-0001fd9a:1
+wasm://wasm/djon_core.wasm-0001fdda:1
 
 
 RangeError: Maximum call stack size exceeded
@@ -3680,9 +3680,9 @@ line 1 char 9 byte 8
 missing ]
 line 1 char 9 byte 8
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 9 byte 8
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 9 byte 8
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 9 byte 8
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 9 byte 8
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -3711,9 +3711,9 @@ line 1 char 4 byte 3
  1
 ]
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 4 byte 3
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 4 byte 3
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -3742,9 +3742,9 @@ line 1 char 4 byte 3
  1
 ]
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 4 byte 3
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 4 byte 3
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -3767,9 +3767,9 @@ line 1 char 7 byte 6
 missing "
 line 1 char 7 byte 6
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing " line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing " line 1 char 7 byte 6
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing " line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing " line 1 char 7 byte 6
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -3836,9 +3836,9 @@ garbage at end of file
 line 1 char 2 byte 1
 1
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 2 byte 1
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -3861,9 +3861,9 @@ line 1 char 12 byte 11
 missing }
 line 1 char 12 byte 11
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing } line 1 char 12 byte 11
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing } line 1 char 12 byte 11
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing } line 1 char 12 byte 11
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing } line 1 char 12 byte 11
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -3890,9 +3890,9 @@ line 1 char 3 byte 2
 [
 ]
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 3 byte 2
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 3 byte 2
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 3 byte 2
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 3 byte 2
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -3915,9 +3915,9 @@ line 1 char 1 byte 0
 unexpected ]
 line 1 char 1 byte 0
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: unexpected ] line 1 char 1 byte 0
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: unexpected ] line 1 char 1 byte 0
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: unexpected ] line 1 char 1 byte 0
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: unexpected ] line 1 char 1 byte 0
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -3970,9 +3970,9 @@ line 1 char 2 byte 1
 missing ]
 line 1 char 2 byte 1
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 2 byte 1
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -3995,9 +3995,9 @@ line 1 char 1 byte 0
 no data
 line 1 char 1 byte 0
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: djon string required line 0 char 0 byte 0
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: djon string required line 0 char 0 byte 0
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: djon string required line 0 char 0 byte 0
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: djon string required line 0 char 0 byte 0
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -4020,9 +4020,9 @@ line 1 char 4 byte 3
 missing ]
 line 1 char 4 byte 3
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 4 byte 3
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 4 byte 3
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -4064,9 +4064,9 @@ line 1 char 3 byte 2
 {
 }
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 3 byte 2
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 3 byte 2
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 3 byte 2
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 3 byte 2
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -4089,9 +4089,9 @@ line 1 char 5 byte 4
 missing value
 line 1 char 5 byte 4
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing value line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing value line 1 char 5 byte 4
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing value line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing value line 1 char 5 byte 4
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -4151,9 +4151,9 @@ line 1 char 13 byte 12
  a = TRUE
 }
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 13 byte 12
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 13 byte 12
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 13 byte 12
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 13 byte 12
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -4176,9 +4176,9 @@ line 1 char 3 byte 2
 missing '
 line 1 char 3 byte 2
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ' line 1 char 3 byte 2
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ' line 1 char 3 byte 2
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ' line 1 char 3 byte 2
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ' line 1 char 3 byte 2
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -4201,9 +4201,9 @@ line 1 char 2 byte 1
 unexpected ,
 line 1 char 2 byte 1
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: unexpected , line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: unexpected , line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: unexpected , line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: unexpected , line 1 char 2 byte 1
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -4227,16 +4227,16 @@ line 1 char 5121 byte 5120
 stack overflow
 line 1 char 5121 byte 5120
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: stack overflow line 1 char 9102 byte 9101
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: stack overflow line 1 char 9102 byte 9101
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: stack overflow line 1 char 9102 byte 9101
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: stack overflow line 1 char 9102 byte 9101
 #js.json
-wasm://wasm/djon_core.wasm-0001fd9a:1
+wasm://wasm/djon_core.wasm-0001fdda:1
 
 
 RangeError: Maximum call stack size exceeded
 #js.djon
-wasm://wasm/djon_core.wasm-0001fd9a:1
+wasm://wasm/djon_core.wasm-0001fdda:1
 
 
 RangeError: Maximum call stack size exceeded
@@ -4250,9 +4250,9 @@ line 1 char 3 byte 2
 missing }
 line 1 char 3 byte 2
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing } line 1 char 3 byte 2
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing } line 1 char 3 byte 2
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing } line 1 char 3 byte 2
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing } line 1 char 3 byte 2
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -4275,9 +4275,9 @@ line 1 char 4 byte 3
 missing "
 line 1 char 4 byte 3
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing " line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing " line 1 char 4 byte 3
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing " line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing " line 1 char 4 byte 3
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -4300,9 +4300,9 @@ line 1 char 5 byte 4
 missing ]
 line 1 char 5 byte 4
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 5 byte 4
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 5 byte 4
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -4325,9 +4325,9 @@ line 1 char 2 byte 1
 invalid naked key
 line 1 char 2 byte 1
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid naked key line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid naked key line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid naked key line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid naked key line 1 char 2 byte 1
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -4350,9 +4350,9 @@ line 1 char 2 byte 1
 invalid naked key
 line 1 char 2 byte 1
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid naked key line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid naked key line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid naked key line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid naked key line 1 char 2 byte 1
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -4375,9 +4375,9 @@ line 1 char 2 byte 1
 missing }
 line 1 char 2 byte 1
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing } line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing } line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing } line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing } line 1 char 2 byte 1
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -4400,9 +4400,9 @@ line 1 char 2 byte 1
 invalid naked key
 line 1 char 2 byte 1
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid naked key line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid naked key line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid naked key line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid naked key line 1 char 2 byte 1
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -4425,9 +4425,9 @@ line 1 char 4 byte 3
 missing "
 line 1 char 4 byte 3
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing " line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing " line 1 char 4 byte 3
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing " line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing " line 1 char 4 byte 3
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -4450,9 +4450,9 @@ line 1 char 5 byte 4
 missing :
 line 1 char 5 byte 4
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing : line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing : line 1 char 5 byte 4
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing : line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing : line 1 char 5 byte 4
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -4475,9 +4475,9 @@ line 1 char 7 byte 6
 missing ,
 line 1 char 7 byte 6
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing , line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing , line 1 char 7 byte 6
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing , line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing , line 1 char 7 byte 6
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -4536,9 +4536,9 @@ line 1 char 10 byte 9
  a = b
 }
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 10 byte 9
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 10 byte 9
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 10 byte 9
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 10 byte 9
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -4561,9 +4561,9 @@ line 1 char 6 byte 5
 missing ]
 line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -4586,9 +4586,9 @@ line 1 char 11 byte 10
 missing ]
 line 1 char 11 byte 10
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 11 byte 10
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 11 byte 10
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 11 byte 10
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 11 byte 10
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -4611,9 +4611,9 @@ line 1 char 3 byte 2
 missing ]
 line 1 char 3 byte 2
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 3 byte 2
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 3 byte 2
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 3 byte 2
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 3 byte 2
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -4636,9 +4636,9 @@ line 1 char 13 byte 12
 missing ]
 line 1 char 13 byte 12
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 13 byte 12
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 13 byte 12
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 13 byte 12
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 13 byte 12
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -4661,9 +4661,9 @@ line 1 char 13 byte 12
 missing ]
 line 1 char 13 byte 12
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 13 byte 12
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 13 byte 12
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 13 byte 12
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 13 byte 12
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -4686,9 +4686,9 @@ line 1 char 13 byte 12
 missing ]
 line 1 char 13 byte 12
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 13 byte 12
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 13 byte 12
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 13 byte 12
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 13 byte 12
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -4711,9 +4711,9 @@ line 1 char 13 byte 12
 missing }
 line 1 char 13 byte 12
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing } line 1 char 13 byte 12
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing } line 1 char 13 byte 12
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing } line 1 char 13 byte 12
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing } line 1 char 13 byte 12
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -4766,9 +4766,9 @@ line 1 char 4 byte 3
 missing ]
 line 1 char 4 byte 3
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 4 byte 3
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 4 byte 3
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -4791,9 +4791,9 @@ line 1 char 6 byte 5
 missing ]
 line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 6 byte 5
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -8819,9 +8819,9 @@ TypeError: The encoded data was not valid for encoding utf-8
 #c.djon
 #[#"###"#]
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: djon string required line 0 char 0 byte 0
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: djon string required line 0 char 0 byte 0
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: djon string required line 0 char 0 byte 0
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: djon string required line 0 char 0 byte 0
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -8844,9 +8844,9 @@ line 1 char 11 byte 10
 missing ]
 line 1 char 11 byte 10
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 11 byte 10
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 11 byte 10
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 11 byte 10
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: missing ] line 1 char 11 byte 10
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -15113,9 +15113,9 @@ line 2 char 2 byte 3
 invalid naked key
 line 2 char 2 byte 3
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid naked key line 2 char 2 byte 3
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid naked key line 2 char 2 byte 3
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid naked key line 2 char 2 byte 3
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid naked key line 2 char 2 byte 3
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -15141,9 +15141,9 @@ line 3 char 1 byte 13
 multiple ,
 line 3 char 1 byte 13
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: multiple , line 3 char 1 byte 13
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: multiple , line 3 char 1 byte 13
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: multiple , line 3 char 1 byte 13
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: multiple , line 3 char 1 byte 13
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -15185,9 +15185,9 @@ garbage at end of file
 line 1 char 3 byte 2
 ``
 #lua.json
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 3 byte 2
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 3 byte 2
 #lua.djon
-luajit: ../lua/djon.cmd.lua:67: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 3 byte 2
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 3 byte 2
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -16090,6 +16090,32 @@ Error: garbage at end of file at line 1 char 3 byte 2
  `"``''``"`
  `'""```'`"`'"`"'`''`'""`
 ]
+#lua.comments.json
+[
+ [
+  "`" ,
+  "``" ,
+  "`\"`" ,
+  "`'`" ,
+  "`'\"`" ,
+  "`\"'`" ,
+  "`\"\"`" ,
+  "`''`" ,
+  "``'`\"`'\"`\"'`''"
+ ]
+]
+#lua.comments.djon
+[
+ `"```"`
+ `"````"`
+ `'``"``'`
+ `"``'``"`
+ `"``'"``"`
+ `"``"'``"`
+ `"``""``"`
+ `"``''``"`
+ `'""```'`"`'"`"'`''`'""`
+]
 #js.comments.json
 [
  [
@@ -16160,6 +16186,38 @@ Error: garbage at end of file at line 1 char 3 byte 2
  // back comment
  c = 3
 }
+#lua.comments.json
+[
+ {
+  "a" : [
+   1 ,
+   "inside" ,
+   "comment"
+  ] ,
+  "b" : [
+   2 ,
+   "middle comment"
+  ] ,
+  "c" : [
+   3 ,
+   "back comment"
+  ]
+ } ,
+ "first comment" ,
+ "final comment"
+]
+#lua.comments.djon
+// first comment
+// final comment
+{
+ // inside
+ // comment
+ a = 1
+ // middle comment
+ b = 2
+ // back comment
+ c = 3
+}
 #js.comments.json
 [
  {
@@ -16206,6 +16264,10 @@ invalid naked key
 line 2 char 2 byte 3
 no data
 line 1 char 1 byte 0
+#lua.comments.json
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: invalid naked key line 2 char 2 byte 3
+#lua.comments.djon
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 2 char 1 byte 120
 #js.comments.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -16232,6 +16294,10 @@ multiple ,
 line 3 char 1 byte 13
 no data
 line 1 char 1 byte 0
+#lua.comments.json
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: multiple , line 3 char 1 byte 13
+#lua.comments.djon
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 2 char 1 byte 114
 #js.comments.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -16252,6 +16318,10 @@ Error: garbage at end of file at line 2 char 3 byte 44
 ""
 #c.comments.djon
 ``
+#lua.comments.json
+""
+#lua.comments.djon
+``
 #js.comments.json
 ""
 #js.comments.djon
@@ -16268,6 +16338,10 @@ line 1 char 3 byte 2
 garbage at end of file
 line 1 char 3 byte 2
 ``
+#lua.comments.json
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 1 char 3 byte 2
+#lua.comments.djon
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: garbage at end of file line 2 char 1 byte 125
 #js.comments.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -16408,6 +16482,9 @@ Error: garbage at end of file at line 2 char 3 byte 44
 #c.comments.djon
 no data
 line 1 char 1 byte 0
+#lua.comments.json
+#lua.comments.djon
+luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:46: djon string required line 0 char 0 byte 0
 #js.comments.json
 [
  [
