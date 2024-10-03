@@ -10,12 +10,14 @@ for( let v of (process.argv.slice(2)) )
 	let vp=v
 	if(opts.skip_opts) { vp=null } // skip all opts
 
-	if      (vp=="--")        {		opts.skip_opts=true		}
-	else if (vp=="--djon")    {		opts.djon=true			}
-	else if (vp=="--json")    {		opts.djon=false			}
-	else if (vp=="--compact") {		opts.compact=true		}
-	else if (vp=="--pretty")  {		opts.compact=false		}
-	else if (vp=="--help")    {		opts.help=true			}
+	if      (vp=="--")         {		opts.skip_opts=true		}
+	else if (vp=="--djon")     {		opts.djon=true			}
+	else if (vp=="--json")     {		opts.djon=false			}
+	else if (vp=="--compact")  {		opts.compact=true		}
+	else if (vp=="--pretty")   {		opts.compact=false		}
+	else if (vp=="--strict")   {		opts.strict=true		}
+	else if (vp=="--comments") {		opts.comments=true		}
+	else if (vp=="--help")     {		opts.help=true			}
 	else
 	{
 		if( vp && vp.slice(0,2)=="--" ) 
@@ -45,11 +47,13 @@ js/djon.sh input.filename output.filename
 
 Possible options are:
 
-	--djon    : output djon format
-	--json    : output json format
-	--compact : output compact
-	--pretty  : output pretty
-	--        : stop parsing options
+	--djon     : output djon format
+	--json     : output json format
+	--compact  : output compact
+	--pretty   : output pretty
+	--strict   : enable strict format
+	--comments : json comments format
+	--         : stop parsing options
 
 We default to pretty output.
 `)
@@ -74,9 +78,9 @@ else
 	data_input=await readstdin()
 }
 
-let tree=djon.load(data_input,"comment")
+let tree=djon.load(data_input,opts.strict?"strict":"",(opts.comments&&(!opts.djon))?"comments":"")
 
-let data_output=djon.save(tree,"comment",opts.djon?"djon":"",opts.compact?"compact":"")
+let data_output=djon.save(tree,opts.djon?"djon":"",opts.compact?"compact":"",opts.strict?"strict":"",(opts.comments&&(opts.djon))?"comments":"")
 
 if( opts.fname2 )
 {

@@ -71,5 +71,9 @@ for fname in $djonfiles ; do
 	{ ../c/djon --comments "${fname}" | tr -c '[:print:]\t\n\r' '#' ; } &>>output.json
 	echo "#c.comments.djon" >>output.json
 	{ ../c/djon --comments "${fname}" | ../c/djon --djon --comments -- | tr -c '[:print:]\t\n\r' '#' ; } &>>output.json
+	echo "#js.comments.json" >>output.json
+	{ node -- ../js/cmd.js --comments "${fname}" 2>&1 | sed -n '/at djon.check_error/q;p' | sed '/Error:/q' | tr -c '[:print:]\t\n\r' '#' ; } &>>output.json
+	echo "#js.comments.djon" >>output.json
+	{ node -- ../js/cmd.js --comments "${fname}" 2>&1 | node -- ../js/cmd.js --djon --comments 2>&1 | sed -n '/at djon.check_error/q;p' | sed '/Error:/q' | tr -c '[:print:]\t\n\r' '#' ; } &>>output.json
 
 done

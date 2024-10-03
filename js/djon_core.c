@@ -445,16 +445,17 @@ static napi_value djon_core_get(napi_env env, napi_callback_info info)
 		napi_get_cb_info(env, info, &argc, argv, &thisjs, (void**)&ds )
 	)){return 0;}
 
-/*
-	ds->comments=0;
+	int comments=0;
 	for(int i=0;(size_t)i<argc;i++) // check string flags in args
 	{
 		const char *cp=js_to_string(env,argv[i]);
-		if( strcmp(cp,"comments")==0 ) { ds->comments=1; }
+		if( strcmp(cp,"comments")==0 ) { comments=1; }
 		free((void*)cp);
 	}
-*/
-
+	if(comments)
+	{
+		ds->parse_value=djon_value_to_vca(ds,ds->parse_value);
+	}
 	return djon_core_get_value(env,ds,ds->parse_value);
 }
 
@@ -484,6 +485,7 @@ djon_value *dv=0;
 				djon_get(ds,li)->nxt=vi;
 				djon_get(ds,vi)->prv=li;
 			}
+			djon_get(ds,vi)->par=di;
 			li=vi;
 		}
 		return di;
@@ -517,6 +519,9 @@ djon_value *dv=0;
 				djon_get(ds,li)->nxt=ki;
 				djon_get(ds,ki)->prv=li;
 			}
+			djon_get(ds,ki)->typ=DJON_KEY|DJON_STRING; // this is a key
+			djon_get(ds,ki)->par=di;
+			djon_get(ds,vi)->par=ki;
 			li=ki;
 
 		}
@@ -603,15 +608,14 @@ static napi_value djon_core_set(napi_env env, napi_callback_info info)
 		napi_get_cb_info(env, info, &argc, argv, &thisjs, (void**)&ds )
 	)){return 0;}
 
-/*
-	ds->comments=0;
+	int comments=0;
 	for(int i=1;(size_t)i<argc;i++) // check string flags in args
 	{
 		const char *cp=js_to_string(env,argv[i]);
-		if( strcmp(cp,"comments")==0 ) { ds->comments=1; }
+		if( strcmp(cp,"comments")==0 ) { comments=1; }
 		free((void*)cp);
 	}
-*/
+
 
 	ds->write_data=0;
 	ds->parse_value=djon_core_set_value(env,ds,argv[0]);
@@ -620,6 +624,11 @@ static napi_value djon_core_set(napi_env env, napi_callback_info info)
 	ds->data_len=ds->write_size;
 	ds->write_data=0;
 	djon_core_set_fix(ds,ds->parse_value,ds->data);
+
+	if(comments)
+	{
+		ds->parse_value=djon_vca_to_value(ds,ds->parse_value);
+	}
 
 	return NULL;
 }

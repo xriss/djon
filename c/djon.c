@@ -77,13 +77,14 @@ Possible options are:\n\
 	--json     : output json format\n\
 	--compact  : output compact\n\
 	--pretty   : output pretty\n\
-	--strict   : input/output strict\n\
-	--comments : input/output comments formated json*\n\
+	--strict   : enable strict format\n\
+	--comments : comments formated json*\n\
 	--         : stop parsing options\n\
 \n\
 We default to pretty output.\n\
 When using comments, it is assumed that you are converting between a\n\
-json format with [value,comment] values and djon.\n\
+json format with [value,comment...] values and djon, so it applies to\n\
+input if writing djon and output if writing json.\n\
 \n\
 ");
 				return 0;
