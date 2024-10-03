@@ -1936,7 +1936,7 @@ int djon_value_to_vca(djon_state *ds,int idx)
 		lst_idx=val_idx;
 		
 		// loop comments
-		for( i=1 , com_idx=old->com ; com_idx ; i++ , com_idx=djon_get(ds,com_idx)->com )
+		for( i=1 , com_idx=djon_get(ds,idx)->com ; com_idx ; i++ , com_idx=djon_get(ds,com_idx)->com )
 		{
 			new_idx=djon_dupe_value(ds,com_idx); // this invalidates pointers
 			if(!new_idx) { return 0; }
@@ -1962,6 +1962,7 @@ int djon_value_to_vca(djon_state *ds,int idx)
 		{
 			new_idx=djon_value_to_vca(ds, old_idx);
 			if(!new_idx) { return 0; }
+			djon_get(ds,new_idx)->prv=lst_idx;
 			djon_get(ds,new_idx)->idx=i;
 			djon_get(ds,new_idx)->par=val_idx;
 			if(!lst_idx) { djon_get(ds,val_idx)->lst=new_idx; } // first
@@ -2046,6 +2047,7 @@ int djon_vca_to_value(djon_state *ds,int idx)
 			if(!newkey_idx) { return 0; }
 			if(!lst_idx) { djon_get(ds,new_idx)->lst=newkey_idx; } // first
 			else         { djon_get(ds,lst_idx)->nxt=newkey_idx; }
+			djon_get(ds,newkey_idx)->prv=lst_idx;
 			djon_get(ds,newkey_idx)->idx=i;
 			djon_get(ds,newkey_idx)->par=new_idx;
 			lst_idx=newkey_idx;
