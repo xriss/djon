@@ -1960,24 +1960,13 @@ int djon_value_to_vca(djon_state *ds,int idx)
 	{
 		for( lst_idx=0 , i=0 , old_idx=old->lst ; old_idx ; i++ , old_idx=djon_get(ds,old_idx)->nxt )
 		{
-			if(!lst_idx) // first
-			{
-				new_idx=djon_value_to_vca(ds, old_idx);
-				if(!new_idx) { return 0; }
-				djon_get(ds,new_idx)->idx=i;
-				djon_get(ds,new_idx)->par=val_idx;
-				djon_get(ds,val_idx)->lst=new_idx;
-				lst_idx=new_idx;
-			}
-			else
-			{
-				new_idx=djon_value_to_vca(ds, old_idx);
-				if(!new_idx) { return 0; }
-				djon_get(ds,new_idx)->idx=i;
-				djon_get(ds,new_idx)->par=val_idx;
-				djon_get(ds,lst_idx)->nxt=new_idx;
-				lst_idx=new_idx;
-			}
+			new_idx=djon_value_to_vca(ds, old_idx);
+			if(!new_idx) { return 0; }
+			djon_get(ds,new_idx)->idx=i;
+			djon_get(ds,new_idx)->par=val_idx;
+			if(!lst_idx) { djon_get(ds,val_idx)->lst=new_idx; } // first
+			else         { djon_get(ds,lst_idx)->nxt=new_idx; }
+			lst_idx=new_idx;
 		}
 	}
 	else
@@ -1985,20 +1974,11 @@ int djon_value_to_vca(djon_state *ds,int idx)
 	{
 		for( lst_idx=0 , old_idx=old->lst ; old_idx ; old_idx=djon_get(ds,old_idx)->nxt )
 		{
-			if(!lst_idx) // first
-			{
-				key_idx=djon_dupe_value(ds, old_idx);
-				if(!key_idx) { return 0; }
-				djon_get(ds,key_idx)->par=val_idx;
-				djon_get(ds,val_idx)->lst=key_idx;
-			}
-			else
-			{
-				key_idx=djon_dupe_value(ds, old_idx);
-				if(!key_idx) { return 0; }
-				djon_get(ds,key_idx)->par=val_idx;
-				djon_get(ds,lst_idx)->nxt=key_idx;
-			}
+			key_idx=djon_dupe_value(ds, old_idx);
+			if(!key_idx) { return 0; }
+			djon_get(ds,key_idx)->par=val_idx;
+			if(!lst_idx) { djon_get(ds,val_idx)->lst=key_idx; } // first
+			else         { djon_get(ds,lst_idx)->nxt=key_idx; }
 			new_idx=djon_value_to_vca(ds, djon_get(ds,old_idx)->lst );
 			if(!new_idx) { return 0; }
 			djon_get(ds,key_idx)->lst=new_idx;
@@ -2063,14 +2043,8 @@ int djon_vca_to_value(djon_state *ds,int idx)
 		{
 			newkey_idx=djon_vca_to_value(ds, key_idx);
 			if(!newkey_idx) { return 0; }
-			if(!lst_idx) // first
-			{
-				djon_get(ds,new_idx)->lst=newkey_idx;
-			}
-			else
-			{
-				djon_get(ds,lst_idx)->nxt=newkey_idx;
-			}
+			if(!lst_idx) { djon_get(ds,new_idx)->lst=newkey_idx; } // first
+			else         { djon_get(ds,lst_idx)->nxt=newkey_idx; }
 			djon_get(ds,newkey_idx)->idx=i;
 			djon_get(ds,newkey_idx)->par=new_idx;
 			lst_idx=newkey_idx;
@@ -2083,14 +2057,8 @@ int djon_vca_to_value(djon_state *ds,int idx)
 		{
 			newkey_idx=djon_dupe_value(ds, key_idx);
 			if(!newkey_idx) { return 0; }
-			if(!lst_idx) // first
-			{
-				djon_get(ds,new_idx)->lst=newkey_idx;
-			}
-			else
-			{
-				djon_get(ds,lst_idx)->nxt=newkey_idx;
-			}
+			if(!lst_idx) { djon_get(ds,new_idx)->lst=newkey_idx; } // first
+			else         { djon_get(ds,lst_idx)->nxt=newkey_idx; }
 			newval_idx=djon_vca_to_value(ds, djon_get(ds,key_idx)->lst );
 			if(!newval_idx) { return 0; }
 			djon_get(ds,newkey_idx)->par=new_idx;
