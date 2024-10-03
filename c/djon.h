@@ -126,6 +126,8 @@ typedef enum djon_enum
 	DJON_LONG     = 0x0200, // this string is long ( remove first/last \n )
 	DJON_KEY      = 0x0400, // this string is a key
 
+	DJON_FREE     = 0x0000, // this value is free and can be allocated
+
 	DJON_TYPEMASK = 0x00ff, // base types are in lower byte
 	DJON_FLAGMASK = 0xff00, // additional flags are in upper byte
 
@@ -135,7 +137,7 @@ typedef enum djon_enum
 typedef struct djon_value
 {
 // data
-	int    typ; // the type of data contained in the string
+	int    typ; // the type of data contained in this structure
 	char * str; // start of string ( points into djon_state.data )
 	int    len; // length of string
 	double num; // number or bool
@@ -159,6 +161,7 @@ typedef struct djon_state
 	// output values
 	djon_value * values;
 	int          values_len; // used buffer size
+	int          values_inc; // reuse test index
 	int          values_siz; // allocated buffer size
 
 	// current parse state
@@ -203,7 +206,7 @@ extern int          djon_write_data(  djon_state *ds, const char *ptr, int len )
 extern void         djon_write_json(  djon_state *ds, int idx);
 extern void         djon_write_djon(  djon_state *ds, int idx);
 extern int          djon_alloc(       djon_state *ds);
-extern int          djon_free(        djon_state *ds, int idx);
+extern void         djon_free(        djon_state *ds, int idx);
 extern djon_value * djon_get(         djon_state *ds, int idx);
 extern int          djon_parse_value( djon_state *ds);
 extern int          djon_check_stack( djon_state *ds);
@@ -1002,6 +1005,7 @@ djon_state * djon_setup()
 	ds->compact=0;
 
 	ds->values_len=1; // first value is used as a null so start at 1
+	ds->values_inc=0; // reset search
 	ds->values_siz=(DJON_VALUE_CHUNK_SIZE);
 	ds->values=(djon_value *)DJON_MEM_MALLOC(ds, ds->values_siz * sizeof(djon_value) );
 	if(!ds->values) { djon_clean(ds); return 0; }
@@ -1384,29 +1388,62 @@ void djon_shrink(djon_state *ds)
 	ds->values_siz=ds->values_len;
 }
 
+// mark this value as free, it may be reused next time we allocate one
+void djon_free(djon_state *ds,int idx)
+{
+	djon_value * v=djon_get(ds,idx);
+	if( v )
+	{
+		v->typ=DJON_FREE; // flag as free
+	}
+}
+
 // allocate a new value and return its index, 0 on error
 // note that everytime we call this function all djon_value ptrs are invalidated.
 int djon_alloc(djon_state *ds)
 {
-	djon_value * v;
-	if( ds->values_len+1 >= ds->values_siz ) // check for space
+	djon_value * v=0;
+	for(int i=0;i<16;i++) // first do a quick search for previously freed values
 	{
-		v=(djon_value *)DJON_MEM_REALLOC(ds, (void*)ds->values , ds->values_siz * sizeof(djon_value) , (ds->values_siz+(DJON_VALUE_CHUNK_SIZE)) * sizeof(djon_value) );
-		if(!v) { djon_set_error(ds,"out of memory"); return 0; }
-		ds->values_siz=ds->values_siz+(DJON_VALUE_CHUNK_SIZE);
-		ds->values=v; // might change pointer
+		ds->values_inc++; // simple wrapping search pointer
+		if( ds->values_inc >= ds->values_len ) // reset and give up
+		{
+			ds->values_inc=0;
+			v=0;
+			break;
+		}
+		else
+		{
+			v=djon_get(ds,ds->values_inc);
+			if(v->typ==DJON_FREE) { break; } // found one
+			v=0;
+		}
 	}
-	v=djon_get(ds,ds->values_len);
-	v->nxt=0;
-	v->prv=0;
+	if(!v) // need another one, last one didnt do me no good
+	{
+		if( ds->values_len+1 >= ds->values_siz ) // check for space
+		{
+			v=(djon_value *)DJON_MEM_REALLOC(ds, (void*)ds->values , ds->values_siz * sizeof(djon_value) , (ds->values_siz+(DJON_VALUE_CHUNK_SIZE)) * sizeof(djon_value) );
+			if(!v) { djon_set_error(ds,"out of memory"); return 0; }
+			ds->values_siz=ds->values_siz+(DJON_VALUE_CHUNK_SIZE);
+			ds->values=v; // might change pointer
+		}
+		v=djon_get(ds,ds->values_len++);
+	}
+	
+	// clear value data
+	v->typ=DJON_NULL;
 	v->str=0;
 	v->len=0;
-	v->typ=DJON_NULL;
 	v->num=0.0;
-	v->lst=0;
+	v->nxt=0;
+	v->prv=0;
 	v->com=0;
+	v->lst=0;
+	v->par=0;
+	v->idx=0;
 
-	return ds->values_len++;
+	return djon_value_idx(ds,v);
 }
 
 // apply current cached comment chain to this value
@@ -1427,17 +1464,6 @@ void djon_apply_comments(djon_state *ds, int idx)
 			ds->parse_com_last=0;
 		}
 	}
-}
-
-// we can only free the top most allocated idx, return 0 if not freed
-int djon_free(djon_state *ds,int idx)
-{
-	if( idx == (ds->values_len-1) )
-	{
-		ds->values_len--;
-		return idx;
-	}
-	return 0;
 }
 
 // write to fp
