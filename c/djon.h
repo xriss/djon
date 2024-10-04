@@ -28,6 +28,8 @@ SOFTWARE.
 #ifndef DJON_H
 #define DJON_H
 
+#define DJON_VERSION 0.0.18
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -62,7 +64,7 @@ extern "C" {
 #endif
 
 // need some maths for parsing numbers
-#if !(defined(DJON_POW10)||defined(DJON_LOG10))
+#if !(defined(DJON_POW10)&&defined(DJON_LOG10)&&defined(DJON_FLOOR))
 #include <math.h>
 #endif
 #ifndef DJON_POW10 
@@ -93,7 +95,7 @@ extern "C" {
 extern void *djon_mem(void *ctx,void *ptr,int old,int siz);
 void *djon_mem(void *ctx,void *ptr,int old,int siz)
 {
-	if(!ctx) { return (void*)1; } // alloc fake ctx
+	if(!ctx) { return (void*)1; } // no context needed
 	else
 	if(ptr)
 	{
@@ -105,7 +107,7 @@ void *djon_mem(void *ctx,void *ptr,int old,int siz)
 	{
 		if(siz) { return malloc(siz); }
 	}
-	return (void*)0; // free fake ctx
+	return (void*)0; // no context needed
 }
 #endif
 #define DJON_MEM_MALLOC(ds,siz)          DJON_MEM(ds->memctx,0,0,siz)
