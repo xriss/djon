@@ -152,7 +152,7 @@ eg is djon C example code\n\
 					cp[eop]=0;
 					value=cp+eop+1;
 					printf("setting %s\n",path);
-					vi=djon_value_manifest(ds,ds->parse_value,path);
+					vi=djon_value_by_path(ds,ds->parse_value,path);
 					if( ds->error_string ){ goto error; }
 					djon_value_set(ds,vi,DJON_STRING,0,0,value);
 					if( ds->error_string ){ goto error; }

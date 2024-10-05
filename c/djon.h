@@ -216,13 +216,15 @@ extern int          djon_check_stack( djon_state *ds);
 extern void         djon_sort_object( djon_state *ds, int idx );
 
 // simplish path based C interface for reate delete and find
-extern int          djon_value_manifest( djon_state *ds, int base_idx, const char *path);
+extern int          djon_value_newkey(   djon_state *ds, int base_idx, const char *path, const char *key);
 extern int          djon_value_push(     djon_state *ds, int base_idx, const char *path);
 extern void         djon_value_delete(   djon_state *ds, int base_idx, const char *path);
+extern void         djon_value_dechild(  djon_state *ds, int base_idx, const char *path);
 extern int          djon_value_by_path(  djon_state *ds, int base_idx, const char *path);
 extern int          djon_value_by_index( djon_state *ds, int base_idx, int array_index);
 extern const char * djon_value_to_path(  djon_state *ds, int base_idx, int value_idx);
 // simplish C interface for getting,setting and iterating
+extern int          djon_value_copy_str(   djon_state *ds, int di, char *dest, int siz);
 extern const char * djon_value_get_str(    djon_state *ds, int di);
 extern int          djon_value_get_len(    djon_state *ds, int di);
 extern double       djon_value_get_num(    djon_state *ds, int di);
@@ -1051,8 +1053,9 @@ djon_value * djon_get(djon_state *ds,int idx)
 
 void djon_value_set(djon_state *ds, int di, djon_enum typ, double num, int len, const char *str)
 {
+	djon_value_dechild(ds,di,0); // in case this was an object or array
 	djon_value *dv=djon_get(ds,di);
-	if( (len<=0) && (str) ) // auto length
+	if( (len<=0) && str ) // auto length
 	{
 		len=0;
 		for( const char *cp=str; *cp ; cp++ ){ len++; }
@@ -1245,6 +1248,10 @@ int djon_value_by_index(djon_state *ds, int base_idx , int index)
 // we may set an error so be sure to check ds->error_string if we return a 0
 int djon_value_by_path(djon_state *ds, int base_idx , const char *path)
 {
+	// shortcut so a null path or "" path returns base_idx
+	if(!path){return base_idx;}
+	if(!path[0]){return base_idx;}
+
 	djon_value *val;
 	djon_value *key;
 	int val_idx=0;
@@ -1393,20 +1400,126 @@ int djon_value_by_path(djon_state *ds, int base_idx , const char *path)
 	return val_idx;
 }
 
-int djon_value_manifest( djon_state *ds, int base_idx, const char *path)
+int djon_value_newkey( djon_state *ds, int base_idx, const char *path, const char *key)
 {
-	int vi=djon_value_by_path(ds,base_idx,path);
-	if(vi){ return vi; } // already exists, just return it
-	return 0;
+	int oi=djon_value_by_path(ds,base_idx,path);
+	djon_value *ov=djon_get(ds,oi);
+	if(!ov){ djon_free(ds,oi); return 0; }
+
+	if((ov->typ&DJON_TYPEMASK)!=DJON_OBJECT) // must be an object
+	{
+		return 0;
+	}
+	
+	// first see if we can find the key
+	int fi=djon_value_by_path(ds,oi,key);
+	if(fi) // replace this value
+	{
+		return fi;
+	}
+	
+	// add a new key and value to this object
+
+	int ki=djon_alloc(ds); // allocate key
+	if(!ki){return 0;}
+	int vi=djon_alloc(ds); // allocate value
+	if(!vi){djon_free(ds,ki);return 0;}
+	djon_value *kv=djon_get(ds,ki);
+	kv->typ=DJON_KEY;
+	kv->lst=vi;
+	kv->str=(char*)key;
+	kv->len=0;
+	for(const char *cp=key;*cp;cp++){kv->len++;} // length of key
+
+	ov=djon_get(ds,oi); // must refresh after allocation
+	if( !ov->lst )
+	{
+		ov->lst=ki;
+	}
+	else
+	{
+		int ci=0;
+		for( ci=ov->lst ; djon_get(ds,ci)->nxt ; ci=djon_get(ds,ci)->nxt  ){}
+		djon_value *cv=djon_get(ds,ci);
+		cv->nxt=ki;
+	}
+
+	return vi;
 }
 
 int djon_value_push( djon_state *ds, int base_idx, const char *path)
 {
-	return 0;
+	int ni=djon_alloc(ds); // allocate first
+	if(!ni){return 0;}
+
+	int vi=djon_value_by_path(ds,base_idx,path);
+	djon_value *vv=djon_get(ds,vi);
+	if(!vv){ djon_free(ds,ni); return 0; }
+
+	if((vv->typ&DJON_TYPEMASK)!=DJON_ARRAY) // must be an array
+	{
+		djon_free(ds,ni);
+		return 0;
+	}
+
+	if(!vv->lst) // first
+	{
+		vv->lst=ni;
+	}
+	else // append to end
+	{
+		int ci=0;
+		for( ci=vv->lst ; djon_get(ds,ci)->nxt ; ci=djon_get(ds,ci)->nxt  ){}
+		djon_value *cv=djon_get(ds,ci);
+		cv->nxt=ni;
+	}
+
+	return ni;
 }
 
+
+// delete all children and their comments of this item ( but not comments on *this* item )
+// this prepares a value for its type to be safely changed, eg to a string from an object
+void djon_value_dechild(   djon_state *ds, int base_idx, const char *path)
+{
+	int vi=djon_value_by_path(ds,base_idx,path);
+	djon_value *vv=djon_get(ds,vi);
+	if(!vv){return;}
+
+	if(	((vv->typ&DJON_TYPEMASK)==DJON_ARRAY)   ||
+		((vv->typ&DJON_TYPEMASK)==DJON_OBJECT)  ||
+		((vv->typ&DJON_TYPEMASK)==DJON_KEY)     ) // possible value in lst
+	{
+		for(  int ci=vv->lst , cv_nxt  ;  ci  ;  ci=cv_nxt  )
+		{
+			djon_value *cv=djon_get(ds,ci);
+			cv_nxt=cv->nxt; // get next vefore we delete
+			djon_value_delete(ds,ci,0);
+		}
+		vv->lst=0;
+	}
+	return;
+}
+// delete this item and all children and all comments
 void djon_value_delete(   djon_state *ds, int base_idx, const char *path)
 {
+	// remove children recursivly
+	djon_value_dechild(ds,base_idx,path);
+
+	int vi=djon_value_by_path(ds,base_idx,path);
+	djon_value *vv=djon_get(ds,vi);
+	if(!vv){return;}
+
+	// delete comments
+	for(  int ci=vv->com , cv_com  ;  ci  ;  ci=cv_com  )
+	{
+		djon_value *cv=djon_get(ds,ci);
+		cv_com=cv->com; // get next before we free
+		djon_free(ds,ci);
+	}
+	vv->com=0;
+
+	djon_free(ds,vi);
 	return;
 }
 
