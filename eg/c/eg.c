@@ -142,7 +142,7 @@ eg is djon C example code\n\
 			}
 			if(cp) // a set or get depending on presence of an = in the string
 			{
-				djon_value *v;
+				int vi;
 				char *path=cp;
 				char *value="";
 				char buff[256];
@@ -152,27 +152,28 @@ eg is djon C example code\n\
 					cp[eop]=0;
 					value=cp+eop+1;
 					printf("setting %s\n",path);
-					v=djon_value_manifest(ds,ds->parse_value,path);
+					vi=djon_value_manifest(ds,ds->parse_value,path);
 					if( ds->error_string ){ goto error; }
 				}
 				else // this is a get and print
 				{
 					printf("getting %s\n",path);
-					v=djon_value_by_path(ds,ds->parse_value,path);
+					vi=djon_value_by_path(ds,ds->parse_value,path);
 					if( ds->error_string ){ goto error; }
 				}
-				if(!v)
+				if(!vi)
 				{
 					printf("\tno value found at path\n");
 				}
 				else
 				{
 					value=buff; // build value in buff
+					djon_value *vv=djon_get(ds,vi); // get value pointer
 					buff[(sizeof buff)-1]=0; // overflow null terminator
-					if(v->len<((sizeof buff)-1)) { buff[v->len]=0; } // null terminator
-					for( int i=0 ; (i<((sizeof buff)-1)) && (i<v->len) ; i++ )
+					if(vv->len<((sizeof buff)-1)) { buff[vv->len]=0; } // null terminator
+					for( int i=0 ; (i<((sizeof buff)-1)) && (i<vv->len) ; i++ )
 					{
-						buff[i]=v->str[i]; // copy string into buff
+						buff[i]=vv->str[i]; // copy string into buff
 					}
 					printf("\t=\t\"%s\"\n",value);
 				}
