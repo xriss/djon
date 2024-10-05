@@ -1276,7 +1276,6 @@ djon_value * djon_value_by_path(djon_state *ds, int base_idx , const char *path)
 		if(fetch && (brackets==0) )
 		{
 			buf[buf_len]=0; // null term
-
 			if(!val) // invalid value
 			{
 				djon_set_error(ds,"invalid path value");
@@ -1284,20 +1283,11 @@ djon_value * djon_value_by_path(djon_state *ds, int base_idx , const char *path)
 			}
 			if((val->typ&DJON_TYPEMASK)==DJON_OBJECT)
 			{
-				i=buf[0] ? -1 : 0;
-				for(cp=buf;*cp;cp++)
-				{
-					if((*cp>='0')&&(*cp<='9')) { i=-1; } // digits only
-				}
-				if(i==0) // digits only
-				{
-					i=(int)djon_str_to_double(buf,0);
-				}
 				key_idx=val->lst;
 				while(key_idx)
 				{
 					key=djon_get(ds,key_idx);
-					if( djon_compare_string( val->str , val->len , buf ) ) // found key
+					if( djon_compare_string( key->str , key->len , buf ) ) // found key
 					{
 						val_idx=key->lst;
 						val=djon_get(ds,val_idx);
@@ -1306,25 +1296,6 @@ djon_value * djon_value_by_path(djon_state *ds, int base_idx , const char *path)
 					else
 					{
 						key_idx=key->nxt;
-					}
-				}
-				if(key_idx==0) // not found
-				{
-					if(i>=0) // get by index number instead
-					{
-						key_idx=val->lst;
-						while(key_idx)
-						{
-							key=djon_get(ds,key_idx);
-							if(--i<0) { break; }
-							key_idx=key->nxt;
-						}
-						key=djon_get(ds,key_idx);
-						if(key)
-						{
-							val_idx=key->lst;
-							val=djon_get(ds,val_idx);
-						}
 					}
 				}
 				if(key_idx==0) // not found
@@ -1342,7 +1313,8 @@ djon_value * djon_value_by_path(djon_state *ds, int base_idx , const char *path)
 				while(val_idx)
 				{
 					val=djon_get(ds,val_idx);
-					if(val->idx==i) { break; } // found it
+					if(val->idx==i)
+					{ break; } // found it
 					else
 					{ val_idx=val->nxt; }
 				}
@@ -2165,7 +2137,7 @@ int djon_load_file(djon_state *ds,const char *fname)
     int size=0;
     int used=0;
 
-	ds->data=(char*)"";
+	ds->data=0;
 	ds->data_len=0;
 
 	// first alloc

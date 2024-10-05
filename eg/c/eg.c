@@ -8,24 +8,70 @@
 #include "djon.h"
 
 
+// find index of = seperating a path from a value
+// return -1 if no = is found
+int str_find_end_of_path(char *str)
+{
+	int ret=-1;
+	int idx=0;
+	int mode=0;
+	for( char *cp=str ; *cp ; cp++ )
+	{
+		switch(mode)
+		{
+			case '\'':
+				if(*cp=='\'')
+				{
+					mode=0; // end string
+				}
+				else
+				if( (cp[0]=='\\') && (cp[1]=='\'') )
+				{
+					cp++; // skip next char
+				}
+			break;
+			case '"':
+				if(*cp=='"')
+				{
+					mode=0; // end string
+				}
+				else
+				if( (cp[0]=='\\') && (cp[1]=='"') )
+				{
+					cp++; // skip next char
+				}
+			break;
+			default:
+				if(*cp=='=' ) { ret=idx; break; }
+				else
+				if(*cp=='\'') { mode='\''; }
+				else
+				if(*cp=='"') { mode='"'; }
+			break;
+		}
+		idx++;
+	}
+	return ret;
+}
+
 int main(int argc, char *argv[])
 {
-//printf("START %d\n",argc);
+	int error_code=20;
+	
+	// sanity incase of insane future
+	if(sizeof **argv != 1) { printf("invalid universe, char must be 1 byte!\n"); return 20; }
 
+	int checkopts;
 	FILE *fp=0;
+
 	int idx;
-	int checkopts=1;
-	int write_djon=0;
-	int compact=0;
-	int strict=0;
-	int comments=0;
-	char *fname1=0;
-	char *fname2=0;
-	int i;
+	char *fname="eg.djon";
 	char *cp;
-	for( i=1 ; i<argc ; i++ )
+
+	checkopts=1;
+	for( int i=1 ; i<argc ; i++ )
 	{
-		cp=argv[i];
+		char *cp=argv[i];
 		if( checkopts && ( cp[0]=='-' && cp[1]=='-' ) ) // option
 		{
 			if( 0==strcmp(cp,"--") )
@@ -33,58 +79,23 @@ int main(int argc, char *argv[])
 				checkopts=0;
 			}
 			else
-			if( 0==strcmp(cp,"--djon") )
+			if( 0==strncmp(cp,"--file=",7) )
 			{
-				write_djon=1;
-			}
-			else
-			if( 0==strcmp(cp,"--json") )
-			{
-				write_djon=0;
-			}
-			else
-			if( 0==strcmp(cp,"--compact") )
-			{
-				compact=1;
-			}
-			else
-			if( 0==strcmp(cp,"--pretty") )
-			{
-				compact=0;
-			}
-			else
-			if( 0==strcmp(cp,"--strict") )
-			{
-				strict=1;
-			}
-			else
-			if( 0==strcmp(cp,"--comments") )
-			{
-				comments=1;
+				fname=cp+7;
 			}
 			else
 			if( 0==strcmp(cp,"--help") )
 			{
 				printf("\n\
-djon input.filename output.filename\n\
+eg is djon C example code\n\
 \n\
-	If no output.filename then write to stdout\n\
-	If no input.filename then read from stdin\n\
+	--file     : filename of djon file to load and save\n\
 \n\
-Possible options are:\n\
+	path.path[path]\n\
+		print the value of this path\n\
 \n\
-	--djon     : output djon format\n\
-	--json     : output json format\n\
-	--compact  : output compact\n\
-	--pretty   : output pretty\n\
-	--strict   : enable strict format\n\
-	--comments : comments formated json*\n\
-	--         : stop parsing options\n\
-\n\
-We default to pretty output.\n\
-When using comments, it is assumed that you are converting between a\n\
-json format with [value,comment...] values and djon, so it applies to\n\
-input if writing djon and output if writing json.\n\
+	path.path[path]=value\n\
+		set the value of this path\n\
 \n\
 ");
 				return 0;
@@ -95,110 +106,107 @@ input if writing djon and output if writing json.\n\
 				return 20;
 			}
 		}
-		else // filename
-		{
-			if(!fname1) { fname1=cp; }
-			else
-			if(!fname2) { fname2=cp; }
-			else
-			{
-				fprintf(stderr,"Unknown option %s\n",cp);
-				return 20;
-			}
-		}
 	}
 	
 
+	printf("Loading %s\n",fname);
 	djon_state *ds=djon_setup();
-
-	ds->strict=strict; // set strict mode from command line options
-	ds->compact=compact; // set compact output flat from command line options
-		
-	if(fname1)
-	{
-		djon_load_file(ds,fname1); // filename
-	}
-	else
-	{
-		djon_load_file(ds,0); // stdin
-	}
+	djon_load_file(ds,fname);
 	if( ds->error_string ){ goto error; }
 
 	
 	djon_parse(ds);
+	if( ds->error_string ){ goto error; }
 	
-	if( write_djon && comments ) // input is json vca so convert it
-	{
-		ds->parse_value = djon_vca_to_value(ds, ds->parse_value );
-	}
 
-	djon_value *v=djon_get(ds,ds->parse_value);
-
-	if(fname2)
+	if(ds->parse_value) // good read
 	{
-		fp=fopen(fname2,"wb");
+
+// now we can set/print from command line
+		checkopts=1;
+		for( int i=1 ; i<argc ; i++ )
+		{
+			cp=argv[i];
+			if( checkopts && ( cp[0]=='-' && cp[1]=='-' ) ) // option
+			{
+				if( 0==strcmp(cp,"--") )
+				{
+					checkopts=0;
+					cp=0;
+				}
+				else
+				if( 0==strncmp(cp,"--",2) ) // ignore args that start with --
+				{
+					cp=0;
+				}
+			}
+			if(cp) // a set or get depending on presence of an = in the string
+			{
+				djon_value *v;
+				char *path=cp;
+				char *value="";
+				char buff[256];
+				int eop=str_find_end_of_path(cp);
+				if(eop>=0) // this is a set
+				{
+					cp[eop]=0;
+					value=cp+eop+1;
+					printf("setting %s\n",path);
+					v=djon_value_manifest(ds,ds->parse_value,path);
+					if( ds->error_string ){ goto error; }
+				}
+				else // this is a get and print
+				{
+					printf("getting %s\n",path);
+					v=djon_value_by_path(ds,ds->parse_value,path);
+					if( ds->error_string ){ goto error; }
+				}
+				if(!v)
+				{
+					printf("\tno value found at path\n");
+				}
+				else
+				{
+					value=buff; // build value in buff
+					buff[(sizeof buff)-1]=0; // overflow null terminator
+					if(v->len<((sizeof buff)-1)) { buff[v->len]=0; } // null terminator
+					for( int i=0 ; (i<((sizeof buff)-1)) && (i<v->len) ; i++ )
+					{
+						buff[i]=v->str[i]; // copy string into buff
+					}
+					printf("\t=\t\"%s\"\n",value);
+				}
+			}
+		}
+
+		printf("Saving %s\n",fname);
+		fp=fopen(fname,"wb");
 		if(!fp)
 		{
 			djon_set_error(ds,"output file error");
 			goto error;
 		}
 		ds->fp=fp;
-	}
-	else
-	{
-		ds->fp=stdout;
-	}
 
-	if( ds->error_string ) // print parse error but still try and write json
-	{
-		fprintf(stderr,"%s\n",ds->error_string);
-		fprintf(stderr,"line %d char %d byte %d\n",ds->error_line,ds->error_char,ds->error_idx);
-		djon_set_error(ds,0);// clear error state
-	}
 
-	if(ds->parse_value)
-	{
-		if( (!write_djon) && comments ) // output is json vca
-		{
-		}
-
-		if(write_djon)
-		{
-			djon_write_djon(ds,ds->parse_value);
-		}
-		else
-		{
-			idx = ds->parse_value ;
-			if( comments ) // output is json vca
-			{
-				idx = djon_value_to_vca(ds,idx);
-			}
-			djon_write_json(ds,idx);
-		}
+		djon_write_djon(ds,ds->parse_value);
+		if( ds->error_string ){ goto error; }
 	}
 	
-	if( ds->error_string ){ goto error; }
-
-	if(fp)
-	{
-		fclose(fp);
-	}
-	djon_clean(ds);
-
-	return 0;
+	error_code=0; // not an error
 error:
-	if( ds->error_string )
-	{
-		fprintf(stderr,"%s\n",ds->error_string);
-		fprintf(stderr,"line %d char %d byte %d\n",ds->error_line,ds->error_char,ds->error_idx);
-	}
 	if(fp)
 	{
-		fclose(fp);
+		fclose(fp); fp=0;
 	}
 	if(ds)
 	{
-		djon_clean(ds);
+		if( ds->error_string )
+		{
+			fprintf(stderr,"%s\n",ds->error_string);
+			fprintf(stderr,"line %d char %d byte %d\n",ds->error_line,ds->error_char,ds->error_idx);
+		}
+		djon_clean(ds); ds=0;
 	}
-	return 20;
+	return error_code;
 }
