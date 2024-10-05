@@ -1052,7 +1052,25 @@ djon_value * djon_get(djon_state *ds,int idx)
 void djon_value_set(djon_state *ds, int di, djon_enum typ, double num, int len, const char *str)
 {
 	djon_value *dv=djon_get(ds,di);
+	if( (len<=0) && (str) ) // auto length
+	{
+		len=0;
+		for( const char *cp=str; *cp ; cp++ ){ len++; }
+	}
 	if(!dv) { return; } dv->typ=typ; dv->num=num; dv->len=len; dv->str=(char*)str;
+}
+
+// copy string into dest array which has a sizeof siz
+// return length of string now in dest, assume clipped if this is siz-1
+int djon_value_copy_str(djon_state *ds,  int di , char *dest , int siz )
+{
+	djon_value *dv=djon_get(ds,di);
+	if(!dv) { return -1; }
+	int len=dv->len;
+	if(len>(siz-1)) { len=siz-1; } // overflow
+	for( char *ca=dest, *cb=(dest+len), *cc=dv->str ; ca<cb ; ca++,cc++ ) { *ca=*cc; } // copy
+	dest[len]=0; // terminate
+	return len;
 }
 
 const char * djon_value_get_str(djon_state *ds,  int di)
@@ -1377,6 +1395,8 @@ int djon_value_by_path(djon_state *ds, int base_idx , const char *path)
 
 int djon_value_manifest( djon_state *ds, int base_idx, const char *path)
 {
+	int vi=djon_value_by_path(ds,base_idx,path);
+	if(vi){ return vi; } // already exists, just return it
 	return 0;
 }
 
