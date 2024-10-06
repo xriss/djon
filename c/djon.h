@@ -220,7 +220,7 @@ extern int          djon_value_newkey(   djon_state *ds, int base_idx, const cha
 extern int          djon_value_push(     djon_state *ds, int base_idx, const char *path);
 extern void         djon_value_delete(   djon_state *ds, int base_idx, const char *path);
 extern void         djon_value_dechild(  djon_state *ds, int base_idx, const char *path);
-extern int          djon_value_by_path(  djon_state *ds, int base_idx, const char *path);
+extern int          djon_value_by_path(  djon_state *ds, int base_idx, const char *path, const char **lastkey);
 extern int          djon_value_by_index( djon_state *ds, int base_idx, int array_index);
 extern const char * djon_value_to_path(  djon_state *ds, int base_idx, int value_idx);
 // simplish C interface for getting,setting and iterating
@@ -1246,7 +1246,9 @@ int djon_value_by_index(djon_state *ds, int base_idx , int index)
 // path may be "part.part[part]" and each part may be wrapped in " or ' with /escapes 
 // the empty string "" gets you the base value and "." gets you  base[""][""] value
 // we may set an error so be sure to check ds->error_string if we return a 0
-int djon_value_by_path(djon_state *ds, int base_idx , const char *path)
+// if lastpart is set then we return the idx for the part before last and
+// write a char * into lastpart which will be the last part of the path string
+int djon_value_by_path(djon_state *ds, int base_idx , const char *path, const char **lastkey)
 {
 	// shortcut so a null path or "" path returns base_idx
 	if(!path){return base_idx;}
@@ -1270,6 +1272,7 @@ int djon_value_by_path(djon_state *ds, int base_idx , const char *path)
 	int len;
 	char c;
 	const char *cp;
+	const char *oldcp;
 	for(cp=path,len=0;*cp;cp++){len++;} // find length
 	
 	if( len>(DJON_MAX_PATH-1) )
@@ -1277,7 +1280,7 @@ int djon_value_by_path(djon_state *ds, int base_idx , const char *path)
 
 	val_idx=base_idx;
 	val=djon_get(ds,val_idx);
-
+	oldcp=path;
 	for( cp=path; cp<=(path+len); )
 	{
 		c=*cp++; // probably one at a time, but sometimes two as we deal with escapes
@@ -1339,6 +1342,17 @@ int djon_value_by_path(djon_state *ds, int base_idx , const char *path)
 				djon_set_error(ds,"invalid path value");
 				return 0;
 			}
+			
+			if(cp==(path+len-1)) // last part
+			{
+				if(lastkey)
+				{
+					*lastkey=oldcp;
+					return val_idx; // first part
+				}
+			}
+			oldcp=cp;
+			
 			if((val->typ&DJON_TYPEMASK)==DJON_OBJECT)
 			{
 				key_idx=val->lst;
@@ -1402,7 +1416,7 @@ int djon_value_by_path(djon_state *ds, int base_idx , const char *path)
 
 int djon_value_newkey( djon_state *ds, int base_idx, const char *path, const char *key)
 {
-	int oi=djon_value_by_path(ds,base_idx,path);
+	int oi=djon_value_by_path(ds,base_idx,path,0);
 	djon_value *ov=djon_get(ds,oi);
 	if(!ov){ djon_free(ds,oi); return 0; }
 
@@ -1412,7 +1426,7 @@ int djon_value_newkey( djon_state *ds, int base_idx, const char *path, const cha
 	}
 	
 	// first see if we can find the key
-	int fi=djon_value_by_path(ds,oi,key);
+	int fi=djon_value_by_path(ds,oi,key,0);
 	if(fi) // replace this value
 	{
 		return fi;
@@ -1452,7 +1466,7 @@ int djon_value_push( djon_state *ds, int base_idx, const char *path)
 	int ni=djon_alloc(ds); // allocate first
 	if(!ni){return 0;}
 
-	int vi=djon_value_by_path(ds,base_idx,path);
+	int vi=djon_value_by_path(ds,base_idx,path,0);
 	djon_value *vv=djon_get(ds,vi);
 	if(!vv){ djon_free(ds,ni); return 0; }
 
@@ -1482,7 +1496,7 @@ int djon_value_push( djon_state *ds, int base_idx, const char *path)
 // this prepares a value for its type to be safely changed, eg to a string from an object
 void djon_value_dechild(   djon_state *ds, int base_idx, const char *path)
 {
-	int vi=djon_value_by_path(ds,base_idx,path);
+	int vi=djon_value_by_path(ds,base_idx,path,0);
 	djon_value *vv=djon_get(ds,vi);
 	if(!vv){return;}
 
@@ -1506,7 +1520,7 @@ void djon_value_delete(   djon_state *ds, int base_idx, const char *path)
 	// remove children recursivly
 	djon_value_dechild(ds,base_idx,path);
 
-	int vi=djon_value_by_path(ds,base_idx,path);
+	int vi=djon_value_by_path(ds,base_idx,path,0);
 	djon_value *vv=djon_get(ds,vi);
 	if(!vv){return;}
 

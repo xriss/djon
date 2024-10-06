@@ -143,6 +143,7 @@ eg is djon C example code\n\
 			if(cp) // a set or get depending on presence of an = in the string
 			{
 				int vi;
+				const char *lastkey;
 				char *path=cp;
 				char *value="";
 				char buff[256];
@@ -152,7 +153,10 @@ eg is djon C example code\n\
 					cp[eop]=0;
 					value=cp+eop+1;
 					printf("setting %s\n",path);
-					vi=djon_value_by_path(ds,ds->parse_value,path);
+					int pi=djon_value_by_path(ds,ds->parse_value,path,&lastkey); // get last parent
+					if( ds->error_string ){ goto error; }
+
+					vi=djon_value_newkey(ds,pi,0,lastkey);
 					if( ds->error_string ){ goto error; }
 					djon_value_set(ds,vi,DJON_STRING,0,0,value);
 					if( ds->error_string ){ goto error; }
@@ -160,7 +164,7 @@ eg is djon C example code\n\
 				else // this is a get and print
 				{
 					printf("getting %s\n",path);
-					vi=djon_value_by_path(ds,ds->parse_value,path);
+					vi=djon_value_by_path(ds,ds->parse_value,path,0);
 					if( ds->error_string ){ goto error; }
 				}
 				if(!vi)
