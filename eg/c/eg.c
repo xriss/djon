@@ -154,18 +154,67 @@ eg is djon C example code\n\
 					value=cp+eop+1;
 					printf("setting %s\n",path);
 					int pi=djon_value_by_path(ds,ds->parse_value,path,&lastkey); // get last parent
-					if( ds->error_string ){ goto error; }
-
-					vi=djon_value_newkey(ds,pi,0,lastkey);
-					if( ds->error_string ){ goto error; }
-					djon_value_set(ds,vi,DJON_STRING,0,0,value);
-					if( ds->error_string ){ goto error; }
+					if( (djon_value_get_typ(ds,pi)&DJON_TYPEMASK)==DJON_OBJECT )
+					{
+						vi=djon_value_newkey(ds,pi,0,lastkey);
+						if( !vi ){ goto error; }
+					}
+					else
+					if( (djon_value_get_typ(ds,pi)&DJON_TYPEMASK)==DJON_ARRAY )
+					{
+						int lastidx=(int)djon_str_to_number( (char*)lastkey , 0 );
+						vi=djon_value_newindex(ds,pi,0,lastidx);
+						if( !vi ){ goto error; }
+					}
+					else 
+					{
+						djon_value_set(ds,pi,DJON_OBJECT,0,0,0); // force convert to object
+						vi=djon_value_newkey(ds,pi,0,lastkey);
+						if( !vi ){ goto error; }
+					}
+					
+					if( strcmp( value , "{}" )==0 )
+					{
+						djon_value_set(ds,vi,DJON_OBJECT,0,0,0);
+					}
+					else
+					if( strcmp( value , "[]" )==0 )
+					{
+						djon_value_set(ds,vi,DJON_ARRAY,0,0,0);
+					}
+					else
+					if( value[0]=='\'' || value[0]=='"' ) // quoted string
+					{
+						char q=value[0];
+						for( char *ca=value+1,*cb=value,*cl=value+strlen(value) ; ca<=cl ; ) // unquote
+						{
+							if(*ca=='\\') // escape next
+							{
+								ca++; //  skip back quote
+								*cb++=*ca++; // and force copy next
+							}
+							else
+							if(*ca==q) // end quote
+							{
+								*cb++=0;
+								break;
+							}
+							else // copy ( possibly over itself )
+							{
+								*cb++=*ca++;
+							}
+						}
+						djon_value_set(ds,vi,DJON_STRING,0,0,value);
+					}
+					else
+					{
+						djon_value_set(ds,vi,DJON_STRING,0,0,value);
+					}
 				}
 				else // this is a get and print
 				{
 					printf("getting %s\n",path);
 					vi=djon_value_by_path(ds,ds->parse_value,path,0);
-					if( ds->error_string ){ goto error; }
 				}
 				if(!vi)
 				{
@@ -188,7 +237,6 @@ eg is djon C example code\n\
 			goto error;
 		}
 		ds->fp=fp;
-
 
 		djon_write_djon(ds,ds->parse_value);
 		if( ds->error_string ){ goto error; }
