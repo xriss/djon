@@ -115,13 +115,24 @@ will force it to be a string.\n\
 
 	printf("Loading %s\n",fname);
 	djon_state *ds=djon_setup();
-	djon_load_file(ds,fname);
-	if( ds->error_string ){ goto error; }
-
 	
-	djon_parse(ds);
-	if( ds->error_string ){ goto error; }
-	
+	{
+		FILE *fp=fopen(fname,"r");
+		if(fp) // try and load
+		{
+			fclose(fp);
+			djon_load_file(ds,fname);
+			if( ds->error_string ){ goto error; }
+			djon_parse(ds);
+			if( ds->error_string ){ goto error; }
+		}
+		else // create an {} base file
+		{
+			ds->parse_value=djon_alloc(ds);
+			if(!ds->parse_value){ goto error; }
+			djon_value_set(ds,ds->parse_value,DJON_OBJECT,0,0,0);
+		}
+	}
 
 	if(ds->parse_value) // good read
 	{
