@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
 {
 	int error_code=20;
 	
-	// sanity incase of insane future
+	// sanity incase of insane futures
 	if(sizeof **argv != 1) { printf("invalid universe, char must be 1 byte!\n"); return 20; }
 
 	int checkopts;
@@ -96,6 +96,10 @@ eg is djon C example code\n\
 \n\
 	path.path[path]=value\n\
 		set the value of this path\n\
+\n\
+Objects can be created with a value of {} and arrays with [] any values\n\
+made of digits will be converted to numbers. Wrapping a value in quotes\n\
+will force it to be a string.\n\
 \n\
 ");
 				return 0;
@@ -208,7 +212,22 @@ eg is djon C example code\n\
 					}
 					else
 					{
-						djon_value_set(ds,vi,DJON_STRING,0,0,value);
+						int isnumber=value[0]?1:0; // number can not be a zero length string
+						for( char *ca=value,*cl=value+strlen(value) ; ca<cl ; ca++ ) // unquote
+						{
+							char c=*ca; // assume a number is any combination of 0123456789.
+							if(! (((c>='0')&&(c<='9'))||(c=='.')) )
+							{ isnumber=0; }
+						}
+						if(isnumber)
+						{
+							double d=djon_str_to_number( (char*)value , 0 );
+							djon_value_set(ds,vi,DJON_NUMBER,d,0,0);
+						}
+						else
+						{
+							djon_value_set(ds,vi,DJON_STRING,0,0,value);
+						}
 					}
 				}
 				else // this is a get and print
@@ -222,9 +241,36 @@ eg is djon C example code\n\
 				}
 				else
 				{
-					djon_value_copy_str(ds,vi,buff,sizeof buff);
-					value=buff; // build value in buff
-					printf("\t=\t\"%s\"\n",value);
+					switch( (djon_value_get_typ(ds,vi)&DJON_TYPEMASK) )
+					{
+						case DJON_STRING :
+							djon_value_copy_str(ds,vi,buff+1,(sizeof buff)-2);
+							buff[0]='"'; // wrap strings in quotes
+							buff[ strlen(buff)+1 ]=0;
+							buff[ strlen(buff)   ]='"';
+							value=buff;
+						break;
+						case DJON_NUMBER :
+							djon_double_to_str( djon_value_get_num(ds,vi) ,buff);
+							value=buff;
+						break;
+						case DJON_BOOL :
+							value=( (djon_value_get_num(ds,vi)==0.0) ? "FALSE" : "TRUE" );
+						break;
+						case DJON_OBJECT :
+							value="{}";
+						break;
+						case DJON_ARRAY :
+							value="[]";
+						break;
+						case DJON_NULL :
+							value="NULL";
+						break;
+						default : // something went terribly wrong
+							value="ERROR";
+						break;
+					}
+					printf("\t=\t%s\n",value);
 				}
 			}
 		}
