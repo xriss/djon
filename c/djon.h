@@ -218,11 +218,12 @@ extern void         djon_sort_object( djon_state *ds, int idx );
 // simplish path based C interface for reate delete and find
 extern int          djon_value_newkey(   djon_state *ds, int base_idx, const char *path, const char *key);
 extern int          djon_value_newindex( djon_state *ds, int base_idx, const char *path, int index);
-extern int          djon_value_push(     djon_state *ds, int base_idx, const char *path);
 extern void         djon_value_delete(   djon_state *ds, int base_idx, const char *path);
 extern void         djon_value_dechild(  djon_state *ds, int base_idx, const char *path);
 extern int          djon_value_by_path(  djon_state *ds, int base_idx, const char *path, const char **lastkey);
 extern int          djon_value_by_index( djon_state *ds, int base_idx, int index);
+extern int          djon_value_all(      djon_state *ds, int base_idx, int di);
+extern int          djon_value_all(      djon_state *ds, int base_idx, int di);
 extern const char * djon_value_to_path(  djon_state *ds, int base_idx, int value_idx);
 // simplish C interface for getting,setting and iterating
 extern int          djon_value_copy_str(   djon_state *ds, int di, char *dest, int siz);
@@ -1236,8 +1237,38 @@ const char * djon_value_to_path(djon_state *ds, int base_idx , int idx)
 	return ds->buf+((DJON_MAX_PATH-1)-ds->path_len);
 }
 
+// get array(base_idx)[index] as a given index , 0 is the first etc..
 int djon_value_by_index(djon_state *ds, int base_idx , int index)
 {
+	if((djon_value_get_typ(ds,base_idx)&DJON_TYPEMASK)!=DJON_ARRAY)	{ return 0; }
+	for( int i=0 , ai=djon_value_get_first(ds,base_idx) ; ai ; i++ , ai=djon_value_get_nxt(ds,ai) )
+	{
+		if( i==index ) { return ai; } // found it
+	}
+	return 0;
+}
+
+// next idx may be a child or sibling, used to iterate of a recursive set
+int djon_value_all(djon_state *ds, int base_idx, int di )
+{
+	if(di==0){ return 0; } // sanity
+
+	int fi=djon_value_get_first(ds,di); // children
+	if(fi) { return fi; }
+
+	int ni=djon_value_get_nxt(ds,di); // siblings
+	if(ni) { return ni; }
+	
+	while(di)
+	{
+		if( di == base_idx ) { return 0; } // do not recurse upwards past base_idx
+		int pi=djon_value_get_parent(ds,di);
+		if(!pi) { return 0; }
+		di=pi; // parent
+		int ni=djon_value_get_nxt(ds,di); // return next sibling only
+		if(ni) { return ni; }
+	}
+
 	return 0;
 }
 
@@ -1409,7 +1440,7 @@ int djon_value_newkey( djon_state *ds, int base_idx, const char *path, const cha
 {
 	int oi=djon_value_by_path(ds,base_idx,path,0);
 	djon_value *ov=djon_get(ds,oi);
-	if(!ov){ djon_free(ds,oi); return 0; }
+	if(!ov){ return 0; }
 
 	if((ov->typ&DJON_TYPEMASK)!=DJON_OBJECT) // must be an object
 	{
@@ -1429,7 +1460,10 @@ int djon_value_newkey( djon_state *ds, int base_idx, const char *path, const cha
 	if(!ki){return 0;}
 	int vi=djon_alloc(ds); // allocate value
 	if(!vi){djon_free(ds,ki);return 0;}
+	djon_value *vv=djon_get(ds,vi);
+	vv->par=ki;
 	djon_value *kv=djon_get(ds,ki);
+	kv->par=oi;
 	kv->typ=DJON_KEY;
 	kv->lst=vi;
 	kv->str=(char*)key;
@@ -1447,6 +1481,8 @@ int djon_value_newkey( djon_state *ds, int base_idx, const char *path, const cha
 		for( ci=ov->lst ; djon_get(ds,ci)->nxt ; ci=djon_get(ds,ci)->nxt  ){}
 		djon_value *cv=djon_get(ds,ci);
 		cv->nxt=ki;
+		djon_value *kv=djon_get(ds,ki);
+		kv->prv=ci;
 	}
 
 	return vi;
@@ -1479,7 +1515,7 @@ int djon_value_newindex( djon_state *ds, int base_idx, const char *path, int ind
 	djon_get(ds,ai)->idx=i;
 	djon_get(ds,ai)->par=oi;
 	djon_get(ds,oi)->lst=ai; // first
-	for( int ni ; i<=index ; i++ , ai=ni )
+	for( int ni=0,ci=0 ; ( (i<=index) || (index==-1) ) ; i++ , ai=ni )
 	{
 		int li=ai;
 		if(i==index) // done
@@ -1487,43 +1523,17 @@ int djon_value_newindex( djon_state *ds, int base_idx, const char *path, int ind
 			return ai; // return the array element we allocated
 		}
 		ni=djon_value_get_nxt(ds,ai);
-		if(!ni) { ni=djon_alloc(ds); if(!ni){return 0;} }
+		if(!ni) { ni=djon_alloc(ds); if(!ni){return 0;} ci=ni; }
 		djon_get(ds,ni)->prv=ai;
 		djon_get(ds,ai)->nxt=ni; // next
 		djon_get(ds,ai)->idx=i;
 		djon_get(ds,ai)->par=oi;
+		if( (index==-1) && ci ) // return first index we allocate ( added to end of array )
+		{
+			return ai;
+		}
 	}
 	return 0;
-}
-
-int djon_value_push( djon_state *ds, int base_idx, const char *path)
-{
-	int ni=djon_alloc(ds); // allocate first
-	if(!ni){return 0;}
-
-	int vi=djon_value_by_path(ds,base_idx,path,0);
-	djon_value *vv=djon_get(ds,vi);
-	if(!vv){ djon_free(ds,ni); return 0; }
-
-	if((vv->typ&DJON_TYPEMASK)!=DJON_ARRAY) // must be an array
-	{
-		djon_free(ds,ni);
-		return 0;
-	}
-
-	if(!vv->lst) // first
-	{
-		vv->lst=ni;
-	}
-	else // append to end
-	{
-		int ci=0;
-		for( ci=vv->lst ; djon_get(ds,ci)->nxt ; ci=djon_get(ds,ci)->nxt  ){}
-		djon_value *cv=djon_get(ds,ci);
-		cv->nxt=ni;
-	}
-
-	return ni;
 }
 
 
@@ -3030,9 +3040,9 @@ int djon_parse_object(djon_state *ds)
 			val=djon_get(ds,val_idx);
 			val->par=key_idx;
 			key=djon_get(ds,lst_idx); // last key
-			key->par=obj_idx;
 			key->nxt=key_idx;
 			key=djon_get(ds,key_idx);
+			key->par=obj_idx;
 			key->prv=lst_idx;
 			key->lst=val_idx; //  remember val for this key
 			lst_idx=key_idx;

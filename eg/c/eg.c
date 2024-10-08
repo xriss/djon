@@ -284,6 +284,46 @@ will force it to be a string.\n\
 					printf("\t=\t%s\n",value);
 				}
 			}
+
+		}
+
+// iterate over all values in json
+		printf("Printing all paths and values\n");
+		for( int vi=ds->parse_value ; vi ; vi=djon_value_all(ds,ds->parse_value,vi) )
+		{
+			int vt=djon_value_get_typ(ds,vi);
+			if((vt&DJON_FLAGMASK)!=DJON_KEY) // ignore keys (which are also strings)
+			{
+				char *value="";
+				char buff[256];
+				switch(vt&DJON_TYPEMASK)
+				{
+					case DJON_STRING :
+						djon_value_copy_str(ds,vi,buff+1,(sizeof buff)-2);
+						buff[0]='"'; // wrap strings in quotes
+						buff[ strlen(buff)+1 ]=0;
+						buff[ strlen(buff)   ]='"';
+						value=buff;
+					break;
+					case DJON_NUMBER :
+						djon_double_to_str( djon_value_get_num(ds,vi) ,buff);
+						value=buff;
+					break;
+					case DJON_BOOL :
+						value=( (djon_value_get_num(ds,vi)==0.0) ? "FALSE" : "TRUE" );
+					break;
+					case DJON_OBJECT :
+						value="{}";
+					break;
+					case DJON_ARRAY :
+						value="[]";
+					break;
+					case DJON_NULL :
+						value="NULL";
+					break;
+				}
+				printf("\t%-32s\t= %s\n", djon_value_to_path(ds,0,vi) , value );
+			}
 		}
 
 		printf("Saving %s\n",fname);
