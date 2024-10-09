@@ -125,7 +125,7 @@ typedef enum djon_enum
 	DJON_COMMENT  = 0x0007,
 
 	DJON_ESCAPED  = 0x0100, // this string contains \n \t \" etc
-	DJON_LONG     = 0x0200, // this string is long ( remove first/last \n )
+	DJON_LONG     = 0x0200, // this string is long
 	DJON_KEY      = 0x0400, // this string is a key
 
 	DJON_FREE     = 0x0000, // this value is free and can be allocated
@@ -185,7 +185,7 @@ typedef struct djon_state
 	FILE *fp; // where to write output
 #endif
 	int   compact; // compact output flag
-	int   strict; // strict input/output flag
+	int   strict; // strict input/output flag (json bitch mode)
 	char *write_data; // string output
 	int   write_size;
 	int   write_len;
@@ -198,7 +198,7 @@ typedef struct djon_state
 
 } djon_state ;
 
-
+// C interface used to parse and stringify json/djon
 extern djon_state * djon_setup();
 extern void         djon_clean(       djon_state *ds);
 extern int          djon_load_file(   djon_state *ds, const char *fname);
@@ -216,7 +216,7 @@ extern int          djon_parse_value( djon_state *ds);
 extern int          djon_check_stack( djon_state *ds);
 extern void         djon_sort_object( djon_state *ds, int idx );
 
-// simplish path based C interface for reate delete and find
+// simplish path based C interface for create delete and find of json data used in this library
 extern int          djon_value_newkey(   djon_state *ds, int base_idx, const char *path, const char *key);
 extern int          djon_value_newindex( djon_state *ds, int base_idx, const char *path, int index);
 extern void         djon_value_delete(   djon_state *ds, int base_idx, const char *path);
@@ -1584,6 +1584,55 @@ void djon_value_delete(   djon_state *ds, int base_idx, const char *path)
 	return;
 }
 
+// guess the output size of outputting data so we can use compact format for small
+// arrays and objects, small is your character count idea of small, bucket 
+// must start at 0 and is returned after adding the size
+int djon_value_is_small(djon_state *ds,int idx,int small,int bucket)
+{
+	if(bucket>small){return bucket;}
+
+	int vi=idx;
+	djon_value *vv=djon_get(ds,vi);
+	if(!vv){return bucket;}
+
+	if(	vv->com && (bucket>0) ) { return bucket+small; } // give up on any sub comments
+
+	if(	vv->lst )
+	{
+		bucket+=2; // add minimum array/string size
+		if((vv->typ&DJON_TYPEMASK)==DJON_STRING) // its a key
+		{
+			bucket+=vv->len;
+		}
+		if(bucket>small){return bucket;}
+		for( int ci=vv->lst ; ci ; ci=djon_value_get_nxt(ds,ci) )
+		{
+			bucket=djon_value_is_small(ds,ci,small,bucket);
+			if(bucket>small){return bucket;}
+		}
+	}
+	else
+	if((vv->typ&DJON_TYPEMASK)==DJON_STRING)
+	{
+		bucket+=2+vv->len;
+	}
+	else
+	if((vv->typ&DJON_TYPEMASK)==DJON_NUMBER)
+	{
+		bucket+=10; // average number size dont bother with precision
+	}
+	else
+	if((vv->typ&DJON_TYPEMASK)==DJON_BOOL)
+	{
+		bucket+=vv->num?5:6;
+	}
+	else
+	if((vv->typ&DJON_TYPEMASK)==DJON_NULL)
+	{
+		bucket+=4;
+	}
+	return bucket;
+}
 
 // unallocate unused values at the end of a parse
 void djon_shrink(djon_state *ds)
@@ -2027,9 +2076,11 @@ void djon_write_djon_indent(djon_state *ds,int idx,int indent)
 		else
 		if((v->typ&DJON_TYPEMASK)==DJON_ARRAY)
 		{
+			int ds_compact=ds->compact; // save
+			if(djon_value_is_small(ds,idx,128,0)<=128) { ds->compact=1; }
 			indent=djon_write_indent(ds,indent);
 			djon_write_string(ds,"[");
-			djon_write_string(ds,"\n");
+			djon_write_string(ds,ds->compact?" ":"\n");
 			val_idx=v->lst; val=djon_get(ds,val_idx);
 			while(val)
 			{
@@ -2042,15 +2093,18 @@ void djon_write_djon_indent(djon_state *ds,int idx,int indent)
 			}
 			indent=djon_write_indent(ds,indent);
 			djon_write_string(ds,"]");
-			djon_write_string(ds,"\n");
+			ds->compact=ds_compact; // unsave
+			djon_write_string(ds,ds->compact?" ":"\n");
 		}
 		else
 		if((v->typ&DJON_TYPEMASK)==DJON_OBJECT)
 		{
+			int ds_compact=ds->compact; // save
+			if(djon_value_is_small(ds,idx,128,0)<=128) { ds->compact=1; }
 			djon_sort_object(ds,idx); // sort
 			indent=djon_write_indent(ds,indent);
 			djon_write_string(ds,"{");
-			djon_write_string(ds,"\n");
+			djon_write_string(ds,ds->compact?" ":"\n");
 			key_idx=v->lst; key=djon_get(ds,key_idx);
 			while(key)
 			{
@@ -2097,13 +2151,14 @@ void djon_write_djon_indent(djon_state *ds,int idx,int indent)
 			}
 			indent=djon_write_indent(ds,indent);
 			djon_write_string(ds,"}");
-			djon_write_string(ds,"\n");
+			ds->compact=ds_compact; // unsave
+			djon_write_string(ds,ds->compact?" ":"\n");
 		}
 		else
 		if((v->typ&DJON_TYPEMASK)==DJON_STRING)
 		{
-			// no naked strings in strict djon
-			if( (!ds->strict) && djon_is_naked_string(v->str,v->len) )
+			// no naked strings in strict or compact djon
+			if( (!ds->compact) && (!ds->strict) && djon_is_naked_string(v->str,v->len) )
 			{
 				indent=djon_write_indent(ds,indent);
 				djon_write_it(ds,v->str,v->len);
@@ -2123,7 +2178,7 @@ void djon_write_djon_indent(djon_state *ds,int idx,int indent)
 				}
 				djon_write_it(ds,v->str,v->len);
 				djon_write_string(ds,qs);
-				djon_write_string(ds,"\n");
+				djon_write_string(ds,ds->compact?" ":"\n");
 			}
 		}
 		else
@@ -2132,27 +2187,27 @@ void djon_write_djon_indent(djon_state *ds,int idx,int indent)
 			indent=djon_write_indent(ds,indent);
 			len=djon_double_to_str(v->num,ds->buf);
 			djon_write_it(ds,ds->buf,len);
-			djon_write_string(ds,"\n");
+			djon_write_string(ds,ds->compact?" ":"\n");
 		}
 		else
 		if((v->typ&DJON_TYPEMASK)==DJON_BOOL)
 		{
 			indent=djon_write_indent(ds,indent);
 			djon_write_string(ds,(char*)(v->num?"TRUE":"FALSE"));
-			djon_write_string(ds,"\n");
+			djon_write_string(ds,ds->compact?" ":"\n");
 		}
 		else
 		if((v->typ&DJON_TYPEMASK)==DJON_NULL)
 		{
 			indent=djon_write_indent(ds,indent);
 			djon_write_string(ds,"NULL");
-			djon_write_string(ds,"\n");
+			djon_write_string(ds,ds->compact?" ":"\n");
 		}
 		else
 		{
 			indent=djon_write_indent(ds,indent);
 			djon_write_string(ds,"NULL");
-			djon_write_string(ds,"\n");
+			djon_write_string(ds,ds->compact?" ":"\n");
 		}
 	}
 }
