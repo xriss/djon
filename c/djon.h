@@ -184,7 +184,7 @@ typedef struct djon_state
 #else
 	FILE *fp; // where to write output
 #endif
-	int   small; // size of what is considered small ( 128 )
+	int   small; // what is considered small ( 128 ) set to 0 to disable
 	int   compact; // compact output flag
 	int   strict; // strict input/output flag (json bitch mode)
 	char *write_data; // string output
