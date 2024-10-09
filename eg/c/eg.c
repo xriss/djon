@@ -322,7 +322,7 @@ will force it to be a string.\n\
 						value="NULL";
 					break;
 				}
-				printf("\t%-32s\t= %s\n", djon_value_to_path(ds,0,vi) , value );
+				printf("%32s = %s\n", djon_value_to_path(ds,0,vi) , value );
 			}
 		}
 

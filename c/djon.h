@@ -164,6 +164,7 @@ typedef struct djon_state
 	djon_value * values;
 	int          values_len; // used buffer size
 	int          values_inc; // reuse test index
+	int          values_reset; // reset test index
 	int          values_siz; // allocated buffer size
 
 	// current parse state
@@ -1017,6 +1018,7 @@ djon_state * djon_setup()
 	ds->compact=0;
 
 	ds->values_len=1; // first value is used as a null so start at 1
+	ds->values_reset=0; // reset search
 	ds->values_inc=0; // reset search
 	ds->values_siz=(DJON_VALUE_CHUNK_SIZE);
 	ds->values=(djon_value *)DJON_MEM_MALLOC(ds, ds->values_siz * sizeof(djon_value) );
@@ -1595,6 +1597,7 @@ void djon_shrink(djon_state *ds)
 // mark this value as free, it may be reused next time we allocate one
 void djon_free(djon_state *ds,int idx)
 {
+	if(idx<ds->values_reset) { ds->values_reset=idx; } // reset reset
 	djon_value * v=djon_get(ds,idx);
 	if( v )
 	{
@@ -1609,10 +1612,11 @@ int djon_alloc(djon_state *ds)
 	djon_value * v=0;
 	for(int i=0;i<16;i++) // first do a quick search for previously freed values
 	{
+		if(ds->values_inc==ds->values_reset) { ds->values_reset++; } // auto advance reset
 		ds->values_inc++; // simple wrapping search pointer
 		if( ds->values_inc >= ds->values_len ) // reset and give up
 		{
-			ds->values_inc=0;
+			ds->values_inc=ds->values_reset;
 			v=0;
 			break;
 		}
