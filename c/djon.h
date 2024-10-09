@@ -184,6 +184,7 @@ typedef struct djon_state
 #else
 	FILE *fp; // where to write output
 #endif
+	int   small; // size of what is considered small ( 128 )
 	int   compact; // compact output flag
 	int   strict; // strict input/output flag (json bitch mode)
 	char *write_data; // string output
@@ -1016,6 +1017,7 @@ djon_state * djon_setup()
 
 	ds->strict=0;
 	ds->compact=0;
+	ds->small=128;
 
 	ds->values_len=1; // first value is used as a null so start at 1
 	ds->values_reset=0; // reset search
@@ -2077,7 +2079,7 @@ void djon_write_djon_indent(djon_state *ds,int idx,int indent)
 		if((v->typ&DJON_TYPEMASK)==DJON_ARRAY)
 		{
 			int ds_compact=ds->compact; // save
-			if(djon_value_is_small(ds,idx,128,0)<=128) { ds->compact=1; }
+			if(djon_value_is_small(ds,idx,ds->small,0)<=ds->small) { ds->compact=1; }
 			indent=djon_write_indent(ds,indent);
 			djon_write_string(ds,"[");
 			djon_write_string(ds,ds->compact?" ":"\n");
@@ -2100,7 +2102,7 @@ void djon_write_djon_indent(djon_state *ds,int idx,int indent)
 		if((v->typ&DJON_TYPEMASK)==DJON_OBJECT)
 		{
 			int ds_compact=ds->compact; // save
-			if(djon_value_is_small(ds,idx,128,0)<=128) { ds->compact=1; }
+			if(djon_value_is_small(ds,idx,ds->small,0)<=ds->small) { ds->compact=1; }
 			djon_sort_object(ds,idx); // sort
 			indent=djon_write_indent(ds,indent);
 			djon_write_string(ds,"{");
