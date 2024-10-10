@@ -2247,10 +2247,12 @@ int djon_value_to_vca(djon_state *ds,int idx)
 	
 	old=djon_get(ds,idx);
 	if(!old) { return 0; }
+	djon_value *par=djon_get(ds,old->par); // parent maybe key and might have comments
 
 	arr_idx=0;
-	if( (old->com) || ((old->typ&DJON_TYPEMASK)==DJON_ARRAY) ) // turn value into array with comments
+	if( (old->com) || ((old->typ&DJON_TYPEMASK)==DJON_ARRAY) || (par&&((par->typ&DJON_FLAGMASK)==DJON_KEY)&&par->com) ) // turn value into array with comments
 	{
+		com_idx=old->com ? old->com : par->com;
 		arr_idx=djon_alloc(ds); // this invalidates pointers
 		if(!arr_idx) { return 0; }
 		val_idx=djon_dupe_value(ds,idx); // this invalidates pointers
@@ -2267,7 +2269,7 @@ int djon_value_to_vca(djon_state *ds,int idx)
 		lst_idx=val_idx;
 		
 		// loop comments
-		for( i=1 , com_idx=djon_get(ds,idx)->com ; com_idx ; i++ , com_idx=djon_get(ds,com_idx)->com )
+		for( i=1 ; com_idx ; i++ , com_idx=djon_get(ds,com_idx)->com )
 		{
 			new_idx=djon_dupe_value(ds,com_idx); // this invalidates pointers
 			if(!new_idx) { return 0; }

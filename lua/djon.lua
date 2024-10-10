@@ -8,6 +8,47 @@ local M={ modname=(...) }
 package.loaded[M.modname]=M
 local djon=M
 
+
+--[[
+
+merge comments in com into the data in dat.
+
+]]
+djon.merge_comments=function( dat , com )
+
+	local istable=function(it)
+		if type(it)=="table" then return true end
+		return false
+	end
+	local isarray=function(it)
+		if type(it)~="table" then return false end
+		local first=next(it)
+		if ( type(first)=="number" ) and ( first==1 ) then return true end -- defo starts at 1
+		return false
+	end
+	
+	local out=dat
+	if isarray(dat) or isarray(com) then -- output must be array
+		out={dat} -- must be array
+		if isarray(com) then -- copy comments
+			for i=2,#com do out[i]=com[i] end
+			com=com[1]
+		end
+	end
+	if type(dat)=="table" then -- need to recurse
+		local o={}
+		for n,d in pairs(dat) do
+			local c=istable(com) and com[n]
+			o[n]=djon.merge_comments(d,c)
+		end
+		if isarray(out) then out[1]=o else out=o end
+	end
+
+	return out
+end
+
+
+
 --[[
 
 load a json/djon file
@@ -54,6 +95,21 @@ djon.load_core=function(it,...)
 	return it.output
 end
 
+
+--[[
+
+save data in a json/djon file
+
+]]
+djon.save_comments_file=function(filename,tab,...)
+
+	local com -- maybe we have comments to merge from old file
+	pcall( function() com=djon.load_file(filename,"comments") end ) -- load but do not complain
+	local it={}
+	it.filename=filename
+	it.tab=djon.merge_comments( tab , com )
+	return djon.save_core(it,"comments","djon",...) -- force djon and comments flag
+end
 
 --[[
 
