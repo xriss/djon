@@ -98,16 +98,20 @@ end
 
 --[[
 
-save data in a json/djon file
+merge data with comments already in a djon file, then save over it.
+
+This is designed to keep configuration file comments. Load file as just 
+json data modify it as you wish then use this function to reapply 
+comments and write back out.
 
 ]]
-djon.save_comments_file=function(filename,tab,...)
+djon.save_comments=function(filename,tab,...)
 
 	local com -- maybe we have comments to merge from old file
 	pcall( function() com=djon.load_file(filename,"comments") end ) -- load but do not complain
 	local it={}
 	it.filename=filename
-	it.tab=djon.merge_comments( tab , com )
+	it.tab=djon.merge_comments( tab , com ) -- merge comments
 	return djon.save_core(it,"comments","djon",...) -- force djon and comments flag
 end
 

@@ -28,4 +28,4 @@ data.this_is_new="not old"
 data.show="old comments are kept even if we change data type"
 
 -- save djon with comments ( loaded from output file )
-djon.save_comments_file("test.djon",data)
+djon.save_comments("test.djon",data)
