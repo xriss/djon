@@ -1,0 +1,34 @@
+{
+ debug = FALSE
+ episode = {
+  best = small
+  maxsize = 4000000000
+  minsize = 1000000
+  rules = [
+   // start with everything
+   [ TRUE ]
+   // avoid lowrez unless its the only version available
+   [ `480p` FALSE ]
+  ]
+ }
+ feeds = [ ]
+ paths = { download=`new` rss=`rss.xml` sqlite=`rss.sqlite` tv=`tv` }
+ rss = { length=512 }
+ show = {
+  rules = [
+   // start with everything
+   [ TRUE ]
+   // must be english audio ( language is listed on TVMAZE )
+   [ `!english` FALSE ]
+   // do not want these categorys ( as listed on TVMAZE )
+   [ `reality` FALSE ]
+   [ `sports` FALSE ]
+   // documentarys are genrally OK but not if they are crime/medical
+   [ `documentary` `crime` FALSE ]
+   [ `documentary` `medical` FALSE ]
+   // allow some reality TV if it is nature/food
+   [ `english` `reality` `nature` TRUE ]
+   [ `english` `reality` `food` TRUE ]
+  ]
+ }
+}

@@ -225,8 +225,7 @@ extern void         djon_value_dechild(  djon_state *ds, int base_idx, const cha
 extern int          djon_value_by_path(  djon_state *ds, int base_idx, const char *path, const char **lastkey);
 extern int          djon_value_by_index( djon_state *ds, int base_idx, int index);
 extern int          djon_value_all(      djon_state *ds, int base_idx, int di);
-extern int          djon_value_all(      djon_state *ds, int base_idx, int di);
-extern const char * djon_value_to_path(  djon_state *ds, int base_idx, int value_idx);
+extern const char * djon_value_to_path(  djon_state *ds, int base_idx, int di);
 // simplish C interface for getting,setting and iterating
 extern int          djon_value_copy_str(   djon_state *ds, int di, char *dest, int siz);
 extern const char * djon_value_get_str(    djon_state *ds, int di);
@@ -2027,7 +2026,7 @@ void djon_write_djon_indent(djon_state *ds,int idx,int indent)
 		if( ((v->typ&DJON_TYPEMASK)!=DJON_COMMENT) && (v->com) )
 		{
 			key=djon_get(ds,v->par);
-			if( key && ((key->typ&DJON_FLAGMASK)==DJON_KEY) )
+			if( key && ( ((key->typ&DJON_FLAGMASK)==DJON_KEY) || ((key->typ&DJON_TYPEMASK)==DJON_ARRAY) ) )
 			{
 				// already printed
 			}
@@ -2049,22 +2048,15 @@ void djon_write_djon_indent(djon_state *ds,int idx,int indent)
 				for( com_idx=idx ; (com=djon_get(ds,com_idx)) ; com_idx=com->com )
 				{
 					indent=djon_write_indent(ds,indent);
-					djon_write_string(ds,"//");
-					if(!ds->compact)
-					{
-						djon_write_string(ds," ");
-					}
+					djon_write_string(ds,"// ");
 					for( cp=com->str ; cp<com->str+com->len ; cp++ )
 					{
 						c=*cp;
 						if(c=='\n')
 						{
 							djon_write_string(ds,"\n");
-							djon_write_string(ds,"//");
-							if(!ds->compact)
-							{
-								djon_write_string(ds," ");
-							}
+							indent=djon_write_indent(ds,indent);
+							djon_write_string(ds,"// ");
 						}
 						else
 						{
@@ -2078,9 +2070,9 @@ void djon_write_djon_indent(djon_state *ds,int idx,int indent)
 		else
 		if((v->typ&DJON_TYPEMASK)==DJON_ARRAY)
 		{
+			indent=djon_write_indent(ds,indent);
 			int ds_compact=ds->compact; // save
 			if(djon_value_is_small(ds,idx,ds->small,0)<=ds->small) { ds->compact=1; }
-			indent=djon_write_indent(ds,indent);
 			djon_write_string(ds,"[");
 			djon_write_string(ds,ds->compact?" ":"\n");
 			val_idx=v->lst; val=djon_get(ds,val_idx);
@@ -2101,10 +2093,10 @@ void djon_write_djon_indent(djon_state *ds,int idx,int indent)
 		else
 		if((v->typ&DJON_TYPEMASK)==DJON_OBJECT)
 		{
+			indent=djon_write_indent(ds,indent);
 			int ds_compact=ds->compact; // save
 			if(djon_value_is_small(ds,idx,ds->small,0)<=ds->small) { ds->compact=1; }
 			djon_sort_object(ds,idx); // sort
-			indent=djon_write_indent(ds,indent);
 			djon_write_string(ds,"{");
 			djon_write_string(ds,ds->compact?" ":"\n");
 			key_idx=v->lst; key=djon_get(ds,key_idx);
