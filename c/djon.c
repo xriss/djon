@@ -48,11 +48,6 @@ int main(int argc, char *argv[])
 				compact=1;
 			}
 			else
-			if( 0==strcmp(cp,"--pretty") )
-			{
-				compact=0;
-			}
-			else
 			if( 0==strcmp(cp,"--strict") )
 			{
 				strict=1;
@@ -76,12 +71,10 @@ Possible options are:\n\
 	--djon     : output djon format\n\
 	--json     : output json format\n\
 	--compact  : output compact\n\
-	--pretty   : output pretty\n\
-	--strict   : enable strict format\n\
+	--strict   : enable json bitch mode\n\
 	--comments : comments formated json*\n\
 	--         : stop parsing options\n\
 \n\
-We default to pretty output.\n\
 When using comments, it is assumed that you are converting between a\n\
 json format with [value,comment...] values and djon, so it applies to\n\
 input if writing djon and output if writing json.\n\

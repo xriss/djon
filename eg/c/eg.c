@@ -177,7 +177,7 @@ will force it to be a string.\n\
 					else
 					if( (djon_value_get_typ(ds,pi)&DJON_TYPEMASK)==DJON_ARRAY )
 					{
-						int lastidx=(int)djon_str_to_number( (char*)lastkey , 0 );
+						int lastidx=(int)djon_str_to_number(ds, (char*)lastkey , 0 );
 						vi=djon_value_newindex(ds,pi,0,lastidx);
 						if( !vi ){ goto error; }
 					}
@@ -232,7 +232,7 @@ will force it to be a string.\n\
 						}
 						if(isnumber)
 						{
-							double d=djon_str_to_number( (char*)value , 0 );
+							double d=djon_str_to_number(ds, (char*)value , 0 );
 							djon_value_set(ds,vi,DJON_NUMBER,d,0,0);
 						}
 						else

@@ -186,7 +186,7 @@ typedef struct djon_state
 #endif
 	int   small; // what is considered small ( 128 ) set to 0 to disable
 	int   compact; // compact output flag
-	int   strict; // strict input/output flag (json bitch mode)
+	int   strict; // json bitch mode input flag
 	char *write_data; // string output
 	int   write_size;
 	int   write_len;
@@ -914,7 +914,7 @@ error:
 	return NAN;
 }
 
-double djon_str_to_number(char *cp,char **endptr)
+double djon_str_to_number(djon_state *ds, char *cp,char **endptr)
 {
 	if	(
 			( (cp[0]=='0') && ( (cp[1]=='x') || (cp[1]=='X') ) )
@@ -922,6 +922,11 @@ double djon_str_to_number(char *cp,char **endptr)
 			( ( (cp[0]=='+') || (cp[0]=='-') ) && (cp[1]=='0') && ( (cp[2]=='x') || (cp[2]=='X') ) )
 		)
 	{
+		if(ds->strict)
+		{
+			djon_set_error(ds,"0x numbers not allowed in strict mode");
+			return 0;
+		}
 		return djon_str_to_hex(cp,endptr);
 	}
 	else
@@ -1407,7 +1412,7 @@ int djon_value_by_path(djon_state *ds, int base_idx , const char *path, const ch
 			else
 			if((val->typ&DJON_TYPEMASK)==DJON_ARRAY)
 			{
-				i=(int)djon_str_to_number(buf,0);
+				i=(int)djon_str_to_number(ds,buf,0);
 
 				val_idx=val->lst;
 				while(val_idx)
@@ -2151,8 +2156,8 @@ void djon_write_djon_indent(djon_state *ds,int idx,int indent)
 		else
 		if((v->typ&DJON_TYPEMASK)==DJON_STRING)
 		{
-			// no naked strings in strict or compact djon
-			if( (!ds->compact) && (!ds->strict) && djon_is_naked_string(v->str,v->len) )
+			// no naked strings in compact djon
+			if( (!ds->compact) && djon_is_naked_string(v->str,v->len) )
 			{
 				indent=djon_write_indent(ds,indent);
 				djon_write_it(ds,v->str,v->len);
@@ -2252,7 +2257,7 @@ int djon_value_to_vca(djon_state *ds,int idx)
 	arr_idx=0;
 	if( (old->com) || ((old->typ&DJON_TYPEMASK)==DJON_ARRAY) || (par&&((par->typ&DJON_FLAGMASK)==DJON_KEY)&&par->com) ) // turn value into array with comments
 	{
-		com_idx=old->com ? old->com : par->com;
+		com_idx=old->com ? old->com : ( par ? par->com : 0 );
 		arr_idx=djon_alloc(ds); // this invalidates pointers
 		if(!arr_idx) { return 0; }
 		val_idx=djon_dupe_value(ds,idx); // this invalidates pointers
@@ -2844,7 +2849,7 @@ int djon_parse_number(djon_state *ds)
 	char *cpe;
 
 //	double d=strtod(cps,&cpe);
-	double d=djon_str_to_number(cps,&cpe);
+	double d=djon_str_to_number(ds,cps,&cpe);
 	int len=cpe-cps;
 	if( len > 0 ) // valid number
 	{
@@ -2879,12 +2884,14 @@ int djon_parse_key(djon_state *ds)
 	c=ds->data[ ds->parse_idx ];
 	if( c=='\'' || c=='"' || c=='`') // reuse string parsing
 	{
+		if((ds->strict)&&(c!='"')){ djon_set_error(ds,"keys require double quotes in strict mode"); goto error; }
 		key_idx=djon_parse_string(ds,c);
 		key=djon_get(ds,key_idx);
 		if(!key){return 0;} // out of data
 		key->typ=DJON_KEY|DJON_STRING; // this is a key
 		return key_idx;
 	}
+	if(ds->strict){ djon_set_error(ds,"naked keys not allowed in strict mode"); goto error; }
 
 
 	key_idx=djon_parse_next(ds);
@@ -3075,7 +3082,7 @@ int djon_parse_object(djon_state *ds)
 
 		key_idx=djon_parse_key(ds);
 		if(!key_idx) { djon_set_error(ds,"missing }"); return 0; }
-		if( djon_skip_white_punct(ds,"=:") != 1 ) { djon_set_error(ds,"missing :"); return 0; } // required
+		if( djon_skip_white_punct(ds,ds->strict ? ":" : "=:") != 1 ) { djon_set_error(ds,"missing :"); return 0; } // required
 		val_idx=djon_parse_value(ds); if(!val_idx){ djon_set_error(ds,"missing value"); return 0; }
 		djon_apply_comments(ds,val_idx); // apply any middle comments to the key
 
@@ -3202,7 +3209,7 @@ int djon_parse_value(djon_state *ds)
 	djon_skip_white(ds);
 
 // check for special strings lowercase/camel/upper only
-	if( djon_peek_string(ds,"true" ) || djon_peek_string(ds,"True" ) || djon_peek_string(ds,"TRUE" ) )
+	if( djon_peek_string(ds,"true" ) || ( (!ds->strict) && ( djon_peek_string(ds,"True" ) || djon_peek_string(ds,"TRUE" ) ) ) )
 	{
 		idx=djon_alloc(ds);
 		v=djon_get(ds,idx);
@@ -3213,7 +3220,7 @@ int djon_parse_value(djon_state *ds)
 		return idx;
 	}
 	else
-	if( djon_peek_string(ds,"false" ) || djon_peek_string(ds,"False" ) || djon_peek_string(ds,"FALSE" ) )
+	if( djon_peek_string(ds,"false" ) || ( (!ds->strict) && ( djon_peek_string(ds,"False" ) || djon_peek_string(ds,"FALSE" ) ) ) )
 	{
 		idx=djon_alloc(ds);
 		v=djon_get(ds,idx);
@@ -3224,7 +3231,7 @@ int djon_parse_value(djon_state *ds)
 		return idx;
 	}
 	else
-	if( djon_peek_string(ds,"null" ) || djon_peek_string(ds,"Null" ) || djon_peek_string(ds,"NULL" ) )
+	if( djon_peek_string(ds,"null" ) || ( (!ds->strict) && ( djon_peek_string(ds,"Null" ) || djon_peek_string(ds,"NULL" ) ) ) )
 	{
 		idx=djon_alloc(ds);
 		v=djon_get(ds,idx);
@@ -3273,14 +3280,14 @@ int djon_parse_value(djon_state *ds)
 			return djon_parse_string(ds,'\'');
 		break;
 		case '"' :
-			if(ds->strict)
-			{
-				djon_set_error(ds,"double quote string not allowed in strict mode");
-				return 0;
-			}
 			return djon_parse_string(ds,'"');
 		break;
 		case '`' :
+			if(ds->strict)
+			{
+				djon_set_error(ds,"back quote string not allowed in strict mode");
+				return 0;
+			}
 			return djon_parse_string(ds,'`');
 		break;
 		case '0' :
@@ -3296,6 +3303,11 @@ int djon_parse_value(djon_state *ds)
 		case '.' :
 		case '+' :
 		case '-' :
+			if( (ds->strict) && ( ( c=='+' ) || ( c=='.' ) ) )
+			{
+				djon_set_error(ds,"numbers may not begin with a . or + in strict mode");
+				return 0;
+			}
 			return djon_parse_number(ds);
 		break;
 	}
