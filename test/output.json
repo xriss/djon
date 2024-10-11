@@ -27,21 +27,21 @@
 #json/bad/n_array_a_invalid_utf8.json
 [a#]
 #c.json
-missing ]
-line 1 char 5 byte 4
+naked string not allowed in strict mode
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 5 byte 4
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 5 byte 4
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 7 byte 6
+Error: naked string not allowed in strict mode at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -58,9 +58,9 @@ line 1 char 4 byte 3
 missing ,
 line 1 char 4 byte 3
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing , line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing , line 1 char 4 byte 3
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing , line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing , line 1 char 4 byte 3
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -87,9 +87,9 @@ garbage at end of file
 line 1 char 5 byte 4
 [ `` ]
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 5 byte 4
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 5 byte 4
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -112,9 +112,9 @@ line 1 char 2 byte 1
 unexpected ,
 line 1 char 2 byte 1
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: unexpected , line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: unexpected , line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: unexpected , line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: unexpected , line 1 char 2 byte 1
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -137,9 +137,9 @@ line 1 char 5 byte 4
 multiple ,
 line 1 char 5 byte 4
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: multiple , line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: multiple , line 1 char 5 byte 4
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: multiple , line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: multiple , line 1 char 5 byte 4
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -162,9 +162,9 @@ line 1 char 7 byte 6
 multiple ,
 line 1 char 7 byte 6
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: multiple , line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: multiple , line 1 char 7 byte 6
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: multiple , line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: multiple , line 1 char 7 byte 6
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -191,9 +191,9 @@ garbage at end of file
 line 1 char 6 byte 5
 [ `x` ]
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 6 byte 5
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 6 byte 5
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -231,21 +231,21 @@ Error: garbage at end of file at line 1 char 6 byte 5
 #json/bad/n_array_incomplete_invalid_value.json
 [x
 #c.json
-missing ]
-line 1 char 3 byte 2
+naked string not allowed in strict mode
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 3 byte 2
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 3 byte 2
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 3 byte 2
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 3 byte 2
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 3 byte 2
+Error: naked string not allowed in strict mode at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -256,21 +256,21 @@ Error: missing ] at line 1 char 3 byte 2
 #json/bad/n_array_incomplete.json
 ["x"
 #c.json
-missing ]
+naked string not allowed in strict mode
 line 1 char 5 byte 4
 #c.djon
 missing ]
 line 1 char 5 byte 4
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 1 char 5 byte 4
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 5 byte 4
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 5 byte 4
+Error: naked string not allowed in strict mode at line 1 char 5 byte 4
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -287,9 +287,9 @@ line 1 char 3 byte 2
 missing ,
 line 1 char 3 byte 2
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing , line 1 char 3 byte 2
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing , line 1 char 3 byte 2
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing , line 1 char 3 byte 2
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing , line 1 char 3 byte 2
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -306,21 +306,21 @@ Error: missing , at line 1 char 3 byte 2
 #json/bad/n_array_invalid_utf8.json
 [#]
 #c.json
-missing ]
-line 1 char 4 byte 3
+naked string not allowed in strict mode
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 4 byte 3
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 4 byte 3
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 6 byte 5
+Error: naked string not allowed in strict mode at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -337,9 +337,9 @@ line 1 char 3 byte 2
 missing ,
 line 1 char 3 byte 2
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing , line 1 char 3 byte 2
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing , line 1 char 3 byte 2
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing , line 1 char 3 byte 2
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing , line 1 char 3 byte 2
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -362,9 +362,9 @@ line 1 char 2 byte 1
 unexpected ,
 line 1 char 2 byte 1
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: unexpected , line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: unexpected , line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: unexpected , line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: unexpected , line 1 char 2 byte 1
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -381,21 +381,21 @@ Error: unexpected , at line 1 char 2 byte 1
 #json/bad/n_array_just_minus.json
 [-]
 #c.json
-missing ]
-line 1 char 4 byte 3
+invalid number
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 4 byte 3
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid number line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 4 byte 3
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 4 byte 3
+Error: invalid number at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -412,9 +412,9 @@ line 1 char 5 byte 4
 unexpected ,
 line 1 char 5 byte 4
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: unexpected , line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: unexpected , line 1 char 5 byte 4
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: unexpected , line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: unexpected , line 1 char 5 byte 4
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -433,21 +433,21 @@ Error: unexpected , at line 1 char 5 byte 4
 4
 ,1,
 #c.json
-missing ]
+naked string not allowed in strict mode
 line 3 char 4 byte 11
 #c.djon
 missing ]
 line 3 char 4 byte 11
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 3 char 4 byte 11
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 3 char 4 byte 11
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 3 char 4 byte 11
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 3 char 4 byte 11
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 3 char 4 byte 11
+Error: naked string not allowed in strict mode at line 3 char 4 byte 11
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -485,9 +485,9 @@ line 1 char 5 byte 4
 multiple ,
 line 1 char 5 byte 4
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: multiple , line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: multiple , line 1 char 5 byte 4
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: multiple , line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: multiple , line 1 char 5 byte 4
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -510,9 +510,9 @@ line 1 char 6 byte 5
 missing ,
 line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing , line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing , line 1 char 6 byte 5
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing , line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing , line 1 char 6 byte 5
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -529,21 +529,21 @@ Error: missing , at line 1 char 6 byte 5
 #json/bad/n_array_star_inside.json
 [*]
 #c.json
-missing ]
-line 1 char 4 byte 3
+naked string not allowed in strict mode
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 4 byte 3
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 4 byte 3
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 4 byte 3
+Error: naked string not allowed in strict mode at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -554,21 +554,21 @@ Error: missing ] at line 1 char 4 byte 3
 #json/bad/n_array_unclosed.json
 [""
 #c.json
-missing ]
+naked string not allowed in strict mode
 line 1 char 4 byte 3
 #c.djon
 missing ]
 line 1 char 4 byte 3
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 1 char 4 byte 3
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 4 byte 3
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 4 byte 3
+Error: naked string not allowed in strict mode at line 1 char 4 byte 3
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -579,21 +579,21 @@ Error: missing ] at line 1 char 4 byte 3
 #json/bad/n_array_unclosed_trailing_comma.json
 [1,
 #c.json
-missing ]
+naked string not allowed in strict mode
 line 1 char 4 byte 3
 #c.djon
 missing ]
 line 1 char 4 byte 3
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 1 char 4 byte 3
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 4 byte 3
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 4 byte 3
+Error: naked string not allowed in strict mode at line 1 char 4 byte 3
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -606,21 +606,21 @@ Error: missing ] at line 1 char 4 byte 3
 1
 ,1
 #c.json
-missing ]
+naked string not allowed in strict mode
 line 3 char 3 byte 8
 #c.djon
 missing ]
 line 3 char 3 byte 8
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 3 char 3 byte 8
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 3 char 3 byte 8
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 3 char 3 byte 8
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 3 char 3 byte 8
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 3 char 3 byte 8
+Error: naked string not allowed in strict mode at line 3 char 3 byte 8
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -631,21 +631,21 @@ Error: missing ] at line 3 char 3 byte 8
 #json/bad/n_array_unclosed_with_object_inside.json
 [{}
 #c.json
-missing ]
+naked string not allowed in strict mode
 line 1 char 4 byte 3
 #c.djon
 missing ]
 line 1 char 4 byte 3
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 1 char 4 byte 3
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 4 byte 3
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 4 byte 3
+Error: naked string not allowed in strict mode at line 1 char 4 byte 3
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -656,21 +656,21 @@ Error: missing ] at line 1 char 4 byte 3
 #json/bad/n_incomplete_false.json
 [fals]
 #c.json
-missing ]
-line 1 char 7 byte 6
+naked string not allowed in strict mode
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 7 byte 6
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 7 byte 6
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 7 byte 6
+Error: naked string not allowed in strict mode at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -681,21 +681,21 @@ Error: missing ] at line 1 char 7 byte 6
 #json/bad/n_incomplete_null.json
 [nul]
 #c.json
-missing ]
-line 1 char 6 byte 5
+naked string not allowed in strict mode
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 6 byte 5
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 6 byte 5
+Error: naked string not allowed in strict mode at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -706,21 +706,21 @@ Error: missing ] at line 1 char 6 byte 5
 #json/bad/n_incomplete_true.json
 [tru]
 #c.json
-missing ]
-line 1 char 6 byte 5
+naked string not allowed in strict mode
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 6 byte 5
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 6 byte 5
+Error: naked string not allowed in strict mode at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -739,9 +739,9 @@ garbage at end of file
 line 1 char 4 byte 3
 123
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 4 byte 3
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 4 byte 3
 #js.json
 123
 #js.djon
@@ -750,21 +750,21 @@ luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87:
 #json/bad/n_number_0.1.2.json
 [0.1.2]
 #c.json
-missing ]
-line 1 char 8 byte 7
+invalid number
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 8 byte 7
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 8 byte 7
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid number line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 8 byte 7
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 8 byte 7
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 8 byte 7
+Error: invalid number at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -796,21 +796,21 @@ Error: missing ] at line 1 char 8 byte 7
 #json/bad/n_number_0.3e+.json
 [0.3e+]
 #c.json
-missing ]
-line 1 char 8 byte 7
+invalid number
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 8 byte 7
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 8 byte 7
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid number line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 8 byte 7
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 8 byte 7
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 8 byte 7
+Error: invalid number at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -821,21 +821,21 @@ Error: missing ] at line 1 char 8 byte 7
 #json/bad/n_number_0.3e.json
 [0.3e]
 #c.json
-missing ]
-line 1 char 7 byte 6
+invalid number
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 7 byte 6
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid number line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 7 byte 6
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 7 byte 6
+Error: invalid number at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -846,21 +846,21 @@ Error: missing ] at line 1 char 7 byte 6
 #json/bad/n_number_0_capital_E+.json
 [0E+]
 #c.json
-missing ]
-line 1 char 6 byte 5
+invalid number
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid number line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 6 byte 5
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 6 byte 5
+Error: invalid number at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -871,21 +871,21 @@ Error: missing ] at line 1 char 6 byte 5
 #json/bad/n_number_0_capital_E.json
 [0E]
 #c.json
-missing ]
-line 1 char 5 byte 4
+invalid number
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 5 byte 4
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid number line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 5 byte 4
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 5 byte 4
+Error: invalid number at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -917,21 +917,21 @@ Error: missing ] at line 1 char 5 byte 4
 #json/bad/n_number_0e+.json
 [0e+]
 #c.json
-missing ]
-line 1 char 6 byte 5
+invalid number
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid number line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 6 byte 5
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 6 byte 5
+Error: invalid number at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -942,21 +942,21 @@ Error: missing ] at line 1 char 6 byte 5
 #json/bad/n_number_0e.json
 [0e]
 #c.json
-missing ]
-line 1 char 5 byte 4
+invalid number
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 5 byte 4
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid number line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 5 byte 4
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 5 byte 4
+Error: invalid number at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -991,21 +991,21 @@ Error: missing ] at line 1 char 5 byte 4
 #json/bad/n_number_1.0e+.json
 [1.0e+]
 #c.json
-missing ]
-line 1 char 8 byte 7
+invalid number
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 8 byte 7
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 8 byte 7
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid number line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 8 byte 7
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 8 byte 7
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 8 byte 7
+Error: invalid number at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1016,21 +1016,21 @@ Error: missing ] at line 1 char 8 byte 7
 #json/bad/n_number_1.0e-.json
 [1.0e-]
 #c.json
-missing ]
-line 1 char 8 byte 7
+invalid number
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 8 byte 7
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 8 byte 7
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid number line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 8 byte 7
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 8 byte 7
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 8 byte 7
+Error: invalid number at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1041,21 +1041,21 @@ Error: missing ] at line 1 char 8 byte 7
 #json/bad/n_number_1.0e.json
 [1.0e]
 #c.json
-missing ]
-line 1 char 7 byte 6
+invalid number
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 7 byte 6
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid number line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 7 byte 6
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 7 byte 6
+Error: invalid number at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1066,21 +1066,21 @@ Error: missing ] at line 1 char 7 byte 6
 #json/bad/n_number_-1.0..json
 [-1.0.]
 #c.json
-missing ]
-line 1 char 8 byte 7
+invalid number
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 8 byte 7
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 8 byte 7
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid number line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 8 byte 7
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 8 byte 7
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 8 byte 7
+Error: invalid number at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1091,21 +1091,21 @@ Error: missing ] at line 1 char 8 byte 7
 #json/bad/n_number_1eE2.json
 [1eE2]
 #c.json
-missing ]
-line 1 char 7 byte 6
+invalid number
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 7 byte 6
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid number line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 7 byte 6
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 7 byte 6
+Error: invalid number at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1116,42 +1116,41 @@ Error: missing ] at line 1 char 7 byte 6
 #json/bad/n_number_+1.json
 [+1]
 #c.json
-[
- 1
-]
+numbers may not begin with a . or + in strict mode
+line 1 char 2 byte 1
 #c.djon
 [ 1 ]
 #lua.json
-[
- 1
-]
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: numbers may not begin with a . or + in strict mode line 1 char 2 byte 1
 #lua.djon
 [ 1 ]
 #js.json
-[
- 1
-]
+file:///home/kriss/git/djon/js/djon.js:69
+		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
+		      ^
+
+Error: numbers may not begin with a . or + in strict mode at line 1 char 2 byte 1
 #js.djon
 [ 1 ]
 
 #json/bad/n_number_.-1.json
 [.-1]
 #c.json
-missing ]
-line 1 char 6 byte 5
+numbers may not begin with a . or + in strict mode
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: numbers may not begin with a . or + in strict mode line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 6 byte 5
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 6 byte 5
+Error: numbers may not begin with a . or + in strict mode at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1225,21 +1224,20 @@ Error: missing ] at line 1 char 6 byte 5
 #json/bad/n_number_.2e-3.json
 [.2e-3]
 #c.json
-[
- 0.0002
-]
+numbers may not begin with a . or + in strict mode
+line 1 char 2 byte 1
 #c.djon
 [ 0.0002 ]
 #lua.json
-[
- 0.0002
-]
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: numbers may not begin with a . or + in strict mode line 1 char 2 byte 1
 #lua.djon
 [ 0.0002 ]
 #js.json
-[
- 0.0002
-]
+file:///home/kriss/git/djon/js/djon.js:69
+		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
+		      ^
+
+Error: numbers may not begin with a . or + in strict mode at line 1 char 2 byte 1
 #js.djon
 [ 0.0002 ]
 
@@ -1267,21 +1265,21 @@ Error: missing ] at line 1 char 6 byte 5
 #json/bad/n_number_9.e+.json
 [9.e+]
 #c.json
-missing ]
-line 1 char 7 byte 6
+invalid number
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 7 byte 6
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid number line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 7 byte 6
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 7 byte 6
+Error: invalid number at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1292,21 +1290,21 @@ Error: missing ] at line 1 char 7 byte 6
 #json/bad/n_number_expression.json
 [1+2]
 #c.json
-missing ]
-line 1 char 6 byte 5
+invalid number
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid number line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 6 byte 5
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 6 byte 5
+Error: invalid number at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1317,63 +1315,59 @@ Error: missing ] at line 1 char 6 byte 5
 #json/bad/n_number_hex_1_digit.json
 [0x1]
 #c.json
-[
- 1
-]
+0x numbers not allowed in strict mode
+line 1 char 2 byte 1
 #c.djon
 [ 1 ]
 #lua.json
-[
- 1
-]
 #lua.djon
 [ 1 ]
 #js.json
-[
- 1
-]
+file:///home/kriss/git/djon/js/djon.js:69
+		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
+		      ^
+
+Error: 0x numbers not allowed in strict mode at line 1 char 2 byte 1
 #js.djon
 [ 1 ]
 
 #json/bad/n_number_hex_2_digits.json
 [0x42]
 #c.json
-[
- 66
-]
+0x numbers not allowed in strict mode
+line 1 char 2 byte 1
 #c.djon
 [ 66 ]
 #lua.json
-[
- 66
-]
 #lua.djon
 [ 66 ]
 #js.json
-[
- 66
-]
+file:///home/kriss/git/djon/js/djon.js:69
+		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
+		      ^
+
+Error: 0x numbers not allowed in strict mode at line 1 char 2 byte 1
 #js.djon
 [ 66 ]
 
 #json/bad/n_number_infinity.json
 [Infinity]
 #c.json
-missing ]
-line 1 char 11 byte 10
+naked string not allowed in strict mode
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 11 byte 10
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 11 byte 10
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 11 byte 10
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 11 byte 10
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 11 byte 10
+Error: naked string not allowed in strict mode at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1384,21 +1378,21 @@ Error: missing ] at line 1 char 11 byte 10
 #json/bad/n_number_+Inf.json
 [+Inf]
 #c.json
-missing ]
-line 1 char 7 byte 6
+numbers may not begin with a . or + in strict mode
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 7 byte 6
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: numbers may not begin with a . or + in strict mode line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 7 byte 6
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 7 byte 6
+Error: numbers may not begin with a . or + in strict mode at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1409,21 +1403,21 @@ Error: missing ] at line 1 char 7 byte 6
 #json/bad/n_number_Inf.json
 [Inf]
 #c.json
-missing ]
-line 1 char 6 byte 5
+naked string not allowed in strict mode
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 6 byte 5
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 6 byte 5
+Error: naked string not allowed in strict mode at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1434,21 +1428,21 @@ Error: missing ] at line 1 char 6 byte 5
 #json/bad/n_number_invalid+-.json
 [0e+-1]
 #c.json
-missing ]
-line 1 char 8 byte 7
+invalid number
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 8 byte 7
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 8 byte 7
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid number line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 8 byte 7
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 8 byte 7
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 8 byte 7
+Error: invalid number at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1459,21 +1453,21 @@ Error: missing ] at line 1 char 8 byte 7
 #json/bad/n_number_invalid-negative-real.json
 [-123.123foo]
 #c.json
-missing ]
-line 1 char 14 byte 13
+invalid number
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 14 byte 13
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 14 byte 13
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid number line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 14 byte 13
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 14 byte 13
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 14 byte 13
+Error: invalid number at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1484,21 +1478,21 @@ Error: missing ] at line 1 char 14 byte 13
 #json/bad/n_number_invalid-utf-8-in-bigger-int.json
 [123#]
 #c.json
-missing ]
-line 1 char 7 byte 6
+invalid number
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 7 byte 6
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid number line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 7 byte 6
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 9 byte 8
+Error: invalid number at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1509,21 +1503,21 @@ Error: missing ] at line 1 char 9 byte 8
 #json/bad/n_number_invalid-utf-8-in-exponent.json
 [1e1#]
 #c.json
-missing ]
-line 1 char 7 byte 6
+invalid number
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 7 byte 6
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid number line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 7 byte 6
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 9 byte 8
+Error: invalid number at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1535,21 +1529,21 @@ Error: missing ] at line 1 char 9 byte 8
 [0#]
 
 #c.json
-missing ]
-line 2 char 1 byte 5
+invalid number
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 2 char 1 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 2 char 1 byte 5
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid number line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 2 char 1 byte 5
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 2 char 1 byte 5
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 2 char 1 byte 7
+Error: invalid number at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1560,21 +1554,21 @@ Error: missing ] at line 2 char 1 byte 7
 #json/bad/n_number_++.json
 [++1234]
 #c.json
-missing ]
-line 1 char 9 byte 8
+numbers may not begin with a . or + in strict mode
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 9 byte 8
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 9 byte 8
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: numbers may not begin with a . or + in strict mode line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 9 byte 8
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 9 byte 8
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 9 byte 8
+Error: numbers may not begin with a . or + in strict mode at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1585,21 +1579,21 @@ Error: missing ] at line 1 char 9 byte 8
 #json/bad/n_number_minus_infinity.json
 [-Infinity]
 #c.json
-missing ]
-line 1 char 12 byte 11
+invalid number
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 12 byte 11
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 12 byte 11
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid number line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 12 byte 11
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 12 byte 11
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 12 byte 11
+Error: invalid number at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1610,21 +1604,21 @@ Error: missing ] at line 1 char 12 byte 11
 #json/bad/n_number_minus_sign_with_trailing_garbage.json
 [-foo]
 #c.json
-missing ]
-line 1 char 7 byte 6
+invalid number
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 7 byte 6
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid number line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 7 byte 6
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 7 byte 6
+Error: invalid number at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1635,21 +1629,21 @@ Error: missing ] at line 1 char 7 byte 6
 #json/bad/n_number_minus_space_1.json
 [- 1]
 #c.json
-missing ]
-line 1 char 6 byte 5
+invalid number
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid number line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 6 byte 5
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 6 byte 5
+Error: invalid number at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1660,21 +1654,21 @@ Error: missing ] at line 1 char 6 byte 5
 #json/bad/n_number_-NaN.json
 [-NaN]
 #c.json
-missing ]
-line 1 char 7 byte 6
+invalid number
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 7 byte 6
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid number line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 7 byte 6
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 7 byte 6
+Error: invalid number at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1685,21 +1679,21 @@ Error: missing ] at line 1 char 7 byte 6
 #json/bad/n_number_NaN.json
 [NaN]
 #c.json
-missing ]
-line 1 char 6 byte 5
+naked string not allowed in strict mode
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 6 byte 5
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 6 byte 5
+Error: naked string not allowed in strict mode at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1752,21 +1746,21 @@ Error: missing ] at line 1 char 6 byte 5
 #json/bad/n_number_neg_with_garbage_at_end.json
 [-1x]
 #c.json
-missing ]
-line 1 char 6 byte 5
+invalid number
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid number line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 6 byte 5
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 6 byte 5
+Error: invalid number at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1777,21 +1771,21 @@ Error: missing ] at line 1 char 6 byte 5
 #json/bad/n_number_real_garbage_after_e.json
 [1ea]
 #c.json
-missing ]
-line 1 char 6 byte 5
+invalid number
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid number line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 6 byte 5
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 6 byte 5
+Error: invalid number at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1802,21 +1796,21 @@ Error: missing ] at line 1 char 6 byte 5
 #json/bad/n_number_real_with_invalid_utf8_after_e.json
 [1e#]
 #c.json
-missing ]
-line 1 char 6 byte 5
+invalid number
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid number line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 6 byte 5
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 8 byte 7
+Error: invalid number at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1848,42 +1842,41 @@ Error: missing ] at line 1 char 8 byte 7
 #json/bad/n_number_starting_with_dot.json
 [.123]
 #c.json
-[
- 0.123
-]
+numbers may not begin with a . or + in strict mode
+line 1 char 2 byte 1
 #c.djon
 [ 0.123 ]
 #lua.json
-[
- 0.123
-]
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: numbers may not begin with a . or + in strict mode line 1 char 2 byte 1
 #lua.djon
 [ 0.123 ]
 #js.json
-[
- 0.123
-]
+file:///home/kriss/git/djon/js/djon.js:69
+		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
+		      ^
+
+Error: numbers may not begin with a . or + in strict mode at line 1 char 2 byte 1
 #js.djon
 [ 0.123 ]
 
 #json/bad/n_number_U+FF11_fullwidth_digit_one.json
 [###]
 #c.json
-missing ]
-line 1 char 6 byte 5
+naked string not allowed in strict mode
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 6 byte 5
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 6 byte 5
+Error: naked string not allowed in strict mode at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1894,21 +1887,21 @@ Error: missing ] at line 1 char 6 byte 5
 #json/bad/n_number_with_alpha_char.json
 [1.8011670033376514H-308]
 #c.json
-missing ]
-line 1 char 26 byte 25
+invalid number
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 26 byte 25
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 26 byte 25
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid number line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 26 byte 25
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 26 byte 25
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 26 byte 25
+Error: invalid number at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1919,21 +1912,21 @@ Error: missing ] at line 1 char 26 byte 25
 #json/bad/n_number_with_alpha.json
 [1.2a-3]
 #c.json
-missing ]
-line 1 char 9 byte 8
+invalid number
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 9 byte 8
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 9 byte 8
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid number line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 9 byte 8
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 9 byte 8
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 9 byte 8
+Error: invalid number at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1965,21 +1958,21 @@ Error: missing ] at line 1 char 9 byte 8
 #json/bad/n_object_bad_value.json
 ["x", truth]
 #c.json
-missing ]
-line 1 char 13 byte 12
+naked string not allowed in strict mode
+line 1 char 7 byte 6
 #c.djon
 missing ]
 line 1 char 13 byte 12
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 13 byte 12
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 1 char 7 byte 6
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 13 byte 12
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 13 byte 12
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 13 byte 12
+Error: naked string not allowed in strict mode at line 1 char 7 byte 6
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -1991,21 +1984,21 @@ Error: missing ] at line 1 char 13 byte 12
 {[: "x"}
 
 #c.json
-invalid naked key
+naked keys not allowed in strict mode
 line 1 char 2 byte 1
 #c.djon
 invalid naked key
 line 1 char 2 byte 1
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid naked key line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked keys not allowed in strict mode line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid naked key line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid naked key line 1 char 2 byte 1
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: invalid naked key at line 1 char 2 byte 1
+Error: naked keys not allowed in strict mode at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -2022,9 +2015,9 @@ line 1 char 5 byte 4
 missing :
 line 1 char 5 byte 4
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing : line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing : line 1 char 5 byte 4
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing : line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing : line 1 char 5 byte 4
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -2047,9 +2040,9 @@ line 1 char 7 byte 6
 missing :
 line 1 char 7 byte 6
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing : line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing : line 1 char 7 byte 6
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing : line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing : line 1 char 7 byte 6
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -2066,21 +2059,21 @@ Error: missing : at line 1 char 7 byte 6
 #json/bad/n_object_emoji.json
 {########}
 #c.json
-invalid naked key
-line 1 char 10 byte 9
+naked keys not allowed in strict mode
+line 1 char 2 byte 1
 #c.djon
 invalid naked key
 line 1 char 10 byte 9
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid naked key line 1 char 10 byte 9
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked keys not allowed in strict mode line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid naked key line 1 char 10 byte 9
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid naked key line 1 char 10 byte 9
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: invalid naked key at line 1 char 10 byte 9
+Error: naked keys not allowed in strict mode at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -2091,21 +2084,21 @@ Error: invalid naked key at line 1 char 10 byte 9
 #json/bad/n_object_garbage_at_end.json
 {"a":"a" 123}
 #c.json
-invalid naked key
-line 1 char 13 byte 12
+naked keys not allowed in strict mode
+line 1 char 10 byte 9
 #c.djon
 invalid naked key
 line 1 char 13 byte 12
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid naked key line 1 char 13 byte 12
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked keys not allowed in strict mode line 1 char 10 byte 9
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid naked key line 1 char 13 byte 12
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid naked key line 1 char 13 byte 12
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: invalid naked key at line 1 char 13 byte 12
+Error: naked keys not allowed in strict mode at line 1 char 10 byte 9
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -2116,21 +2109,20 @@ Error: invalid naked key at line 1 char 13 byte 12
 #json/bad/n_object_key_with_single_quotes.json
 {key: 'value'}
 #c.json
-{
- "key" : "value"
-}
+naked keys not allowed in strict mode
+line 1 char 2 byte 1
 #c.djon
 { key=`value` }
 #lua.json
-{
- "key" : "value"
-}
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked keys not allowed in strict mode line 1 char 2 byte 1
 #lua.djon
 { key=`value` }
 #js.json
-{
- "key" : "value"
-}
+file:///home/kriss/git/djon/js/djon.js:69
+		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
+		      ^
+
+Error: naked keys not allowed in strict mode at line 1 char 2 byte 1
 #js.djon
 { key=`value` }
 
@@ -2164,9 +2156,9 @@ line 1 char 6 byte 5
 missing :
 line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing : line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing : line 1 char 6 byte 5
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing : line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing : line 1 char 6 byte 5
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -2183,21 +2175,20 @@ Error: missing : at line 1 char 6 byte 5
 #json/bad/n_object_missing_key.json
 {:"b"}
 #c.json
-{
- "" : "b"
-}
+naked keys not allowed in strict mode
+line 1 char 2 byte 1
 #c.djon
 { ``=`b` }
 #lua.json
-{
- "" : "b"
-}
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked keys not allowed in strict mode line 1 char 2 byte 1
 #lua.djon
 { ``=`b` }
 #js.json
-{
- "" : "b"
-}
+file:///home/kriss/git/djon/js/djon.js:69
+		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
+		      ^
+
+Error: naked keys not allowed in strict mode at line 1 char 2 byte 1
 #js.djon
 { ``=`b` }
 
@@ -2210,9 +2201,9 @@ line 1 char 6 byte 5
 missing :
 line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing : line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing : line 1 char 6 byte 5
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing : line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing : line 1 char 6 byte 5
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -2229,21 +2220,21 @@ Error: missing : at line 1 char 6 byte 5
 #json/bad/n_object_missing_value.json
 {"a":
 #c.json
-missing value
+naked string not allowed in strict mode
 line 1 char 6 byte 5
 #c.djon
 missing value
 line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing value line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 1 char 6 byte 5
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing value line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing value line 1 char 6 byte 5
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing value at line 1 char 6 byte 5
+Error: naked string not allowed in strict mode at line 1 char 6 byte 5
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -2260,9 +2251,9 @@ line 1 char 5 byte 4
 missing :
 line 1 char 5 byte 4
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing : line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing : line 1 char 5 byte 4
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing : line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing : line 1 char 5 byte 4
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -2279,63 +2270,60 @@ Error: missing : at line 1 char 5 byte 4
 #json/bad/n_object_non_string_key_but_huge_number_instead.json
 {9999E9999:1}
 #c.json
-{
- "9999E9999" : 1
-}
+naked keys not allowed in strict mode
+line 1 char 2 byte 1
 #c.djon
 { 9999E9999=1 }
 #lua.json
-{
- "9999E9999" : 1
-}
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked keys not allowed in strict mode line 1 char 2 byte 1
 #lua.djon
 { 9999E9999=1 }
 #js.json
-{
- "9999E9999" : 1
-}
+file:///home/kriss/git/djon/js/djon.js:69
+		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
+		      ^
+
+Error: naked keys not allowed in strict mode at line 1 char 2 byte 1
 #js.djon
 { 9999E9999=1 }
 
 #json/bad/n_object_non_string_key.json
 {1:1}
 #c.json
-{
- "1" : 1
-}
+naked keys not allowed in strict mode
+line 1 char 2 byte 1
 #c.djon
 { 1=1 }
 #lua.json
-{
- "1" : 1
-}
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked keys not allowed in strict mode line 1 char 2 byte 1
 #lua.djon
 { 1=1 }
 #js.json
-{
- "1" : 1
-}
+file:///home/kriss/git/djon/js/djon.js:69
+		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
+		      ^
+
+Error: naked keys not allowed in strict mode at line 1 char 2 byte 1
 #js.djon
 { 1=1 }
 
 #json/bad/n_object_repeated_null_null.json
 {null:null,null:null}
 #c.json
-{
- "null" : null
-}
+naked keys not allowed in strict mode
+line 1 char 2 byte 1
 #c.djon
 { null=NULL }
 #lua.json
-{
- "null" : null
-}
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked keys not allowed in strict mode line 1 char 2 byte 1
 #lua.djon
 { null=null }
 #js.json
-{
- "null" : null
-}
+file:///home/kriss/git/djon/js/djon.js:69
+		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
+		      ^
+
+Error: naked keys not allowed in strict mode at line 1 char 2 byte 1
 #js.djon
 { null=NULL }
 
@@ -2348,9 +2336,9 @@ line 1 char 13 byte 12
 multiple ,
 line 1 char 13 byte 12
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: multiple , line 1 char 13 byte 12
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: multiple , line 1 char 13 byte 12
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: multiple , line 1 char 13 byte 12
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: multiple , line 1 char 13 byte 12
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -2367,21 +2355,20 @@ Error: multiple , at line 1 char 13 byte 12
 #json/bad/n_object_single_quote.json
 {'a':0}
 #c.json
-{
- "a" : 0
-}
+keys require double quotes in strict mode
+line 1 char 2 byte 1
 #c.djon
 { a=0 }
 #lua.json
-{
- "a" : 0
-}
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: keys require double quotes in strict mode line 1 char 2 byte 1
 #lua.djon
 { a=0 }
 #js.json
-{
- "a" : 0
-}
+file:///home/kriss/git/djon/js/djon.js:69
+		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
+		      ^
+
+Error: keys require double quotes in strict mode at line 1 char 2 byte 1
 #js.djon
 { a=0 }
 
@@ -2440,9 +2427,9 @@ garbage at end of file
 line 1 char 14 byte 13
 { a=`b` }
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 14 byte 13
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 14 byte 13
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 14 byte 13
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 14 byte 13
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -2469,9 +2456,9 @@ garbage at end of file
 line 1 char 10 byte 9
 { a=`b` }
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 10 byte 9
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 10 byte 9
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 10 byte 9
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 10 byte 9
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -2515,9 +2502,9 @@ line 1 char 11 byte 10
 multiple ,
 line 1 char 11 byte 10
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: multiple , line 1 char 11 byte 10
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: multiple , line 1 char 11 byte 10
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: multiple , line 1 char 11 byte 10
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: multiple , line 1 char 11 byte 10
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -2534,21 +2521,20 @@ Error: multiple , at line 1 char 11 byte 10
 #json/bad/n_object_unquoted_key.json
 {a: "b"}
 #c.json
-{
- "a" : "b"
-}
+naked keys not allowed in strict mode
+line 1 char 2 byte 1
 #c.djon
 { a=`b` }
 #lua.json
-{
- "a" : "b"
-}
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked keys not allowed in strict mode line 1 char 2 byte 1
 #lua.djon
 { a=`b` }
 #js.json
-{
- "a" : "b"
-}
+file:///home/kriss/git/djon/js/djon.js:69
+		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
+		      ^
+
+Error: naked keys not allowed in strict mode at line 1 char 2 byte 1
 #js.djon
 { a=`b` }
 
@@ -2561,9 +2547,9 @@ line 1 char 8 byte 7
 missing "
 line 1 char 8 byte 7
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing " line 1 char 8 byte 7
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing " line 1 char 8 byte 7
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing " line 1 char 8 byte 7
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing " line 1 char 8 byte 7
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -2586,9 +2572,9 @@ line 1 char 22 byte 21
 missing :
 line 1 char 22 byte 21
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing : line 1 char 22 byte 21
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing : line 1 char 22 byte 21
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing : line 1 char 22 byte 21
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing : line 1 char 22 byte 21
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -2615,9 +2601,9 @@ garbage at end of file
 line 1 char 10 byte 9
 { a=`b` }
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 10 byte 9
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 10 byte 9
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 10 byte 9
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 10 byte 9
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -2634,21 +2620,21 @@ Error: garbage at end of file at line 1 char 10 byte 9
 #json/bad/n_single_space.json
  
 #c.json
-no data
+naked string not allowed in strict mode
 line 1 char 2 byte 1
 #c.djon
 no data
 line 1 char 2 byte 1
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: no data line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: no data line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: no data line 1 char 2 byte 1
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: no data at line 1 char 2 byte 1
+Error: naked string not allowed in strict mode at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -2665,9 +2651,9 @@ line 1 char 12 byte 11
 missing "
 line 1 char 12 byte 11
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing " line 1 char 12 byte 11
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing " line 1 char 12 byte 11
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing " line 1 char 12 byte 11
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing " line 1 char 12 byte 11
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -2765,21 +2751,21 @@ TypeError: The encoded data was not valid for encoding utf-8
 #json/bad/n_string_accentuated_char_no_quotes.json
 [##]
 #c.json
-missing ]
-line 1 char 5 byte 4
+naked string not allowed in strict mode
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 5 byte 4
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 5 byte 4
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 5 byte 4
+Error: naked string not allowed in strict mode at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -2823,9 +2809,9 @@ line 1 char 8 byte 7
 missing "
 line 1 char 8 byte 7
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing " line 1 char 8 byte 7
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing " line 1 char 8 byte 7
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing " line 1 char 8 byte 7
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing " line 1 char 8 byte 7
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -2938,9 +2924,9 @@ line 1 char 6 byte 5
 missing "
 line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing " line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing " line 1 char 6 byte 5
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing " line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing " line 1 char 6 byte 5
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -3095,21 +3081,21 @@ TypeError: The encoded data was not valid for encoding utf-8
 #json/bad/n_string_leading_uescaped_thinspace.json
 [\u0020"asd"]
 #c.json
-missing ]
-line 1 char 14 byte 13
+naked string not allowed in strict mode
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 14 byte 13
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 14 byte 13
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 14 byte 13
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 14 byte 13
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 14 byte 13
+Error: naked string not allowed in strict mode at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -3120,21 +3106,21 @@ Error: missing ] at line 1 char 14 byte 13
 #json/bad/n_string_no_quotes_with_bad_escape.json
 [\n]
 #c.json
-missing ]
-line 1 char 5 byte 4
+naked string not allowed in strict mode
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 5 byte 4
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 5 byte 4
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 5 byte 4
+Error: naked string not allowed in strict mode at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -3151,9 +3137,9 @@ line 1 char 2 byte 1
 missing "
 line 1 char 2 byte 1
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing " line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing " line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing " line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing " line 1 char 2 byte 1
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -3170,36 +3156,40 @@ Error: missing " at line 1 char 2 byte 1
 #json/bad/n_string_single_quote.json
 ['single quote']
 #c.json
-[
- "single quote"
-]
+single quote string not allowed in strict mode
+line 1 char 2 byte 1
 #c.djon
 [ `single quote` ]
 #lua.json
-[
- "single quote"
-]
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: single quote string not allowed in strict mode line 1 char 2 byte 1
 #lua.djon
 [ `single quote` ]
 #js.json
-[
- "single quote"
-]
+file:///home/kriss/git/djon/js/djon.js:69
+		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
+		      ^
+
+Error: single quote string not allowed in strict mode at line 1 char 2 byte 1
 #js.djon
 [ `single quote` ]
 
 #json/bad/n_string_single_string_no_double_quotes.json
 abc
 #c.json
-"abc"
+naked string not allowed in strict mode
+line 1 char 1 byte 0
 #c.djon
 abc
 #lua.json
-"abc"
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 1 char 1 byte 0
 #lua.djon
 abc
 #js.json
-"abc"
+file:///home/kriss/git/djon/js/djon.js:69
+		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
+		      ^
+
+Error: naked string not allowed in strict mode at line 1 char 1 byte 0
 #js.djon
 abc
 
@@ -3212,9 +3202,9 @@ line 1 char 4 byte 4
 missing "
 line 1 char 4 byte 4
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing " line 1 char 4 byte 4
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing " line 1 char 4 byte 4
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing " line 1 char 4 byte 4
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing " line 1 char 4 byte 4
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -3327,9 +3317,9 @@ garbage at end of file
 line 1 char 3 byte 2
 ``
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 3 byte 2
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 3 byte 2
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 3 byte 2
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 3 byte 2
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -3352,9 +3342,9 @@ line 1 char 2049 byte 2048
 stack overflow
 line 1 char 2049 byte 2048
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: stack overflow line 1 char 3278 byte 3277
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: stack overflow line 1 char 3278 byte 3277
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: stack overflow line 1 char 3278 byte 3277
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: stack overflow line 1 char 3278 byte 3277
 #js.json
 wasm://wasm/djon_core.wasm-00020d72:1
 
@@ -3369,36 +3359,41 @@ RangeError: Maximum call stack size exceeded
 #json/bad/n_structure_angle_bracket_..json
 <.>
 #c.json
-"<.>"
+naked string not allowed in strict mode
+line 1 char 1 byte 0
 #c.djon
 <.>
 #lua.json
-"<.>"
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 1 char 1 byte 0
 #lua.djon
 <.>
 #js.json
-"<.>"
+file:///home/kriss/git/djon/js/djon.js:69
+		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
+		      ^
+
+Error: naked string not allowed in strict mode at line 1 char 1 byte 0
 #js.djon
 <.>
 
 #json/bad/n_structure_angle_bracket_null.json
 [<null>]
 #c.json
-missing ]
-line 1 char 9 byte 8
+naked string not allowed in strict mode
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 9 byte 8
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 9 byte 8
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 9 byte 8
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 9 byte 8
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 9 byte 8
+Error: naked string not allowed in strict mode at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -3419,9 +3414,9 @@ garbage at end of file
 line 1 char 4 byte 3
 [ 1 ]
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 4 byte 3
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 4 byte 3
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -3448,9 +3443,9 @@ garbage at end of file
 line 1 char 4 byte 3
 [ 1 ]
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 4 byte 3
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 4 byte 3
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -3473,9 +3468,9 @@ line 1 char 7 byte 6
 missing "
 line 1 char 7 byte 6
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing " line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing " line 1 char 7 byte 6
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing " line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing " line 1 char 7 byte 6
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -3492,15 +3487,20 @@ Error: missing " at line 1 char 7 byte 6
 #json/bad/n_structure_ascii-unicode-identifier.json
 a##
 #c.json
-"a##"
+naked string not allowed in strict mode
+line 1 char 1 byte 0
 #c.djon
 a##
 #lua.json
-"a##"
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 1 char 1 byte 0
 #lua.djon
 a##
 #js.json
-"a##"
+file:///home/kriss/git/djon/js/djon.js:69
+		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
+		      ^
+
+Error: naked string not allowed in strict mode at line 1 char 1 byte 0
 #js.djon
 a##
 
@@ -3536,9 +3536,9 @@ garbage at end of file
 line 1 char 2 byte 1
 1
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 2 byte 1
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -3555,21 +3555,21 @@ Error: garbage at end of file at line 1 char 2 byte 1
 #json/bad/n_structure_comma_instead_of_closing_brace.json
 {"x": true,
 #c.json
-missing }
+naked keys not allowed in strict mode
 line 1 char 12 byte 11
 #c.djon
 missing }
 line 1 char 12 byte 11
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing } line 1 char 12 byte 11
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked keys not allowed in strict mode line 1 char 12 byte 11
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing } line 1 char 12 byte 11
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing } line 1 char 12 byte 11
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing } at line 1 char 12 byte 11
+Error: naked keys not allowed in strict mode at line 1 char 12 byte 11
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -3589,9 +3589,9 @@ garbage at end of file
 line 1 char 3 byte 2
 [ ]
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 3 byte 2
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 3 byte 2
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 3 byte 2
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 3 byte 2
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -3614,9 +3614,9 @@ line 1 char 1 byte 0
 unexpected ]
 line 1 char 1 byte 0
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: unexpected ] line 1 char 1 byte 0
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: unexpected ] line 1 char 1 byte 0
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: unexpected ] line 1 char 1 byte 0
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: unexpected ] line 1 char 1 byte 0
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -3633,51 +3633,61 @@ Error: unexpected ] at line 1 char 1 byte 0
 #json/bad/n_structure_incomplete_UTF8_BOM.json
 ##{}
 #c.json
-"##{}"
+naked string not allowed in strict mode
+line 1 char 1 byte 0
 #c.djon
 ##{}
 #lua.json
-"##{}"
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 1 char 1 byte 0
 #lua.djon
 ##{}
 #js.json
-"###{}"
+file:///home/kriss/git/djon/js/djon.js:69
+		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
+		      ^
+
+Error: naked string not allowed in strict mode at line 1 char 1 byte 0
 #js.djon
 ###{}
 
 #json/bad/n_structure_lone-invalid-utf-8.json
 #
 #c.json
-"#"
+naked string not allowed in strict mode
+line 1 char 1 byte 0
 #c.djon
 #
 #lua.json
-"#"
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 1 char 1 byte 0
 #lua.djon
 #
 #js.json
-"###"
+file:///home/kriss/git/djon/js/djon.js:69
+		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
+		      ^
+
+Error: naked string not allowed in strict mode at line 1 char 1 byte 0
 #js.djon
 ###
 
 #json/bad/n_structure_lone-open-bracket.json
 [
 #c.json
-missing ]
+naked string not allowed in strict mode
 line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 2 byte 1
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 2 byte 1
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 2 byte 1
+Error: naked string not allowed in strict mode at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -3688,21 +3698,21 @@ Error: missing ] at line 1 char 2 byte 1
 #json/bad/n_structure_no_data.json
 
 #c.json
-no data
+naked string not allowed in strict mode
 line 1 char 1 byte 0
 #c.djon
 no data
 line 1 char 1 byte 0
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: djon string required line 0 char 0 byte 0
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: djon string required line 0 char 0 byte 0
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: djon string required line 0 char 0 byte 0
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: djon string required line 0 char 0 byte 0
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: no data at line 1 char 1 byte 0
+Error: naked string not allowed in strict mode at line 1 char 1 byte 0
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -3713,21 +3723,21 @@ Error: no data at line 1 char 1 byte 0
 #json/bad/n_structure_null-byte-outside-string.json
 [#]
 #c.json
-missing ]
-line 1 char 4 byte 3
+naked string not allowed in strict mode
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 4 byte 3
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 4 byte 3
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 2 byte 1
+Error: naked string not allowed in strict mode at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -3738,15 +3748,20 @@ Error: missing ] at line 1 char 2 byte 1
 #json/bad/n_structure_number_with_trailing_garbage.json
 2@
 #c.json
-"2@"
+invalid number
+line 1 char 1 byte 0
 #c.djon
 `2@`
 #lua.json
-"2@"
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid number line 1 char 1 byte 0
 #lua.djon
 `2@`
 #js.json
-"2@"
+file:///home/kriss/git/djon/js/djon.js:69
+		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
+		      ^
+
+Error: invalid number at line 1 char 1 byte 0
 #js.djon
 `2@`
 
@@ -3762,9 +3777,9 @@ garbage at end of file
 line 1 char 3 byte 2
 { }
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 3 byte 2
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 3 byte 2
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 3 byte 2
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 3 byte 2
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -3781,21 +3796,21 @@ Error: garbage at end of file at line 1 char 3 byte 2
 #json/bad/n_structure_object_unclosed_no_value.json
 {"":
 #c.json
-missing value
+naked string not allowed in strict mode
 line 1 char 5 byte 4
 #c.djon
 missing value
 line 1 char 5 byte 4
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing value line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 1 char 5 byte 4
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing value line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing value line 1 char 5 byte 4
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing value at line 1 char 5 byte 4
+Error: naked string not allowed in strict mode at line 1 char 5 byte 4
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -3843,9 +3858,9 @@ garbage at end of file
 line 1 char 13 byte 12
 { a=TRUE }
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 13 byte 12
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 13 byte 12
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 13 byte 12
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 13 byte 12
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -3862,21 +3877,21 @@ Error: garbage at end of file at line 1 char 13 byte 12
 #json/bad/n_structure_open_array_apostrophe.json
 ['
 #c.json
-missing '
-line 1 char 3 byte 2
+single quote string not allowed in strict mode
+line 1 char 2 byte 1
 #c.djon
 missing '
 line 1 char 3 byte 2
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ' line 1 char 3 byte 2
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: single quote string not allowed in strict mode line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ' line 1 char 3 byte 2
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ' line 1 char 3 byte 2
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ' at line 1 char 3 byte 2
+Error: single quote string not allowed in strict mode at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -3893,9 +3908,9 @@ line 1 char 2 byte 1
 unexpected ,
 line 1 char 2 byte 1
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: unexpected , line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: unexpected , line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: unexpected , line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: unexpected , line 1 char 2 byte 1
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -3919,9 +3934,9 @@ line 1 char 5121 byte 5120
 stack overflow
 line 1 char 5121 byte 5120
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: stack overflow line 1 char 9102 byte 9101
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: stack overflow line 1 char 9102 byte 9101
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: stack overflow line 1 char 9102 byte 9101
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: stack overflow line 1 char 9102 byte 9101
 #js.json
 wasm://wasm/djon_core.wasm-00020d72:1
 
@@ -3936,21 +3951,21 @@ RangeError: Maximum call stack size exceeded
 #json/bad/n_structure_open_array_open_object.json
 [{
 #c.json
-missing }
+naked keys not allowed in strict mode
 line 1 char 3 byte 2
 #c.djon
 missing }
 line 1 char 3 byte 2
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing } line 1 char 3 byte 2
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked keys not allowed in strict mode line 1 char 3 byte 2
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing } line 1 char 3 byte 2
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing } line 1 char 3 byte 2
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing } at line 1 char 3 byte 2
+Error: naked keys not allowed in strict mode at line 1 char 3 byte 2
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -3967,9 +3982,9 @@ line 1 char 4 byte 3
 missing "
 line 1 char 4 byte 3
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing " line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing " line 1 char 4 byte 3
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing " line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing " line 1 char 4 byte 3
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -3986,21 +4001,21 @@ Error: missing " at line 1 char 4 byte 3
 #json/bad/n_structure_open_array_string.json
 ["a"
 #c.json
-missing ]
+naked string not allowed in strict mode
 line 1 char 5 byte 4
 #c.djon
 missing ]
 line 1 char 5 byte 4
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 1 char 5 byte 4
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 5 byte 4
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 5 byte 4
+Error: naked string not allowed in strict mode at line 1 char 5 byte 4
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -4011,21 +4026,21 @@ Error: missing ] at line 1 char 5 byte 4
 #json/bad/n_structure_open_object_close_array.json
 {]
 #c.json
-invalid naked key
+naked keys not allowed in strict mode
 line 1 char 2 byte 1
 #c.djon
 invalid naked key
 line 1 char 2 byte 1
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid naked key line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked keys not allowed in strict mode line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid naked key line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid naked key line 1 char 2 byte 1
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: invalid naked key at line 1 char 2 byte 1
+Error: naked keys not allowed in strict mode at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -4036,21 +4051,21 @@ Error: invalid naked key at line 1 char 2 byte 1
 #json/bad/n_structure_open_object_comma.json
 {,
 #c.json
-invalid naked key
+naked keys not allowed in strict mode
 line 1 char 2 byte 1
 #c.djon
 invalid naked key
 line 1 char 2 byte 1
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid naked key line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked keys not allowed in strict mode line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid naked key line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid naked key line 1 char 2 byte 1
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: invalid naked key at line 1 char 2 byte 1
+Error: naked keys not allowed in strict mode at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -4061,21 +4076,21 @@ Error: invalid naked key at line 1 char 2 byte 1
 #json/bad/n_structure_open_object.json
 {
 #c.json
-missing }
+naked keys not allowed in strict mode
 line 1 char 2 byte 1
 #c.djon
 missing }
 line 1 char 2 byte 1
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing } line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked keys not allowed in strict mode line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing } line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing } line 1 char 2 byte 1
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing } at line 1 char 2 byte 1
+Error: naked keys not allowed in strict mode at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -4086,21 +4101,21 @@ Error: missing } at line 1 char 2 byte 1
 #json/bad/n_structure_open_object_open_array.json
 {[
 #c.json
-invalid naked key
+naked keys not allowed in strict mode
 line 1 char 2 byte 1
 #c.djon
 invalid naked key
 line 1 char 2 byte 1
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid naked key line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked keys not allowed in strict mode line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid naked key line 1 char 2 byte 1
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid naked key line 1 char 2 byte 1
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: invalid naked key at line 1 char 2 byte 1
+Error: naked keys not allowed in strict mode at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -4117,9 +4132,9 @@ line 1 char 4 byte 3
 missing "
 line 1 char 4 byte 3
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing " line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing " line 1 char 4 byte 3
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing " line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing " line 1 char 4 byte 3
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -4136,21 +4151,21 @@ Error: missing " at line 1 char 4 byte 3
 #json/bad/n_structure_open_object_string_with_apostrophes.json
 {'a'
 #c.json
-missing :
-line 1 char 5 byte 4
+keys require double quotes in strict mode
+line 1 char 2 byte 1
 #c.djon
 missing :
 line 1 char 5 byte 4
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing : line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: keys require double quotes in strict mode line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing : line 1 char 5 byte 4
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing : line 1 char 5 byte 4
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing : at line 1 char 5 byte 4
+Error: keys require double quotes in strict mode at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -4167,9 +4182,9 @@ line 1 char 7 byte 6
 missing ,
 line 1 char 7 byte 6
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing , line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing , line 1 char 7 byte 6
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing , line 1 char 7 byte 6
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing , line 1 char 7 byte 6
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -4186,30 +4201,40 @@ Error: missing , at line 1 char 7 byte 6
 #json/bad/n_structure_single_eacute.json
 #
 #c.json
-"#"
+naked string not allowed in strict mode
+line 1 char 1 byte 0
 #c.djon
 #
 #lua.json
-"#"
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 1 char 1 byte 0
 #lua.djon
 #
 #js.json
-"###"
+file:///home/kriss/git/djon/js/djon.js:69
+		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
+		      ^
+
+Error: naked string not allowed in strict mode at line 1 char 1 byte 0
 #js.djon
 ###
 
 #json/bad/n_structure_single_star.json
 *
 #c.json
-"*"
+naked string not allowed in strict mode
+line 1 char 1 byte 0
 #c.djon
 *
 #lua.json
-"*"
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 1 char 1 byte 0
 #lua.djon
 *
 #js.json
-"*"
+file:///home/kriss/git/djon/js/djon.js:69
+		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
+		      ^
+
+Error: naked string not allowed in strict mode at line 1 char 1 byte 0
 #js.djon
 *
 
@@ -4226,9 +4251,9 @@ garbage at end of file
 line 1 char 10 byte 9
 { a=`b` }
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 10 byte 9
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 10 byte 9
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 10 byte 9
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 10 byte 9
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -4245,21 +4270,21 @@ Error: garbage at end of file at line 1 char 10 byte 9
 #json/bad/n_structure_U+2060_word_joined.json
 [###]
 #c.json
-missing ]
-line 1 char 6 byte 5
+naked string not allowed in strict mode
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 6 byte 5
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 6 byte 5
+Error: naked string not allowed in strict mode at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -4270,21 +4295,21 @@ Error: missing ] at line 1 char 6 byte 5
 #json/bad/n_structure_uescaped_LF_before_string.json
 [\u000A""]
 #c.json
-missing ]
-line 1 char 11 byte 10
+naked string not allowed in strict mode
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 11 byte 10
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 11 byte 10
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 11 byte 10
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 11 byte 10
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 11 byte 10
+Error: naked string not allowed in strict mode at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -4295,21 +4320,21 @@ Error: missing ] at line 1 char 11 byte 10
 #json/bad/n_structure_unclosed_array.json
 [1
 #c.json
-missing ]
+naked string not allowed in strict mode
 line 1 char 3 byte 2
 #c.djon
 missing ]
 line 1 char 3 byte 2
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 3 byte 2
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 1 char 3 byte 2
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 3 byte 2
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 3 byte 2
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 3 byte 2
+Error: naked string not allowed in strict mode at line 1 char 3 byte 2
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -4320,21 +4345,21 @@ Error: missing ] at line 1 char 3 byte 2
 #json/bad/n_structure_unclosed_array_partial_null.json
 [ false, nul
 #c.json
-missing ]
-line 1 char 13 byte 12
+naked string not allowed in strict mode
+line 1 char 10 byte 9
 #c.djon
 missing ]
 line 1 char 13 byte 12
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 13 byte 12
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 1 char 10 byte 9
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 13 byte 12
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 13 byte 12
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 13 byte 12
+Error: naked string not allowed in strict mode at line 1 char 10 byte 9
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -4345,21 +4370,21 @@ Error: missing ] at line 1 char 13 byte 12
 #json/bad/n_structure_unclosed_array_unfinished_false.json
 [ true, fals
 #c.json
-missing ]
-line 1 char 13 byte 12
+naked string not allowed in strict mode
+line 1 char 9 byte 8
 #c.djon
 missing ]
 line 1 char 13 byte 12
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 13 byte 12
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 1 char 9 byte 8
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 13 byte 12
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 13 byte 12
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 13 byte 12
+Error: naked string not allowed in strict mode at line 1 char 9 byte 8
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -4370,21 +4395,21 @@ Error: missing ] at line 1 char 13 byte 12
 #json/bad/n_structure_unclosed_array_unfinished_true.json
 [ false, tru
 #c.json
-missing ]
-line 1 char 13 byte 12
+naked string not allowed in strict mode
+line 1 char 10 byte 9
 #c.djon
 missing ]
 line 1 char 13 byte 12
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 13 byte 12
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 1 char 10 byte 9
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 13 byte 12
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 13 byte 12
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 13 byte 12
+Error: naked string not allowed in strict mode at line 1 char 10 byte 9
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -4395,21 +4420,21 @@ Error: missing ] at line 1 char 13 byte 12
 #json/bad/n_structure_unclosed_object.json
 {"asd":"asd"
 #c.json
-missing }
+naked keys not allowed in strict mode
 line 1 char 13 byte 12
 #c.djon
 missing }
 line 1 char 13 byte 12
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing } line 1 char 13 byte 12
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked keys not allowed in strict mode line 1 char 13 byte 12
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing } line 1 char 13 byte 12
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing } line 1 char 13 byte 12
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing } at line 1 char 13 byte 12
+Error: naked keys not allowed in strict mode at line 1 char 13 byte 12
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -4420,51 +4445,61 @@ Error: missing } at line 1 char 13 byte 12
 #json/bad/n_structure_unicode-identifier.json
 ##
 #c.json
-"##"
+naked string not allowed in strict mode
+line 1 char 1 byte 0
 #c.djon
 ##
 #lua.json
-"##"
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 1 char 1 byte 0
 #lua.djon
 ##
 #js.json
-"##"
+file:///home/kriss/git/djon/js/djon.js:69
+		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
+		      ^
+
+Error: naked string not allowed in strict mode at line 1 char 1 byte 0
 #js.djon
 ##
 
 #json/bad/n_structure_UTF8_BOM_no_data.json
 ###
 #c.json
-"###"
+naked string not allowed in strict mode
+line 1 char 1 byte 0
 #c.djon
 ###
 #lua.json
-"###"
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 1 char 1 byte 0
 #lua.djon
 ###
 #js.json
-"###"
+file:///home/kriss/git/djon/js/djon.js:69
+		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
+		      ^
+
+Error: naked string not allowed in strict mode at line 1 char 1 byte 0
 #js.djon
 ###
 
 #json/bad/n_structure_whitespace_formfeed.json
 [#]
 #c.json
-missing ]
-line 1 char 4 byte 3
+naked string not allowed in strict mode
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 4 byte 3
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 4 byte 3
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 4 byte 3
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 4 byte 3
+Error: naked string not allowed in strict mode at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -4475,21 +4510,21 @@ Error: missing ] at line 1 char 4 byte 3
 #json/bad/n_structure_whitespace_U+2060_word_joiner.json
 [###]
 #c.json
-missing ]
-line 1 char 6 byte 5
+naked string not allowed in strict mode
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 6 byte 5
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 6 byte 5
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 6 byte 5
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 6 byte 5
+Error: naked string not allowed in strict mode at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -7665,19 +7700,20 @@ TypeError: The encoded data was not valid for encoding utf-8
 #json/maybe/i_string_utf16BE_no_BOM.json
 #[#"###"#]
 #c.json
-"\u0000[\u0000\"\u0000#\u0000\"\u0000]"
+naked string not allowed in strict mode
+line 1 char 1 byte 0
 #c.djon
 #[#"###"#]
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: djon string required line 0 char 0 byte 0
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: djon string required line 0 char 0 byte 0
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: djon string required line 0 char 0 byte 0
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: djon string required line 0 char 0 byte 0
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: no data at line 1 char 1 byte 0
+Error: naked string not allowed in strict mode at line 1 char 1 byte 0
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -7688,21 +7724,21 @@ Error: no data at line 1 char 1 byte 0
 #json/maybe/i_string_utf16LE_no_BOM.json
 [#"###"#]#
 #c.json
-missing ]
-line 1 char 11 byte 10
+naked string not allowed in strict mode
+line 1 char 2 byte 1
 #c.djon
 missing ]
 line 1 char 11 byte 10
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 11 byte 10
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 1 char 2 byte 1
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 11 byte 10
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: missing ] line 1 char 11 byte 10
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: missing ] at line 1 char 2 byte 1
+Error: naked string not allowed in strict mode at line 1 char 2 byte 1
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -7734,15 +7770,20 @@ Error: missing ] at line 1 char 2 byte 1
 #json/maybe/i_string_UTF-16LE_with_BOM.json
 ##[#"###"#]#
 #c.json
-"##[\u0000\"\u0000#\u0000\"\u0000]\u0000"
+naked string not allowed in strict mode
+line 1 char 1 byte 0
 #c.djon
 ##[#"###"#]#
 #lua.json
-"##[\u0000\"\u0000#\u0000\"\u0000]\u0000"
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 1 char 1 byte 0
 #lua.djon
 ##[#"###"#]#
 #js.json
-"######["
+file:///home/kriss/git/djon/js/djon.js:69
+		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
+		      ^
+
+Error: naked string not allowed in strict mode at line 1 char 1 byte 0
 #js.djon
 ######[
 
@@ -13392,15 +13433,20 @@ Error: missing ] at line 1 char 2 byte 1
 #json/maybe/i_structure_UTF-8_BOM_empty_object.json
 ###{}
 #c.json
-"###{}"
+naked string not allowed in strict mode
+line 1 char 1 byte 0
 #c.djon
 ###{}
 #lua.json
-"###{}"
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked string not allowed in strict mode line 1 char 1 byte 0
 #lua.djon
 ###{}
 #js.json
-"###{}"
+file:///home/kriss/git/djon/js/djon.js:69
+		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
+		      ^
+
+Error: naked string not allowed in strict mode at line 1 char 1 byte 0
 #js.djon
 ###{}
 
@@ -13472,11 +13518,8 @@ Error: missing ] at line 1 char 2 byte 1
 // final comment
 
 #c.json
-{
- "a" : 1 ,
- "b" : 2 ,
- "c" : 3
-}
+naked keys not allowed in strict mode
+line 4 char 2 byte 37
 #c.djon
 // first comment
 // final comment
@@ -13498,19 +13541,15 @@ Error: missing ] at line 1 char 2 byte 1
 9d5
 <  // back comment
 #lua.json
-{
- "a" : 1 ,
- "b" : 2 ,
- "c" : 3
-}
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked keys not allowed in strict mode line 4 char 2 byte 37
 #lua.djon
 { a=1 b=2 c=3 }
 #js.json
-{
- "a" : 1 ,
- "b" : 2 ,
- "c" : 3
-}
+file:///home/kriss/git/djon/js/djon.js:69
+		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
+		      ^
+
+Error: naked keys not allowed in strict mode at line 4 char 2 byte 37
 #js.djon
 { a=1 b=2 c=3 }
 
@@ -13520,21 +13559,21 @@ Error: missing ] at line 1 char 2 byte 1
 }
 
 #c.json
-invalid naked key
+naked keys not allowed in strict mode
 line 2 char 2 byte 3
 #c.djon
 invalid naked key
 line 2 char 2 byte 3
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid naked key line 2 char 2 byte 3
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked keys not allowed in strict mode line 2 char 2 byte 3
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid naked key line 2 char 2 byte 3
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid naked key line 2 char 2 byte 3
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: invalid naked key at line 2 char 2 byte 3
+Error: naked keys not allowed in strict mode at line 2 char 2 byte 3
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -13548,21 +13587,21 @@ Error: invalid naked key at line 2 char 2 byte 3
 }
 
 #c.json
-multiple ,
-line 3 char 1 byte 13
+naked keys not allowed in strict mode
+line 2 char 2 byte 3
 #c.djon
 multiple ,
 line 3 char 1 byte 13
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: multiple , line 3 char 1 byte 13
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: naked keys not allowed in strict mode line 2 char 2 byte 3
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: multiple , line 3 char 1 byte 13
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: multiple , line 3 char 1 byte 13
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: multiple , at line 3 char 1 byte 13
+Error: naked keys not allowed in strict mode at line 2 char 2 byte 3
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -13574,15 +13613,20 @@ Error: multiple , at line 3 char 1 byte 13
 ``
 
 #c.json
-""
+back quote string not allowed in strict mode
+line 1 char 1 byte 0
 #c.djon
 ``
 #lua.json
-""
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: back quote string not allowed in strict mode line 1 char 1 byte 0
 #lua.djon
 ``
 #js.json
-""
+file:///home/kriss/git/djon/js/djon.js:69
+		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
+		      ^
+
+Error: back quote string not allowed in strict mode at line 1 char 1 byte 0
 #js.djon
 ``
 
@@ -13590,23 +13634,22 @@ Error: multiple , at line 3 char 1 byte 13
 ``not a string``
 
 #c.json
-garbage at end of file
-line 1 char 3 byte 2
-""
+back quote string not allowed in strict mode
+line 1 char 1 byte 0
 #c.djon
 garbage at end of file
 line 1 char 3 byte 2
 ``
 #lua.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 3 byte 2
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: back quote string not allowed in strict mode line 1 char 1 byte 0
 #lua.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 3 byte 2
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 3 byte 2
 #js.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
 		      ^
 
-Error: garbage at end of file at line 1 char 3 byte 2
+Error: back quote string not allowed in strict mode at line 1 char 1 byte 0
 #js.djon
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -14648,9 +14691,9 @@ line 2 char 2 byte 3
 no data
 line 1 char 1 byte 0
 #lua.comments.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid naked key line 2 char 2 byte 3
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: invalid naked key line 2 char 2 byte 3
 #lua.comments.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 2 char 1 byte 120
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 2 char 1 byte 120
 #js.comments.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -14678,9 +14721,9 @@ line 3 char 1 byte 13
 no data
 line 1 char 1 byte 0
 #lua.comments.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: multiple , line 3 char 1 byte 13
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: multiple , line 3 char 1 byte 13
 #lua.comments.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 2 char 1 byte 114
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 2 char 1 byte 114
 #js.comments.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])
@@ -14722,9 +14765,9 @@ garbage at end of file
 line 1 char 3 byte 2
 ``
 #lua.comments.json
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 3 byte 2
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 1 char 3 byte 2
 #lua.comments.djon
-luajit: ../lua/djon.cmd.lua:74: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 2 char 1 byte 125
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:87: garbage at end of file line 2 char 1 byte 125
 #js.comments.json
 file:///home/kriss/git/djon/js/djon.js:69
 		throw new Error(it.err[0]+" at line "+it.err[1]+" char "+it.err[2]+" byte "+it.err[3])

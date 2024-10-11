@@ -20,7 +20,7 @@ for fname in $files ; do
 
 	echo "" >>output.json
 	echo "#c.json" >>output.json
-	{ ../c/djon "${fname}" | tr -c '[:print:]\t\n\r' '#' ; } &>>output.json
+	{ ../c/djon --strict "${fname}" | tr -c '[:print:]\t\n\r' '#' ; } &>>output.json
 	echo "#c.djon" >>output.json
 	{ ../c/djon --djon "${fname}" | tr -c '[:print:]\t\n\r' '#' ; } &>>output.json
 
@@ -47,11 +47,11 @@ for fname in $files ; do
 	rm tmp2.json
 
 	echo "#lua.json" >>output.json
-	{ luajit -- ../lua/djon.cmd.lua "${fname}" 2>&1 | sed -n '/stack traceback:/q;p' | tr -c '[:print:]\t\n\r' '#' ; } &>>output.json
+	{ luajit -- ../lua/djon.cmd.lua --strict "${fname}" 2>&1 | sed -n '/stack traceback:/q;p' | tr -c '[:print:]\t\n\r' '#' ; } &>>output.json
 	echo "#lua.djon" >>output.json
 	{ luajit -- ../lua/djon.cmd.lua --djon "${fname}" 2>&1 | sed -n '/stack traceback:/q;p' | tr -c '[:print:]\t\n\r' '#' ; } &>>output.json
 	echo "#js.json" >>output.json
-	{ node -- ../js/cmd.js "${fname}" 2>&1 | sed -n '/at djon.check_error/q;p' | sed '/Error:/q' | tr -c '[:print:]\t\n\r' '#' ; } &>>output.json
+	{ node -- ../js/cmd.js --strict "${fname}" 2>&1 | sed -n '/at djon.check_error/q;p' | sed '/Error:/q' | tr -c '[:print:]\t\n\r' '#' ; } &>>output.json
 	echo "#js.djon" >>output.json
 	{ node -- ../js/cmd.js --djon "${fname}" 2>&1 | sed -n '/at djon.check_error/q;p' | sed '/Error:/q' | tr -c '[:print:]\t\n\r' '#' ; } &>>output.json
 

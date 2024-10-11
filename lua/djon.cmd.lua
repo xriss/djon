@@ -13,7 +13,6 @@ for _,v in ipairs({...}) do
 	elseif vp=="--djon"     then		opts.djon=true
 	elseif vp=="--json"     then		opts.djon=false
 	elseif vp=="--compact"  then		opts.compact=true
-	elseif vp=="--pretty"   then		opts.compact=false
 	elseif vp=="--strict"   then		opts.strict=true
 	elseif vp=="--comments" then		opts.comments=true
 	elseif vp=="--help"     then		opts.help=true
@@ -45,12 +44,10 @@ Possible options are:
 	--djon     : output djon format
 	--json     : output json format
 	--compact  : output compact
-	--pretty   : output pretty
-	--strict   : bitch mode
+	--strict   : json input bitch mode
 	--comments : include comments in data
 	--         : stop parsing options
 
-We default to pretty output.
 ]])
 
 os.exit(0)

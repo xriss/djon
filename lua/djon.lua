@@ -82,9 +82,9 @@ load a json/djon
 
 ]]
 djon.load_core=function(it,...)
-
+	local args={...}
 	it.ds=core.setup()
-	local r,e=xpcall( function(...) core.load( it.ds , it.input , ... ) end , function(e)
+	local r,e=xpcall( function() core.load( it.ds , it.input , unpack(args) ) end , function(e)
 		local l,c,b=core.location(it.ds)
 		return( e.." line "..l.." char "..c.." byte "..b )
 	end)
