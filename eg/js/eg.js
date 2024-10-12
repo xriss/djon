@@ -1,9 +1,10 @@
 
-// use relative path so we always test this version
-import djon from "../../js/djon.js"
+// force relative path so we always test current version
+import djon from "../../js/djon.js" /* but you should use...
+import djon from "djon" // npm install djon 
+*/
 
 console.log("roundtrip data example")
-
 
 // normal json data structure but no comments
 let data=djon.load_file("test.djon")
