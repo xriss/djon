@@ -14,7 +14,6 @@ for( let v of (process.argv.slice(2)) )
 	else if (vp=="--djon")     {		opts.djon=true			}
 	else if (vp=="--json")     {		opts.djon=false			}
 	else if (vp=="--compact")  {		opts.compact=true		}
-	else if (vp=="--pretty")   {		opts.compact=false		}
 	else if (vp=="--strict")   {		opts.strict=true		}
 	else if (vp=="--comments") {		opts.comments=true		}
 	else if (vp=="--help")     {		opts.help=true			}
@@ -49,13 +48,15 @@ Possible options are:
 
 	--djon     : output djon format
 	--json     : output json format
-	--compact  : output compact
-	--pretty   : output pretty
-	--strict   : enable strict format
-	--comments : json comments format
+	--compact  : compact output format
+	--strict   : require input to be valid json ( bitch mode )
+	--comments : comments to djon or djon to comments
 	--         : stop parsing options
 
-We default to pretty output.
+The comments flag adjusts input or output depending on if the output is 
+djon ( which can contain comments ) or json ( which can not ) The json 
+side has is structure modified to contain comments.
+
 `)
 
 process.exit(0)

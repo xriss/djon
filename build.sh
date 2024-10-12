@@ -6,5 +6,6 @@ c/build.sh
 lua/build.sh
 
 js/build.sh
-npm install --prefix js
+cd js
+npm install
 

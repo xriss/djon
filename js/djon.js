@@ -12,6 +12,38 @@ let djoncore=djoncore_env.exports.djoncore
 let djon={}
 export default djon
 
+/*
+
+merge comments in com into the data in dat.
+
+*/
+djon.merge_comments=function( dat , com )
+{
+	let out=dat
+	if( Array.isArray(dat) || Array.isArray(com) ) // output must be array
+	{
+		out=[dat] // must be array
+		if( Array.isArray(com) ) // copy comments
+		{
+			for( let i=1 ; i<com.length ; i++ ){ out[i]=com[i] }
+			com=com[1]
+		}
+	}
+	if( typeof(dat)=="object" ) // need to recurse
+	{
+		let o={}
+		for( let n in dat )
+		{
+			let d=dat[n]
+			let c = (typeof(com)=="object")&&(com) ? com[n] : null
+			o[n]=djon.merge_comments(d,c)
+		}
+		if( Array.isArray(out) ){ out[1]=o }else{ out=o }
+	}
+	return out
+}
+
+
 djon.load_file=function(fname,...args)
 {
 	let it={}
@@ -34,6 +66,18 @@ djon.load_core=function(it,...args)
 	it.tree=it.core.get(...args)
 	djon.check_error(it)
 	return it.tree
+}
+
+djon.save_comments=function(fname,tree,...args)
+{
+	let com ; try{ // ignore errors (probably missing file)
+		com=djon.load_file(fname,"comments",...args)
+	}catch(e){}
+	
+	let it={}
+	it.tree=djon.merge_comments( tree , com ) // merge comments
+	let data=djon.save_core(it,"comments","djon",...args)
+	fs.writeFileSync(fname, data, 'utf8')
 }
 
 djon.save_file=function(fname,tree,...args)
