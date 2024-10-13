@@ -8,6 +8,18 @@ local M={ modname=(...) }
 package.loaded[M.modname]=M
 local djon=M
 
+local istable=function(it)
+	if type(it)=="table" then return true end
+	return false
+end
+
+local isarray=function(it)
+	if type(it)~="table" then return false end
+	local first=next(it)
+	if ( type(first)=="number" ) and ( first==1 ) then return true end -- defo starts at 1
+	return false
+end
+
 
 --[[
 
@@ -16,17 +28,6 @@ merge comments in com into the data in dat.
 ]]
 djon.merge_comments=function( dat , com )
 
-	local istable=function(it)
-		if type(it)=="table" then return true end
-		return false
-	end
-	local isarray=function(it)
-		if type(it)~="table" then return false end
-		local first=next(it)
-		if ( type(first)=="number" ) and ( first==1 ) then return true end -- defo starts at 1
-		return false
-	end
-	
 	local out=dat
 	if isarray(dat) or isarray(com) then -- output must be array
 		out={dat} -- must be array
@@ -47,6 +48,24 @@ djon.merge_comments=function( dat , com )
 	return out
 end
 
+--[[
+
+Remove comments converting com back into standard json data and 
+returning it.
+
+]]
+djon.remove_comments=function( com )
+
+	local out=com
+	if isarray(out) then out=out[1] end -- unescape
+	if istable(out) then -- need to recurse
+		local o={}
+		for n,d in pairs(out) do o[n]=djon.remove_comments(d) end
+		out=o
+	end
+
+	return out
+end
 
 
 --[[

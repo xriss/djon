@@ -14,7 +14,8 @@ export default djon
 
 /*
 
-merge comments in com into the data in dat.
+merge comments in com into the data in dat. Can also just be used to 
+convert dat into a comments format if com is null.
 
 */
 djon.merge_comments=function( dat , com )
@@ -43,6 +44,27 @@ djon.merge_comments=function( dat , com )
 	return out
 }
 
+/*
+
+Remove comments converting com back into standard json data and 
+returning it.
+
+*/
+djon.remove_comments=function( com )
+{
+	let out=com
+	if( Array.isArray(out) ) // strip comments
+	{
+		out=out[0]
+	}
+	if( typeof(out)=="object" ) // need to copy and recurse
+	{
+		let o={}
+		for( let n in out ){ o[n]=djon.remove_comments(out[n]) }
+		out=o
+	}
+	return out
+}
 
 djon.load_file=function(fname,...args)
 {
