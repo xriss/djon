@@ -1,7 +1,7 @@
 
 // force relative path so we always test current version
 import djon from "../../js/djon.js" /* but you should use...
-import djon from "djon" // npm install djon 
+import djon from "@xriss/djon" // npm install @xriss/djon 
 */
 
 console.log("roundtrip data example")

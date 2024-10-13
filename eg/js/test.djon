@@ -15,5 +15,5 @@
  }
  // decide which shows we like ( tags from tvmaze )
  show = old comments are kept even if we change data type
- this_is_new = not old
+ this_is_new = yes old
 }

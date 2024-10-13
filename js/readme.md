@@ -26,3 +26,11 @@ can store binary data.
 
 	let datb = djon.load(text) // load from string
 
+	// resave a djon file, pre-existing comments will be preserved
+	// can be used to round trip comments in config files
+	djon.save_comments("filename.djon",data)
+
+
+if you are stuck in cjs then you may also use the nodejs import 
+
+	let djon=(await import("@xriss/djon")).default
