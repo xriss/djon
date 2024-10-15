@@ -3,9 +3,17 @@ cd `dirname $0`
 
 git add .
 git commit -m.
-npm version patch
+
+V=$(node -p "require('./package.json').version")
+V1=${V%%.*}
+V3=${V##*.}
+V2=${V%.*}
+V2=${V2#*.}
+printf -v V2 '%(%y%m%d)T' -1
+V=$V1.$V2.$V3
+npm version $V
+
 git add .
-git commit -m.
+git commit -m$V
 git push
 npm publish
-
