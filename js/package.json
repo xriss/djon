@@ -8,7 +8,7 @@
     "url": "git+https://github.com/xriss/djon.git"
   },
   "bin": {
-    "djon": "./cmd.import.js"
+    "djon": "cmd.import.js"
   },
   "main": "./djon.js",
   "dependencies": {
