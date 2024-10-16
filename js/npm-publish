@@ -3,20 +3,8 @@ cd `dirname $0`
 
 git add .
 git commit -m.
-
-V=$(node -p "require('./package.json').version")
-V1=${V%%.*}
-V3=${V##*.}
-V2=${V%.*}
-V2=${V2#*.}
-printf -v V2 '%(%y%m%d)T' -1
-V=$V1.$V2.$V3
-npm version $V
 npm version patch
-
-sed -i "s/^#define DJON_VERSION .*/#define DJON_VERSION $V/" ../c/djon.h
-
 git add ..
-git commit -m$V
+git commit -m.
 git push
 npm publish
