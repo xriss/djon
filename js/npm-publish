@@ -13,7 +13,7 @@ printf -v V2 '%(%y%m%d)T' -1
 V=$V1.$V2.$V3
 npm version $V
 
-sed -i 's/^#define DJON_VERSION .*/#define DJON_VERSION $V/' ../c/djon.h
+sed -i "s/^#define DJON_VERSION .*/#define DJON_VERSION $V/" ../c/djon.h
 
 git add .
 git commit -m$V
