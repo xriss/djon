@@ -15,7 +15,7 @@ sed -i "s/^#define DJON_VERSION .*/#define DJON_VERSION $V1.$V2/" ../c/djon.h
 
 cp ../rockspecs/djon-HEAD-0.rockspec ../rockspecs/djon-$V1.$V2-$V3.rockspec
 sed -i "s/^version = .*/version = \"$V1.$V2-$V3\"/" ../rockspecs/djon-$V1.$V2-$V3.rockspec
-sed -i "s/^	tag = .*/	tag = \"$V1.$V2.$V3\"/" ../rockspecs/djon-$V1.$V2-$V3.rockspec
+sed -i "s/^	tag = .*/	tag = \"v$V1.$V2.$V3\"/" ../rockspecs/djon-$V1.$V2-$V3.rockspec
 
 git add ..
 git commit -mv$V1.$V2.$V3

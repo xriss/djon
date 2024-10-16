@@ -1320,7 +1320,6 @@ line 1 char 2 byte 1
 #c.djon
 [ 1 ]
 #lua.json
-luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:106: 0x numbers not allowed in strict mode line 1 char 2 byte 1
 #lua.djon
 [ 1 ]
 #js.json
@@ -1340,6 +1339,7 @@ line 1 char 2 byte 1
 #c.djon
 [ 66 ]
 #lua.json
+luajit: ../lua/djon.cmd.lua:71: /home/kriss/.luarocks/share/lua/5.1/djon.lua:106: 0x numbers not allowed in strict mode line 1 char 2 byte 1
 #lua.djon
 [ 66 ]
 #js.json
