@@ -11,7 +11,8 @@ V2=${V%.*}
 V2=${V2#*.}
 printf -v V2 '%(%y%m%d)T' -1
 V=$V1.$V2.$V3
-npm version $V patch
+npm version $V
+npm version patch
 
 sed -i "s/^#define DJON_VERSION .*/#define DJON_VERSION $V/" ../c/djon.h
 
