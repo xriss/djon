@@ -517,7 +517,7 @@ LUALIB_API int luaopen_djon_core (lua_State *l)
 
 	luaL_newmetatable(l, lua_djon_ptr_name);
 	
-#if defined(LUA_VERSION_NUM) && LUA_VERSION_NUM >= 520
+#if defined(LUA_VERSION_NUM) && LUA_VERSION_NUM >= 502
 	luaL_setfuncs(l, meta, 0);
 #else
 	luaL_openlib(l, NULL, meta, 0);
@@ -528,7 +528,7 @@ LUALIB_API int luaopen_djon_core (lua_State *l)
 
 	lua_newtable(l);
 
-#if defined(LUA_VERSION_NUM) && LUA_VERSION_NUM >= 520
+#if defined(LUA_VERSION_NUM) && LUA_VERSION_NUM >= 502
 	luaL_setfuncs(l, lib, 0);
 #else
 	luaL_openlib(l, NULL, lib, 0);
