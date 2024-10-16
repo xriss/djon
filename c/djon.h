@@ -28,7 +28,7 @@ SOFTWARE.
 #ifndef DJON_H
 #define DJON_H
 
-#define DJON_VERSION 1.241016.0
+#define DJON_VERSION 1.241016.1
 
 #ifdef __cplusplus
 extern "C" {
