@@ -7,7 +7,13 @@ V1=${V%%.*}
 V3=${V##*.}
 V2=${V%.*}
 V2=${V2#*.}
-printf -v VV2 '%(%y%m%d)T' -1
+VV2=$V2
+if (( $# = 1 )) ; then
+ echo bumping minor version, edit package.json to bump major version
+ printf -v VV2 '%(%y%m%d)T' -1
+else
+ echo bumping revision, run with any argument to bump minor version
+fi
 if (( VV2 = V2 )) ; then
  V3=$((V3+1))
 else
