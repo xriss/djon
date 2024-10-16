@@ -15,7 +15,7 @@ npm version $V
 
 sed -i "s/^#define DJON_VERSION .*/#define DJON_VERSION $V/" ../c/djon.h
 
-git add .
+git add ..
 git commit -m$V
 git push
 npm publish
