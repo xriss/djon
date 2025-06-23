@@ -9,7 +9,7 @@ const mod = await WebAssembly.instantiate( wdat , {napi:napi } )
 let djoncore_env = new Environment(mod.instance);
 let djoncore=djoncore_env.exports.djoncore
 
-let djon={}
+const djon={}
 export default djon
 
 /*
