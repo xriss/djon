@@ -1,5 +1,5 @@
 {
- "bin": "./cmd.import.js",
+ "bin": "./djon.sh",
  "dependencies": {
   "napi-wasm": "^1.1.0"
  },
@@ -18,5 +18,5 @@
   "url": "git+https://github.com/xriss/djon.git"
  },
  "type": "module",
- "version": "1.241016.20"
+ "version": "1.241016.21"
 }
