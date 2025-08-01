@@ -1,7 +1,5 @@
 
 
-import fs from "fs"
-
 // ideally we would import the wasm but currently this dumb base64 wrapper is the only way
 import { djoncore } from "./djon_core.wasm.js"
 
@@ -62,12 +60,6 @@ djon.remove_comments=function( com )
 	return out
 }
 
-djon.load_file=function(fname,...args)
-{
-	let it={}
-	it.data = fs.readFileSync(fname, 'utf8')
-	return djon.load_core(it,...args)
-}
 
 djon.load=function(data,...args)
 {
@@ -84,26 +76,6 @@ djon.load_core=function(it,...args)
 	it.tree=it.core.get(...args)
 	djon.check_error(it)
 	return it.tree
-}
-
-djon.save_file_comments=function(fname,tree,...args)
-{
-	let com ; try{ // ignore errors (probably missing file)
-		com=djon.load_file(fname,"comments",...args)
-	}catch(e){}
-	
-	let it={}
-	it.tree=djon.merge_comments( tree , com ) // merge comments
-	let data=djon.save_core(it,"comments","djon",...args)
-	fs.writeFileSync(fname, data, 'utf8')
-}
-
-djon.save_file=function(fname,tree,...args)
-{
-	let it={}
-	it.tree=tree
-	let data=djon.save_core(it,...args)
-	fs.writeFileSync(fname, data, 'utf8')
 }
 
 djon.save=function(tree,...args)

@@ -23,7 +23,7 @@ djon_fs.load_file=function(fname,...args)
 djon_fs.save_file_comments=function(fname,tree,...args)
 {
 	let com ; try{ // ignore errors (probably missing file)
-		com=djon.load_file(fname,"comments",...args)
+		com=djon_fs.load_file(fname,"comments",...args)
 	}catch(e){}
 	
 	let it={}
