@@ -86,7 +86,7 @@ djon.load_core=function(it,...args)
 	return it.tree
 }
 
-djon.save_comments=function(fname,tree,...args)
+djon.save_file_comments=function(fname,tree,...args)
 {
 	let com ; try{ // ignore errors (probably missing file)
 		com=djon.load_file(fname,"comments",...args)
