@@ -1,11 +1,11 @@
 
 package = "djon"
 
-version = "1.241016-18"
+version = "1.241016-19"
 
 source = {
 	url = "git://github.com/xriss/djon",
-	tag = "v1.241016.18"
+	tag = "v1.241016.19"
 }
 
 description = {

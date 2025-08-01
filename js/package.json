@@ -1,24 +1,24 @@
 {
- "bin" : {
-  "djon" : "cmd.import.js"
- } ,
- "dependencies" : {
-  "napi-wasm" : "^1.1.0"
- } ,
- "devDependencies" : {
-  "node-api-headers" : "^1.1.0"
- } ,
- "engines" : {
-  "node" : ">=23.0.0" ,
-  "npm" : ">=10.0.0"
- } ,
- "license" : "MIT" ,
- "main" : "./djon.js" ,
- "name" : "@xriss/djon" ,
- "repository" : {
-  "type" : "git" ,
-  "url" : "git+https://github.com/xriss/djon.git"
- } ,
- "type" : "module" ,
- "version" : "1.241016.18"
+ "bin": {
+  "djon": "cmd.import.js"
+ },
+ "dependencies": {
+  "napi-wasm": "^1.1.0"
+ },
+ "devDependencies": {
+  "node-api-headers": "^1.1.0"
+ },
+ "engines": {
+  "node": ">=23.0.0",
+  "npm": ">=10.0.0"
+ },
+ "license": "MIT",
+ "main": "./djon.js",
+ "name": "@xriss/djon",
+ "repository": {
+  "type": "git",
+  "url": "git+https://github.com/xriss/djon.git"
+ },
+ "type": "module",
+ "version": "1.241016.19"
 }
