@@ -19,6 +19,9 @@ emcc \
 ./djon_core.c \
 
 
+# and base64 it because apparently that is the only safe way to embed wasm
+./djon_core.cmd.js
+
 
 #-s TOTAL_STACK=16MB \
 #-s INITIAL_MEMORY=256MB \

@@ -1,13 +1,9 @@
 
 
-import fs from 'fs';
-import { Environment, napi } from 'napi-wasm';
+import fs from "fs"
 
-const wdat = fs.readFileSync( new URL('./djon_core.wasm', import.meta.url) )
-
-const mod = await WebAssembly.instantiate( wdat , {napi:napi } )
-let djoncore_env = new Environment(mod.instance);
-let djoncore=djoncore_env.exports.djoncore
+// ideally we would import the wasm but currently this dumb base64 wrapper is the only way
+import { djoncore } from "./djon_core.wasm.js"
 
 const djon={}
 export default djon
