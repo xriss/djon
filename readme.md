@@ -4,9 +4,9 @@
 DJON is JSON but we DGAF.
 =========================
 
-DJON is a UTF8 only relaxed superset of JSON. DJON supports round trip 
-comments, numbers are explicitly 64bit floats and strings can contain 
-raw binary data.
+DJON is a UTF8 only relaxed superset of JSON so can also be used as a
+JSON parser. DJON supports round trip comments, numbers are explicitly
+64bit floats and strings can contain raw binary data.
 
 Djon is half man half machine:
 
