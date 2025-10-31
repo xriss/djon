@@ -10,7 +10,6 @@
 
 int main(int argc, char *argv[])
 {
-//printf("START %d\n",argc);
 
 	FILE *fp=0;
 	int idx;
@@ -65,19 +64,20 @@ djon input.filename output.filename\n\
 \n\
 	If no output.filename then write to stdout\n\
 	If no input.filename then read from stdin\n\
+	Input is always parsed as djon (which can be valid json)\n\
 \n\
 Possible options are:\n\
 \n\
 	--djon     : output djon format\n\
-	--json     : output json format\n\
-	--compact  : output compact\n\
-	--strict   : enable json bitch mode\n\
-	--comments : comments formated json*\n\
+	--json     : output json format (default)\n\
+	--compact  : compact output format\n\
+	--strict   : require input to be valid json ( bitch mode )\n\
+	--comments : comments array to djon or djon to comments array\n\
 	--         : stop parsing options\n\
 \n\
-When using comments, it is assumed that you are converting between a\n\
-json format with [value,comment...] values and djon, so it applies to\n\
-input if writing djon and output if writing json.\n\
+The comments flag implies that you are converting between a\n\
+json array format [value,comment,...] values and djon.\n\
+So it applies to input if writing djon and output if writing json.\n\
 \n\
 ");
 				return 0;
@@ -100,7 +100,6 @@ input if writing djon and output if writing json.\n\
 			}
 		}
 	}
-	
 
 	djon_state *ds=djon_setup();
 
@@ -117,15 +116,12 @@ input if writing djon and output if writing json.\n\
 	}
 	if( ds->error_string ){ goto error; }
 
-	
 	djon_parse(ds);
 	
 	if( write_djon && comments ) // input is json vca so convert it
 	{
 		ds->parse_value = djon_vca_to_value(ds, ds->parse_value );
 	}
-
-	djon_value *v=djon_get(ds,ds->parse_value);
 
 	if(fname2)
 	{
@@ -151,10 +147,6 @@ input if writing djon and output if writing json.\n\
 
 	if(ds->parse_value)
 	{
-		if( (!write_djon) && comments ) // output is json vca
-		{
-		}
-
 		if(write_djon)
 		{
 			djon_write_djon(ds,ds->parse_value);

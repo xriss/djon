@@ -8,7 +8,7 @@
 #include "djon.h"
 
 
-// find index of = seperating a path from a value
+// find index of = separating a path from a value
 // return -1 if no = is found
 int str_find_end_of_path(char *str)
 {
@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
 {
 	int error_code=20;
 	
-	// sanity incase of insane futures
+	// sanity in case of insane futures
 	if(sizeof **argv != 1) { printf("invalid universe, char must be 1 byte!\n"); return 20; }
 
 	int checkopts;

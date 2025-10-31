@@ -33,7 +33,6 @@ for( let v of (process.argv.slice(2)) )
 		}
 	}
 }
-//console.log(opts)
 
 if(opts.help)
 {
@@ -43,6 +42,7 @@ js/djon.sh input.filename output.filename
 
 	If no output.filename then write to stdout
 	If no input.filename then read from stdin
+	Input is always parsed as djon (which can be valid json)
 
 Possible options are:
 
@@ -50,12 +50,12 @@ Possible options are:
 	--json     : output json format
 	--compact  : compact output format
 	--strict   : require input to be valid json ( bitch mode )
-	--comments : comments to djon or djon to comments
+	--comments : comments array to djon or djon to comments array
 	--         : stop parsing options
 
-The comments flag adjusts input or output depending on if the output is 
-djon ( which can contain comments ) or json ( which can not ) The json 
-side has is structure modified to contain comments.
+The comments flag implies that you are converting between a
+json array format [value,comment,...] values and djon.
+So it applies to input if writing djon and output if writing json.
 
 `)
 
@@ -79,9 +79,25 @@ else
 	data_input=await readstdin()
 }
 
-let tree=djon.load(data_input,opts.strict?"strict":"",(opts.comments&&(!opts.djon))?"comments":"")
+let flag_djon=opts.djon?"djon":""
+let flag_compact=opts.compact?"compact":""
+let flag_strict=opts.strict?"strict":""
 
-let data_output=djon.save(tree,opts.djon?"djon":"",opts.compact?"compact":"",opts.strict?"strict":"",(opts.comments&&(opts.djon))?"comments":"")
+let flag_comments="comments"
+if( opts.djon && opts.comments ) // input is in special array comments format
+{
+	flag_comments=""
+}
+let tree=djon.load(data_input,flag_strict,flag_comments)
+if( !opts.djon && opts.comments ) // output in special array comments format
+{
+	flag_comments=""
+}
+if( opts.djon && opts.comments ) // input is in special array comments format
+{
+	flag_comments="comments"
+}
+let data_output=djon.save(tree,flag_djon,flag_compact,flag_strict,flag_comments)
 
 if( opts.fname2 )
 {

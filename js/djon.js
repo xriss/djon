@@ -21,19 +21,31 @@ djon.merge_comments=function( dat , com )
 		if( Array.isArray(com) ) // copy comments
 		{
 			for( let i=1 ; i<com.length ; i++ ){ out[i]=com[i] }
-			com=com[1]
+			com=com[0]
+		}
+		if( Array.isArray(dat) ) // recurse
+		{
+			let o=[]
+			out[0]=o
+			for( let i=0 ; i<dat.length ; i++ )
+			{
+				let d=dat[i]
+				let c = (Array.isArray(com))&&(com ? com[i] : null)
+				o[i]=djon.merge_comments(d,c)
+			}
 		}
 	}
+	else
 	if( typeof(dat)=="object" ) // need to recurse
 	{
 		let o={}
+		out=o
 		for( let n in dat )
 		{
 			let d=dat[n]
-			let c = (typeof(com)=="object")&&(com) ? com[n] : null
+			let c = (typeof(com)=="object")&&(com ? com[n] : null)
 			o[n]=djon.merge_comments(d,c)
 		}
-		if( Array.isArray(out) ){ out[1]=o }else{ out=o }
 	}
 	return out
 }

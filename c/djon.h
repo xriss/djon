@@ -2108,6 +2108,10 @@ void djon_write_djon_indent(djon_state *ds,int idx,int indent)
 			while(key)
 			{
 				val=djon_get(ds,key->lst);
+				if(key->com)
+				{
+					djon_write_djon_indent(ds,key->com,indent+1);
+				}
 				if(val->com)
 				{
 					djon_write_djon_indent(ds,val->com,indent+1);
@@ -2365,7 +2369,7 @@ int djon_vca_to_value(djon_state *ds,int idx)
 			newcom_idx=djon_dupe_value(ds,com_idx); // this invalidates pointers
 			if(!newcom_idx) { return 0; }
 			newcom=djon_get(ds,newcom_idx);
-			newcom->typ=DJON_STRING|DJON_COMMENT;
+			newcom->typ=DJON_COMMENT;
 			djon_get(ds,lst_idx)->com=newcom_idx;
 			lst_idx=newcom_idx;
 		}
