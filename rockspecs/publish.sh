@@ -6,5 +6,5 @@ cd ..
 
 LUAROCKS_SPEC=`echo rockspecs/djon-1*`
 
-luarocks upload rockspecs/$LUAROCKS_SPEC --api-key=$LUAROCKS_KEY
+luarocks upload $LUAROCKS_SPEC --api-key=$LUAROCKS_KEY
 
